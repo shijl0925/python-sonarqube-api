@@ -94,35 +94,46 @@ class SonarAPIHandler(object):
             # 5xx is server error
             raise ServerError(res.reason)
 
+    @property
     def users(self):
         return SonarQubeUser(self)
 
+    @property
     def user_groups(self):
         return SonarQubeUser_Groups(self)
 
+    @property
     def projects(self):
         return SonarQubeProject(self)
 
+    @property
     def measures(self):
         return SonarQubeMeasure(self)
 
+    @property
     def issues(self):
         return SonarQubeIssue(self)
 
+    @property
     def notifications(self):
         return SonarQubeNotification(self)
 
+    @property
     def project_links(self):
         return SonarQubeProject_Links(self)
 
+    @property
     def permissions(self):
         return SonarQubePermissions(self)
 
+    @property
     def ce(self):
         return SonarQubeCe(self)
 
+    @property
     def project_branches(self):
         return SonarQubeProject_Branches(self)
 
+    @property
     def qualitygates(self):
         return SonarQubeQualityGates(self)

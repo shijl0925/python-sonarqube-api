@@ -6,7 +6,7 @@ class SonarQubeProject_Links(object):
     def __init__(self, sonarqube):
         self.sonarqube = sonarqube
 
-    def create_project_links(self,project_key, link_name, link_url):
+    def create_project_links(self, project_key, link_name, link_url):
         """
         创建链接
         :param project_key:
@@ -21,7 +21,7 @@ class SonarQubeProject_Links(object):
         }
         self.sonarqube._make_call('post', RULES_PROJECT_LINKS_CREATE_ENDPOINT, **params)
 
-    def delete_project_links(self,link_id):
+    def delete_project_links(self, link_id):
         """
         删除链接
         :param link_id:
@@ -32,7 +32,7 @@ class SonarQubeProject_Links(object):
         }
         self.sonarqube._make_call('post', RULES_PROJECT_LINKS_DELETE_ENDPOINT, **params)
 
-    def search_project_links(self,project_key):
+    def search_project_links(self, project_key):
         """
         搜索链接
         :param project_key:

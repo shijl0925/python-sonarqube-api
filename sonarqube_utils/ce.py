@@ -6,7 +6,7 @@ class SonarQubeCe(object):
     def __init__(self, sonarqube):
         self.sonarqube = sonarqube
 
-    def get_project_activity_status(self,project_key,status):
+    def get_project_activity_status(self, project_key, status):
         """
         获取项目指定状态的tasks
         :param project_key:

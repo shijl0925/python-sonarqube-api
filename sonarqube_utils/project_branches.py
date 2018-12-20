@@ -17,10 +17,7 @@ class SonarQubeProject_Branches(object):
         }
         resp = self.sonarqube._make_call('get', RULES_PROJECT_BRANCHES_LIST_ENDPOINT, **params)
         data = resp.json()
-        branches = []
-        for i in data['branches']:
-            branches.append(i['name'])
-        return branches
+        return data['branches']
 
     def delete_project_branch(self, project_key, branch):
         """

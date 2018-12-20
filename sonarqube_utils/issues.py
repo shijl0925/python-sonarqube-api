@@ -7,12 +7,11 @@ class SonarQubeIssue(object):
     def __init__(self, sonarqube):
         self.sonarqube = sonarqube
 
-    def get_project_issues_page(self,project_key,build_branch,page,resolutions=None,assign_status=None,statuses=None,sinceLeakPeriod=None):
+    def get_project_issues(self, project_key, build_branch, resolutions=None, assign_status=None, statuses=None, sinceLeakPeriod=None):
         """
-        按页获取issues
+        获取指定项目的issues
         :param project_key:
         :param build_branch:
-        :param page:
         :param resolutions:
         :param assign_status:
         :param statuses:
@@ -20,7 +19,6 @@ class SonarQubeIssue(object):
         :return:
         """
         params = {
-            'p': page,
             'componentKeys': project_key,
             'branch': build_branch
         }
@@ -33,33 +31,27 @@ class SonarQubeIssue(object):
         if sinceLeakPeriod:
             params['sinceLeakPeriod'] = sinceLeakPeriod
 
-        resp = self.sonarqube._make_call('get',RULES_ISSUES_SEARCH_ENDPOINT,**params)
-        data = resp.json()
-        return data
+        page_num = 1
+        page_size = 1
+        total = 2
 
-    def get_project_issues(self,project_key,build_branch,resolutions=None,assign_status=None,statuses=None,sinceLeakPeriod=None):
-        """
-        获取指定项目的issues
-        :param project_key:
-        :param build_branch:
-        :param resolutions:
-        :param assign_status:
-        :param statuses:
-        :param sinceLeakPeriod:
-        :return:
-        """
-        response = self.get_project_issues_page(project_key,build_branch,1,resolutions,assign_status,statuses,sinceLeakPeriod)
-        issues = []
+        while page_num * page_size < total:
+            resp = self.sonarqube._make_call('get', RULES_ISSUES_SEARCH_ENDPOINT, **params)
+            response = resp.json()
 
-        total_nums = response['paging']['total']
-        page_size = response['paging']['pageSize']
-        pages = total_nums // page_size + 1
-        for i in range(pages):
-            response = self.get_project_issues_page(project_key,build_branch,i + 1,resolutions,assign_status,statuses,sinceLeakPeriod)
-            issues.extend(response['issues'])
-        return issues
+            page_num = response['paging']['pageIndex']
+            page_size = response['paging']['pageSize']
+            total = response['paging']['total']
 
-    def issue_assign(self,issue_keys,assignee):
+            params['p'] = page_num + 1
+
+            for issue in response['issues']:
+                yield issue
+
+            if page_num >= 100:
+                break
+
+    def issue_assign(self, issue_keys, assignee):
         """
         分配issue
         :param issue_keys:
@@ -77,7 +69,7 @@ class SonarQubeIssue(object):
             params['issue'] = issue_keys
             self.sonarqube._make_call('post', RULES_ISSUES_ASSIGN_ENDPOINT, **params)
 
-    def project_issues_do_transition(self,issue_keys,transition):
+    def project_issues_do_transition(self, issue_keys, transition):
         """
         对指定项目的issues进行操作
         :param issue_keys:

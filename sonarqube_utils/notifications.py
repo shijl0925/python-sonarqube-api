@@ -18,10 +18,7 @@ class SonarQubeNotification(object):
         }
         resp = self.sonarqube._make_call('get', RULES_NOTIFICATIONS_LIST_ENDPOINT, **params)
         data = resp.json()
-        list_notifications = []
-        for i in data['notifications']:
-            list_notifications.append(i['type'])
-        return list_notifications
+        return data['notifications']
 
     def user_add_notifications(self, login, type, project = None):
         """
@@ -40,7 +37,7 @@ class SonarQubeNotification(object):
 
         self.sonarqube._make_call('post', RULES_NOTIFICATIONS_ADD_ENDPOINT, **params)
 
-    def user_remove_notifications(self, login, type, project = None):
+    def user_remove_notifications(self, login, type, project=None):
         """
         删除用户提醒权限
         :param login:

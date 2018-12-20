@@ -20,11 +20,11 @@ class SonarQubePermissions(object):
             'projectKey': project_key,
             'permission': ''
         }
-        if isinstance(permissions,list):
+        if isinstance(permissions, list):
             for perm in permissions:
                 params['permission'] = perm
                 self.sonarqube._make_call('post', RULES_PERMISSIONS_ADD_GROUP_ENDPOINT, **params)
-        elif isinstance(permissions,str):
+        elif isinstance(permissions, str):
             params['permission'] = permissions
             self.sonarqube._make_call('post', RULES_PERMISSIONS_ADD_GROUP_ENDPOINT, **params)
 
