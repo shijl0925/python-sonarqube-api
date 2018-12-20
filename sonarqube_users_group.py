@@ -81,8 +81,8 @@ def sonarqube_project_operate_func(sonarhandler, project_key, project_info):
     :return:
     """
     permissions = ['codeviewer', 'user']
-    gitlab_url = "http://git.weidai.work"
-    jenkins_url = "http://sonar.jenkins.weidai.work"
+    gitlab_url = "http://git.*.work"
+    jenkins_url = "http://sonar.jenkins.*.work"
 
     group_name = project_info['group_name']
     path = project_info['gitlab_project_path']
