@@ -31,7 +31,7 @@ def update_json_data(file_name, dict_data):
     :return:
     """
     with open(file_name, 'w') as f:
-        f.write(json.dumps(dict_data, sort_keys=True, indent = 4, encoding='utf-8', ensure_ascii=True))
+        f.write(json.dumps(dict_data, sort_keys=True, indent=4, encoding='utf-8', ensure_ascii=True))
 
 def get_template(template_filename):
     """
@@ -90,21 +90,69 @@ def clock(func):
         return result
     return clocked
 
-class Logger(object):
-    def __init__(self):
-        pass
+class exception_logger(object):
+    """
+    装饰器，用于在函数报错时打印信息
+    """
+    def __init__(self, func):
+        self.func = func
 
-    def create_logger(self,name,file):
-        logger = logging.getLogger(name)
-        logger.setLevel(level = logging.INFO)
-        handler = logging.FileHandler("{}.log".format(os.path.splitext(os.path.realpath(file))[0]),mode='a')
-        handler.setLevel(logging.INFO)
-        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-        handler.setFormatter(formatter)
+    def __call__(self, *args, **kwargs):
+        logger = create_logger(self.func.__name__)
+        try:
+            return self.func(*args, **kwargs)
+        except:
+            err = "There was an exception in function: {}".format(self.func.__name__)
+            logger.exception(err)
 
-        console = logging.StreamHandler()
-        console.setLevel(logging.INFO)
+def create_logger(name):
+    """
+    Creates a logging object and returns it
+    """
+    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
-        logger.addHandler(handler)
-        logger.addHandler(console)
-        return logger
+    logger = logging.getLogger(name)
+    logger.setLevel(logging.INFO)
+
+    console = logging.StreamHandler()
+    console.setLevel(logging.INFO)
+    console.setFormatter(formatter)
+
+    logger.addHandler(console)
+    return logger
+
+def use_logging(message):
+    """
+    装饰器，用于在函数执行时打印信息
+    :param message:
+    :return:
+    """
+    def decorator(func):
+        @functools.wraps(func)
+        def wrapper(*args, **kwargs):
+            logger = create_logger(func.__name__)
+            try:
+                result = func(*args, **kwargs)
+                logger.info(message)
+                return result
+            except:
+                err = "There was an exception in function: {}".format(func.__name__)
+                logger.exception(err)
+
+        return wrapper
+    return decorator
+
+def tracer(func):
+    """
+    装饰器，用于追踪函数执行次数
+    :param func:
+    :return:
+    """
+    #Python2.x中没有nonlocal，只能将calls存储在可变对象中，成为自由变量
+    calls = {'numbers': 0}
+    @functools.wraps(func)
+    def oncall(*args, **kwargs):
+        calls['numbers'] += 1
+        print('Call %s to %s' % (calls['numbers'], func.__name__))
+        return func(*args, **kwargs)
+    return oncall

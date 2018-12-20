@@ -7,57 +7,83 @@ from .config import *
 class SonarQubeUser(object):
     def __init__(self, sonarqube):
         self.sonarqube = sonarqube
+        self._data = None
 
-    def get_users_info_page(self,page):
-        params = {
-            'p': page
-        }
-        resp = self.sonarqube._make_call('get', RULES_USERS_SEARCH_ENDPOINT, **params)
-        response = resp.json()
-        return response
+    def poll(self, filter=None):
+        self._data = self.get_users_data(filter)
 
-    def get_users_info(self):
+    def iterkeys(self):
         """
-        获取所有用户信息
+        获取所有用户的登录名，返回生成器
+        """
+        self.poll()
+        for item in self._data:
+            yield item['login']
+
+    def keys(self):
+        """
+        获取所有用户的登录名，返回列表
+        """
+        return list(self.iterkeys())
+
+    def __len__(self):
+        """
+        获取用户数量
         :return:
         """
-        response = self.get_users_info_page(1)
-        users = []
-        users_info = {}
+        return len(self.keys())
 
-        total_nums = response['paging']['total']
-        page_size = response['paging']['pageSize']
-        pages = total_nums // page_size + 1
-        for i in range(pages):
-            response = self.get_users_info_page(i + 1)
-            users.extend(response['users'])
-        for user in users:
-            users_info[user['login']] = user
-        return users_info
-
-    def user_exist(self, login):
+    def __contains__(self, login_name):
         """
         判断用户是否存在
-        :param login:
+        """
+        self.poll(filter=login_name)
+        logins = [item['login'] for item in self._data]
+        return login_name in logins
+
+    def __getitem__(self, index):
+        """
+        根据坐标获取用户信息
+        :param index:
         :return:
         """
-        params = {
-            'q': login
-        }
-        resp = self.sonarqube._make_call('get', RULES_USERS_SEARCH_ENDPOINT, **params)
+        self.poll()
+        return list(self._data)[index]
 
-        msg = decode_json(resp.json())
-        users_info =  msg['users']
+    def __iter__(self):
+        """
+        实现迭代
+        :return:
+        """
+        self.poll()
+        return self._data
 
-        users = []
-        for u in users_info:
-            users.append(u['login'])
+    def get_users_data(self, filter=None):
+        """
+        获取所有用户信息
+        :param filter:
+        :return:
+        """
+        params = {}
+        page_num = 1
+        page_size = 1
+        total = 2
 
-        if len(users) != 0 and login in users:
-            is_exist = True
-        else:
-            is_exist = False
-        return is_exist
+        if filter is not None:
+            params['q'] = filter
+
+        while page_num * page_size < total:
+            resp = self.sonarqube._make_call('get', RULES_USERS_SEARCH_ENDPOINT, **params)
+            response = resp.json()
+
+            page_num = response['paging']['pageIndex']
+            page_size = response['paging']['pageSize']
+            total = response['paging']['total']
+
+            params['p'] = page_num + 1
+
+            for user in response['users']:
+                yield user
 
     def create_user(self, login, name, email, password, scm=None, local='true'):
         """
@@ -129,7 +155,7 @@ class SonarQubeUser(object):
         }
         self.sonarqube._make_call('post', RULES_USERS_DEACTIVATE_ENDPOINT, **params)
 
-    def get_user_belong_groups(self, login):
+    def get_user_belong_to_groups(self, login):
         """
         获取指定用户所在的组
         :param login:
@@ -143,5 +169,3 @@ class SonarQubeUser(object):
         groups_info = response['groups']
         groups = [g['name'] for g in groups_info]
         return groups
-
-

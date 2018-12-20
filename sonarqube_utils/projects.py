@@ -5,53 +5,85 @@ from .config import *
 class SonarQubeProject(object):
     def __init__(self, sonarqube):
         self.sonarqube = sonarqube
+        self._data = None
 
-    def get_projects_info_page(self, page):
+    def poll(self, filter=None):
+        self._data = self.get_projects_data(filter)
+
+    def iterkeys(self):
         """
-        按页获取项目信息
-        :param page:
+        获取所有项目的key，返回生成器
+        """
+        self.poll()
+        for item in self._data:
+            yield item['key']
+
+    def keys(self):
+        """
+        获取所有项目的key，返回列表
+        """
+        return list(self.iterkeys())
+
+    def __len__(self):
+        """
+        获取项目
         :return:
         """
-        params = {
-            'p':page
-        }
-        resp = self.sonarqube._make_call('get', RULES_PROJECTS_SEARCH_ENDPOINT, **params)
-        response = resp.json()
-        return response
+        return len(self.keys())
 
-    def get_projects_info(self):
-        """
-        获取所有项目信息
-        :return:
-        """
-        response = self.get_projects_info_page(1)
-        components = []
-
-        total_nums = response['paging']['total']
-        page_size = response['paging']['pageSize']
-        pages = total_nums // page_size + 1
-        for i in range(pages):
-            response = self.get_projects_info_page(i + 1)
-            components.extend(response['components'])
-
-        projects_info = {}
-        for item in components:
-            projects_info[item['key']] = item
-        return projects_info
-
-    def project_exist(self, project_key):
+    def __contains__(self, project_key):
         """
         判断项目是否存在
-        :param project_key:
+        """
+        self.poll(filter=project_key)
+        project_keys = [item['key'] for item in self._data]
+        return project_key in project_keys
+
+    def __getitem__(self, index):
+        """
+        根据坐标获取项目信息
+        :param index:
         :return:
         """
-        project_keys = self.get_projects_info().keys()
-        if project_key in project_keys:
-            return True
-        else:
-            return False
+        self.poll()
+        return list(self._data)[index]
 
-    def create_project(self, key, name, branch = None):
+    def __iter__(self):
+        """
+        实现迭代
+        :return:
+        """
+        self.poll()
+        return self._data
+
+    def get_projects_data(self, filter=None):
+        """
+        获取所有项目信息
+        :param filter:
+        :return:
+        """
+        params = {}
+        page_num = 1
+        page_size = 1
+        total = 2
+
+        if filter is not None:
+            params['q'] = filter
+
+        while page_num * page_size < total:
+            resp = self.sonarqube._make_call('get', RULES_PROJECTS_SEARCH_ENDPOINT, **params)
+            response = resp.json()
+
+            page_num = response['paging']['pageIndex']
+            page_size = response['paging']['pageSize']
+            total = response['paging']['total']
+
+            params['p'] = page_num + 1
+
+            for component in response['components']:
+                yield component
+
+    def create_project(self, key, name, branch=None):
         """
         创建项目
         :param key:
@@ -74,8 +106,9 @@ class SonarQubeProject(object):
         :param project_key:
         :return:
         """
-        project_id = self.get_projects_info()[project_key]['id']
-        return project_id
+        result = self.get_projects_data(filter=project_key)
+        id = [item['id'] for item in result]
+        return id
 
     def delete_project(self, project_key):
         """

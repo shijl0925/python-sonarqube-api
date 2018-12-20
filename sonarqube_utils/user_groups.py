@@ -1,61 +1,94 @@
 #!/usr/bin/env python
-#-*- coding:utf-8 -*-
+# -*- coding:utf-8 -*-
 from .config import *
 
 class SonarQubeUser_Groups(object):
     def __init__(self, sonarqube):
         self.sonarqube = sonarqube
+        self._data = None
 
-    def get_groups_page(self, page):
+    def poll(self, filter=None):
+        self._data = self.get_groups_data(filter=filter)
+
+    def iterkeys(self):
         """
-        按页获取所有组信息
-        :param page:
+        获取所有用户组的名字，返回生成器
+        """
+        self.poll()
+        for item in self._data:
+            yield item['name']
+
+    def keys(self):
+        """
+        获取所有用户组的名字，返回列表
+        """
+        return list(self.iterkeys())
+
+    def __len__(self):
+        """
+        获取用户组数量
         :return:
         """
-        params = {
-            'p':page
-        }
-        resp = self.sonarqube._make_call('get', RULES_USER_GROUPS_SEARCH_ENDPOINT, **params)
-        response = resp.json()
-        return response
+        self.poll()
+        return len(self.keys())
 
-    def get_groups_info(self):
+    def __contains__(self, group_name):
+        """
+        判断用户组是否存在
+        """
+        self.poll(filter=group_name)
+        groups = [item['name'] for item in self._data]
+        return group_name in groups
+
+    def __iter__(self):
+        """
+        实现迭代
+        :return:
+        """
+        self.poll()
+        return self._data
+
+    def __getitem__(self, index):
+        """
+        根据坐标获取用户组信息
+        :param index:
+        :return:
+        """
+        self.poll()
+        return list(self._data)[index]
+
+    def get_groups_data(self, fields=None, filter=None):
         """
         获取所有组的信息
+        :param fields: 可能的值：name,description,membersCount
+        :param filter:
         :return:
         """
-        response = self.get_groups_page(1)
-        groups = []
+        params = {}
+        page_num = 1
+        page_size = 1
+        total = 2
 
-        total_nums = response['paging']['total']
-        page_size = response['paging']['pageSize']
-        pages = total_nums // page_size + 1
-        for i in range(pages):
-            response = self.get_groups_page(i + 1)
-            groups.extend(response['groups'])
+        if fields:
+            if not isinstance(fields, str):
+                fields = ','.join(fields)
+            params['f'] = fields.lower()
 
-        groups_info = []
-        for item in groups:
-            groups_info.append(item)
-        return groups_info
+        if filter is not None:
+            params['q'] = filter
 
-    def group_exist(self, group_name):
-        """
-        判断组是否存在
-        :param group_name:
-        :return:
-        """
-        params = {
-            'q': group_name
-        }
-        resp = self.sonarqube._make_call('get', RULES_USER_GROUPS_SEARCH_ENDPOINT, **params)
-        response = resp.json()
-        groups_info = response['groups']
-        groups = [g['name'] for g in groups_info]
-        if group_name in groups:
-            return True
-        else:
-            return False
+        while page_num * page_size < total:
+            resp = self.sonarqube._make_call('get', RULES_USER_GROUPS_SEARCH_ENDPOINT, **params)
+            response = resp.json()
+
+            page_num = response['paging']['pageIndex']
+            page_size = response['paging']['pageSize']
+            total = response['paging']['total']
+
+            params['p'] = page_num + 1
+
+            for group in response['groups']:
+                yield group
 
     def create_group(self, group_name, description=None):
         """
@@ -100,7 +133,7 @@ class SonarQubeUser_Groups(object):
 
         self.sonarqube._make_call('post', RULES_USER_GROUPS_UPDATE_ENDPOINT, **params)
 
-    def add_group_user(self, group, login):
+    def add_user_to_group(self, group, login):
         """
         将用户添加到组
         :param group:
@@ -113,7 +146,7 @@ class SonarQubeUser_Groups(object):
         }
         self.sonarqube._make_call('post', RULES_USER_GROUPS_ADD_USER_ENDPOINT, **params)
 
-    def delete_group_user(self, group, login):
+    def delete_user_from_group(self, group, login):
         """
         将用户从组中删除
         :param group:
@@ -126,46 +159,30 @@ class SonarQubeUser_Groups(object):
         }
         self.sonarqube._make_call('post', RULES_USER_GROUPS_REMOVE_USER_ENDPOINT, **params)
 
-    def group_users_info_page(self, group, page):
+    def get_users_belong_to_group(self, group, filter=None):
         """
-        按页查看指定组内成员
+        获取指定组的成员信息
         :param group:
-        :param page:
+        :param filter:
         :return:
         """
-        params = {
-            'name': group,
-            'p':page
-        }
-        resp = self.sonarqube._make_call('get', RULES_USER_GROUPS_USERS_ENDPOINT, **params)
-        response = resp.json()
-        return response
+        params = {'name': group}
+        page_num = 1
+        page_size = 1
+        total = 2
 
-    def group_users_info(self, group):
-        """
-        查看指定组内成员
-        :param group:
-        :return:
-        """
-        response = self.group_users_info_page(group, 1)
-        users_info = []
+        if filter is not None:
+            params['q'] = filter
 
-        total_nums = response['total']
-        page_size = response['ps']
-        pages = total_nums // page_size + 1
-        for i in range(pages):
-            response = self.group_users_info_page(group, i + 1)
-            users_info.extend(response['users'])
-        return users_info
+        while page_num * page_size < total:
+            resp = self.sonarqube._make_call('get', RULES_USER_GROUPS_USERS_ENDPOINT, **params)
+            response = resp.json()
 
-    def group_has_users(self, group):
-        """
-        查看指定组内成员的名字
-        :param group:
-        :return:
-        """
-        users_info = self.group_users_info(group)
-        group_users = []
-        for user_info in users_info:
-            group_users.append(user_info['login'])
-        return group_users
+            page_num = response['p']
+            page_size = response['ps']
+            total = response['total']
+
+            params['p'] = page_num + 1
+
+            for user in response['users']:
+                yield user
