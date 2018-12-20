@@ -7,8 +7,8 @@ class SonarQubeUser_Groups(object):
         self.sonarqube = sonarqube
         self._data = None
 
-    def poll(self, filter=None):
-        self._data = self.get_groups_data(filter=filter)
+    def poll(self):
+        self._data = self.get_groups_data()
 
     def iterkeys(self):
         """
@@ -36,8 +36,8 @@ class SonarQubeUser_Groups(object):
         """
         判断用户组是否存在
         """
-        self.poll(filter=group_name)
-        groups = [item['name'] for item in self._data]
+        result = self.get_groups_data(filter=group_name)
+        groups = [item['name'] for item in result]
         return group_name in groups
 
     def __iter__(self):
