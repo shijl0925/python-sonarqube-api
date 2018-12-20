@@ -7,8 +7,8 @@ class SonarQubeProject(object):
         self.sonarqube = sonarqube
         self._data = None
 
-    def poll(self, filter=None):
-        self._data = self.get_projects_data(filter)
+    def poll(self):
+        self._data = self.get_projects_data()
 
     def iterkeys(self):
         """
@@ -35,8 +35,8 @@ class SonarQubeProject(object):
         """
         判断项目是否存在
         """
-        self.poll(filter=project_key)
-        project_keys = [item['key'] for item in self._data]
+        result = self.get_projects_data(project_key)
+        project_keys = [item['key'] for item in result]
         return project_key in project_keys
 
     def __getitem__(self, index):
