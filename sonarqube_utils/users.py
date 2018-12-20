@@ -9,8 +9,8 @@ class SonarQubeUser(object):
         self.sonarqube = sonarqube
         self._data = None
 
-    def poll(self, filter=None):
-        self._data = self.get_users_data(filter)
+    def poll(self):
+        self._data = self.get_users_data()
 
     def iterkeys(self):
         """
@@ -37,8 +37,8 @@ class SonarQubeUser(object):
         """
         判断用户是否存在
         """
-        self.poll(filter=login_name)
-        logins = [item['login'] for item in self._data]
+        result = self.get_users_data(filter=login_name)
+        logins = [item['login'] for item in result]
         return login_name in logins
 
     def __getitem__(self, index):
