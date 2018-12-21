@@ -14,8 +14,7 @@ class SonarQubeUser_Groups(object):
         """
         获取所有用户组的名字，返回生成器
         """
-        self.poll()
-        for item in self._data:
+        for item in self:
             yield item['name']
 
     def keys(self):
@@ -29,7 +28,6 @@ class SonarQubeUser_Groups(object):
         获取用户组数量
         :return:
         """
-        self.poll()
         return len(self.keys())
 
     def __contains__(self, group_name):
@@ -54,8 +52,7 @@ class SonarQubeUser_Groups(object):
         :param index:
         :return:
         """
-        self.poll()
-        return list(self._data)[index]
+        return list(self)[index]
 
     def get_groups_data(self, fields=None, filter=None):
         """
