@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-#-*- coding:utf-8 -*-
+# -*- coding:utf-8 -*-
 from .config import *
 
 class SonarQubeProject(object):
@@ -14,8 +14,7 @@ class SonarQubeProject(object):
         """
         获取所有项目的key，返回生成器
         """
-        self.poll()
-        for item in self._data:
+        for item in self:
             yield item['key']
 
     def keys(self):
@@ -45,8 +44,7 @@ class SonarQubeProject(object):
         :param index:
         :return:
         """
-        self.poll()
-        return list(self._data)[index]
+        return list(self)[index]
 
     def __iter__(self):
         """
