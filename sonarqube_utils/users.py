@@ -1,7 +1,6 @@
 #!/usr/bin/env python
-#-*- coding:utf-8 -*-
+# -*- coding:utf-8 -*-
 
-from .common import decode_json
 from .config import *
 
 class SonarQubeUser(object):
@@ -16,8 +15,7 @@ class SonarQubeUser(object):
         """
         获取所有用户的登录名，返回生成器
         """
-        self.poll()
-        for item in self._data:
+        for item in self:
             yield item['login']
 
     def keys(self):
@@ -47,8 +45,7 @@ class SonarQubeUser(object):
         :param index:
         :return:
         """
-        self.poll()
-        return list(self._data)[index]
+        return list(self)[index]
 
     def __iter__(self):
         """
