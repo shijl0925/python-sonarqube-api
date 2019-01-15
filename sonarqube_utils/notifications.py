@@ -20,36 +20,34 @@ class SonarQubeNotification(object):
         data = resp.json()
         return data['notifications']
 
-    def user_add_notifications(self, login, type, project = None):
+    def user_add_notifications(self, login, type, **kwargs):
         """
         给用户添加提醒权限
         :param login:
         :param type:
-        :param project:
         :return:
         """
         params = {
             'login': login,
             'type': type
         }
-        if project:
-            params['project'] = project
+        if kwargs:
+            self.sonarqube.copy_dict(params, kwargs)
 
         self.sonarqube._make_call('post', RULES_NOTIFICATIONS_ADD_ENDPOINT, **params)
 
-    def user_remove_notifications(self, login, type, project=None):
+    def user_remove_notifications(self, login, type, **kwargs):
         """
         删除用户提醒权限
         :param login:
         :param type:
-        :param project:
         :return:
         """
         params = {
             'login': login,
             'type': type
         }
-        if project:
-            params['project'] = project
+        if kwargs:
+            self.sonarqube.copy_dict(params, kwargs)
 
         self.sonarqube._make_call('post', RULES_NOTIFICATIONS_REMOVE_ENDPOINT, **params)

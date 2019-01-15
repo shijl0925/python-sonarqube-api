@@ -1,4 +1,4 @@
-#-*- coding:utf-8 -*-
+# -*- coding:utf-8 -*-
 from .config import *
 
 class SonarQubeQualityGates(object):

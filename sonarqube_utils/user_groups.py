@@ -111,9 +111,10 @@ class SonarQubeUser_Groups(object):
         params = {
             'name': group_name
         }
+
         self.sonarqube._make_call('post', RULES_USER_GROUPS_DELETE_ENDPOINT, **params)
 
-    def update_group(self, group_id, group_name, description=None):
+    def update_group(self, group_id, **kwargs):
         """
         更新组信息
         :param group_id:
@@ -121,55 +122,51 @@ class SonarQubeUser_Groups(object):
         :param description:
         :return:
         """
-        params = {
-            'id': group_id,
-            'name': group_name
-        }
-        if description:
-            params['description'] = description
+        params = {'id': group_id}
+        if kwargs:
+            self.sonarqube.copy_dict(params, kwargs)
 
         self.sonarqube._make_call('post', RULES_USER_GROUPS_UPDATE_ENDPOINT, **params)
 
-    def add_user_to_group(self, group, login):
+    def add_user_to_group(self, name, login):
         """
         将用户添加到组
-        :param group:
+        :param name:
         :param login:
         :return:
         """
         params = {
             'login': login,
-            'name': group
+            'name': name
         }
         self.sonarqube._make_call('post', RULES_USER_GROUPS_ADD_USER_ENDPOINT, **params)
 
-    def delete_user_from_group(self, group, login):
+    def delete_user_from_group(self, name, login):
         """
         将用户从组中删除
-        :param group:
+        :param name:
         :param login:
         :return:
         """
         params = {
             'login': login,
-            'name': group
+            'name': name
         }
         self.sonarqube._make_call('post', RULES_USER_GROUPS_REMOVE_USER_ENDPOINT, **params)
 
-    def get_users_belong_to_group(self, group, filter=None):
+    def get_users_belong_to_group(self, name, **kwargs):
         """
         获取指定组的成员信息
-        :param group:
-        :param filter:
+        :param name:
         :return:
         """
-        params = {'name': group}
+        params = {'name': name}
         page_num = 1
         page_size = 1
         total = 2
 
-        if filter is not None:
-            params['q'] = filter
+        if kwargs:
+            self.sonarqube.copy_dict(params, kwargs)
 
         while page_num * page_size < total:
             resp = self.sonarqube._make_call('get', RULES_USER_GROUPS_USERS_ENDPOINT, **params)

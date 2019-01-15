@@ -54,10 +54,9 @@ class SonarQubeProject(object):
         self.poll()
         return self._data
 
-    def get_projects_data(self, filter=None):
+    def get_projects_data(self, **kwargs):
         """
         获取所有项目信息
-        :param filter:
         :return:
         """
         params = {}
@@ -65,8 +64,8 @@ class SonarQubeProject(object):
         page_size = 1
         total = 2
 
-        if filter is not None:
-            params['q'] = filter
+        if kwargs:
+            self.sonarqube.copy_dict(params, kwargs)
 
         while page_num * page_size < total:
             resp = self.sonarqube._make_call('get', RULES_PROJECTS_SEARCH_ENDPOINT, **params)
@@ -81,17 +80,17 @@ class SonarQubeProject(object):
             for component in response['components']:
                 yield component
 
-    def create_project(self, key, name, branch=None):
+    def create_project(self, project, name, branch=None):
         """
         创建项目
-        :param key:
+        :param project:
         :param name:
         :param branch:
         :return:
         """
         params = {
             'name': name,
-            'project': key
+            'project': project
         }
         if branch:
             params['branch'] = branch
@@ -104,18 +103,17 @@ class SonarQubeProject(object):
         :param project_key:
         :return:
         """
-        result = self.get_projects_data(filter=project_key)
-        id = [item['id'] for item in result]
-        return id
+        components = self.sonarqube.components.components_show(project_key)
+        return components['id']
 
-    def delete_project(self, project_key):
+    def delete_project(self, project):
         """
         删除项目
-        :param project_key:
+        :param project:
         :return:
         """
         params = {
-            'project': project_key
+            'project': project
         }
         self.sonarqube._make_call('post', RULES_PROJECTS_DELETE_ENDPOINT, **params)
 
@@ -132,15 +130,15 @@ class SonarQubeProject(object):
         }
         self.sonarqube._make_call('post',RULES_PROJECTS_UPDATE_KEY_ENDPOINT,**params)
 
-    def update_project_visibility(self, project_key, visibility):
+    def update_project_visibility(self, project, visibility):
         """
         更新项目可视状态('public','private')
-        :param project_key:
+        :param project:
         :param visibility:
         :return:
         """
         params = {
-            'project': project_key,
+            'project': project,
             'visibility': visibility
         }
         self.sonarqube._make_call('post', RULES_PROJECTS_UPDATE_VISIBILITY_ENDPOINT, **params)

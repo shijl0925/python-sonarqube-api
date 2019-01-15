@@ -82,15 +82,15 @@ class SonarQubeUser(object):
             for user in response['users']:
                 yield user
 
-    def create_user(self, login, name, email, password, scm=None, local='true'):
+    def create_user(self, login, name, email, password, local='true', scm=None):
         """
         创建用户
         :param login:
         :param name:
         :param email:
         :param password:
-        :param scm:
         :param local:
+        :param scm:
         :return:
         """
         params = {

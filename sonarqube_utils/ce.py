@@ -6,18 +6,19 @@ class SonarQubeCe(object):
     def __init__(self, sonarqube):
         self.sonarqube = sonarqube
 
-    def get_project_activity_status(self, project_key, status):
+    def get_project_activity_status(self, componentId, status, **kwargs):
         """
         获取项目指定状态的tasks
-        :param project_key:
+        :param componentId:
         :param status:
         :return:
         """
         params = {
-            'status':status,
-            'project':project_key
+            'status': status,
+            'componentId': componentId
         }
-        resp = self.sonarqube._make_call('get',RULES_CE_ACTIVITY_ENDPOINT,**params)
-
+        if kwargs:
+            self.sonarqube.copy_dict(params, kwargs)
+        resp = self.sonarqube._make_call('get', RULES_CE_ACTIVITY_ENDPOINT, **params)
         data = resp.json()
         return data['tasks']

@@ -7,29 +7,19 @@ class SonarQubeIssue(object):
     def __init__(self, sonarqube):
         self.sonarqube = sonarqube
 
-    def get_project_issues(self, project_key, build_branch, resolutions=None, assign_status=None, statuses=None, sinceLeakPeriod=None):
+    def get_project_issues(self, componentKeys, branch, **kwargs):
         """
         获取指定项目的issues
-        :param project_key:
-        :param build_branch:
-        :param resolutions:
-        :param assign_status:
-        :param statuses:
-        :param sinceLeakPeriod:
+        :param componentKeys:
+        :param branch:
         :return:
         """
         params = {
-            'componentKeys': project_key,
-            'branch': build_branch
+            'componentKeys': componentKeys,
+            'branch': branch
         }
-        if resolutions:
-            params['resolutions'] = resolutions
-        if assign_status:
-            params['assigned'] = assign_status
-        if statuses:
-            params['statuses'] = statuses
-        if sinceLeakPeriod:
-            params['sinceLeakPeriod'] = sinceLeakPeriod
+        if kwargs:
+            self.sonarqube.copy_dict(params, kwargs)
 
         page_num = 1
         page_size = 1
@@ -61,11 +51,11 @@ class SonarQubeIssue(object):
         params = {
             'assignee': assignee
         }
-        if isinstance(issue_keys,list):
+        if isinstance(issue_keys, list):
             for issue_key in issue_keys:
                 params['issue'] = issue_key
                 self.sonarqube._make_call('post', RULES_ISSUES_ASSIGN_ENDPOINT, **params)
-        elif isinstance(issue_keys,str):
+        elif isinstance(issue_keys, str):
             params['issue'] = issue_keys
             self.sonarqube._make_call('post', RULES_ISSUES_ASSIGN_ENDPOINT, **params)
 
