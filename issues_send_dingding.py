@@ -106,7 +106,8 @@ if __name__ == "__main__":
 
     title = u'[SonarQube]代码静态分析报告'
 
-    while len(sonarhandler.ce.get_project_activity_status(running_job, 'IN_PROGRESS')) == 1:
+    project_id = sonarhandler.projects.get_project_id(running_job)
+    while len(sonarhandler.ce.get_project_activity_status(project_id, 'IN_PROGRESS')) == 1:
         time.sleep(1)
         print('waiting for sonarqube project {}...'.format(running_job))
     else:
