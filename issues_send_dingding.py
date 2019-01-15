@@ -32,20 +32,20 @@ def fuzzy_search_author(author, users):
     if result[0][1] > 90:
         return result[0][0]
 
-def get_assign_issues(sonarhandler, running_job, build_branch, assign_status='true', statuses='OPEN,CONFIRMED,REOPENED', sinceLeakPeriod='false'):
+def get_assign_issues(sonarhandler, running_job, build_branch, assigned='true', statuses='OPEN,CONFIRMED,REOPENED', sinceLeakPeriod='false'):
     """
     获取分配的issues
     :param sonarhandler:
     :param running_job:
     :param build_branch:
-    :param assign_status:
+    :param assigned:
     :param statuses:
     :param sinceLeakPeriod:
     :return:
     """
     sonarqube_users_info = {item['login']: item for item in sonarhandler.users}
 
-    issues = sonarhandler.issues.get_project_issues(running_job, build_branch, assign_status=assign_status, statuses=statuses, sinceLeakPeriod=sinceLeakPeriod)
+    issues = sonarhandler.issues.get_project_issues(running_job, build_branch, assigned=assigned, statuses=statuses, sinceLeakPeriod=sinceLeakPeriod)
     assign_issues = defaultdict(list)
     for issue in issues:
         if 'assignee' in issue and issue['assignee'] in sonarqube_users_info:
@@ -63,7 +63,7 @@ def assign_unassigned_issues(sonarhandler, running_job, build_branch):
     """
     sonarqube_users_info = {item['login']: item for item in sonarhandler.users}
 
-    issues = sonarhandler.issues.get_project_issues(running_job, build_branch, assign_status='false', statuses='OPEN,CONFIRMED,REOPENED', sinceLeakPeriod='false')
+    issues = sonarhandler.issues.get_project_issues(running_job, build_branch, assigned='false', statuses='OPEN,CONFIRMED,REOPENED', sinceLeakPeriod='false')
     for issue in issues:
         assignee = issue['author'].split('@')[0]
         issue_key = str(issue['key'])
@@ -106,7 +106,7 @@ if __name__ == "__main__":
 
     title = u'[SonarQube]代码静态分析报告'
 
-    while len(sonarhandler.ce.get_project_activity_status(running_job,'IN_PROGRESS')) == 1:
+    while len(sonarhandler.ce.get_project_activity_status(running_job, 'IN_PROGRESS')) == 1:
         time.sleep(1)
         print('waiting for sonarqube project {}...'.format(running_job))
     else:

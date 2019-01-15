@@ -48,3 +48,5 @@ RULES_PROJECT_LINKS_DELETE_ENDPOINT = '/api/project_links/delete'
 RULES_PROJECT_LINKS_SEARCH_ENDPOINT = '/api/project_links/search'
 
 RULES_QUALITYGATES_PROJECT_STATUS_ENDPOINT = '/api/qualitygates/project_status'
+
+RULES_COMPONTENTS_SHOW_ENDPOINT = '/api/components/show'

@@ -6,40 +6,40 @@ class SonarQubeProject_Links(object):
     def __init__(self, sonarqube):
         self.sonarqube = sonarqube
 
-    def create_project_links(self, project_key, link_name, link_url):
+    def create_project_links(self, projectKey, name, url):
         """
         创建链接
-        :param project_key:
-        :param link_name:
-        :param link_url:
+        :param projectKey:
+        :param name:
+        :param url:
         :return:
         """
         params = {
-            'projectKey': project_key,
-            'name': link_name,
-            'url': link_url
+            'projectKey': projectKey,
+            'name': name,
+            'url': url
         }
         self.sonarqube._make_call('post', RULES_PROJECT_LINKS_CREATE_ENDPOINT, **params)
 
-    def delete_project_links(self, link_id):
+    def delete_project_links(self, id):
         """
         删除链接
-        :param link_id:
+        :param id:
         :return:
         """
         params = {
-            'id': link_id
+            'id': id
         }
         self.sonarqube._make_call('post', RULES_PROJECT_LINKS_DELETE_ENDPOINT, **params)
 
-    def search_project_links(self, project_key):
+    def search_project_links(self, projectKey):
         """
         搜索链接
-        :param project_key:
+        :param projectKey:
         :return:
         """
         params = {
-            'projectKey': project_key
+            'projectKey': projectKey
         }
         resp = self.sonarqube._make_call('get', RULES_PROJECT_LINKS_SEARCH_ENDPOINT, **params)
         data = resp.json()

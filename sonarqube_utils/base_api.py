@@ -15,6 +15,7 @@ from .permissions import SonarQubePermissions
 from .ce import SonarQubeCe
 from .project_branches import SonarQubeProject_Branches
 from .qualitygates import SonarQubeQualityGates
+from .components import SonarQubeComponents
 
 
 class SonarAPIHandler(object):
@@ -137,3 +138,17 @@ class SonarAPIHandler(object):
     @property
     def qualitygates(self):
         return SonarQubeQualityGates(self)
+
+    @property
+    def components(self):
+        return SonarQubeComponents(self)
+
+    @staticmethod
+    def copy_dict(dest, src):
+        for k, v in src.items():
+            if isinstance(v, dict):
+                for dict_k, dict_v in v.items():
+                    dest['%s[%s]' % (k, dict_k)] = dict_v
+            else:
+                dest[k] = v
+
