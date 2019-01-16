@@ -27,6 +27,8 @@ RULES_PERMISSIONS_ADD_USER_ENDPOINT = '/api/permissions/add_user'
 RULES_PERMISSIONS_REMOVE_USER_ENDPOINT = '/api/permissions/remove_user'
 
 RULES_CE_ACTIVITY_ENDPOINT = '/api/ce/activity'
+RULES_CE_COMPONENT_ENDPOINT = '/api/ce/component'
+RULES_CE_TASK_ENDPOINT = '/api/ce/task'
 
 RULES_MEASURES_COMPONENT_ENDPOINT = '/api/measures/component'
 RULES_MEASURES_SEARCH_HISTORY_ENDPOINT = '/api/measures/search_history'
@@ -42,6 +44,11 @@ RULES_NOTIFICATIONS_REMOVE_ENDPOINT = '/api/notifications/remove'
 RULES_ISSUES_SEARCH_ENDPOINT = '/api/issues/search'
 RULES_ISSUES_ASSIGN_ENDPOINT = '/api/issues/assign'
 RULES_ISSUES_DO_TRANSITION_ENDPOINT = '/api/issues/do_transition'
+RULES_ISSUE_ADD_COMMENT_ENDPOINT = '/api/issues/add_comment'
+RULES_ISSUE_EDIT_COMMENT_ENDPOINT = '/api/issues/edit_comment'
+RULES_ISSUE_DELETE_COMMENT_ENDPOINT = '/api/issues/delete_comment'
+RULES_ISSUE_SET_SEVERITY_ENDPOINT = '/api/issues/set_severity'
+RULES_ISSUE_SET_TYPE_ENDPOINT = '/api/issues/set_type'
 
 RULES_PROJECT_LINKS_CREATE_ENDPOINT = '/api/project_links/create'
 RULES_PROJECT_LINKS_DELETE_ENDPOINT = '/api/project_links/delete'
@@ -50,3 +57,17 @@ RULES_PROJECT_LINKS_SEARCH_ENDPOINT = '/api/project_links/search'
 RULES_QUALITYGATES_PROJECT_STATUS_ENDPOINT = '/api/qualitygates/project_status'
 
 RULES_COMPONTENTS_SHOW_ENDPOINT = '/api/components/show'
+RULES_COMPONTENTS_SEARCH_ENDPOINT = '/api/components/search'
+RULES_COMPONTENTS_TREE_ENDPOINT = '/api/components/tree'
+
+RULES_LIST_ENDPOINT = '/api/rules/search'
+RULES_CREATE_ENDPOINT = '/api/rules/create'
+RULES_DELETE_ENDPOINT = '/api/rules/delete'
+RULES_SHOW_ENDPOINT = '/api/rules/show'
+
+RULES_QUALITYPROFILES_ACTIVATE_RULE_ENDPOINT = '/api/qualityprofiles/activate_rule'
+RULES_QUALITYPROFILES_SEARCH_ENDPOINT = '/api/qualityprofiles/search'
+RULES_QUALITYPROFILES_DELETE_ENDPOINT = '/api/qualityprofiles/delete'
+RULES_QUALITYPROFILES_SET_DEFAULT_ENDPOINT = '/api/qualityprofiles/set_default'
+
+RULES_DUPLICATIONS_SHOW_ENDPOINT = '/api/duplications/show'

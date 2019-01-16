@@ -16,7 +16,9 @@ from .ce import SonarQubeCe
 from .project_branches import SonarQubeProject_Branches
 from .qualitygates import SonarQubeQualityGates
 from .components import SonarQubeComponents
-
+from .rules import SonarQubeRules
+from .qualityprofiles import SonarQubeQualityprofiles
+from .duplications import SonarQubeDuplications
 
 class SonarAPIHandler(object):
     # Default host is local
@@ -142,6 +144,18 @@ class SonarAPIHandler(object):
     @property
     def components(self):
         return SonarQubeComponents(self)
+
+    @property
+    def rules(self):
+        return SonarQubeRules(self)
+
+    @property
+    def qualityprofiles(self):
+        return SonarQubeQualityprofiles(self)
+
+    @property
+    def duplications(self):
+        return SonarQubeDuplications(self)
 
     @staticmethod
     def copy_dict(dest, src):

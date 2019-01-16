@@ -103,7 +103,7 @@ class SonarQubeProject(object):
         :param project_key:
         :return:
         """
-        components = self.sonarqube.components.components_show(project_key)
+        components = self.sonarqube.components.get_project_component(project_key)
         return components['id']
 
     def delete_project(self, project):
