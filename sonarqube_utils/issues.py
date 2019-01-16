@@ -15,6 +15,7 @@ class SonarQubeIssue(object):
         :return:
         """
         params = {
+            'additionalFields': '_all',
             'componentKeys': componentKeys,
             'branch': branch
         }
@@ -59,7 +60,70 @@ class SonarQubeIssue(object):
             params['issue'] = issue_keys
             self.sonarqube._make_call('post', RULES_ISSUES_ASSIGN_ENDPOINT, **params)
 
-    def project_issues_do_transition(self, issue_keys, transition):
+    def issue_set_severity(self, issue, severity):
+        """
+        Change severity.
+        :param issue:
+        :param severity:
+        :return:
+        """
+        params = {
+            'issue': issue,
+            'severity': severity
+        }
+        self.sonarqube._make_call('post', RULES_ISSUE_SET_SEVERITY_ENDPOINT, **params)
+
+    def issue_set_type(self, issue, type):
+        """
+        Change type of issue, for instance from 'code smell' to 'bug'.
+        :param issue:
+        :param type:
+        :return:
+        """
+        params = {
+            'issue': issue,
+            'type': type
+        }
+        self.sonarqube._make_call('post', RULES_ISSUE_SET_TYPE_ENDPOINT, **params)
+
+    def issue_add_comment(self, issue, text):
+        """
+        给issue加批注
+        :param issue:
+        :param text:
+        :return:
+        """
+        params = {
+            'issue': issue,
+            'text': text
+        }
+        self.sonarqube._make_call('post', RULES_ISSUE_ADD_COMMENT_ENDPOINT, **params)
+
+    def issue_delete_comment(self, comment):
+        """
+        给issue删除批注
+        :param comment:
+        :return:
+        """
+        params = {
+            'comment': comment
+        }
+        self.sonarqube._make_call('post', RULES_ISSUE_DELETE_COMMENT_ENDPOINT, **params)
+
+    def issue_edit_comment(self, comment, text):
+        """
+        更新comment
+        :param comment:
+        :param text:
+        :return:
+        """
+        params = {
+            'comment': comment,
+            'text': text
+        }
+        self.sonarqube._make_call('post', RULES_ISSUE_EDIT_COMMENT_ENDPOINT, **params)
+
+    def issues_do_transition(self, issue_keys, transition):
         """
         对指定项目的issues进行操作
         :param issue_keys:
