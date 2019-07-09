@@ -30,7 +30,7 @@ class SonarQubeProject_Branches(object):
             'project': project,
             'branch': branch
         }
-        self.sonarqube._make_call('get', RULES_PROJECT_BRANCHES_DELETE_ENDPOINT, **params)
+        self.sonarqube._make_call('post', RULES_PROJECT_BRANCHES_DELETE_ENDPOINT, **params)
 
     def rename_project_branch(self, project, name):
         """
@@ -43,5 +43,5 @@ class SonarQubeProject_Branches(object):
             'project': project,
             'name': name
         }
-        self.sonarqube._make_call('get', RULES_PROJECT_BRANCHES_RENAME_ENDPOINT, **params)
+        self.sonarqube._make_call('post', RULES_PROJECT_BRANCHES_RENAME_ENDPOINT, **params)
 
