@@ -1,5 +1,10 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
+
+"""
+这个脚本用于清理非主分支的长期分支
+"""
+
 import sys
 
 from sonarqube_utils.base_api import SonarAPIHandler
