@@ -10,7 +10,7 @@ class SonarQubePermissions(object):
 
     def project_permissions_add_group(self, projectKey, groupName, permissions):
         """
-        给项目添加组权限
+        Add permission to a group.
         :param projectKey:
         :param groupName:
         :param permissions:
@@ -30,7 +30,7 @@ class SonarQubePermissions(object):
 
     def project_permissions_remove_group(self, projectKey, groupName, permissions):
         """
-        给项目删除组权限
+        Remove a permission from a group.
         :param projectKey:
         :param groupName:
         :param permissions:
@@ -50,7 +50,7 @@ class SonarQubePermissions(object):
 
     def project_permissions_add_user(self, projectKey, login, permissions):
         """
-        给项目添加用户权限
+        Add permission to a user.
         :param projectKey:
         :param login:
         :param permissions:
@@ -70,7 +70,7 @@ class SonarQubePermissions(object):
 
     def project_permissions_remove_user(self, projectKey, login, permissions):
         """
-        给项目删除用户权限
+        Remove permission from a user.
         :param projectKey:
         :param login:
         :param permissions:

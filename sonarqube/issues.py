@@ -9,7 +9,7 @@ class SonarQubeIssue(object):
 
     def get_project_issues(self, componentKeys, branch, selects=None, **kwargs):
         """
-        获取指定项目的issues
+        Search for the project's issues.
         :param componentKeys:
         :param branch:
         :param selects:
@@ -53,7 +53,7 @@ class SonarQubeIssue(object):
 
     def issue_assign(self, issue_keys, assignee):
         """
-        分配issue
+        Assign/Unassign an issue
         :param issue_keys:
         :param assignee:
         :return:
@@ -97,7 +97,7 @@ class SonarQubeIssue(object):
 
     def issue_add_comment(self, issue, text):
         """
-        给issue加批注
+        Add a comment.
         :param issue:
         :param text:
         :return:
@@ -110,7 +110,7 @@ class SonarQubeIssue(object):
 
     def issue_delete_comment(self, comment):
         """
-        给issue删除批注
+        Delete a comment.
         :param comment:
         :return:
         """
@@ -121,7 +121,7 @@ class SonarQubeIssue(object):
 
     def issue_edit_comment(self, comment, text):
         """
-        更新comment
+        Edit a comment.
         :param comment:
         :param text:
         :return:
@@ -134,7 +134,7 @@ class SonarQubeIssue(object):
 
     def issues_do_transition(self, issue_keys, transition):
         """
-        对指定项目的issues进行操作
+        Do workflow transition on an issue.
         :param issue_keys:
         :param transition:
         :return:

@@ -57,7 +57,7 @@ class SonarQubeUser_Groups(object):
 
     def get_groups_data(self, fields=None, filter=None):
         """
-        获取所有组的信息
+        Search for user groups.
         :param fields: 可能的值：name,description,membersCount
         :param filter:
         :return:
@@ -90,7 +90,7 @@ class SonarQubeUser_Groups(object):
 
     def create_group(self, group_name, description=None):
         """
-        创建组
+        Create a group.
         :param group_name:
         :param description:
         :return:
@@ -105,7 +105,7 @@ class SonarQubeUser_Groups(object):
 
     def delete_group(self, group_name):
         """
-        删除组
+        Delete a group. The default groups cannot be deleted.
         :param group_name:
         :return:
         """
@@ -117,7 +117,7 @@ class SonarQubeUser_Groups(object):
 
     def update_group(self, group_id, **kwargs):
         """
-        更新组信息
+        Update a group.
         :param group_id:
         :param group_name:
         :param description:
@@ -131,7 +131,7 @@ class SonarQubeUser_Groups(object):
 
     def add_user_to_group(self, name, login):
         """
-        将用户添加到组
+        Add a user to a group.
         :param name:
         :param login:
         :return:
@@ -144,7 +144,7 @@ class SonarQubeUser_Groups(object):
 
     def delete_user_from_group(self, name, login):
         """
-        将用户从组中删除
+        Remove a user from a group.
         :param name:
         :param login:
         :return:
@@ -157,7 +157,7 @@ class SonarQubeUser_Groups(object):
 
     def get_users_belong_to_group(self, name, **kwargs):
         """
-        获取指定组的成员信息
+        Search for users with membership information with respect to a group.
         :param name:
         :return:
         """

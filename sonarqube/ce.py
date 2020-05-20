@@ -9,7 +9,7 @@ class SonarQubeCe(object):
 
     def get_ce_activity(self, **kwargs):
         """
-        获取tasks
+        Search for tasks.
         :param kwargs:
         componentId: Id of the component (project) to filter on
         status: Comma separated list of task statuses;SUCCESS,FAILED,CANCELED,PENDING,IN_PROGRESS
@@ -30,8 +30,6 @@ class SonarQubeCe(object):
     def get_ce_component(self, component):
         """
         Get the pending tasks, in-progress tasks and the last executed task of a given component (usually a project).
-        Requires the following permission: 'Browse' on the specified component.
-        Either 'componentId' or 'component' must be provided.
         :param component:
         :return:
         """
@@ -41,9 +39,7 @@ class SonarQubeCe(object):
 
     def get_ce_task(self, **kwargs):
         """
-        获取task信息
         Give Compute Engine task details such as type, status, duration and associated component.
-        Requires 'Administer System' or 'Execute Analysis' permission.
         :param kwargs:
         additionalFields: Comma-separated list of the optional fields to be returned in response.
         id: Id of task

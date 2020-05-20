@@ -57,7 +57,7 @@ class SonarQubeProject(object):
 
     def get_projects_data(self, **kwargs):
         """
-        获取所有项目信息
+        Search for projects or views to administrate them.
         :return:
         """
         params = {}
@@ -83,7 +83,7 @@ class SonarQubeProject(object):
 
     def create_project(self, project, name, branch=None):
         """
-        创建项目
+        Create a project.
         :param project:
         :param name:
         :param branch:
@@ -100,7 +100,7 @@ class SonarQubeProject(object):
 
     def get_project_id(self, project_key):
         """
-        获取指定项目的id
+        get project id
         :param project_key:
         :return:
         """
@@ -109,7 +109,7 @@ class SonarQubeProject(object):
 
     def delete_project(self, project):
         """
-        删除项目
+        Delete a project.
         :param project:
         :return:
         """
@@ -120,7 +120,7 @@ class SonarQubeProject(object):
 
     def update_project_key(self, previous_project_key, new_project_key):
         """
-        更新项目key
+        Update a project or module key and all its sub-components keys.
         :param previous_project_key:
         :param new_project_key:
         :return:
@@ -133,7 +133,7 @@ class SonarQubeProject(object):
 
     def update_project_visibility(self, project, visibility):
         """
-        更新项目可视状态('public','private')
+        Updates visibility of a project.
         :param project:
         :param visibility:
         :return:

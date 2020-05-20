@@ -9,7 +9,7 @@ class SonarQubeProject_Branches(object):
 
     def get_project_branches_list(self, project):
         """
-        显示项目分支
+        List the branches of a project.
         :param project:
         :return:
         """
@@ -22,7 +22,7 @@ class SonarQubeProject_Branches(object):
 
     def delete_project_branch(self, project, branch):
         """
-        删除项目分支
+        Delete a non-main branch of a project.
         :param project:
         :param branch:
         :return:
