@@ -58,7 +58,7 @@ class SonarQubeUser(object):
 
     def search_users(self, filter=None):
         """
-        获取所有用户信息
+        Get a list of active users.
         :param filter:
         :return:
         """
@@ -85,7 +85,7 @@ class SonarQubeUser(object):
 
     def create_user(self, login, name, email, password=None, local='true', scm=None):
         """
-        创建用户
+        Create a user.
         :param login:
         :param name:
         :param email:
@@ -110,7 +110,7 @@ class SonarQubeUser(object):
 
     def update_user(self, login, name, email, scm=None):
         """
-        更新用户
+        Update a user.
         :param login:
         :param name:
         :param email:
@@ -129,7 +129,7 @@ class SonarQubeUser(object):
 
     def change_user_password(self, login, newPassword, previousPassword=None):
         """
-        修改用户密码
+        Update a user's password.
         :param login:
         :param newPassword:
         :param previousPassword:
@@ -146,7 +146,7 @@ class SonarQubeUser(object):
 
     def deactivate_user(self, login):
         """
-        解除用户
+        Deactivate a user.
         :param login:
         :return:
         """
@@ -157,7 +157,7 @@ class SonarQubeUser(object):
 
     def get_user_belong_to_groups(self, login):
         """
-        获取指定用户所在的组
+        Lists the groups a user belongs to.
         :param login:
         :return:
         """

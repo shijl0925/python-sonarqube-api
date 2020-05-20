@@ -8,7 +8,7 @@ class SonarQubeQualityGates(object):
 
     def get_qualitygates_project_status(self, project_key, branch):
         """
-        获取项目质量阈状态，返回 'ok','WARN','ERROR'
+        Get the quality gate status of a project or a Compute Engine task. return 'ok','WARN','ERROR'
         :param project_key:
         :param branch
         :return:

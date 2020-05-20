@@ -14,7 +14,7 @@ comment_lines_density'
 
     def get_measures_component(self, component, branch):
         """
-        获取项目分析结果
+        Return component with specified measures.
         :param component:
         :param branch:
         :return:

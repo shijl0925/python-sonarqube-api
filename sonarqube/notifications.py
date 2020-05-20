@@ -10,7 +10,7 @@ class SonarQubeNotification(object):
 
     def user_list_notifications(self, login):
         """
-        获取用户提醒权限
+        List notifications of the authenticated user.
         :param login:
         :return:
         """
@@ -23,7 +23,7 @@ class SonarQubeNotification(object):
 
     def user_add_notifications(self, login, type, **kwargs):
         """
-        给用户添加提醒权限
+        Add a notification for the authenticated user.
         :param login:
         :param type:
         :return:
@@ -39,7 +39,7 @@ class SonarQubeNotification(object):
 
     def user_remove_notifications(self, login, type, **kwargs):
         """
-        删除用户提醒权限
+        Remove a notification for the authenticated user.
         :param login:
         :param type:
         :return:
