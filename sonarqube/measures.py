@@ -25,7 +25,7 @@ comment_lines_density'
             'component': component,
             'branch': branch
         }
-        resp = self.sonarqube._make_call('get', RULES_MEASURES_COMPONENT_ENDPOINT, **params)
+        resp = self.sonarqube._make_call('get', API_MEASURES_COMPONENT_ENDPOINT, **params)
         data = resp.json()
         return data
 
@@ -49,7 +49,7 @@ comment_lines_density'
         total = 2
 
         while page_num * page_size < total:
-            resp = self.sonarqube._make_call('get', RULES_MEASURES_SEARCH_HISTORY_ENDPOINT, **params)
+            resp = self.sonarqube._make_call('get', API_MEASURES_SEARCH_HISTORY_ENDPOINT, **params)
             response = resp.json()
 
             page_num = response['paging']['pageIndex']

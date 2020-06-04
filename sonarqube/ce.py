@@ -22,7 +22,7 @@ class SonarQubeCe(object):
         }
         if kwargs:
             self.sonarqube.copy_dict(params, kwargs)
-        resp = self.sonarqube._make_call('get', RULES_CE_ACTIVITY_ENDPOINT, **params)
+        resp = self.sonarqube._make_call('get', API_CE_ACTIVITY_ENDPOINT, **params)
         data = resp.json()
         for task in data['tasks']:
             yield task
@@ -34,7 +34,7 @@ class SonarQubeCe(object):
         :return:
         """
         params = {'component': component}
-        resp = self.sonarqube._make_call('get', RULES_CE_COMPONENT_ENDPOINT, **params)
+        resp = self.sonarqube._make_call('get', API_CE_COMPONENT_ENDPOINT, **params)
         return resp.json()
 
     def get_ce_task(self, **kwargs):
@@ -45,5 +45,5 @@ class SonarQubeCe(object):
         id: Id of task
         :return:
         """
-        resp = self.sonarqube._make_call('get', RULES_CE_TASK_ENDPOINT, **kwargs)
+        resp = self.sonarqube._make_call('get', API_CE_TASK_ENDPOINT, **kwargs)
         return resp.json()

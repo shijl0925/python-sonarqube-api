@@ -28,9 +28,9 @@ create rules.
 
 Example getting projects with coverage and issues metrics::
 
-    from sonarqube.base_api import SonarAPIHandler
+    from sonarqube import SonarQubeAPI
 
-    h = SonarAPIHandler(user='admin', password='admin')
+    h = SonarQubeAPI(user='admin', password='admin')
     for project in h.projects:
         # do something with project data...
 
@@ -42,6 +42,6 @@ Sonar authentication tokens can also be used in place of username and password,
 which is particularly useful when accessing the SonarQube API from a CI server,
 as tokens can easily be revoked in the event of unintended exposure::
 
-    h = SonarAPIHandler(token='f052f55b127bb06f63c31cb2064ea301048d9e5d')
+    h = SonarQubeAPI(token='f052f55b127bb06f63c31cb2064ea301048d9e5d')
 
 

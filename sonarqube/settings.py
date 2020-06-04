@@ -14,11 +14,11 @@ class SonarQubeSettings(object):
             'key': key,
             'value': value
         }
-        self.sonarqube._make_call('post', RULES_SETTINGS_SET_ENDPOINT, **params)
+        self.sonarqube._make_call('post', API_SETTINGS_SET_ENDPOINT, **params)
 
     def list_settings_values(self, component):
         params = {
             'component': component
         }
-        resp = self.sonarqube._make_call('get', RULES_SETTINGS_VALUES_ENDPOINT, **params)
+        resp = self.sonarqube._make_call('get', API_SETTINGS_VALUES_ENDPOINT, **params)
         return resp.json()['settings']

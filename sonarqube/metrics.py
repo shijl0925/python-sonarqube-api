@@ -21,7 +21,7 @@ class SonarQubeMetrics(object):
         total = 2
 
         while page_num * page_size < total:
-            resp = self.sonarqube._make_call('get', RULES_METRICS_SEARCH_ENDPOINT, **params)
+            resp = self.sonarqube._make_call('get', API_METRICS_SEARCH_ENDPOINT, **params)
             response = resp.json()
 
             page_num = response['p']
@@ -38,7 +38,7 @@ class SonarQubeMetrics(object):
         List all available metric types.
         :return:
         """
-        resp = self.sonarqube._make_call('get', RULES_METRICS_TYPES_ENDPOINT)
+        resp = self.sonarqube._make_call('get', API_METRICS_TYPES_ENDPOINT)
         response = resp.json()
         types = response['types']
         return types

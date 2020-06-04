@@ -46,7 +46,7 @@ class SonarQubeRules(object):
         # Cycle through rules
         while page_num * page_size < n_rules:
             # Update paging information for calculation
-            res = self.sonarqube._make_call('get', RULES_LIST_ENDPOINT, **qs).json()
+            res = self.sonarqube._make_call('get', API_LIST_ENDPOINT, **qs).json()
             page_num = res['p']
             page_size = res['ps']
             n_rules = res['total']
@@ -85,7 +85,7 @@ class SonarQubeRules(object):
             'type': type
         }
 
-        self.sonarqube._make_call('post', RULES_CREATE_ENDPOINT, **data)
+        self.sonarqube._make_call('post', API_CREATE_ENDPOINT, **data)
 
     def update_rule(self, key, name, description, markdown_note, message, xpath,
                     remediation_fn_base_effort, remediation_fn_type, remediation_fy_gap_multiplier, severity, status, tags):
@@ -119,7 +119,7 @@ class SonarQubeRules(object):
             'tags': tags
         }
 
-        self.sonarqube._make_call('post', RULES_UPDATE_ENDPOINT, **data)
+        self.sonarqube._make_call('post', API_UPDATE_ENDPOINT, **data)
 
     def delete_rule(self, rule_key):
         """
@@ -130,7 +130,7 @@ class SonarQubeRules(object):
         params = {
             'key': rule_key
         }
-        self.sonarqube._make_call('post', RULES_DELETE_ENDPOINT, **params)
+        self.sonarqube._make_call('post', API_DELETE_ENDPOINT, **params)
 
     def get_rule(self, rule_key, actives=None):
         """
@@ -144,7 +144,7 @@ class SonarQubeRules(object):
         if actives:
             params['actives'] = actives
 
-        res = self.sonarqube._make_call('post', RULES_SHOW_ENDPOINT, **params)
+        res = self.sonarqube._make_call('post', API_SHOW_ENDPOINT, **params)
         return res.json()['rule']
 
     def get_rule_repositories(self, **kwargs):
@@ -154,6 +154,6 @@ class SonarQubeRules(object):
         language: A language key; if provided, only repositories for the given language will be returned
         :return:
         """
-        resp = self.sonarqube._make_call('post', RULES_REPOSITORIES_ENDPOINT, **kwargs)
+        resp = self.sonarqube._make_call('post', API_REPOSITORIES_ENDPOINT, **kwargs)
         return resp.json()
 
