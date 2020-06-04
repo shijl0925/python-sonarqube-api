@@ -20,7 +20,7 @@ class SonarQubeProject_Links(object):
             'name': name,
             'url': url
         }
-        self.sonarqube._make_call('post', RULES_PROJECT_LINKS_CREATE_ENDPOINT, **params)
+        self.sonarqube._make_call('post', API_PROJECT_LINKS_CREATE_ENDPOINT, **params)
 
     def delete_project_links(self, id):
         """
@@ -31,7 +31,7 @@ class SonarQubeProject_Links(object):
         params = {
             'id': id
         }
-        self.sonarqube._make_call('post', RULES_PROJECT_LINKS_DELETE_ENDPOINT, **params)
+        self.sonarqube._make_call('post', API_PROJECT_LINKS_DELETE_ENDPOINT, **params)
 
     def search_project_links(self, projectKey):
         """
@@ -42,6 +42,6 @@ class SonarQubeProject_Links(object):
         params = {
             'projectKey': projectKey
         }
-        resp = self.sonarqube._make_call('get', RULES_PROJECT_LINKS_SEARCH_ENDPOINT, **params)
+        resp = self.sonarqube._make_call('get', API_PROJECT_LINKS_SEARCH_ENDPOINT, **params)
         data = resp.json()
         return data["links"]

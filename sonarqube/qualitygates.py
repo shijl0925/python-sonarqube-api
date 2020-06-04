@@ -17,7 +17,7 @@ class SonarQubeQualityGates(object):
             'projectKey': project_key,
             'branch': branch
         }
-        resp = self.sonarqube._make_call('get', RULES_QUALITYGATES_PROJECT_STATUS_ENDPOINT, **params)
+        resp = self.sonarqube._make_call('get', API_QUALITYGATES_PROJECT_STATUS_ENDPOINT, **params)
         data = resp.json()
         return data['projectStatus']
 
@@ -26,7 +26,7 @@ class SonarQubeQualityGates(object):
         Get a list of quality gates
         :return:
         """
-        resp = self.sonarqube._make_call('get', RULES_QUALITYGATES_LIST_ENDPOINT)
+        resp = self.sonarqube._make_call('get', API_QUALITYGATES_LIST_ENDPOINT)
         data = resp.json()
         return data['qualitygates']
 
@@ -38,7 +38,7 @@ class SonarQubeQualityGates(object):
         :return:
         """
         params = {'gateId': gate_id, 'projectKey': project_key}
-        self.sonarqube._make_call('post', RULES_QUALITYGATES_SELECT_ENDPOINT, **params)
+        self.sonarqube._make_call('post', API_QUALITYGATES_SELECT_ENDPOINT, **params)
 
     def remove_project_from_quality_gate(self, project_key):
         """
@@ -47,7 +47,7 @@ class SonarQubeQualityGates(object):
         :return:
         """
         params = {'projectKey': project_key}
-        self.sonarqube._make_call('post', RULES_QUALITYGATES_DESELECT_ENDPOINT, **params)
+        self.sonarqube._make_call('post', API_QUALITYGATES_DESELECT_ENDPOINT, **params)
 
     def show_quality_gate(self, gateId=None, name=None):
         """
@@ -61,7 +61,7 @@ class SonarQubeQualityGates(object):
             params.update({'id': gateId})
         if name:
             params.update({'name': name})
-        resp = self.sonarqube._make_call('get', RULES_QUALITYGATES_SHOW_ENDPOINT, **params)
+        resp = self.sonarqube._make_call('get', API_QUALITYGATES_SHOW_ENDPOINT, **params)
         data = resp.json()
         return data
 
@@ -72,6 +72,6 @@ class SonarQubeQualityGates(object):
         :return:
         """
         params = {'project': project_key}
-        resp = self.sonarqube._make_call('get', RULES_QUALITYGATES_GET_BY_PROJECT_ENDPOINT, **params)
+        resp = self.sonarqube._make_call('get', API_QUALITYGATES_GET_BY_PROJECT_ENDPOINT, **params)
         data = resp.json()
         return data['qualityGate']

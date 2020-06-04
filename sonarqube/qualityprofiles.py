@@ -37,7 +37,7 @@ class SonarQubeQualityprofiles(object):
             if params:
                 data['params'] = params
 
-        self.sonarqube._make_call('post', RULES_QUALITYPROFILES_ACTIVATE_RULE_ENDPOINT, **data)
+        self.sonarqube._make_call('post', API_QUALITYPROFILES_ACTIVATE_RULE_ENDPOINT, **data)
 
     def search_qualityprofiles(self, defaults=None, language=None, project_key=None, name=None):
         """
@@ -61,7 +61,7 @@ class SonarQubeQualityprofiles(object):
         if name:
             params.update({'qualityProfile': name})
 
-        res = self.sonarqube._make_call('get', RULES_QUALITYPROFILES_SEARCH_ENDPOINT, **params)
+        res = self.sonarqube._make_call('get', API_QUALITYPROFILES_SEARCH_ENDPOINT, **params)
         data = res.json()
         return data['profiles']
 
@@ -73,7 +73,7 @@ class SonarQubeQualityprofiles(object):
         :return:
         """
         params = {'qualityProfile': name, 'language': language}
-        self.sonarqube._make_call('post', RULES_QUALITYPROFILES_DELETE_ENDPOINT, **params)
+        self.sonarqube._make_call('post', API_QUALITYPROFILES_DELETE_ENDPOINT, **params)
 
     def set_default_qualityprofile(self, language, name):
         """
@@ -82,7 +82,7 @@ class SonarQubeQualityprofiles(object):
         :return:
         """
         params = {'qualityProfile': name, 'language': language}
-        self.sonarqube._make_call('post', RULES_QUALITYPROFILES_SET_DEFAULT_ENDPOINT, **params)
+        self.sonarqube._make_call('post', API_QUALITYPROFILES_SET_DEFAULT_ENDPOINT, **params)
 
     def associate_project_with_quality_profile(self, project, name, language):
         """
@@ -93,7 +93,7 @@ class SonarQubeQualityprofiles(object):
         :return:
         """
         params = {'qualityProfile': name, 'language': language, 'project': project}
-        self.sonarqube._make_call('post', RULES_QUALITYPROFILES_ADD_PROJECT_ENDPOINT, **params)
+        self.sonarqube._make_call('post', API_QUALITYPROFILES_ADD_PROJECT_ENDPOINT, **params)
 
     def remove_project_associate_with_quality_profile(self, project, name, language):
         """
@@ -104,4 +104,4 @@ class SonarQubeQualityprofiles(object):
         :return:
         """
         params = {'qualityProfile': name, 'language': language, 'project': project}
-        self.sonarqube._make_call('post', RULES_QUALITYPROFILES_REMOVE_PROJECT_ENDPOINT, **params)
+        self.sonarqube._make_call('post', API_QUALITYPROFILES_REMOVE_PROJECT_ENDPOINT, **params)

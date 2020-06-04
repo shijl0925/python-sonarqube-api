@@ -16,7 +16,7 @@ class SonarQubeComponents(object):
             'component': component
         }
 
-        resp = self.sonarqube._make_call('get', RULES_COMPONTENTS_SHOW_ENDPOINT, **params)
+        resp = self.sonarqube._make_call('get', API_COMPONTENTS_SHOW_ENDPOINT, **params)
         data = resp.json()
         return data['component']
 
@@ -40,7 +40,7 @@ class SonarQubeComponents(object):
         total = 2
 
         while page_num * page_size < total:
-            resp = self.sonarqube._make_call('get', RULES_COMPONTENTS_SEARCH_ENDPOINT, **params)
+            resp = self.sonarqube._make_call('get', API_COMPONTENTS_SEARCH_ENDPOINT, **params)
             response = resp.json()
 
             page_num = response['paging']['pageIndex']
@@ -74,7 +74,7 @@ class SonarQubeComponents(object):
         total = 2
 
         while page_num * page_size < total:
-            resp = self.sonarqube._make_call('get', RULES_COMPONTENTS_TREE_ENDPOINT, **params)
+            resp = self.sonarqube._make_call('get', API_COMPONTENTS_TREE_ENDPOINT, **params)
             response = resp.json()
 
             page_num = response['paging']['pageIndex']

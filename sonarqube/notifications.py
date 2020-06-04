@@ -17,7 +17,7 @@ class SonarQubeNotification(object):
         params = {
             'login': login
         }
-        resp = self.sonarqube._make_call('get', RULES_NOTIFICATIONS_LIST_ENDPOINT, **params)
+        resp = self.sonarqube._make_call('get', API_NOTIFICATIONS_LIST_ENDPOINT, **params)
         data = resp.json()
         return data['notifications']
 
@@ -35,7 +35,7 @@ class SonarQubeNotification(object):
         if kwargs:
             self.sonarqube.copy_dict(params, kwargs)
 
-        self.sonarqube._make_call('post', RULES_NOTIFICATIONS_ADD_ENDPOINT, **params)
+        self.sonarqube._make_call('post', API_NOTIFICATIONS_ADD_ENDPOINT, **params)
 
     def user_remove_notifications(self, login, type, **kwargs):
         """
@@ -51,4 +51,4 @@ class SonarQubeNotification(object):
         if kwargs:
             self.sonarqube.copy_dict(params, kwargs)
 
-        self.sonarqube._make_call('post', RULES_NOTIFICATIONS_REMOVE_ENDPOINT, **params)
+        self.sonarqube._make_call('post', API_NOTIFICATIONS_REMOVE_ENDPOINT, **params)

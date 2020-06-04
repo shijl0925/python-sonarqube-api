@@ -15,5 +15,5 @@ class SonarQubePdfReport(object):
         params = {
             'componentKey': component
         }
-        resp = self.sonarqube._make_call('get', RULES_PDFREPORT_GET_ENDPOINT, **params)
+        resp = self.sonarqube._make_call('get', API_PDFREPORT_GET_ENDPOINT, **params)
         return resp.content

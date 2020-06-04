@@ -23,10 +23,10 @@ class SonarQubePermissions(object):
         if isinstance(permissions, list):
             for perm in permissions:
                 params['permission'] = perm
-                self.sonarqube._make_call('post', RULES_PERMISSIONS_ADD_GROUP_ENDPOINT, **params)
+                self.sonarqube._make_call('post', API_PERMISSIONS_ADD_GROUP_ENDPOINT, **params)
         elif isinstance(permissions, str):
             params['permission'] = permissions
-            self.sonarqube._make_call('post', RULES_PERMISSIONS_ADD_GROUP_ENDPOINT, **params)
+            self.sonarqube._make_call('post', API_PERMISSIONS_ADD_GROUP_ENDPOINT, **params)
 
     def project_permissions_remove_group(self, projectKey, groupName, permissions):
         """
@@ -43,10 +43,10 @@ class SonarQubePermissions(object):
         if isinstance(permissions, list):
             for perm in permissions:
                 params['permission'] = perm
-                self.sonarqube._make_call('post', RULES_PERMISSIONS_REMOVE_GROUP_ENDPOINT, **params)
+                self.sonarqube._make_call('post', API_PERMISSIONS_REMOVE_GROUP_ENDPOINT, **params)
         elif isinstance(permissions, str):
             params['permission'] = permissions
-            self.sonarqube._make_call('post', RULES_PERMISSIONS_REMOVE_GROUP_ENDPOINT, **params)
+            self.sonarqube._make_call('post', API_PERMISSIONS_REMOVE_GROUP_ENDPOINT, **params)
 
     def project_permissions_add_user(self, projectKey, login, permissions):
         """
@@ -63,10 +63,10 @@ class SonarQubePermissions(object):
         if isinstance(permissions, list):
             for perm in permissions:
                 params['permission'] = perm
-                self.sonarqube._make_call('post', RULES_PERMISSIONS_ADD_USER_ENDPOINT, **params)
+                self.sonarqube._make_call('post', API_PERMISSIONS_ADD_USER_ENDPOINT, **params)
         elif isinstance(permissions, str):
             params['permission'] = permissions
-            self.sonarqube._make_call('post', RULES_PERMISSIONS_ADD_USER_ENDPOINT, **params)
+            self.sonarqube._make_call('post', API_PERMISSIONS_ADD_USER_ENDPOINT, **params)
 
     def project_permissions_remove_user(self, projectKey, login, permissions):
         """
@@ -83,10 +83,10 @@ class SonarQubePermissions(object):
         if isinstance(permissions, list):
             for perm in permissions:
                 params['permission'] = perm
-                self.sonarqube._make_call('post', RULES_PERMISSIONS_REMOVE_USER_ENDPOINT, **params)
+                self.sonarqube._make_call('post', API_PERMISSIONS_REMOVE_USER_ENDPOINT, **params)
         elif isinstance(permissions, str):
             params['permission'] = permissions
-            self.sonarqube._make_call('post', RULES_PERMISSIONS_REMOVE_USER_ENDPOINT, **params)
+            self.sonarqube._make_call('post', API_PERMISSIONS_REMOVE_USER_ENDPOINT, **params)
 
     def apply_template_to_project(self, project_key, template_id):
         """
@@ -99,4 +99,4 @@ class SonarQubePermissions(object):
             'projectKey': project_key,
             'templateId': template_id
         }
-        self.sonarqube._make_call('post', RULES_PERMISSIONS_APPLY_TEMPLATE_ENDPOINT, **params)
+        self.sonarqube._make_call('post', API_PERMISSIONS_APPLY_TEMPLATE_ENDPOINT, **params)

@@ -71,7 +71,7 @@ class SonarQubeUser(object):
             params['q'] = filter
 
         while page_num * page_size < total:
-            resp = self.sonarqube._make_call('get', RULES_USERS_SEARCH_ENDPOINT, **params)
+            resp = self.sonarqube._make_call('get', API_USERS_SEARCH_ENDPOINT, **params)
             response = resp.json()
 
             page_num = response['paging']['pageIndex']
@@ -106,7 +106,7 @@ class SonarQubeUser(object):
         if scm:
             params['scmAccount'] = scm
 
-        self.sonarqube._make_call('post', RULES_USERS_CREATE_ENDPOINT, **params)
+        self.sonarqube._make_call('post', API_USERS_CREATE_ENDPOINT, **params)
 
     def update_user(self, login, name, email, scm=None):
         """
@@ -125,7 +125,7 @@ class SonarQubeUser(object):
         if scm:
             params['scmAccount'] = scm
 
-        self.sonarqube._make_call('post', RULES_USERS_UPDATE_ENDPOINT, **params)
+        self.sonarqube._make_call('post', API_USERS_UPDATE_ENDPOINT, **params)
 
     def change_user_password(self, login, newPassword, previousPassword=None):
         """
@@ -142,7 +142,7 @@ class SonarQubeUser(object):
         if previousPassword:
             params['previousPassword'] = previousPassword
 
-        self.sonarqube._make_call('post', RULES_USERS_CHANGE_PASSWORD_ENDPOINT, **params)
+        self.sonarqube._make_call('post', API_USERS_CHANGE_PASSWORD_ENDPOINT, **params)
 
     def deactivate_user(self, login):
         """
@@ -153,7 +153,7 @@ class SonarQubeUser(object):
         params = {
             'login': login
         }
-        self.sonarqube._make_call('post', RULES_USERS_DEACTIVATE_ENDPOINT, **params)
+        self.sonarqube._make_call('post', API_USERS_DEACTIVATE_ENDPOINT, **params)
 
     def get_user_belong_to_groups(self, login):
         """
@@ -164,7 +164,7 @@ class SonarQubeUser(object):
         params = {
             'login': login
         }
-        resp = self.sonarqube._make_call('get', RULES_USERS_GROUPS_ENDPOINT, **params)
+        resp = self.sonarqube._make_call('get', API_USERS_GROUPS_ENDPOINT, **params)
         response = resp.json()
         groups_info = response['groups']
         groups = [g['name'] for g in groups_info]
