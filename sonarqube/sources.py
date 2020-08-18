@@ -1,10 +1,13 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
+from sonarqube.config import (
+    API_SOURCES_SCM_ENDPOINT,
+    API_SOURCES_SHOW_ENDPOINT,
+    API_SOURCES_RAW_ENDPOINT
+)
 
-from .config import *
 
-
-class SonarQubeSources(object):
+class SonarQubeSources:
     def __init__(self, sonarqube):
         self.sonarqube = sonarqube
 
@@ -23,7 +26,7 @@ class SonarQubeSources(object):
             'to': to_line,
             'commits_by_line': commits_by_line
         }
-        resp = self.sonarqube._make_call('get', API_SOURCES_SCM_ENDPOINT, **params)
+        resp = self.sonarqube.make_call('get', API_SOURCES_SCM_ENDPOINT, **params)
         return resp.json()['scm']
 
     def get_sources_show(self, file_key, from_line, to_line):
@@ -32,12 +35,12 @@ class SonarQubeSources(object):
             'from': from_line,
             'to': to_line
         }
-        resp = self.sonarqube._make_call('get', API_SOURCES_SHOW_ENDPOINT, **params)
+        resp = self.sonarqube.make_call('get', API_SOURCES_SHOW_ENDPOINT, **params)
         return resp.json()['sources']
 
     def get_sources_raw(self, file_key):
         params = {
             'key': file_key
         }
-        resp = self.sonarqube._make_call('get', API_SOURCES_RAW_ENDPOINT, **params)
+        resp = self.sonarqube.make_call('get', API_SOURCES_RAW_ENDPOINT, **params)
         return resp.text

@@ -1,10 +1,16 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
+from sonarqube.config import (
+    API_RULES_LIST_ENDPOINT,
+    API_RULES_CREATE_ENDPOINT,
+    API_RULES_UPDATE_ENDPOINT,
+    API_RULES_DELETE_ENDPOINT,
+    API_RULES_SHOW_ENDPOINT,
+    API_RULES_REPOSITORIES_ENDPOINT
+)
 
-from .config import *
 
-
-class SonarQubeRules(object):
+class SonarQubeRules:
     def __init__(self, sonarqube):
         self.sonarqube = sonarqube
 
@@ -46,7 +52,7 @@ class SonarQubeRules(object):
         # Cycle through rules
         while page_num * page_size < n_rules:
             # Update paging information for calculation
-            res = self.sonarqube._make_call('get', API_LIST_ENDPOINT, **qs).json()
+            res = self.sonarqube.make_call('get', API_RULES_LIST_ENDPOINT, **qs).json()
             page_num = res['p']
             page_size = res['ps']
             n_rules = res['total']
@@ -59,7 +65,7 @@ class SonarQubeRules(object):
                 yield rule
 
     def create_rule(self, key, name, description, message, xpath, severity,
-                    status, template_key, type):
+                    status, template_key, rule_type):
         """
         Create a a custom rule.
         :param key: key of the rule to create
@@ -70,7 +76,7 @@ class SonarQubeRules(object):
         :param severity: default severity for the rule
         :param status: status of the rule
         :param template_key: key of the template from which rule is created
-        :param type: Rule type
+        :param rule_type: Rule type
         :return: request response
         """
         # Build data to post
@@ -82,13 +88,14 @@ class SonarQubeRules(object):
             'severity': severity.upper(),
             'status': status.upper(),
             'template_key': template_key,
-            'type': type
+            'type': rule_type
         }
 
-        self.sonarqube._make_call('post', API_CREATE_ENDPOINT, **data)
+        self.sonarqube.make_call('post', API_RULES_CREATE_ENDPOINT, **data)
 
     def update_rule(self, key, name, description, markdown_note, message, xpath,
-                    remediation_fn_base_effort, remediation_fn_type, remediation_fy_gap_multiplier, severity, status, tags):
+                    remediation_fn_base_effort, remediation_fn_type,
+                    remediation_fy_gap_multiplier, severity, status, tags):
         """
         Update an existing rule.
         :param key:
@@ -119,7 +126,7 @@ class SonarQubeRules(object):
             'tags': tags
         }
 
-        self.sonarqube._make_call('post', API_UPDATE_ENDPOINT, **data)
+        self.sonarqube.make_call('post', API_RULES_UPDATE_ENDPOINT, **data)
 
     def delete_rule(self, rule_key):
         """
@@ -130,7 +137,7 @@ class SonarQubeRules(object):
         params = {
             'key': rule_key
         }
-        self.sonarqube._make_call('post', API_DELETE_ENDPOINT, **params)
+        self.sonarqube.make_call('post', API_RULES_DELETE_ENDPOINT, **params)
 
     def get_rule(self, rule_key, actives=None):
         """
@@ -144,7 +151,7 @@ class SonarQubeRules(object):
         if actives:
             params['actives'] = actives
 
-        res = self.sonarqube._make_call('post', API_SHOW_ENDPOINT, **params)
+        res = self.sonarqube.make_call('post', API_RULES_SHOW_ENDPOINT, **params)
         return res.json()['rule']
 
     def get_rule_repositories(self, **kwargs):
@@ -154,6 +161,5 @@ class SonarQubeRules(object):
         language: A language key; if provided, only repositories for the given language will be returned
         :return:
         """
-        resp = self.sonarqube._make_call('post', API_REPOSITORIES_ENDPOINT, **kwargs)
+        resp = self.sonarqube.make_call('post', API_RULES_REPOSITORIES_ENDPOINT, **kwargs)
         return resp.json()
-

@@ -1,9 +1,13 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
-from .config import *
+from sonarqube.config import (
+    API_PROJECT_BRANCHES_LIST_ENDPOINT,
+    API_PROJECT_BRANCHES_DELETE_ENDPOINT,
+    API_PROJECT_BRANCHES_RENAME_ENDPOINT
+)
 
 
-class SonarQubeProject_Branches(object):
+class SonarQubeProjectBranches:
     def __init__(self, sonarqube):
         self.sonarqube = sonarqube
 
@@ -16,7 +20,7 @@ class SonarQubeProject_Branches(object):
         params = {
             'project': project
         }
-        resp = self.sonarqube._make_call('get', API_PROJECT_BRANCHES_LIST_ENDPOINT, **params)
+        resp = self.sonarqube.make_call('get', API_PROJECT_BRANCHES_LIST_ENDPOINT, **params)
         data = resp.json()
         return data['branches']
 
@@ -31,7 +35,7 @@ class SonarQubeProject_Branches(object):
             'project': project,
             'branch': branch
         }
-        self.sonarqube._make_call('post', API_PROJECT_BRANCHES_DELETE_ENDPOINT, **params)
+        self.sonarqube.make_call('post', API_PROJECT_BRANCHES_DELETE_ENDPOINT, **params)
 
     def rename_project_branch(self, project, name):
         """
@@ -44,5 +48,4 @@ class SonarQubeProject_Branches(object):
             'project': project,
             'name': name
         }
-        self.sonarqube._make_call('post', API_PROJECT_BRANCHES_RENAME_ENDPOINT, **params)
-
+        self.sonarqube.make_call('post', API_PROJECT_BRANCHES_RENAME_ENDPOINT, **params)

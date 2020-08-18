@@ -1,10 +1,9 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
+from sonarqube.config import API_DUPLICATIONS_SHOW_ENDPOINT
 
-from .config import *
 
-
-class SonarQubeDuplications(object):
+class SonarQubeDuplications:
     def __init__(self, sonarqube):
         self.sonarqube = sonarqube
 
@@ -15,6 +14,6 @@ class SonarQubeDuplications(object):
         :return:
         """
         params = {'key': key}
-        resp = self.sonarqube._make_call('get', API_DUPLICATIONS_SHOW_ENDPOINT, **params)
+        resp = self.sonarqube.make_call('get', API_DUPLICATIONS_SHOW_ENDPOINT, **params)
         data = resp.json()
         return data

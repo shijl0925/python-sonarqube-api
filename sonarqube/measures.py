@@ -1,9 +1,12 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
-from .config import *
+from sonarqube.config import (
+    API_MEASURES_COMPONENT_ENDPOINT,
+    API_MEASURES_SEARCH_HISTORY_ENDPOINT
+)
 
 
-class SonarQubeMeasure(object):
+class SonarQubeMeasure:
     metricKeys = 'code_smells,bugs,vulnerabilities,new_bugs,new_vulnerabilities,new_code_smells,coverage,\
 new_reliability_rating,reliability_rating,new_security_rating,security_rating,new_maintainability_rating,\
 sqale_rating,tests,test_failures,test_errors,skipped_tests,test_success_density,ncloc,duplicated_lines_density,\
@@ -25,7 +28,7 @@ comment_lines_density'
             'component': component,
             'branch': branch
         }
-        resp = self.sonarqube._make_call('get', API_MEASURES_COMPONENT_ENDPOINT, **params)
+        resp = self.sonarqube.make_call('get', API_MEASURES_COMPONENT_ENDPOINT, **params)
         data = resp.json()
         return data
 
@@ -37,7 +40,8 @@ comment_lines_density'
         :return:
         """
         params = {
-            'metrics': 'code_smells,bugs,vulnerabilities,new_bugs,new_vulnerabilities,new_code_smells,coverage,new_coverage',
+            'metrics': 'code_smells,bugs,vulnerabilities,new_bugs,new_vulnerabilities,\
+new_code_smells,coverage,new_coverage',
             'component': component,
             'branch': branch
         }
@@ -49,7 +53,7 @@ comment_lines_density'
         total = 2
 
         while page_num * page_size < total:
-            resp = self.sonarqube._make_call('get', API_MEASURES_SEARCH_HISTORY_ENDPOINT, **params)
+            resp = self.sonarqube.make_call('get', API_MEASURES_SEARCH_HISTORY_ENDPOINT, **params)
             response = resp.json()
 
             page_num = response['paging']['pageIndex']
@@ -61,17 +65,17 @@ comment_lines_density'
             for measure in response['measures']:
                 yield measure
 
-    def get_project_measures_component(self, project_key, branch, filter=None):
+    def get_project_measures_component(self, project_key, branch, fc=None):
         """
         获取项目measures(可以过滤不需要的数据)
         :param project_key:
         :param branch:
-        :param filter:
+        :param fc:
         :return:
         """
-        if filter:
-            if isinstance(filter, str):
-                filter = filter.split(',')
+        if fc:
+            if isinstance(fc, str):
+                fc = fc.split(',')
 
         measures_component = self.get_measures_component(project_key, branch)['component']['measures']
 
@@ -79,14 +83,14 @@ comment_lines_density'
         for metric in measures_component:
             metric_key = metric['metric']
             if metric_key in self.metricKeys.split(','):
-                try:
-                    measures[metric_key] = metric['value']
-                except:
-                    measures[metric_key] = metric['periods'][0]['value']
+                measures[metric_key] = metric.get('value', None) or metric.get('periods', None)[0]['value']
+                # try:
+                #     measures[metric_key] = metric['value']
+                # except:
+                #     measures[metric_key] = metric['periods'][0]['value']
 
         for item in list(measures.keys()):
-            if filter and item in filter:
+            if fc and item in fc:
                 del measures[item]
 
         return measures
-

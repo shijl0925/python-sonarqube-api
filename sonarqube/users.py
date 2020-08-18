@@ -1,10 +1,16 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
+from sonarqube.config import (
+    API_USERS_SEARCH_ENDPOINT,
+    API_USERS_CREATE_ENDPOINT,
+    API_USERS_UPDATE_ENDPOINT,
+    API_USERS_CHANGE_PASSWORD_ENDPOINT,
+    API_USERS_GROUPS_ENDPOINT,
+    API_USERS_DEACTIVATE_ENDPOINT
+)
 
-from .config import *
 
-
-class SonarQubeUser(object):
+class SonarQubeUser:
     def __init__(self, sonarqube):
         self.sonarqube = sonarqube
         self._data = None
@@ -36,7 +42,7 @@ class SonarQubeUser(object):
         """
         判断用户是否存在
         """
-        result = self.search_users(filter=login_name)
+        result = self.search_users(fc=login_name)
         logins = [item['login'] for item in result]
         return login_name in logins
 
@@ -56,10 +62,10 @@ class SonarQubeUser(object):
         self.poll()
         return self._data
 
-    def search_users(self, filter=None):
+    def search_users(self, fc=None):
         """
         Get a list of active users.
-        :param filter:
+        :param fc:
         :return:
         """
         params = {}
@@ -67,11 +73,11 @@ class SonarQubeUser(object):
         page_size = 1
         total = 2
 
-        if filter is not None:
-            params['q'] = filter
+        if fc is not None:
+            params['q'] = fc
 
         while page_num * page_size < total:
-            resp = self.sonarqube._make_call('get', API_USERS_SEARCH_ENDPOINT, **params)
+            resp = self.sonarqube.make_call('get', API_USERS_SEARCH_ENDPOINT, **params)
             response = resp.json()
 
             page_num = response['paging']['pageIndex']
@@ -106,7 +112,7 @@ class SonarQubeUser(object):
         if scm:
             params['scmAccount'] = scm
 
-        self.sonarqube._make_call('post', API_USERS_CREATE_ENDPOINT, **params)
+        self.sonarqube.make_call('post', API_USERS_CREATE_ENDPOINT, **params)
 
     def update_user(self, login, name, email, scm=None):
         """
@@ -125,7 +131,7 @@ class SonarQubeUser(object):
         if scm:
             params['scmAccount'] = scm
 
-        self.sonarqube._make_call('post', API_USERS_UPDATE_ENDPOINT, **params)
+        self.sonarqube.make_call('post', API_USERS_UPDATE_ENDPOINT, **params)
 
     def change_user_password(self, login, newPassword, previousPassword=None):
         """
@@ -142,7 +148,7 @@ class SonarQubeUser(object):
         if previousPassword:
             params['previousPassword'] = previousPassword
 
-        self.sonarqube._make_call('post', API_USERS_CHANGE_PASSWORD_ENDPOINT, **params)
+        self.sonarqube.make_call('post', API_USERS_CHANGE_PASSWORD_ENDPOINT, **params)
 
     def deactivate_user(self, login):
         """
@@ -153,7 +159,7 @@ class SonarQubeUser(object):
         params = {
             'login': login
         }
-        self.sonarqube._make_call('post', API_USERS_DEACTIVATE_ENDPOINT, **params)
+        self.sonarqube.make_call('post', API_USERS_DEACTIVATE_ENDPOINT, **params)
 
     def get_user_belong_to_groups(self, login):
         """
@@ -164,7 +170,7 @@ class SonarQubeUser(object):
         params = {
             'login': login
         }
-        resp = self.sonarqube._make_call('get', API_USERS_GROUPS_ENDPOINT, **params)
+        resp = self.sonarqube.make_call('get', API_USERS_GROUPS_ENDPOINT, **params)
         response = resp.json()
         groups_info = response['groups']
         groups = [g['name'] for g in groups_info]

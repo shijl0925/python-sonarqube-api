@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 # @Author: Jialiang Shi
+import six.moves.urllib.parse as urlparse
 from requests import Session
 from requests.adapters import HTTPAdapter
-import six.moves.urllib.parse as urlparse
 
 
-class Requester(object):
+class Requester:
 
     """
     A class which carries out HTTP requests. You can replace this

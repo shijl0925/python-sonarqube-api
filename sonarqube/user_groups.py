@@ -1,9 +1,17 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
-from .config import *
+from sonarqube.config import (
+    API_USER_GROUPS_SEARCH_ENDPOINT,
+    API_USER_GROUPS_CREATE_ENDPOINT,
+    API_USER_GROUPS_DELETE_ENDPOINT,
+    API_USER_GROUPS_UPDATE_ENDPOINT,
+    API_USER_GROUPS_USERS_ENDPOINT,
+    API_USER_GROUPS_ADD_USER_ENDPOINT,
+    API_USER_GROUPS_REMOVE_USER_ENDPOINT
+)
 
 
-class SonarQubeUser_Groups(object):
+class SonarQubeUserGroups:
     def __init__(self, sonarqube):
         self.sonarqube = sonarqube
         self._data = None
@@ -35,7 +43,7 @@ class SonarQubeUser_Groups(object):
         """
         判断用户组是否存在
         """
-        result = self.get_groups_data(filter=group_name)
+        result = self.get_groups_data(fc=group_name)
         groups = [item['name'] for item in result]
         return group_name in groups
 
@@ -55,11 +63,11 @@ class SonarQubeUser_Groups(object):
         """
         return list(self)[index]
 
-    def get_groups_data(self, fields=None, filter=None):
+    def get_groups_data(self, fields=None, fc=None):
         """
         Search for user groups.
         :param fields: 可能的值：name,description,membersCount
-        :param filter:
+        :param fc:
         :return:
         """
         params = {}
@@ -72,11 +80,11 @@ class SonarQubeUser_Groups(object):
                 fields = ','.join(fields)
             params['f'] = fields.lower()
 
-        if filter is not None:
-            params['q'] = filter
+        if fc is not None:
+            params['q'] = fc
 
         while page_num * page_size < total:
-            resp = self.sonarqube._make_call('get', API_USER_GROUPS_SEARCH_ENDPOINT, **params)
+            resp = self.sonarqube.make_call('get', API_USER_GROUPS_SEARCH_ENDPOINT, **params)
             response = resp.json()
 
             page_num = response['paging']['pageIndex']
@@ -101,7 +109,7 @@ class SonarQubeUser_Groups(object):
         if description:
             params['description'] = description
 
-        self.sonarqube._make_call('post', API_USER_GROUPS_CREATE_ENDPOINT, **params)
+        self.sonarqube.make_call('post', API_USER_GROUPS_CREATE_ENDPOINT, **params)
 
     def delete_group(self, group_name):
         """
@@ -113,7 +121,7 @@ class SonarQubeUser_Groups(object):
             'name': group_name
         }
 
-        self.sonarqube._make_call('post', API_USER_GROUPS_DELETE_ENDPOINT, **params)
+        self.sonarqube.make_call('post', API_USER_GROUPS_DELETE_ENDPOINT, **params)
 
     def update_group(self, group_id, **kwargs):
         """
@@ -127,7 +135,7 @@ class SonarQubeUser_Groups(object):
         if kwargs:
             self.sonarqube.copy_dict(params, kwargs)
 
-        self.sonarqube._make_call('post', API_USER_GROUPS_UPDATE_ENDPOINT, **params)
+        self.sonarqube.make_call('post', API_USER_GROUPS_UPDATE_ENDPOINT, **params)
 
     def add_user_to_group(self, name, login):
         """
@@ -140,7 +148,7 @@ class SonarQubeUser_Groups(object):
             'login': login,
             'name': name
         }
-        self.sonarqube._make_call('post', API_USER_GROUPS_ADD_USER_ENDPOINT, **params)
+        self.sonarqube.make_call('post', API_USER_GROUPS_ADD_USER_ENDPOINT, **params)
 
     def delete_user_from_group(self, name, login):
         """
@@ -153,7 +161,7 @@ class SonarQubeUser_Groups(object):
             'login': login,
             'name': name
         }
-        self.sonarqube._make_call('post', API_USER_GROUPS_REMOVE_USER_ENDPOINT, **params)
+        self.sonarqube.make_call('post', API_USER_GROUPS_REMOVE_USER_ENDPOINT, **params)
 
     def get_users_belong_to_group(self, name, **kwargs):
         """
@@ -170,7 +178,7 @@ class SonarQubeUser_Groups(object):
             self.sonarqube.copy_dict(params, kwargs)
 
         while page_num * page_size < total:
-            resp = self.sonarqube._make_call('get', API_USER_GROUPS_USERS_ENDPOINT, **params)
+            resp = self.sonarqube.make_call('get', API_USER_GROUPS_USERS_ENDPOINT, **params)
             response = resp.json()
 
             page_num = response['p']
