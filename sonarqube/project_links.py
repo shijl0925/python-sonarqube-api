@@ -1,9 +1,13 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
-from .config import *
+from sonarqube.config import (
+    API_PROJECT_LINKS_CREATE_ENDPOINT,
+    API_PROJECT_LINKS_DELETE_ENDPOINT,
+    API_PROJECT_LINKS_SEARCH_ENDPOINT
+)
 
 
-class SonarQubeProject_Links(object):
+class SonarQubeProjectLinks:
     def __init__(self, sonarqube):
         self.sonarqube = sonarqube
 
@@ -20,18 +24,18 @@ class SonarQubeProject_Links(object):
             'name': name,
             'url': url
         }
-        self.sonarqube._make_call('post', API_PROJECT_LINKS_CREATE_ENDPOINT, **params)
+        self.sonarqube.make_call('post', API_PROJECT_LINKS_CREATE_ENDPOINT, **params)
 
-    def delete_project_links(self, id):
+    def delete_project_links(self, link_id):
         """
         Delete existing project link.
-        :param id:
+        :param link_id:
         :return:
         """
         params = {
-            'id': id
+            'id': link_id
         }
-        self.sonarqube._make_call('post', API_PROJECT_LINKS_DELETE_ENDPOINT, **params)
+        self.sonarqube.make_call('post', API_PROJECT_LINKS_DELETE_ENDPOINT, **params)
 
     def search_project_links(self, projectKey):
         """
@@ -42,6 +46,6 @@ class SonarQubeProject_Links(object):
         params = {
             'projectKey': projectKey
         }
-        resp = self.sonarqube._make_call('get', API_PROJECT_LINKS_SEARCH_ENDPOINT, **params)
+        resp = self.sonarqube.make_call('get', API_PROJECT_LINKS_SEARCH_ENDPOINT, **params)
         data = resp.json()
         return data["links"]

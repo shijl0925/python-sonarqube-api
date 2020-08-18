@@ -1,9 +1,8 @@
-====================
-Python SonarQube API
-====================
+=======================
+Python SonarQube Client
+=======================
 
-API Handler for SonarQube web service, providing basic authentication (which
-seems to be the only kind that SonarQube supports) and a few methods.
+A Python Client for SonarQube Server APIs.
 
 Installation
 ============
@@ -15,22 +14,20 @@ Install::
 Compatibility
 -------------
 
-This package is compatible Python versions 2.7, 3.4, 3.5 and 3.6.
-
+* This package is compatible Python versions 2.7, 3.4, 3.5 and 3.6.
+* Tested with SonarQube v7.9
 
 Usage
 =====
 
-The API handler is easy to use, you just need to initialize it with the
-connection parameters (by default *localhost* on port *9000* without
-authentication) and use any of the methods to get the required information or
-create rules.
+The Client is easy to use, you just need to initialize it with the
+connection parameters (default sonarqube url is http://localhost:9000).
 
 Example getting projects with coverage and issues metrics::
 
-    from sonarqube import SonarQubeAPI
+    from sonarqube import SonarQubeClient
 
-    h = SonarQubeAPI(user='admin', password='admin')
+    h = SonarQubeClient(user='admin', password='admin')
     for project in h.projects:
         # do something with project data...
 
@@ -42,6 +39,6 @@ Sonar authentication tokens can also be used in place of username and password,
 which is particularly useful when accessing the SonarQube API from a CI server,
 as tokens can easily be revoked in the event of unintended exposure::
 
-    h = SonarQubeAPI(token='f052f55b127bb06f63c31cb2064ea301048d9e5d')
+    h = SonarQubeClient(token='f052f55b127bb06f63c31cb2064ea301048d9e5d')
 
 

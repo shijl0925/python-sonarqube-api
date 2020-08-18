@@ -1,40 +1,43 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
-__version__ = '1.0.1'
-
-from .common import expand_url
-import requests
 from .exceptions import ClientError, AuthError, ValidationError, ServerError
 from .requester import Requester
 from .users import SonarQubeUser
 from .projects import SonarQubeProject
-from .user_groups import SonarQubeUser_Groups
+from .user_groups import SonarQubeUserGroups
 from .issues import SonarQubeIssue
 from .measures import SonarQubeMeasure
 from .notifications import SonarQubeNotification
-from .project_links import SonarQubeProject_Links
+from .project_links import SonarQubeProjectLinks
 from .permissions import SonarQubePermissions
 from .ce import SonarQubeCe
-from .project_branches import SonarQubeProject_Branches
+from .project_branches import SonarQubeProjectBranches
 from .qualitygates import SonarQubeQualityGates
 from .components import SonarQubeComponents
 from .rules import SonarQubeRules
 from .qualityprofiles import SonarQubeQualityprofiles
 from .duplications import SonarQubeDuplications
-from .pdf import SonarQubePdfReport
 from .metrics import SonarQubeMetrics
 from .settings import SonarQubeSettings
 from .sources import SonarQubeSources
 
 
-class SonarQubeAPI(object):
-    def __init__(self, sonarqube_url=None, username=None, password=None,
-                 token=None, ssl_verify=True, cert=None, timeout=10, max_retries=None):
-        """
-        Set connection info and session, including auth (if user+password
-        and/or auth token were provided).
-        """
-        self._sonarqube_url = self.strip_trailing_slash(sonarqube_url)
+class SonarQubeClient:
+    """
+    A Python Client for SonarQube Server APIs.
+    """
+    DEFAULT_URL = "http://localhost:9000"
+
+    def __init__(self,
+                 sonarqube_url=None,
+                 username=None,
+                 password=None,
+                 token=None,
+                 ssl_verify=True,
+                 cert=None,
+                 timeout=10,
+                 max_retries=None):
+        self._sonarqube_url = self.strip_trailing_slash(sonarqube_url or self.DEFAULT_URL)
 
         if token:
             self.requester = Requester(
@@ -58,6 +61,11 @@ class SonarQubeAPI(object):
 
     @classmethod
     def strip_trailing_slash(cls, url):
+        """
+        remove url's trailing slash
+        :param url:
+        :return:
+        """
         while url.endswith('/'):
             url = url[:-1]
         return url
@@ -74,7 +82,7 @@ class SonarQubeAPI(object):
         """
         return '{}{}'.format(self._sonarqube_url, endpoint)
 
-    def _make_call(self, method, endpoint, **data):
+    def make_call(self, method, endpoint, **data):
         """
         Make the call to the service with the given method, queryset and data,
         using the initial session.
@@ -87,7 +95,6 @@ class SonarQubeAPI(object):
         :param data: queryset or body
         :return: response
         """
-        # Get method and make the call
         call = getattr(self.requester, method.lower())
         base_url = self._get_url(endpoint)
         res = call(base_url, params=data or {})
@@ -120,7 +127,7 @@ class SonarQubeAPI(object):
 
     @property
     def user_groups(self):
-        return SonarQubeUser_Groups(self)
+        return SonarQubeUserGroups(self)
 
     @property
     def projects(self):
@@ -140,7 +147,7 @@ class SonarQubeAPI(object):
 
     @property
     def project_links(self):
-        return SonarQubeProject_Links(self)
+        return SonarQubeProjectLinks(self)
 
     @property
     def permissions(self):
@@ -152,7 +159,7 @@ class SonarQubeAPI(object):
 
     @property
     def project_branches(self):
-        return SonarQubeProject_Branches(self)
+        return SonarQubeProjectBranches(self)
 
     @property
     def qualitygates(self):
@@ -175,10 +182,6 @@ class SonarQubeAPI(object):
         return SonarQubeDuplications(self)
 
     @property
-    def pdf(self):
-        return SonarQubePdfReport(self)
-
-    @property
     def metrics(self):
         return SonarQubeMetrics(self)
 
@@ -198,4 +201,3 @@ class SonarQubeAPI(object):
                     dest['%s[%s]' % (k, dict_k)] = dict_v
             else:
                 dest[k] = v
-

@@ -1,9 +1,15 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
-from .config import *
+from sonarqube.config import (
+    API_PROJECTS_SEARCH_ENDPOINT,
+    API_PROJECTS_CREATE_ENDPOINT,
+    API_PROJECTS_DELETE_ENDPOINT,
+    API_PROJECTS_UPDATE_VISIBILITY_ENDPOINT,
+    API_PROJECTS_UPDATE_KEY_ENDPOINT
+)
 
 
-class SonarQubeProject(object):
+class SonarQubeProject:
     def __init__(self, sonarqube):
         self.sonarqube = sonarqube
         self._data = None
@@ -69,7 +75,7 @@ class SonarQubeProject(object):
             self.sonarqube.copy_dict(params, kwargs)
 
         while page_num * page_size < total:
-            resp = self.sonarqube._make_call('get', API_PROJECTS_SEARCH_ENDPOINT, **params)
+            resp = self.sonarqube.make_call('get', API_PROJECTS_SEARCH_ENDPOINT, **params)
             response = resp.json()
 
             page_num = response['paging']['pageIndex']
@@ -96,7 +102,7 @@ class SonarQubeProject(object):
         if branch:
             params['branch'] = branch
 
-        self.sonarqube._make_call('post', API_PROJECTS_CREATE_ENDPOINT, **params)
+        self.sonarqube.make_call('post', API_PROJECTS_CREATE_ENDPOINT, **params)
 
     def get_project_id(self, project_key):
         """
@@ -116,7 +122,7 @@ class SonarQubeProject(object):
         params = {
             'project': project
         }
-        self.sonarqube._make_call('post', API_PROJECTS_DELETE_ENDPOINT, **params)
+        self.sonarqube.make_call('post', API_PROJECTS_DELETE_ENDPOINT, **params)
 
     def update_project_key(self, previous_project_key, new_project_key):
         """
@@ -129,7 +135,7 @@ class SonarQubeProject(object):
             'from': previous_project_key,
             'to': new_project_key
         }
-        self.sonarqube._make_call('post',API_PROJECTS_UPDATE_KEY_ENDPOINT,**params)
+        self.sonarqube.make_call('post', API_PROJECTS_UPDATE_KEY_ENDPOINT, **params)
 
     def update_project_visibility(self, project, visibility):
         """
@@ -142,4 +148,4 @@ class SonarQubeProject(object):
             'project': project,
             'visibility': visibility
         }
-        self.sonarqube._make_call('post', API_PROJECTS_UPDATE_VISIBILITY_ENDPOINT, **params)
+        self.sonarqube.make_call('post', API_PROJECTS_UPDATE_VISIBILITY_ENDPOINT, **params)

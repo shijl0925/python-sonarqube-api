@@ -1,9 +1,19 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
-from .config import *
+from sonarqube.config import (
+    API_ISSUES_SEARCH_ENDPOINT,
+    API_ISSUES_ASSIGN_ENDPOINT,
+    API_ISSUES_DO_TRANSITION_ENDPOINT,
+    API_ISSUE_ADD_COMMENT_ENDPOINT,
+    API_ISSUE_EDIT_COMMENT_ENDPOINT,
+    API_ISSUE_DELETE_COMMENT_ENDPOINT,
+    API_ISSUE_SET_SEVERITY_ENDPOINT,
+    API_ISSUE_SET_TYPE_ENDPOINT,
+    API_ISSUES_AUTHORS_ENDPOINT
+)
 
 
-class SonarQubeIssue(object):
+class SonarQubeIssue:
     def __init__(self, sonarqube):
         self.sonarqube = sonarqube
 
@@ -32,7 +42,7 @@ class SonarQubeIssue(object):
         total = 2
 
         while page_num * page_size < total:
-            resp = self.sonarqube._make_call('get', API_ISSUES_SEARCH_ENDPOINT, **params)
+            resp = self.sonarqube.make_call('get', API_ISSUES_SEARCH_ENDPOINT, **params)
             response = resp.json()
 
             page_num = response['paging']['pageIndex']
@@ -64,10 +74,10 @@ class SonarQubeIssue(object):
         if isinstance(issue_keys, list):
             for issue_key in issue_keys:
                 params['issue'] = issue_key
-                self.sonarqube._make_call('post', API_ISSUES_ASSIGN_ENDPOINT, **params)
+                self.sonarqube.make_call('post', API_ISSUES_ASSIGN_ENDPOINT, **params)
         elif isinstance(issue_keys, str):
             params['issue'] = issue_keys
-            self.sonarqube._make_call('post', API_ISSUES_ASSIGN_ENDPOINT, **params)
+            self.sonarqube.make_call('post', API_ISSUES_ASSIGN_ENDPOINT, **params)
 
     def issue_set_severity(self, issue, severity):
         """
@@ -80,20 +90,20 @@ class SonarQubeIssue(object):
             'issue': issue,
             'severity': severity
         }
-        self.sonarqube._make_call('post', API_ISSUE_SET_SEVERITY_ENDPOINT, **params)
+        self.sonarqube.make_call('post', API_ISSUE_SET_SEVERITY_ENDPOINT, **params)
 
-    def issue_set_type(self, issue, type):
+    def issue_set_type(self, issue, issue_type):
         """
         Change type of issue, for instance from 'code smell' to 'bug'.
         :param issue:
-        :param type:
+        :param issue_type:
         :return:
         """
         params = {
             'issue': issue,
-            'type': type
+            'type': issue_type
         }
-        self.sonarqube._make_call('post', API_ISSUE_SET_TYPE_ENDPOINT, **params)
+        self.sonarqube.make_call('post', API_ISSUE_SET_TYPE_ENDPOINT, **params)
 
     def issue_add_comment(self, issue, text):
         """
@@ -106,7 +116,7 @@ class SonarQubeIssue(object):
             'issue': issue,
             'text': text
         }
-        self.sonarqube._make_call('post', API_ISSUE_ADD_COMMENT_ENDPOINT, **params)
+        self.sonarqube.make_call('post', API_ISSUE_ADD_COMMENT_ENDPOINT, **params)
 
     def issue_delete_comment(self, comment):
         """
@@ -117,7 +127,7 @@ class SonarQubeIssue(object):
         params = {
             'comment': comment
         }
-        self.sonarqube._make_call('post', API_ISSUE_DELETE_COMMENT_ENDPOINT, **params)
+        self.sonarqube.make_call('post', API_ISSUE_DELETE_COMMENT_ENDPOINT, **params)
 
     def issue_edit_comment(self, comment, text):
         """
@@ -130,7 +140,7 @@ class SonarQubeIssue(object):
             'comment': comment,
             'text': text
         }
-        self.sonarqube._make_call('post', API_ISSUE_EDIT_COMMENT_ENDPOINT, **params)
+        self.sonarqube.make_call('post', API_ISSUE_EDIT_COMMENT_ENDPOINT, **params)
 
     def issues_do_transition(self, issue_keys, transition):
         """
@@ -142,13 +152,13 @@ class SonarQubeIssue(object):
         params = {
             'transition': transition
         }
-        if isinstance(issue_keys,list):
+        if isinstance(issue_keys, list):
             for issue_key in issue_keys:
                 params['issue'] = issue_key
-                self.sonarqube._make_call('post', API_ISSUES_DO_TRANSITION_ENDPOINT, **params)
-        elif isinstance(issue_keys,str):
+                self.sonarqube.make_call('post', API_ISSUES_DO_TRANSITION_ENDPOINT, **params)
+        elif isinstance(issue_keys, str):
             params['issue'] = issue_keys
-            self.sonarqube._make_call('post', API_ISSUES_DO_TRANSITION_ENDPOINT, **params)
+            self.sonarqube.make_call('post', API_ISSUES_DO_TRANSITION_ENDPOINT, **params)
 
     def get_issues_author(self, project, q=None):
         """
@@ -163,6 +173,6 @@ class SonarQubeIssue(object):
         }
         if q:
             params['q'] = q
-        resp = self.sonarqube._make_call('get', API_ISSUES_AUTHORS_ENDPOINT, **params)
+        resp = self.sonarqube.make_call('get', API_ISSUES_AUTHORS_ENDPOINT, **params)
         response = resp.json()
         return response['authors']

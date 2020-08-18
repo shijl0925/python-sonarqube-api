@@ -1,9 +1,13 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
-from .config import *
+from sonarqube.config import (
+    API_CE_ACTIVITY_ENDPOINT,
+    API_CE_COMPONENT_ENDPOINT,
+    API_CE_TASK_ENDPOINT
+)
 
 
-class SonarQubeCe(object):
+class SonarQubeCe:
     def __init__(self, sonarqube):
         self.sonarqube = sonarqube
 
@@ -22,7 +26,7 @@ class SonarQubeCe(object):
         }
         if kwargs:
             self.sonarqube.copy_dict(params, kwargs)
-        resp = self.sonarqube._make_call('get', API_CE_ACTIVITY_ENDPOINT, **params)
+        resp = self.sonarqube.make_call('get', API_CE_ACTIVITY_ENDPOINT, **params)
         data = resp.json()
         for task in data['tasks']:
             yield task
@@ -34,7 +38,7 @@ class SonarQubeCe(object):
         :return:
         """
         params = {'component': component}
-        resp = self.sonarqube._make_call('get', API_CE_COMPONENT_ENDPOINT, **params)
+        resp = self.sonarqube.make_call('get', API_CE_COMPONENT_ENDPOINT, **params)
         return resp.json()
 
     def get_ce_task(self, **kwargs):
@@ -45,5 +49,5 @@ class SonarQubeCe(object):
         id: Id of task
         :return:
         """
-        resp = self.sonarqube._make_call('get', API_CE_TASK_ENDPOINT, **kwargs)
+        resp = self.sonarqube.make_call('get', API_CE_TASK_ENDPOINT, **kwargs)
         return resp.json()

@@ -1,10 +1,12 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
+from sonarqube.config import (
+    API_SETTINGS_SET_ENDPOINT,
+    API_SETTINGS_VALUES_ENDPOINT
+)
 
-from .config import *
 
-
-class SonarQubeSettings(object):
+class SonarQubeSettings:
     def __init__(self, sonarqube):
         self.sonarqube = sonarqube
 
@@ -14,11 +16,11 @@ class SonarQubeSettings(object):
             'key': key,
             'value': value
         }
-        self.sonarqube._make_call('post', API_SETTINGS_SET_ENDPOINT, **params)
+        self.sonarqube.make_call('post', API_SETTINGS_SET_ENDPOINT, **params)
 
     def list_settings_values(self, component):
         params = {
             'component': component
         }
-        resp = self.sonarqube._make_call('get', API_SETTINGS_VALUES_ENDPOINT, **params)
+        resp = self.sonarqube.make_call('get', API_SETTINGS_VALUES_ENDPOINT, **params)
         return resp.json()['settings']

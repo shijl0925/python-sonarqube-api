@@ -12,4 +12,3 @@ class AuthError(ClientError):
 
 class ValidationError(ClientError):
     pass
-

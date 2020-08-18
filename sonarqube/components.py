@@ -1,14 +1,20 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
-from .config import *
+from sonarqube.config import (
+    API_COMPONTENTS_SHOW_ENDPOINT,
+    API_COMPONTENTS_SEARCH_ENDPOINT,
+    API_COMPONTENTS_TREE_ENDPOINT
+)
 
 
-class SonarQubeComponents(object):
+class SonarQubeComponents:
     def __init__(self, sonarqube):
         self.sonarqube = sonarqube
 
     def get_project_component(self, component):
         """
+        Returns a component (file, directory, project, view…) and its ancestors. The ancestors are ordered from the
+        parent to the root project. The 'componentId' or 'component' parameter must be provided.
         :param component: Component key
         :return:
         """
@@ -16,18 +22,19 @@ class SonarQubeComponents(object):
             'component': component
         }
 
-        resp = self.sonarqube._make_call('get', API_COMPONTENTS_SHOW_ENDPOINT, **params)
+        resp = self.sonarqube.make_call('get', API_COMPONTENTS_SHOW_ENDPOINT, **params)
         data = resp.json()
         return data['component']
 
     def get_components(self, qualifiers, **kwargs):
         """
-        :param qualifiers:Comma-separated list of component qualifiers. Filter the results with the specified qualifiers. Possible values are:
-                          BRC - Sub-projects
-                          DIR - Directories
-                          FIL - Files
-                          TRK - Projects
-                          UTS - Test Files
+        :param qualifiers:Comma-separated list of component qualifiers. Filter the results with
+        the specified qualifiers. Possible values are:
+        BRC - Sub-projects
+        DIR - Directories
+        FIL - Files
+        TRK - Projects
+        UTS - Test Files
         :param kwargs:
         :return:
         """
@@ -40,7 +47,7 @@ class SonarQubeComponents(object):
         total = 2
 
         while page_num * page_size < total:
-            resp = self.sonarqube._make_call('get', API_COMPONTENTS_SEARCH_ENDPOINT, **params)
+            resp = self.sonarqube.make_call('get', API_COMPONTENTS_SEARCH_ENDPOINT, **params)
             response = resp.json()
 
             page_num = response['paging']['pageIndex']
@@ -56,12 +63,13 @@ class SonarQubeComponents(object):
         """
         :param component: Base component key. The search is based on this component.
         :param kwargs:
-        qualifiers:Comma-separated list of component qualifiers. Filter the results with the specified qualifiers. Possible values are:
-                          BRC - Sub-projects
-                          DIR - Directories
-                          FIL - Files
-                          TRK - Projects
-                          UTS - Test Files
+        qualifiers:Comma-separated list of component qualifiers. Filter the results with
+        the specified qualifiers. Possible values are:
+        BRC - Sub-projects
+        DIR - Directories
+        FIL - Files
+        TRK - Projects
+        UTS - Test Files
         component: Base component key. The search is based on this component.
         :return:
         """
@@ -74,7 +82,7 @@ class SonarQubeComponents(object):
         total = 2
 
         while page_num * page_size < total:
-            resp = self.sonarqube._make_call('get', API_COMPONTENTS_TREE_ENDPOINT, **params)
+            resp = self.sonarqube.make_call('get', API_COMPONTENTS_TREE_ENDPOINT, **params)
             response = resp.json()
 
             page_num = response['paging']['pageIndex']
@@ -83,5 +91,5 @@ class SonarQubeComponents(object):
 
             params['p'] = page_num + 1
 
-            for component in response['components']:
-                yield component
+            for item in response['components']:
+                yield item
