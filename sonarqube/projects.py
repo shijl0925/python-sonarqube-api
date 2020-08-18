@@ -111,7 +111,7 @@ class SonarQubeProject:
         :return:
         """
         components = self.sonarqube.components.get_project_component(project_key)
-        return components['id']
+        return components
 
     def delete_project(self, project):
         """

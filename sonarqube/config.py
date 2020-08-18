@@ -26,6 +26,7 @@ API_PERMISSIONS_REMOVE_GROUP_ENDPOINT = '/api/permissions/remove_group'
 API_PERMISSIONS_ADD_USER_ENDPOINT = '/api/permissions/add_user'
 API_PERMISSIONS_REMOVE_USER_ENDPOINT = '/api/permissions/remove_user'
 API_PERMISSIONS_APPLY_TEMPLATE_ENDPOINT = '/api/permissions/apply_template'
+API_PERMISSIONS_SEARCH_TEMPLATES_ENDPOINT = '/api/permissions/search_templates'
 
 API_CE_ACTIVITY_ENDPOINT = '/api/ce/activity'
 API_CE_COMPONENT_ENDPOINT = '/api/ce/component'
