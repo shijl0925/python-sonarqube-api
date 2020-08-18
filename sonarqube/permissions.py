@@ -106,3 +106,17 @@ class SonarQubePermissions:
             'templateId': template_id
         }
         self.sonarqube.make_call('post', API_PERMISSIONS_APPLY_TEMPLATE_ENDPOINT, **params)
+    
+    def get_all_permission_templates(self, templateName):
+        """
+        Search for permission templates.
+        If no template name, response will contain all permission templates in list of dicts. Otherwise, will return single json dict.
+        :param templateName:
+        :return:
+        """
+        params = {
+            'template': templateName
+        }
+        response = self.sonarqube._make_call('get', API_PERMISSIONS_SEARCH_TEMPLATES_ENDPOINT, **params)
+        return response
+        
