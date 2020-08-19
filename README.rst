@@ -39,6 +39,6 @@ Sonar authentication tokens can also be used in place of username and password,
 which is particularly useful when accessing the SonarQube API from a CI server,
 as tokens can easily be revoked in the event of unintended exposure::
 
-    h = SonarQubeClient(token='f052f55b127bb06f63c31cb2064ea301048d9e5d')
+    h = SonarQubeClient(token='*****************')
 
 
