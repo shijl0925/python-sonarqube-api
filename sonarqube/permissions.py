@@ -117,6 +117,7 @@ class SonarQubePermissions:
         params = {
             'template': templateName
         }
-        response = self.sonarqube._make_call('get', API_PERMISSIONS_SEARCH_TEMPLATES_ENDPOINT, **params)
+        resp = self.sonarqube.make_call('get', API_PERMISSIONS_SEARCH_TEMPLATES_ENDPOINT, **params)
+        response = resp.json()
         return response
         
