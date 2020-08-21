@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
+# @Author: Jialiang Shi
 from sonarqube.config import (
     API_METRICS_SEARCH_ENDPOINT,
     API_METRICS_TYPES_ENDPOINT

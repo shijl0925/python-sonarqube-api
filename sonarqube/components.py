@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
+# @Author: Jialiang Shi
 from sonarqube.config import (
     API_COMPONTENTS_SHOW_ENDPOINT,
     API_COMPONTENTS_SEARCH_ENDPOINT,
@@ -23,19 +24,25 @@ class SonarQubeComponents:
         }
 
         resp = self.sonarqube.make_call('get', API_COMPONTENTS_SHOW_ENDPOINT, **params)
-        data = resp.json()
-        return data['component']
+        return resp.json()
 
     def get_components(self, qualifiers, **kwargs):
         """
+        Search for components
         :param qualifiers:Comma-separated list of component qualifiers. Filter the results with
         the specified qualifiers. Possible values are:
-        BRC - Sub-projects
-        DIR - Directories
-        FIL - Files
-        TRK - Projects
-        UTS - Test Files
+        * BRC - Sub-projects
+        * DIR - Directories
+        * FIL - Files
+        * TRK - Projects
+        * UTS - Test Files
         :param kwargs:
+        language: Language key. If provided, only components for the given language are returned.
+        p: 1-based page number, default value is 1
+        ps: Page size. Must be greater than 0 and less or equal than 500, default value is 100
+        q: Limit search to:
+          * component names that contain the supplied string
+          * component keys that are exactly the same as the supplied string
         :return:
         """
         params = {'qualifiers': qualifiers}
@@ -61,16 +68,28 @@ class SonarQubeComponents:
 
     def get_components_tree(self, component, **kwargs):
         """
+        Navigate through components based on the chosen strategy.
         :param component: Base component key. The search is based on this component.
         :param kwargs:
+        asc: Ascending sort
+        p: 1-based page number, default value is 1
+        ps: Page size. Must be greater than 0 and less or equal than 500, default value is 100
+        q: Limit search to:
+          * component names that contain the supplied string
+          * component keys that are exactly the same as the supplied string
         qualifiers:Comma-separated list of component qualifiers. Filter the results with
-        the specified qualifiers. Possible values are:
-        BRC - Sub-projects
-        DIR - Directories
-        FIL - Files
-        TRK - Projects
-        UTS - Test Files
-        component: Base component key. The search is based on this component.
+          the specified qualifiers. Possible values are:
+        * BRC - Sub-projects
+        * DIR - Directories
+        * FIL - Files
+        * TRK - Projects
+        * UTS - Test Files
+        s: Comma-separated list of sort fields,such as: name, path, qualifier, and default value is name
+        strategy: Strategy to search for base component descendants:
+          * children: return the children components of the base component. Grandchildren components are not returned
+          * all: return all the descendants components of the base component. Grandchildren are returned.
+          * leaves: return all the descendant components (files, in general) which don't have other children.
+            They are the leaves of the component tree.
         :return:
         """
         params = {'component': component}

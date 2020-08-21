@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
+# @Author: Jialiang Shi
 from sonarqube.config import API_DUPLICATIONS_SHOW_ENDPOINT
 
 
@@ -10,7 +11,7 @@ class SonarQubeDuplications:
     def get_duplications(self, key):
         """
         Get duplications. Require Browse permission on file's project
-        :param key:
+        :param key: File key
         :return:
         """
         params = {'key': key}

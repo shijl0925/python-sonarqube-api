@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
+# @Author: Jialiang Shi
 from sonarqube.config import (
     API_PROJECT_LINKS_CREATE_ENDPOINT,
     API_PROJECT_LINKS_DELETE_ENDPOINT,
@@ -14,9 +15,9 @@ class SonarQubeProjectLinks:
     def create_project_links(self, projectKey, name, url):
         """
         Create a new project link.
-        :param projectKey:
-        :param name:
-        :param url:
+        :param projectKey: Project key
+        :param name: Link name
+        :param url: Link url
         :return:
         """
         params = {
@@ -29,7 +30,7 @@ class SonarQubeProjectLinks:
     def delete_project_links(self, link_id):
         """
         Delete existing project link.
-        :param link_id:
+        :param link_id: Link id
         :return:
         """
         params = {
@@ -40,7 +41,7 @@ class SonarQubeProjectLinks:
     def search_project_links(self, projectKey):
         """
         List links of a project.
-        :param projectKey:
+        :param projectKey: Project Key
         :return:
         """
         params = {
