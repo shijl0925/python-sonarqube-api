@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
+# @Author: Jialiang Shi
 from sonarqube.config import (
     API_PROJECT_BRANCHES_LIST_ENDPOINT,
     API_PROJECT_BRANCHES_DELETE_ENDPOINT,
@@ -14,7 +15,7 @@ class SonarQubeProjectBranches:
     def get_project_branches_list(self, project):
         """
         List the branches of a project.
-        :param project:
+        :param project: Project key
         :return:
         """
         params = {
@@ -27,8 +28,8 @@ class SonarQubeProjectBranches:
     def delete_project_branch(self, project, branch):
         """
         Delete a non-main branch of a project.
-        :param project:
-        :param branch:
+        :param project: Project key
+        :param branch: Name of the branch
         :return:
         """
         params = {
@@ -40,8 +41,8 @@ class SonarQubeProjectBranches:
     def rename_project_branch(self, project, name):
         """
         Rename the main branch of a project
-        :param project:
-        :param name:
+        :param project: Project key
+        :param name: New name of the main branch
         :return:
         """
         params = {

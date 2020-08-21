@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
+# @Author: Jialiang Shi
 from sonarqube.config import (
     API_NOTIFICATIONS_LIST_ENDPOINT,
     API_NOTIFICATIONS_ADD_ENDPOINT,
@@ -14,7 +15,7 @@ class SonarQubeNotification:
     def user_list_notifications(self, login):
         """
         List notifications of the authenticated user.
-        :param login:
+        :param login: User login
         :return:
         """
         params = {
@@ -27,8 +28,14 @@ class SonarQubeNotification:
     def user_add_notifications(self, login, notification_type, **kwargs):
         """
         Add a notification for the authenticated user.
-        :param login:
-        :param notification_type:
+        :param login: User login
+        :param notification_type: Notification type. Possible values are for:
+          * Global notifications: CeReportTaskFailure, ChangesOnMyIssue, NewAlerts, SQ-MyNewIssues
+          * Per project notifications: CeReportTaskFailure, ChangesOnMyIssue, NewAlerts, NewFalsePositiveIssue,
+            NewIssues, SQ-MyNewIssues
+        :param kwargs:
+        channel: Channel through which the notification is sent. For example, notifications can be sent by email.
+        project: Project key
         :return:
         """
         params = {
@@ -43,8 +50,14 @@ class SonarQubeNotification:
     def user_remove_notifications(self, login, notification_type, **kwargs):
         """
         Remove a notification for the authenticated user.
-        :param login:
-        :param notification_type:
+        :param login: User login
+        :param notification_type: Notification type. Possible values are for:
+          * Global notifications: CeReportTaskFailure, ChangesOnMyIssue, NewAlerts, SQ-MyNewIssues
+          * Per project notifications: CeReportTaskFailure, ChangesOnMyIssue, NewAlerts, NewFalsePositiveIssue,
+            NewIssues, SQ-MyNewIssues
+        :param kwargs:
+        channel: Channel through which the notification is sent. For example, notifications can be sent by email.
+        project: Project key
         :return:
         """
         params = {

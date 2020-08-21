@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
+# @Author: Jialiang Shi
 from .exceptions import ClientError, AuthError, ValidationError, ServerError
 from .requester import Requester
 from .users import SonarQubeUser
@@ -20,6 +21,14 @@ from .duplications import SonarQubeDuplications
 from .metrics import SonarQubeMetrics
 from .settings import SonarQubeSettings
 from .sources import SonarQubeSources
+from .auth import SonarQubeAuth
+from .favorite import SonarQubeFavorites
+from .languages import SonarQubeLanguages
+from .project_badges import SonarQubeProjectBadges
+from .project_tags import SonarQubeProjectTags
+from .project_pull_requests import SonarQubepRrojectPullRequests
+from .project_analyses import SonarQubeProjectAnalyses
+from .server import SonarQubeServer
 
 
 class SonarQubeClient:
@@ -192,6 +201,38 @@ class SonarQubeClient:
     @property
     def sources(self):
         return SonarQubeSources(self)
+
+    @property
+    def auth(self):
+        return SonarQubeAuth(self)
+
+    @property
+    def favorites(self):
+        return SonarQubeFavorites(self)
+
+    @property
+    def languages(self):
+        return SonarQubeLanguages(self)
+
+    @property
+    def project_badges(self):
+        return SonarQubeProjectBadges(self)
+
+    @property
+    def project_tags(self):
+        return SonarQubeProjectTags(self)
+
+    @property
+    def project_pull_requests(self):
+        return SonarQubepRrojectPullRequests(self)
+
+    @property
+    def project_analyses(self):
+        return SonarQubeProjectAnalyses(self)
+
+    @property
+    def server(self):
+        return SonarQubeServer(self)
 
     @staticmethod
     def copy_dict(dest, src):
