@@ -83,11 +83,11 @@ class SonarQubeQualityGates:
         """
         params = {
             'gateId': gateId,
-            'metric': metric,
+            'metric': metric.upper(),
             'error': error
         }
         if op:
-            params['op'] = op
+            params.update({'op': op.upper()})
 
         self.sonarqube.make_call('post', API_QUALITYGATES_CREATE_CONDITION_ENDPOINT, **params)
 
@@ -121,15 +121,15 @@ class SonarQubeQualityGates:
         """
         params = {
             'id': condition_id,
-            'metric': metric,
+            'metric': metric.upper(),
             'error': error
         }
         if op:
-            params['op'] = op
+            params.update({'op': op.upper()})
 
         self.sonarqube.make_call('post', API_QUALITYGATES_UPDATE_CONDITION_ENDPOINT, **params)
 
-    def get_qualitygate_projects(self, gate_id, selected=None):
+    def get_qualitygate_projects(self, gate_id, selected="selected"):
         """
 
         :param gate_id: Quality Gate ID
@@ -138,13 +138,13 @@ class SonarQubeQualityGates:
           * all
           * deselected
           * selected
+          default value is selected
         :return:
         """
         params = {
             'gateId': gate_id,
+            'selected': selected
         }
-        if selected:
-            params['selected'] = selected
 
         page_num = 1
         page_size = 1
@@ -172,17 +172,23 @@ class SonarQubeQualityGates:
         params = {'id': gate_id}
         self.sonarqube.make_call('post', API_QUALITYGATES_SET_AS_DEFAULT_ENDPOINT, **params)
 
-    def get_project_qualitygates_status(self, project_key, branch):
+    def get_project_qualitygates_status(self, project_key=None, analysisId=None, branch=None):
         """
-        Get the quality gate status of a project or a Compute Engine task. return 'ok','WARN','ERROR'
+        Get the quality gate status of a project or a Compute Engine task. return 'ok','WARN','ERROR'.
+        The NONE status is returned when there is no quality gate associated with the analysis.
+        Returns an HTTP code 404 if the analysis associated with the task is not found or does not exist.
         :param project_key: Project key
+        :param analysisId: Analysis id
         :param branch: Branch key
         :return:
         """
-        params = {
-            'projectKey': project_key,
-            'branch': branch
-        }
+        params = {}
+        if project_key:
+            params.update({'projectKey': project_key})
+            if branch:
+                params.update({'branch': branch})
+        elif analysisId:
+            params.update({'analysisId': analysisId})
 
         resp = self.sonarqube.make_call('get', API_QUALITYGATES_PROJECT_STATUS_ENDPOINT, **params)
         data = resp.json()
@@ -226,7 +232,7 @@ class SonarQubeQualityGates:
         params = {}
         if gate_id:
             params.update({'id': gate_id})
-        if gate_name:
+        elif gate_name:
             params.update({'name': gate_name})
 
         resp = self.sonarqube.make_call('get', API_QUALITYGATES_SHOW_ENDPOINT, **params)

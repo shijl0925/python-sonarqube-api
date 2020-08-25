@@ -15,7 +15,7 @@ new_code_smells,coverage,new_coverage'
     def __init__(self, sonarqube):
         self.sonarqube = sonarqube
 
-    def get_measures_component(self, component, branch, additionalFields=None, metricKeys=None):
+    def get_component_with_specified_measures(self, component, branch=None, additionalFields=None, metricKeys=None):
         """
         Return component with specified measures.
         :param metricKeys:Comma-separated list of metric keys. such as: ncloc,complexity,violations
@@ -27,59 +27,83 @@ new_code_smells,coverage,new_coverage'
         """
         params = {
             'metricKeys': metricKeys or self.default_metricKeys,
-            'component': component,
-            'branch': branch
+            'component': component
         }
+        if branch:
+            params.update({'branch': branch})
         if additionalFields:
-            params['additionalFields'] = additionalFields
+            params.update({'additionalFields': additionalFields})
 
         resp = self.sonarqube.make_call('get', API_MEASURES_COMPONENT_ENDPOINT, **params)
         data = resp.json()
         return data
 
-    def get_measures_component_tree(self, component_key, metricKeys=None, **kwargs):
+    def get_component_tree_with_specified_measures(self, component_key, branch=None, metricKeys=None,
+                                                   additionalFields=None, asc="true", metricPeriodSort=None,
+                                                   metricSort=None, metricSortFilter="all", q=None, qualifiers=None,
+                                                   s="name", strategy="all"):
         """
         Navigate through components based on the chosen strategy with specified measures. The baseComponentId or
         the component parameter must be provided.
         :param component_key: Component key.
+        :param branch:
         :param metricKeys: Comma-separated list of metric keys. such as: ncloc,complexity,violations
-        :param kwargs:
-        additionalFields: Comma-separated list of additional fields that can be returned in the response.
+        :param additionalFields: Comma-separated list of additional fields that can be returned in the response.
           such as: metrics,periods
-        asc: Ascending sort
-        metricPeriodSort: Sort measures by leak period or not ?. The 's' parameter must contain the 'metricPeriod' value
-        metricSort: Metric key to sort by. The 's' parameter must contain the 'metric' or 'metricPeriod' value.
+        :param asc: Ascending sort, such as true, false, yes, no. default value is true.
+        :param metricPeriodSort: Sort measures by leak period or not ?. The 's' parameter must contain
+          the 'metricPeriod' value
+        :param metricSort: Metric key to sort by. The 's' parameter must contain the 'metric' or 'metricPeriod' value.
           It must be part of the 'metricKeys' parameter
-        metricSortFilter: Filter components. Sort must be on a metric. Possible values are:
+        :param metricSortFilter: Filter components. Sort must be on a metric. Possible values are:
           * all: return all components
           * withMeasuresOnly: filter out components that do not have a measure on the sorted metric
-        p: 1-based page number, default value is 1
-        ps: Page size. Must be greater than 0 and less or equal than 500, default value is 100
-        q: Limit search to:
+          default value is all.
+        :param q: Limit search to:
           * component names that contain the supplied string
           * component keys that are exactly the same as the supplied string
-        qualifiers:Comma-separated list of component qualifiers. Filter the results with
-        the specified qualifiers. Possible values are:
-        * BRC - Sub-projects
-        * DIR - Directories
-        * FIL - Files
-        * TRK - Projects
-        * UTS - Test Files
-        s: Comma-separated list of sort fields,such as: name, path, qualifier, metric, metricPeriod.
+        :param qualifiers:Comma-separated list of component qualifiers. Filter the results with
+          the specified qualifiers. Possible values are:
+          * BRC - Sub-projects
+          * DIR - Directories
+          * FIL - Files
+          * TRK - Projects
+          * UTS - Test Files
+        :param s: Comma-separated list of sort fields,such as: name, path, qualifier, metric, metricPeriod.
           and default value is name
-        strategy: Strategy to search for base component descendants:
+        :param strategy: Strategy to search for base component descendants:
           * children: return the children components of the base component. Grandchildren components are not returned
           * all: return all the descendants components of the base component. Grandchildren are returned.
           * leaves: return all the descendant components (files, in general) which don't have other children.
             They are the leaves of the component tree.
+          default value is all.
         :return:
         """
         params = {
             'component': component_key,
             'metricKeys': metricKeys or self.default_metricKeys,
+            'asc': asc,
+            'metricSortFilter': metricSortFilter,
+            's': s,
+            'strategy': strategy
         }
-        if kwargs:
-            self.sonarqube.copy_dict(params, kwargs)
+        if branch:
+            params.update({'branch': branch})
+
+        if additionalFields:
+            params.update({'additionalFields': additionalFields})
+
+        if metricPeriodSort:
+            params.update({'metricPeriodSort': metricPeriodSort})
+
+        if metricSort:
+            params.update({'metricSort': metricSort})
+
+        if q:
+            params.update({'q': q})
+
+        if qualifiers:
+            params.update({'qualifiers': qualifiers.upper()})
 
         page_num = 1
         page_size = 1
@@ -98,7 +122,7 @@ new_code_smells,coverage,new_coverage'
             for component in response['components']:
                 yield component
 
-    def get_measures_history(self, component, branch, metrics=None, from_date=None, to_date=None):
+    def search_measures_history(self, component, branch=None, metrics=None, from_date=None, to_date=None):
         """
         Search measures history of a component
         :param component:
@@ -112,15 +136,17 @@ new_code_smells,coverage,new_coverage'
         """
         params = {
             'metrics': metrics or self.default_metricKeys,
-            'component': component,
-            'branch': branch
+            'component': component
         }
 
+        if branch:
+            params.update({'branch': branch})
+
         if from_date:
-            params['from'] = from_date
+            params.update({'from': from_date})
 
         if to_date:
-            params['to'] = to_date
+            params.update({'to': to_date})
 
         page_num = 1
         page_size = 1

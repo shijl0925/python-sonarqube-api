@@ -11,25 +11,36 @@ class SonarQubeProjectBadges:
     def __init__(self, sonarqube):
         self.sonarqube = sonarqube
 
-    def generate_badge_for_project_measures(self, project, branch, metric):
+    def generate_badge_for_project_measures(self, project, metric, branch=None):
         """
         Generate badge for project's measure as an SVG.
         :param project: Project or application key
         :param branch: Long living branch key
         :param metric: Metric key, such as:
-          bugs,code_smells,coverage,duplicated_lines_density,ncloc,sqale_rating,alert_status,reliability_rating,
-          security_rating,sqale_index,vulnerabilities
+          * bugs
+          * code_smells
+          * coverage
+          * duplicated_lines_density
+          * ncloc
+          * sqale_rating
+          * alert_status
+          * reliability_rating
+          * security_rating
+          * sqale_index
+          * vulnerabilities
         :return:
         """
         params = {
             'project': project,
-            'branch': branch,
             'metric': metric
         }
+        if branch:
+            params.update({'branch': branch})
+
         resp = self.sonarqube.make_call('get', API_PROJECT_BADGES_MEASURE_ENDPOINT, **params)
         return resp.text
 
-    def generate_badge_for_project_quality_gate(self, project, branch):
+    def generate_badge_for_project_quality_gate(self, project, branch=None):
         """
         Generate badge for project's quality gate as an SVG.
         :param project: Project or application key
@@ -38,7 +49,9 @@ class SonarQubeProjectBadges:
         """
         params = {
             'project': project,
-            'branch': branch,
         }
+        if branch:
+            params.update({'branch': branch})
+
         resp = self.sonarqube.make_call('get', API_PROJECT_BADGES_QUALITY_GATE_ENDPOINT, **params)
         return resp.text

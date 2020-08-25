@@ -21,7 +21,10 @@ class SonarQubeProjectAnalyses:
         Create a project analysis event.Only event of category 'VERSION' and 'OTHER' can be created.
         :param analysis: Analysis key
         :param name: Name
-        :param category: Category
+        :param category: Category. such as:
+          * VERSION
+          * OTHER
+          default value is OTHER.
         :return:
         """
         params = {
@@ -56,13 +59,18 @@ class SonarQubeProjectAnalyses:
 
         self.sonarqube.make_call('post', API_PROJECT_ANALYSES_DELETE_EVENT_ENDPOINT, **params)
 
-    def get_project_analysis_and_event(self, project, branch=None, category=None, from_date=None, to_date=None):
+    def search_project_analyses_and_events(self, project, branch=None, category=None, from_date=None, to_date=None):
         """
         Search a project analyses and attached events.
         :param project: Project key
         :param branch: Branch key
         :param category: Event category. Filter analyses that have at least one event of the category specified.
-          such as: VERSION,OTHER,QUALITY_PROFILE,QUALITY_GATE,DEFINITION_CHANGE
+          such as:
+          * VERSION
+          * OTHER
+          * QUALITY_PROFILE
+          * QUALITY_GATE
+          * DEFINITION_CHANGE
         :param from_date: Filter analyses created after the given date (inclusive).
           Either a date (server timezone) or datetime can be provided
         :param to_date: Filter analyses created before the given date (inclusive).
@@ -74,16 +82,16 @@ class SonarQubeProjectAnalyses:
         }
 
         if branch:
-            params['branch'] = branch
+            params.update({'branch': branch})
 
         if category:
-            params['category'] = category
+            params.update({'category': category})
 
         if from_date:
-            params['from'] = from_date
+            params.update({'from': from_date})
 
         if to_date:
-            params['to'] = to_date
+            params.update({'to': to_date})
 
         page_num = 1
         page_size = 1
@@ -116,7 +124,7 @@ class SonarQubeProjectAnalyses:
             'project': project,
         }
         if branch:
-            params['branch'] = branch
+            params.update({'branch': branch})
 
         self.sonarqube.make_call('post', API_PROJECT_ANALYSES_SET_BASELINE_ENDPOINT, **params)
 
@@ -132,7 +140,7 @@ class SonarQubeProjectAnalyses:
             'project': project,
         }
         if branch:
-            params['branch'] = branch
+            params.update({'branch': branch})
 
         self.sonarqube.make_call('post', API_PROJECT_ANALYSES_UNSET_BASELINE_ENDPOINT, **params)
 

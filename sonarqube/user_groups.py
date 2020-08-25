@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
+# @Author: Jialiang Shi
 from sonarqube.config import (
     API_USER_GROUPS_SEARCH_ENDPOINT,
     API_USER_GROUPS_CREATE_ENDPOINT,
@@ -17,7 +18,7 @@ class SonarQubeUserGroups:
         self._data = None
 
     def poll(self):
-        self._data = self.get_groups_data()
+        self._data = self.search_user_groups()
 
     def iterkeys(self):
         """
@@ -43,7 +44,7 @@ class SonarQubeUserGroups:
         """
         判断用户组是否存在
         """
-        result = self.get_groups_data(fc=group_name)
+        result = self.search_user_groups(q=group_name)
         groups = [item['name'] for item in result]
         return group_name in groups
 
@@ -63,25 +64,28 @@ class SonarQubeUserGroups:
         """
         return list(self)[index]
 
-    def get_groups_data(self, fields=None, fc=None):
+    def search_user_groups(self, fields=None, q=None):
         """
         Search for user groups.
-        :param fields: 可能的值：name,description,membersCount
-        :param fc:
+        :param fields: Comma-separated list of the fields to be returned in response.
+          All the fields are returned by default. such as:
+            * name
+            * description
+            * membersCount
+        :param q: Limit search to names that contain the supplied string.
         :return:
         """
         params = {}
+
+        if fields:
+            params.update({"f": fields})
+
         page_num = 1
         page_size = 1
         total = 2
 
-        if fields:
-            if not isinstance(fields, str):
-                fields = ','.join(fields)
-            params['f'] = fields.lower()
-
-        if fc is not None:
-            params['q'] = fc
+        if q:
+            params['q'] = q
 
         while page_num * page_size < total:
             resp = self.sonarqube.make_call('get', API_USER_GROUPS_SEARCH_ENDPOINT, **params)
@@ -99,15 +103,16 @@ class SonarQubeUserGroups:
     def create_group(self, group_name, description=None):
         """
         Create a group.
-        :param group_name:
-        :param description:
+        :param group_name: Name for the new group. A group name cannot be larger than 255 characters and must be unique.
+           The value 'anyone' (whatever the case) is reserved and cannot be used.
+        :param description: Description for the new group. A group description cannot be larger than 200 characters.
         :return:
         """
         params = {
             'name': group_name
         }
         if description:
-            params['description'] = description
+            params.update({'description': description})
 
         self.sonarqube.make_call('post', API_USER_GROUPS_CREATE_ENDPOINT, **params)
 
@@ -123,59 +128,76 @@ class SonarQubeUserGroups:
 
         self.sonarqube.make_call('post', API_USER_GROUPS_DELETE_ENDPOINT, **params)
 
-    def update_group(self, group_id, **kwargs):
+    def update_group(self, group_id, group_name=None, description=None):
         """
         Update a group.
-        :param group_id:
-        :param group_name:
-        :param description:
+        :param group_id: Identifier of the group.
+        :param group_name: New optional name for the group. A group name cannot be larger than 255 characters and must
+          be unique. Value 'anyone' (whatever the case) is reserved and cannot be used. If value is empty or not
+        defined, then name is not changed.
+        :param description: New optional description for the group. A group description cannot be larger than
+          200 characters. If value is not defined, then description is not changed.
         :return:
         """
         params = {'id': group_id}
-        if kwargs:
-            self.sonarqube.copy_dict(params, kwargs)
+
+        if group_name:
+            params.update({'name': group_name})
+
+        if description:
+            params.update({'description': description})
 
         self.sonarqube.make_call('post', API_USER_GROUPS_UPDATE_ENDPOINT, **params)
 
-    def add_user_to_group(self, name, login):
+    def add_user_to_group(self, group_name, user_login):
         """
         Add a user to a group.
-        :param name:
-        :param login:
+        :param group_name: Group name
+        :param user_login: User login
         :return:
         """
         params = {
-            'login': login,
-            'name': name
+            'login': user_login,
+            'name': group_name
         }
         self.sonarqube.make_call('post', API_USER_GROUPS_ADD_USER_ENDPOINT, **params)
 
-    def delete_user_from_group(self, name, login):
+    def remove_user_from_group(self, group_name, user_login):
         """
         Remove a user from a group.
-        :param name:
-        :param login:
+        :param group_name: Group name
+        :param user_login: User login
         :return:
         """
         params = {
-            'login': login,
-            'name': name
+            'login': user_login,
+            'name': group_name
         }
         self.sonarqube.make_call('post', API_USER_GROUPS_REMOVE_USER_ENDPOINT, **params)
 
-    def get_users_belong_to_group(self, name, **kwargs):
+    def search_users_belong_to_group(self, group_name, q=None, selected="selected"):
         """
         Search for users with membership information with respect to a group.
-        :param name:
+        :param group_name: Group name
+        :param q: Limit search to names or logins that contain the supplied string.
+        :param selected: Depending on the value, show only selected items (selected=selected), deselected items
+          (selected=deselected), or all items with their selection status (selected=all).such as:
+          * all
+          * deselected
+          * selected
+          default value is selected.
         :return:
         """
-        params = {'name': name}
+        params = {
+            'name': group_name,
+            'selected': selected
+        }
         page_num = 1
         page_size = 1
         total = 2
 
-        if kwargs:
-            self.sonarqube.copy_dict(params, kwargs)
+        if q:
+            params.update({'q': q})
 
         while page_num * page_size < total:
             resp = self.sonarqube.make_call('get', API_USER_GROUPS_USERS_ENDPOINT, **params)

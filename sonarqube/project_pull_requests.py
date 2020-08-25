@@ -11,7 +11,7 @@ class SonarQubepRrojectPullRequests:
     def __init__(self, sonarqube):
         self.sonarqube = sonarqube
 
-    def list_project_pull_requests(self, project):
+    def search_project_pull_requests(self, project):
         """
         List the pull requests of a project.
         :param project: Project key

@@ -11,7 +11,7 @@ class SonarQubeMetrics:
     def __init__(self, sonarqube):
         self.sonarqube = sonarqube
 
-    def get_metrics(self):
+    def search_metrics(self):
         """
         Search for metrics
         :return:
