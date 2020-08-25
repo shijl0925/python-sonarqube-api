@@ -12,7 +12,7 @@ class SonarQubeAuth:
     def __init__(self, sonarqube):
         self.sonarqube = sonarqube
 
-    def login_authentication(self, login, password):
+    def authenticate_user(self, login, password):
         """
         Authenticate a user.
         :param login:
@@ -25,14 +25,14 @@ class SonarQubeAuth:
         }
         self.sonarqube.make_call('post', API_AUTH_LOGIN_ENDPOINT, **params)
 
-    def logout_authentication(self):
+    def logout_user(self):
         """
         Logout a user.
         :return:
         """
         self.sonarqube.make_call('post', API_AUTH_LOGOUT_ENDPOINT)
 
-    def validate_authentication(self):
+    def check_credentials(self):
         """
         Check credentials.
         :return:

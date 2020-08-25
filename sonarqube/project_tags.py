@@ -11,15 +11,17 @@ class SonarQubeProjectTags:
     def __init__(self, sonarqube):
         self.sonarqube = sonarqube
 
-    def list_project_tags(self, **kwargs):
+    def search_project_tags(self, q=None):
         """
         Search tags
-        :param kwargs:
-        ps: Page size. Must be greater than 0 and less or equal than 100, default value is 10
-        q: Limit search to tags that contain the supplied string.
+        :param q: Limit search to tags that contain the supplied string.
         :return:
         """
-        resp = self.sonarqube.make_call('get', API_PROJECT_TAGS_SEARCH_ENDPOINT, **kwargs)
+        params = {}
+        if q:
+            params.update({'q': q})
+
+        resp = self.sonarqube.make_call('get', API_PROJECT_TAGS_SEARCH_ENDPOINT, **params)
         return resp.json()
 
     def set_project_tags(self, project, tags):

@@ -12,7 +12,7 @@ class SonarQubeFavorites:
     def __init__(self, sonarqube):
         self.sonarqube = sonarqube
 
-    def get_favorites(self):
+    def search_favorites(self):
         """
         Search for the authenticated user favorites.
         :return:
@@ -35,7 +35,7 @@ class SonarQubeFavorites:
             for favorite in response['favorites']:
                 yield favorite
 
-    def add_favorites(self, component):
+    def add_component_to_favorites(self, component):
         """
         Add a component (project, file etc.) as favorite for the authenticated user.
         :param component: Component key. Only components with qualifiers TRK, VW, SVW, APP, FIL, UTS are supported
@@ -46,7 +46,7 @@ class SonarQubeFavorites:
         }
         self.sonarqube.make_call('post', API_FAVORITES_ADD_ENDPOINT, **params)
 
-    def remove_favorites(self, component):
+    def remove_component_from_favorites(self, component):
         """
         Remove a component (project, directory, file etc.) as favorite for the authenticated user.
         :param component: Component key

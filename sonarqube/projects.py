@@ -17,7 +17,7 @@ class SonarQubeProject:
         self._data = None
 
     def poll(self):
-        self._data = self.get_projects()
+        self._data = self.search_projects()
 
     def iterkeys(self):
         """
@@ -43,7 +43,7 @@ class SonarQubeProject:
         """
         判断项目是否存在
         """
-        result = self.get_projects()
+        result = self.search_projects()
         project_keys = [item['key'] for item in result]
         return project_key in project_keys
 
@@ -63,28 +63,40 @@ class SonarQubeProject:
         self.poll()
         return self._data
 
-    def get_projects(self, **kwargs):
+    def search_projects(self, analyzedBefore=None, onProvisionedOnly="false", projects=None, q=None, qualifiers="TRK"):
         """
         Search for projects or views to administrate them.
-        :param kwargs:
-        analyzedBefore: Filter the projects for which last analysis is older than the given date (exclusive).
+        :param analyzedBefore: Filter the projects for which last analysis is older than the given date (exclusive).
           Either a date (server timezone) or datetime can be provided.
-        onProvisionedOnly: Filter the projects that are provisioned
-        projects: Comma-separated list of project keys
-        q: Limit search to:
+        :param onProvisionedOnly: Filter the projects that are provisioned. default value is false.
+        :param projects: Comma-separated list of project keys
+        :param q: Limit search to:
           * component names that contain the supplied string
           * component keys that contain the supplied string
-        qualifiers: Comma-separated list of component qualifiers. Filter the results with the specified qualifiers.
-          such as: TRK,VW,APP
+        :param qualifiers: Comma-separated list of component qualifiers. Filter the results with the specified
+          qualifiers. such as:
+          * TRK
+          * VW
+          * APP
+          default value is TRK.
         :return:
         """
-        params = {}
+        params = {
+            'onProvisionedOnly': onProvisionedOnly,
+            'qualifiers': qualifiers.upper()
+        }
         page_num = 1
         page_size = 1
         total = 2
 
-        if kwargs:
-            self.sonarqube.copy_dict(params, kwargs)
+        if analyzedBefore:
+            params.update({'analyzedBefore': analyzedBefore})
+
+        if projects:
+            params.update({'projects': projects})
+
+        if q:
+            params.update({'q': q})
 
         while page_num * page_size < total:
             resp = self.sonarqube.make_call('get', API_PROJECTS_SEARCH_ENDPOINT, **params)
@@ -106,7 +118,9 @@ class SonarQubeProject:
         :param name: Name of the project. If name is longer than 500, it is abbreviated.
         :param visibility: Whether the created project should be visible to everyone, or only specific user/groups.
           If no visibility is specified, the default project visibility of the organization will be used.
-          such as private or public.
+          such as:
+          * private
+          * public
         :return:
         """
         params = {
@@ -114,7 +128,7 @@ class SonarQubeProject:
             'project': project
         }
         if visibility:
-            params['visibility'] = visibility
+            params.update({'visibility': visibility})
 
         self.sonarqube.make_call('post', API_PROJECTS_CREATE_ENDPOINT, **params)
 
@@ -124,7 +138,7 @@ class SonarQubeProject:
         :param project_key:
         :return:
         """
-        components = self.sonarqube.components.get_project_component(project_key)
+        components = self.sonarqube.components.get_project_component_and_ancestors(project_key)
         return components['component']['id']
 
     def delete_project(self, project):
@@ -138,22 +152,41 @@ class SonarQubeProject:
         }
         self.sonarqube.make_call('post', API_PROJECTS_DELETE_ENDPOINT, **params)
 
-    def bulk_delete_projects(self, **kwargs):
+    def bulk_delete_projects(self, analyzedBefore=None, onProvisionedOnly="false", projects=None,
+                             q=None, qualifiers="TRK"):
         """
         Delete one or several projects.
         At least one parameter is required among analyzedBefore, projects, projectIds (deprecated since 6.4) and q
-        :param kwargs:
-        analyzedBefore: Filter the projects for which last analysis is older than the given date (exclusive).
+        :param analyzedBefore: Filter the projects for which last analysis is older than the given date (exclusive).
           Either a date (server timezone) or datetime can be provided.
-        onProvisionedOnly: Filter the projects that are provisioned
-        projects: Comma-separated list of project keys
-        q: Limit to:
+        :param onProvisionedOnly: Filter the projects that are provisioned.default value is false.
+        :param projects: Comma-separated list of project keys
+        :param q: Limit to:
           * component names that contain the supplied string
           * component keys that contain the supplied string
-        qualifiers: Comma-separated list of component qualifiers. Filter the results with the specified qualifiers
+        :param qualifiers: Comma-separated list of component qualifiers. Filter the results with the specified
+          qualifiers. such as:
+          * TRK
+          * VW
+          * APP
+          default value is TRK.
         :return:
         """
-        self.sonarqube.make_call('post', API_PROJECTS_BULK_DELETE_ENDPOINT, **kwargs)
+        params = {
+            'onProvisionedOnly': onProvisionedOnly,
+            'qualifiers': qualifiers.upper()
+        }
+
+        if analyzedBefore:
+            params.update({'analyzedBefore': analyzedBefore})
+
+        if projects:
+            params.update({'projects': projects})
+
+        if q:
+            params.update({'q': q})
+
+        self.sonarqube.make_call('post', API_PROJECTS_BULK_DELETE_ENDPOINT, **params)
 
     def update_project_key(self, previous_project_key, new_project_key):
         """

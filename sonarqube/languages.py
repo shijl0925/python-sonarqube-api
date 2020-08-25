@@ -8,13 +8,14 @@ class SonarQubeLanguages:
     def __init__(self, sonarqube):
         self.sonarqube = sonarqube
 
-    def get_languages_list(self, **kwargs):
+    def get_supported_programming_languages(self, q=None):
         """
         List supported programming languages
-        :param kwargs:
-        ps: The size of the list to return, 0 for all languages
-        q: A pattern to match language keys/names against
+        :param q: A pattern to match language keys/names against
         :return:
         """
-        resp = self.sonarqube.make_call('get', API_LANGUAGES_LIST_ENDPOINT, **kwargs)
+        params = {}
+        if q:
+            params.update({'q': q})
+        resp = self.sonarqube.make_call('get', API_LANGUAGES_LIST_ENDPOINT, **params)
         return resp.json()

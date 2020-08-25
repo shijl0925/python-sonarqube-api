@@ -12,7 +12,7 @@ class SonarQubeProjectLinks:
     def __init__(self, sonarqube):
         self.sonarqube = sonarqube
 
-    def create_project_links(self, projectKey, name, url):
+    def create_project_link(self, projectKey, name, url):
         """
         Create a new project link.
         :param projectKey: Project key
@@ -27,7 +27,7 @@ class SonarQubeProjectLinks:
         }
         self.sonarqube.make_call('post', API_PROJECT_LINKS_CREATE_ENDPOINT, **params)
 
-    def delete_project_links(self, link_id):
+    def delete_project_link(self, link_id):
         """
         Delete existing project link.
         :param link_id: Link id

@@ -14,7 +14,7 @@ class SonarQubePermissions:
     def __init__(self, sonarqube):
         self.sonarqube = sonarqube
 
-    def project_permissions_add_group(self, projectKey, groupName, permission):
+    def add_permission_to_group(self, projectKey, groupName, permission):
         """
         Add permission to a group.
         This service defaults to global permissions, but can be limited to project permissions by providing project key.
@@ -33,7 +33,7 @@ class SonarQubePermissions:
         }
         self.sonarqube.make_call('post', API_PERMISSIONS_ADD_GROUP_ENDPOINT, **params)
 
-    def project_permissions_remove_group(self, projectKey, groupName, permission):
+    def remove_permission_from_group(self, projectKey, groupName, permission):
         """
         Remove a permission from a group.
         This service defaults to global permissions, but can be limited to project permissions by providing project key.
@@ -52,7 +52,7 @@ class SonarQubePermissions:
         }
         self.sonarqube.make_call('post', API_PERMISSIONS_REMOVE_GROUP_ENDPOINT, **params)
 
-    def project_permissions_add_user(self, projectKey, login, permission):
+    def add_permission_to_user(self, projectKey, login, permission):
         """
         Add permission to a user.
         This service defaults to global permissions, but can be limited to project permissions by providing project key.
@@ -70,7 +70,7 @@ class SonarQubePermissions:
         }
         self.sonarqube.make_call('post', API_PERMISSIONS_ADD_USER_ENDPOINT, **params)
 
-    def project_permissions_remove_user(self, projectKey, login, permission):
+    def remove_permission_from_user(self, projectKey, login, permission):
         """
         Remove permission from a user.
         This service defaults to global permissions, but can be limited to project permissions by providing project key.

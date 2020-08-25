@@ -12,7 +12,7 @@ class SonarQubeProjectBranches:
     def __init__(self, sonarqube):
         self.sonarqube = sonarqube
 
-    def get_project_branches_list(self, project):
+    def search_project_branches(self, project):
         """
         List the branches of a project.
         :param project: Project key
