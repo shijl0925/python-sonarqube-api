@@ -191,8 +191,8 @@ class SonarQubeQualityGates:
             params.update({'analysisId': analysisId})
 
         resp = self.sonarqube.make_call('get', API_QUALITYGATES_PROJECT_STATUS_ENDPOINT, **params)
-        data = resp.json()
-        return data['projectStatus']
+        response = resp.json()
+        return response['projectStatus']
 
     def get_quality_gates(self):
         """
@@ -200,8 +200,8 @@ class SonarQubeQualityGates:
         :return:
         """
         resp = self.sonarqube.make_call('get', API_QUALITYGATES_LIST_ENDPOINT)
-        data = resp.json()
-        return data['qualitygates']
+        response = resp.json()
+        return response['qualitygates']
 
     def select_quality_gate_for_project(self, project_key, gate_id):
         """
@@ -236,8 +236,8 @@ class SonarQubeQualityGates:
             params.update({'name': gate_name})
 
         resp = self.sonarqube.make_call('get', API_QUALITYGATES_SHOW_ENDPOINT, **params)
-        data = resp.json()
-        return data
+        response = resp.json()
+        return response
 
     def get_quality_gate_of_project(self, project_key):
         """
@@ -247,5 +247,5 @@ class SonarQubeQualityGates:
         """
         params = {'project': project_key}
         resp = self.sonarqube.make_call('get', API_QUALITYGATES_GET_BY_PROJECT_ENDPOINT, **params)
-        data = resp.json()
-        return data['qualityGate']
+        response = resp.json()
+        return response['qualityGate']

@@ -22,8 +22,8 @@ class SonarQubeProjectBranches:
             'project': project
         }
         resp = self.sonarqube.make_call('get', API_PROJECT_BRANCHES_LIST_ENDPOINT, **params)
-        data = resp.json()
-        return data['branches']
+        response = resp.json()
+        return response['branches']
 
     def delete_project_branch(self, project, branch):
         """

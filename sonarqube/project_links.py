@@ -48,5 +48,5 @@ class SonarQubeProjectLinks:
             'projectKey': projectKey
         }
         resp = self.sonarqube.make_call('get', API_PROJECT_LINKS_SEARCH_ENDPOINT, **params)
-        data = resp.json()
-        return data["links"]
+        response = resp.json()
+        return response["links"]
