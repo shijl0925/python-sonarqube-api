@@ -10,61 +10,43 @@ from sonarqube.config import (
 
 
 class SonarQubeCe:
+    OPTIONS_SEARCH = ['componentId', 'maxExecutedAt', 'minSubmittedAt',
+                      'onlyCurrents', 'ps', 'q', 'status', 'task_type']
+
     def __init__(self, sonarqube):
         self.sonarqube = sonarqube
 
-    def search_tasks(self, componentId=None, maxExecutedAt=None, minSubmittedAt=None, onlyCurrents="false",
-                     ps=None, q=None, status="SUCCESS,FAILED,CANCELED", task_type=None):
+    def search_tasks(self, **kwargs):
         """
-        Search for tasks.
-        :param componentId: Id of the component (project) to filter on
-        :param maxExecutedAt: Maximum date of end of task processing (inclusive)
-        :param minSubmittedAt: Minimum date of task submission (inclusive)
-        :param onlyCurrents: Filter on the last tasks (only the most recent finished task by project).
+        Search for tasks. optional parameters:
+        componentId: Id of the component (project) to filter on
+        maxExecutedAt: Maximum date of end of task processing (inclusive)
+        minSubmittedAt: Minimum date of task submission (inclusive)
+        onlyCurrents: Filter on the last tasks (only the most recent finished task by project).
           default value is false.
-        :param ps: Page size. Must be greater than 0 and less or equal than 1000
-        :param q: Limit search to:
+        ps: Page size. Must be greater than 0 and less or equal than 1000
+        q: Limit search to:
           * component names that contain the supplied string
           * component keys that are exactly the same as the supplied string
           * task ids that are exactly the same as the supplied string
            Must not be set together with componentId
-        :param status: Comma separated list of task statuses. such as:
+        status: Comma separated list of task statuses. such as:
           * SUCCESS
           * FAILED
           * CANCELED
           * PENDING
           * IN_PROGRESS
           default value is SUCCESS,FAILED,CANCELED
-        :param task_type: Task type
+        task_type: Task type
         :return:
         """
-        params = {
-            'onlyCurrents': onlyCurrents,
-            'statue': status.upper()
-        }
-
-        if componentId:
-            params.update({'componentId': componentId})
-
-        if maxExecutedAt:
-            params.update({'maxExecutedAt': maxExecutedAt})
-
-        if minSubmittedAt:
-            params.update({'minSubmittedAt': minSubmittedAt})
-
-        if ps:
-            params.update({'ps': ps})
-
-        if q:
-            params.update({'q': q})
-
-        if task_type:
-            params.update({'type': task_type})
+        params = {}
+        if kwargs:
+            self.sonarqube.copy_dict(params, kwargs, self.OPTIONS_SEARCH)
 
         resp = self.sonarqube.make_call('get', API_CE_ACTIVITY_ENDPOINT, **params)
-        data = resp.json()
-        for task in data['tasks']:
-            yield task
+        response = resp.json()
+        return response['tasks']
 
     def get_ce_activity_related_metrics(self, componentId=None):
         """

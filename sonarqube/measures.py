@@ -12,6 +12,9 @@ class SonarQubeMeasure:
     default_metricKeys = 'code_smells,bugs,vulnerabilities,new_bugs,new_vulnerabilities,\
 new_code_smells,coverage,new_coverage'
 
+    OPTIONS_SEARCH = ['branch', 'additionalFields', 'asc', 'metricKeys', 'metricPeriodSort', 'metricSort',
+                      'metricSortFilter', 'ps', 'q', 'qualifiers', 's', 'strategy']
+
     def __init__(self, sonarqube):
         self.sonarqube = sonarqube
 
@@ -29,8 +32,10 @@ new_code_smells,coverage,new_coverage'
             'metricKeys': metricKeys or self.default_metricKeys,
             'component': component
         }
+
         if branch:
             params.update({'branch': branch})
+
         if additionalFields:
             params.update({'additionalFields': additionalFields})
 
@@ -38,40 +43,38 @@ new_code_smells,coverage,new_coverage'
         data = resp.json()
         return data
 
-    def get_component_tree_with_specified_measures(self, component_key, branch=None, metricKeys=None,
-                                                   additionalFields=None, asc="true", metricPeriodSort=None,
-                                                   metricSort=None, metricSortFilter="all", q=None, qualifiers=None,
-                                                   s="name", strategy="all"):
+    def get_component_tree_with_specified_measures(self, component_key, **kwargs):
         """
         Navigate through components based on the chosen strategy with specified measures. The baseComponentId or
         the component parameter must be provided.
         :param component_key: Component key.
-        :param branch:
-        :param metricKeys: Comma-separated list of metric keys. such as: ncloc,complexity,violations
-        :param additionalFields: Comma-separated list of additional fields that can be returned in the response.
+        optional parameters:
+        branch:
+        metricKeys: Comma-separated list of metric keys. such as: ncloc,complexity,violations
+        additionalFields: Comma-separated list of additional fields that can be returned in the response.
           such as: metrics,periods
-        :param asc: Ascending sort, such as true, false, yes, no. default value is true.
-        :param metricPeriodSort: Sort measures by leak period or not ?. The 's' parameter must contain
+        asc: Ascending sort, such as true, false, yes, no. default value is true.
+        metricPeriodSort: Sort measures by leak period or not ?. The 's' parameter must contain
           the 'metricPeriod' value
-        :param metricSort: Metric key to sort by. The 's' parameter must contain the 'metric' or 'metricPeriod' value.
+        metricSort: Metric key to sort by. The 's' parameter must contain the 'metric' or 'metricPeriod' value.
           It must be part of the 'metricKeys' parameter
-        :param metricSortFilter: Filter components. Sort must be on a metric. Possible values are:
+        metricSortFilter: Filter components. Sort must be on a metric. Possible values are:
           * all: return all components
           * withMeasuresOnly: filter out components that do not have a measure on the sorted metric
           default value is all.
-        :param q: Limit search to:
+        q: Limit search to:
           * component names that contain the supplied string
           * component keys that are exactly the same as the supplied string
-        :param qualifiers:Comma-separated list of component qualifiers. Filter the results with
+        qualifiers:Comma-separated list of component qualifiers. Filter the results with
           the specified qualifiers. Possible values are:
           * BRC - Sub-projects
           * DIR - Directories
           * FIL - Files
           * TRK - Projects
           * UTS - Test Files
-        :param s: Comma-separated list of sort fields,such as: name, path, qualifier, metric, metricPeriod.
+        s: Comma-separated list of sort fields,such as: name, path, qualifier, metric, metricPeriod.
           and default value is name
-        :param strategy: Strategy to search for base component descendants:
+        strategy: Strategy to search for base component descendants:
           * children: return the children components of the base component. Grandchildren components are not returned
           * all: return all the descendants components of the base component. Grandchildren are returned.
           * leaves: return all the descendant components (files, in general) which don't have other children.
@@ -81,29 +84,10 @@ new_code_smells,coverage,new_coverage'
         """
         params = {
             'component': component_key,
-            'metricKeys': metricKeys or self.default_metricKeys,
-            'asc': asc,
-            'metricSortFilter': metricSortFilter,
-            's': s,
-            'strategy': strategy
+            'metricKeys': self.default_metricKeys,
         }
-        if branch:
-            params.update({'branch': branch})
-
-        if additionalFields:
-            params.update({'additionalFields': additionalFields})
-
-        if metricPeriodSort:
-            params.update({'metricPeriodSort': metricPeriodSort})
-
-        if metricSort:
-            params.update({'metricSort': metricSort})
-
-        if q:
-            params.update({'q': q})
-
-        if qualifiers:
-            params.update({'qualifiers': qualifiers.upper()})
+        if kwargs:
+            self.sonarqube.copy_dict(params, kwargs, self.OPTIONS_SEARCH)
 
         page_num = 1
         page_size = 1

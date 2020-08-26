@@ -9,6 +9,8 @@ from sonarqube.config import (
 
 
 class SonarQubeComponents:
+    OPTIONS_SEARCH = ['asc', 'ps', 'q', 'qualifiers', 's', 'strategy']
+
     def __init__(self, sonarqube):
         self.sonarqube = sonarqube
 
@@ -66,24 +68,25 @@ class SonarQubeComponents:
             for component in response['components']:
                 yield component
 
-    def get_components_tree(self, component, asc="true", q=None, qualifiers=None, s="name", strategy="all"):
+    def get_components_tree(self, component, **kwargs):
         """
         Navigate through components based on the chosen strategy.
         When limiting search with the q parameter, directories are not returned.
         :param component: Base component key. The search is based on this component.
-        :param asc: Ascending sort. default value is true.
-        :param q: Limit search to:
+        optional parameters:
+        asc: Ascending sort. default value is true.
+        q: Limit search to:
           * component names that contain the supplied string
           * component keys that are exactly the same as the supplied string
-        :param qualifiers:Comma-separated list of component qualifiers. Filter the results with
+        qualifiers:Comma-separated list of component qualifiers. Filter the results with
           the specified qualifiers. Possible values are:
           * BRC - Sub-projects
           * DIR - Directories
           * FIL - Files
           * TRK - Projects
           * UTS - Test Files
-        :param s: Comma-separated list of sort fields,such as: name, path, qualifier, and default value is name
-        :param strategy: Strategy to search for base component descendants:
+        s: Comma-separated list of sort fields,such as: name, path, qualifier, and default value is name
+        strategy: Strategy to search for base component descendants:
           * children: return the children components of the base component. Grandchildren components are not returned
           * all: return all the descendants components of the base component. Grandchildren are returned.
           * leaves: return all the descendant components (files, in general) which don't have other children.
@@ -93,16 +96,10 @@ class SonarQubeComponents:
         """
         params = {
             'component': component,
-            'asc': asc,
-            's': s,
-            'strategy': strategy
         }
 
-        if q:
-            params.update({'q': q})
-
-        if qualifiers:
-            params.update({'qualifiers': qualifiers.upper()})
+        if kwargs:
+            self.sonarqube.copy_dict(params, kwargs, self.OPTIONS_SEARCH)
 
         page_num = 1
         page_size = 1

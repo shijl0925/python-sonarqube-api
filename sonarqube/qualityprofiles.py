@@ -25,6 +25,8 @@ from sonarqube.config import (
 
 
 class SonarQubeQualityprofiles:
+    OPTIONS_CREATE = ['backup_findbugs', 'backup_pmd', 'backup_sonarlint-vs-cs-fake', 'backup_sonarlint-vs-vbnet-fake']
+
     def __init__(self, sonarqube):
         self.sonarqube = sonarqube
 
@@ -256,7 +258,7 @@ class SonarQubeQualityprofiles:
             'name': profile_name
         }
         if kwargs:
-            self.sonarqube.copy_dict(params, kwargs)
+            self.sonarqube.copy_dict(params, kwargs, self.OPTIONS_CREATE)
 
         self.sonarqube.make_call('post', API_QUALITYPROFILES_CREATE_ENDPOINT, **params)
 
