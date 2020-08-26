@@ -22,8 +22,8 @@ class SonarQubeNotification:
             'login': login
         }
         resp = self.sonarqube.make_call('get', API_NOTIFICATIONS_LIST_ENDPOINT, **params)
-        data = resp.json()
-        return data['notifications']
+        response = resp.json()
+        return response['notifications']
 
     def add_notification_for_user(self, login, notification_type, channel="EmailNotificationChannel", project=None):
         """

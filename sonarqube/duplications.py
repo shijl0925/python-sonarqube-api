@@ -16,5 +16,5 @@ class SonarQubeDuplications:
         """
         params = {'key': key}
         resp = self.sonarqube.make_call('get', API_DUPLICATIONS_SHOW_ENDPOINT, **params)
-        data = resp.json()
-        return data
+        response = resp.json()
+        return response
