@@ -170,3 +170,16 @@ API_PROJECT_ANALYSES_UNSET_BASELINE_ENDPOINT = '/api/project_analyses/unset_base
 API_PROJECT_ANALYSES_UPDATE_EVENT_ENDPOINT = '/api/project_analyses/update_event'
 
 API_SERVER_VERSION_ENDPOINT = '/api/server/version'
+
+API_USER_TOKENS_GENERATE_ENDPOINT = '/api/user_tokens/generate'
+API_USER_TOKENS_REVOKE_ENDPOINT = '/api/user_tokens/revoke'
+API_USER_TOKENS_SEARCH_ENDPOINT = '/api/user_tokens/search'
+
+API_WEBHOOKS_CREATE_ENDPOINT = '/api/webhooks/create'
+API_WEBHOOKS_DELETE_ENDPOINT = '/api/webhooks/delete'
+API_WEBHOOKS_DELIVERIES_ENDPOINT = '/api/webhooks/deliveries'
+API_WEBHOOKS_DELIVERY_ENDPOINT = '/api/webhooks/delivery'
+API_WEBHOOKS_LIST_ENDPOINT = '/api/webhooks/list'
+API_WEBHOOKS_UPDATE_ENDPOINT = '/api/webhooks/update'
+
+API_WEBSERVICES_LIST_ENDPOINT = '/api/webservices/list'

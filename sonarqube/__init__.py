@@ -29,6 +29,9 @@ from .project_tags import SonarQubeProjectTags
 from .project_pull_requests import SonarQubepRrojectPullRequests
 from .project_analyses import SonarQubeProjectAnalyses
 from .server import SonarQubeServer
+from .user_tokens import SonarQubeUsertokens
+from .webhooks import SonarQubeWebhooks
+from .webservices import SonarQubeWebservices
 
 
 class SonarQubeClient:
@@ -234,11 +237,24 @@ class SonarQubeClient:
     def server(self):
         return SonarQubeServer(self)
 
+    @property
+    def user_tokens(self):
+        return SonarQubeUsertokens(self)
+
+    @property
+    def webhooks(self):
+        return SonarQubeWebhooks(self)
+
+    @property
+    def webservices(self):
+        return SonarQubeWebservices(self)
+
     @staticmethod
-    def copy_dict(dest, src):
+    def copy_dict(dest, src, option):
         for k, v in src.items():
-            if isinstance(v, dict):
-                for dict_k, dict_v in v.items():
-                    dest['%s[%s]' % (k, dict_k)] = dict_v
-            else:
-                dest[k] = v
+            if k in option:
+                if isinstance(v, dict):
+                    for dict_k, dict_v in v.items():
+                        dest['%s[%s]' % (k, dict_k)] = dict_v
+                else:
+                    dest[k] = v
