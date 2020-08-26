@@ -114,26 +114,39 @@ class SonarQubeClient:
 
         elif res.status_code == 400:
             # Validation error
-            msg = ', '.join(e['msg'] for e in res.json()['errors'])
-            raise ValidationError(
-                'Operation failed. status={}, errors_msg={}'.format(res.status_code, msg)
-            )
+            msg = 'Error in request. ' + \
+                  'Possibly validation error [%s]: %s' % (
+                      res.status_code, ', '.join(e['msg'] for e in res.json()['errors']))
+
+            raise ValidationError(msg)
 
         elif res.status_code in (401, 403):
             # Auth error
-            raise AuthError(res.reason)
+            msg = 'Error in request. ' + \
+                  'Possibly authentication failed [%s]: %s' % (
+                      res.status_code, res.reason)
+            if res.text:
+                msg += '\n' + res.text
+
+            raise AuthError(msg)
 
         elif res.status_code < 500:
             # Other 4xx, generic client error
-            msg = ', '.join(e['msg'] for e in res.json()['errors'])
+            msg = 'Error in request. ' + \
+                  'Possibly client error [%s]: %s' % (
+                      res.status_code, ', '.join(e['msg'] for e in res.json()['errors']))
+
             # raise ClientError(res.reason)
-            raise ClientError(
-                'Operation failed. status={}, errors_msg={}'.format(res.status_code, msg)
-            )
+            raise ClientError(msg)
 
         else:
             # 5xx is server error
-            raise ServerError(res.reason)
+            msg = 'Error in request. ' + \
+                  'Possibly server error [%s]: %s' % (
+                      res.status_code, res.reason)
+
+            # raise ServerError(res.reason)
+            raise ServerError(msg)
 
     @property
     def users(self):
