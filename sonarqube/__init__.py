@@ -54,7 +54,7 @@ class SonarQubeClient:
         if token:
             self.requester = Requester(
                 token,
-                baseurl=sonarqube_url,
+                baseurl=self._sonarqube_url,
                 ssl_verify=ssl_verify,
                 cert=cert,
                 timeout=timeout,
@@ -64,7 +64,7 @@ class SonarQubeClient:
             self.requester = Requester(
                 username,
                 password,
-                baseurl=sonarqube_url,
+                baseurl=self._sonarqube_url,
                 ssl_verify=ssl_verify,
                 cert=cert,
                 timeout=timeout,
@@ -119,7 +119,9 @@ class SonarQubeClient:
         elif res.status_code == 400:
             # Validation error
             msg = ', '.join(e['msg'] for e in res.json()['errors'])
-            raise ValidationError(msg)
+            raise ValidationError(
+                'Operation failed. status={}, errors_msg={}'.format(res.status_code, msg)
+            )
 
         elif res.status_code in (401, 403):
             # Auth error
@@ -127,7 +129,11 @@ class SonarQubeClient:
 
         elif res.status_code < 500:
             # Other 4xx, generic client error
-            raise ClientError(res.reason)
+            msg = ', '.join(e['msg'] for e in res.json()['errors'])
+            # raise ClientError(res.reason)
+            raise ClientError(
+                'Operation failed. status={}, errors_msg={}'.format(res.status_code, msg)
+            )
 
         else:
             # 5xx is server error
