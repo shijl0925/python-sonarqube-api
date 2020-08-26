@@ -52,24 +52,20 @@ class SonarQubeClient:
         self._sonarqube_url = self.strip_trailing_slash(sonarqube_url or self.DEFAULT_URL)
 
         if token:
-            self.requester = Requester(
-                token,
-                baseurl=self._sonarqube_url,
-                ssl_verify=ssl_verify,
-                cert=cert,
-                timeout=timeout,
-                max_retries=max_retries,
-            )
+            auth = (token, )
         elif username and password:
-            self.requester = Requester(
-                username,
-                password,
-                baseurl=self._sonarqube_url,
-                ssl_verify=ssl_verify,
-                cert=cert,
-                timeout=timeout,
-                max_retries=max_retries,
-            )
+            auth = (username, password)
+        else:
+            raise ValidationError("Please provide both username and password, or provide token!")
+
+        self.requester = Requester(
+            *auth,
+            baseurl=self._sonarqube_url,
+            ssl_verify=ssl_verify,
+            cert=cert,
+            timeout=timeout,
+            max_retries=max_retries,
+        )
 
     @classmethod
     def strip_trailing_slash(cls, url):
