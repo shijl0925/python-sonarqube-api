@@ -14,6 +14,7 @@ class SonarQubeProjectTags:
     def search_project_tags(self, q=None):
         """
         Search tags
+
         :param q: Limit search to tags that contain the supplied string.
         :return:
         """
@@ -27,8 +28,9 @@ class SonarQubeProjectTags:
     def set_project_tags(self, project, tags):
         """
         Set tags on a project.
+
         :param project: Project key
-        :param tags: Comma-separated list of tags.such as: finance, offshore
+        :param tags: Comma-separated list of tags.Possible values are for: finance, offshore
         :return:
         """
         params = {

@@ -20,11 +20,12 @@ class SonarQubeSources:
           * Author of the commit
           * Datetime of the commit (before 5.2 it was only the Date)
           * Revision of the commit (added in 5.2)
+
         :param file_key: File key
         :param from_line: First line to return. Starts at 1
         :param to_line: Last line to return (inclusive)
         :param commits_by_line: Group lines by SCM commit if value is false, else display commits for each line,even if
-          two consecutive lines relate to the same commit. such as: true, false, yes, no. default value is false.
+          two consecutive lines relate to the same commit. Possible values are for: true, false, yes, no. default value is false.
         :return:
         """
         params = {
@@ -43,6 +44,7 @@ class SonarQubeSources:
     def get_source_code(self, file_key, from_line=1, to_line=None):
         """
         Get source code. Requires See Source Code permission on file's project.
+
         :param file_key: File key
         :param from_line: First line to return. Starts at 1
         :param to_line: Last line to return (inclusive)
@@ -63,6 +65,7 @@ class SonarQubeSources:
     def get_sources_raw(self, file_key):
         """
         Get source code as raw text. Require 'See Source Code' permission on file.
+
         :param file_key: File key
         :return:
         """

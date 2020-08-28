@@ -18,6 +18,7 @@ class SonarQubeComponents:
         """
         Returns a component (file, directory, project, view…) and its ancestors. The ancestors are ordered from the
         parent to the root project.
+
         :param component: Component key
         :return:
         """
@@ -31,17 +32,22 @@ class SonarQubeComponents:
     def search_components(self, qualifiers, language=None, q=None):
         """
         Search for components
-        :param qualifiers:Comma-separated list of component qualifiers. Filter the results with
+
+        :param qualifiers: Comma-separated list of component qualifiers. Filter the results with
           the specified qualifiers. Possible values are:
+
           * BRC - Sub-projects
           * DIR - Directories
           * FIL - Files
           * TRK - Projects
           * UTS - Test Files
+
         :param language: Language key. If provided, only components for the given language are returned.
         :param q: Limit search to:
+
           * component names that contain the supplied string
           * component keys that are exactly the same as the supplied string
+
         :return:
         """
         params = {'qualifiers': qualifiers}
@@ -72,26 +78,35 @@ class SonarQubeComponents:
         """
         Navigate through components based on the chosen strategy.
         When limiting search with the q parameter, directories are not returned.
+
         :param component: Base component key. The search is based on this component.
+
         optional parameters:
-        asc: Ascending sort. default value is true.
-        q: Limit search to:
-          * component names that contain the supplied string
-          * component keys that are exactly the same as the supplied string
-        qualifiers:Comma-separated list of component qualifiers. Filter the results with
-          the specified qualifiers. Possible values are:
-          * BRC - Sub-projects
-          * DIR - Directories
-          * FIL - Files
-          * TRK - Projects
-          * UTS - Test Files
-        s: Comma-separated list of sort fields,such as: name, path, qualifier, and default value is name
-        strategy: Strategy to search for base component descendants:
-          * children: return the children components of the base component. Grandchildren components are not returned
-          * all: return all the descendants components of the base component. Grandchildren are returned.
-          * leaves: return all the descendant components (files, in general) which don't have other children.
-            They are the leaves of the component tree.
-          default value is all.
+          * asc: Ascending sort. default value is true.
+          * q: Limit search to:
+
+            * component names that contain the supplied string
+            * component keys that are exactly the same as the supplied string
+
+          * qualifiers:Comma-separated list of component qualifiers. Filter the results with
+            the specified qualifiers. Possible values are:
+
+              * BRC - Sub-projects
+              * DIR - Directories
+              * FIL - Files
+              * TRK - Projects
+              * UTS - Test Files
+
+          * s: Comma-separated list of sort fields,Possible values are for: name, path, qualifier, and default value is name
+          * strategy: Strategy to search for base component descendants:
+
+            * children: return the children components of the base component. Grandchildren components are not returned
+            * all: return all the descendants components of the base component. Grandchildren are returned.
+            * leaves: return all the descendant components (files, in general) which don't have other children.
+              They are the leaves of the component tree.
+
+            default value is all.
+
         :return:
         """
         params = {

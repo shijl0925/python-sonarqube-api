@@ -15,6 +15,7 @@ class SonarQubeNotification:
     def get_user_notifications(self, login):
         """
         List notifications of the authenticated user.
+
         :param login: User login
         :return:
         """
@@ -28,11 +29,13 @@ class SonarQubeNotification:
     def add_notification_for_user(self, login, notification_type, channel="EmailNotificationChannel", project=None):
         """
         Add a notification for the authenticated user.
+
         :param login: User login
-        :param notification_type: Notification type. Possible values are for:
-          * Global notifications: CeReportTaskFailure, ChangesOnMyIssue, NewAlerts, SQ-MyNewIssues
-          * Per project notifications: CeReportTaskFailure, ChangesOnMyIssue, NewAlerts, NewFalsePositiveIssue,
-            NewIssues, SQ-MyNewIssues
+        :param notification_type: Notification type.
+          Possible values are for:
+            * Global notifications: CeReportTaskFailure, ChangesOnMyIssue, NewAlerts, SQ-MyNewIssues
+            * Per project notifications: CeReportTaskFailure, ChangesOnMyIssue, NewAlerts, NewFalsePositiveIssue,
+              NewIssues, SQ-MyNewIssues
         :param channel: Channel through which the notification is sent. For example, notifications can be sent by email.
           default value is EmailNotificationChannel.
         :param project: Project key
@@ -52,11 +55,13 @@ class SonarQubeNotification:
     def remove_notification_for_user(self, login, notification_type, channel="EmailNotificationChannel", project=None):
         """
         Remove a notification for the authenticated user.
+
         :param login: User login
-        :param notification_type: Notification type. Possible values are for:
-          * Global notifications: CeReportTaskFailure, ChangesOnMyIssue, NewAlerts, SQ-MyNewIssues
-          * Per project notifications: CeReportTaskFailure, ChangesOnMyIssue, NewAlerts, NewFalsePositiveIssue,
-            NewIssues, SQ-MyNewIssues
+        :param notification_type: Notification type.
+          Possible values are for:
+            * Global notifications: CeReportTaskFailure, ChangesOnMyIssue, NewAlerts, SQ-MyNewIssues
+            * Per project notifications: CeReportTaskFailure, ChangesOnMyIssue, NewAlerts, NewFalsePositiveIssue,
+              NewIssues, SQ-MyNewIssues
         :param channel: Channel through which the notification is sent. For example, notifications can be sent by email.
           default value is EmailNotificationChannel.
         :param project: Project key

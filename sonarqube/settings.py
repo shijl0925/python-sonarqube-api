@@ -17,6 +17,7 @@ class SonarQubeSettings:
         """
         Update a setting value.
         The settings defined in conf/sonar.properties are read-only and can't be changed.
+
         :param setting_key: Setting key
         :param setting_value: Setting value. To reset a value, please use the reset web service.
         :param component_key: Component key
@@ -40,6 +41,7 @@ class SonarQubeSettings:
         """
         Remove a setting value.
         The settings defined in conf/sonar.properties are read-only and can't be changed.
+
         :param setting_keys: Comma-separated list of keys
         :param component_key: Component key
         :return:
@@ -57,6 +59,7 @@ class SonarQubeSettings:
         List settings values.
         If no value has been set for a setting, then the default value is returned.
         The settings from conf/sonar.properties are excluded from results.
+
         :param component_key: Component key
         :param setting_keys: List of setting keys
         :return:
@@ -75,6 +78,7 @@ class SonarQubeSettings:
     def get_settings_definitions(self, component_key=None):
         """
         List settings definitions.
+
         :param component_key: Component key
         :return:
         """

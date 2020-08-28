@@ -15,8 +15,9 @@ class SonarQubeAuth:
     def authenticate_user(self, login, password):
         """
         Authenticate a user.
-        :param login:
-        :param password:
+
+        :param login: Login of the user
+        :param password: Password of the user
         :return:
         """
         params = {
@@ -28,6 +29,7 @@ class SonarQubeAuth:
     def logout_user(self):
         """
         Logout a user.
+
         :return:
         """
         self.sonarqube.make_call('post', API_AUTH_LOGOUT_ENDPOINT)
@@ -35,6 +37,7 @@ class SonarQubeAuth:
     def check_credentials(self):
         """
         Check credentials.
+
         :return:
         """
         resp = self.sonarqube.make_call('get', API_AUTH_VALIDATE_ENDPOINT)
