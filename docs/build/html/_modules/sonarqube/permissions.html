@@ -1,0 +1,553 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>sonarqube.permissions &mdash; SonarQube Client with Python 1.0.5 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> SonarQube Client with Python
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">SonarQube Client with Python</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+          <li><a href="../sonarqube.html">sonarqube</a> &raquo;</li>
+        
+      <li>sonarqube.permissions</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for sonarqube.permissions</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="c1"># -*- coding:utf-8 -*-</span>
+<span class="c1"># @Author: Jialiang Shi</span>
+<span class="kn">from</span> <span class="nn">sonarqube.config</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">API_PERMISSIONS_ADD_GROUP_ENDPOINT</span><span class="p">,</span>
+    <span class="n">API_PERMISSIONS_REMOVE_GROUP_ENDPOINT</span><span class="p">,</span>
+    <span class="n">API_PERMISSIONS_ADD_USER_ENDPOINT</span><span class="p">,</span>
+    <span class="n">API_PERMISSIONS_REMOVE_USER_ENDPOINT</span><span class="p">,</span>
+    <span class="n">API_PERMISSIONS_APPLY_TEMPLATE_ENDPOINT</span><span class="p">,</span>
+    <span class="n">API_PERMISSIONS_ADD_GROUP_TO_TEMPLATE_ENDPOINT</span><span class="p">,</span>
+    <span class="n">API_PERMISSIONS_REMOVE_GROUP_FROM_TEMPLATE_ENDPOINT</span><span class="p">,</span>
+    <span class="n">API_PERMISSIONS_ADD_PROJECT_CREATOR_TO_TEMPLATE_ENDPOINT</span><span class="p">,</span>
+    <span class="n">API_PERMISSIONS_REMOVE_PROJECT_CREATOR_FROM_TEMPLATE_ENDPOINT</span><span class="p">,</span>
+    <span class="n">API_PERMISSIONS_ADD_USER_TO_TEMPLATE_ENDPOINT</span><span class="p">,</span>
+    <span class="n">API_PERMISSIONS_REMOVE_USER_FROM_TEMPLATE_ENDPOINT</span><span class="p">,</span>
+    <span class="n">API_PERMISSIONS_BULK_APPLY_TEMPLATE_ENDPOINT</span><span class="p">,</span>
+    <span class="n">API_PERMISSIONS_CREATE_TEMPLATE_ENDPOINT</span><span class="p">,</span>
+    <span class="n">API_PERMISSIONS_DELETE_TEMPLATE_ENDPOINT</span><span class="p">,</span>
+    <span class="n">API_PERMISSIONS_SEARCH_TEMPLATES_ENDPOINT</span><span class="p">,</span>
+    <span class="n">API_PERMISSIONS_SET_DEFAULT_TEMPLATE_ENDPOINT</span><span class="p">,</span>
+    <span class="n">API_PERMISSIONS_UPDATE_TEMPLATE_ENDPOINT</span>
+<span class="p">)</span>
+
+
+<div class="viewcode-block" id="SonarQubePermissions"><a class="viewcode-back" href="../../sonarqube.html#sonarqube.permissions.SonarQubePermissions">[docs]</a><span class="k">class</span> <span class="nc">SonarQubePermissions</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sonarqube</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sonarqube</span> <span class="o">=</span> <span class="n">sonarqube</span>
+
+<div class="viewcode-block" id="SonarQubePermissions.add_permission_to_group"><a class="viewcode-back" href="../../sonarqube.html#sonarqube.permissions.SonarQubePermissions.add_permission_to_group">[docs]</a>    <span class="k">def</span> <span class="nf">add_permission_to_group</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">projectKey</span><span class="p">,</span> <span class="n">groupName</span><span class="p">,</span> <span class="n">permission</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add permission to a group.</span>
+<span class="sd">        This service defaults to global permissions, but can be limited to project permissions by providing project key.</span>
+<span class="sd">        The group name must be provided.</span>
+
+<span class="sd">        :param projectKey: Project key</span>
+<span class="sd">        :param groupName: Group name or &#39;anyone&#39; (case insensitive)</span>
+<span class="sd">        :param permission: Permission.</span>
+<span class="sd">          Possible values are for:</span>
+<span class="sd">            * Possible values for global permissions: admin, profileadmin, gateadmin, scan, provisioning</span>
+<span class="sd">            * Possible values for project permissions admin, codeviewer, issueadmin, securityhotspotadmin, scan, user</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;groupName&#39;</span><span class="p">:</span> <span class="n">groupName</span><span class="p">,</span>
+            <span class="s1">&#39;projectKey&#39;</span><span class="p">:</span> <span class="n">projectKey</span><span class="p">,</span>
+            <span class="s1">&#39;permission&#39;</span><span class="p">:</span> <span class="n">permission</span>
+        <span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sonarqube</span><span class="o">.</span><span class="n">make_call</span><span class="p">(</span><span class="s1">&#39;post&#39;</span><span class="p">,</span> <span class="n">API_PERMISSIONS_ADD_GROUP_ENDPOINT</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SonarQubePermissions.remove_permission_from_group"><a class="viewcode-back" href="../../sonarqube.html#sonarqube.permissions.SonarQubePermissions.remove_permission_from_group">[docs]</a>    <span class="k">def</span> <span class="nf">remove_permission_from_group</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">projectKey</span><span class="p">,</span> <span class="n">groupName</span><span class="p">,</span> <span class="n">permission</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Remove a permission from a group.</span>
+<span class="sd">        This service defaults to global permissions, but can be limited to project permissions by providing project key.</span>
+<span class="sd">        The group name must be provided.</span>
+
+<span class="sd">        :param projectKey: Project key</span>
+<span class="sd">        :param groupName: Group name or &#39;anyone&#39; (case insensitive)</span>
+<span class="sd">        :param permission: Permission</span>
+<span class="sd">          Possible values are for:</span>
+<span class="sd">            * Possible values for global permissions: admin, profileadmin, gateadmin, scan, provisioning</span>
+<span class="sd">            * Possible values for project permissions admin, codeviewer, issueadmin, securityhotspotadmin, scan, user</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;groupName&#39;</span><span class="p">:</span> <span class="n">groupName</span><span class="p">,</span>
+            <span class="s1">&#39;projectKey&#39;</span><span class="p">:</span> <span class="n">projectKey</span><span class="p">,</span>
+            <span class="s1">&#39;permission&#39;</span><span class="p">:</span> <span class="n">permission</span>
+        <span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sonarqube</span><span class="o">.</span><span class="n">make_call</span><span class="p">(</span><span class="s1">&#39;post&#39;</span><span class="p">,</span> <span class="n">API_PERMISSIONS_REMOVE_GROUP_ENDPOINT</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SonarQubePermissions.add_permission_to_user"><a class="viewcode-back" href="../../sonarqube.html#sonarqube.permissions.SonarQubePermissions.add_permission_to_user">[docs]</a>    <span class="k">def</span> <span class="nf">add_permission_to_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">projectKey</span><span class="p">,</span> <span class="n">login</span><span class="p">,</span> <span class="n">permission</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add permission to a user.</span>
+<span class="sd">        This service defaults to global permissions, but can be limited to project permissions by providing project key.</span>
+
+<span class="sd">        :param projectKey: Project key</span>
+<span class="sd">        :param login: User login</span>
+<span class="sd">        :param permission: Permission</span>
+<span class="sd">          Possible values are for:</span>
+<span class="sd">            * Possible values for global permissions: admin, profileadmin, gateadmin, scan, provisioning</span>
+<span class="sd">            * Possible values for project permissions admin, codeviewer, issueadmin, securityhotspotadmin, scan, user</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;login&#39;</span><span class="p">:</span> <span class="n">login</span><span class="p">,</span>
+            <span class="s1">&#39;projectKey&#39;</span><span class="p">:</span> <span class="n">projectKey</span><span class="p">,</span>
+            <span class="s1">&#39;permission&#39;</span><span class="p">:</span> <span class="n">permission</span>
+        <span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sonarqube</span><span class="o">.</span><span class="n">make_call</span><span class="p">(</span><span class="s1">&#39;post&#39;</span><span class="p">,</span> <span class="n">API_PERMISSIONS_ADD_USER_ENDPOINT</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SonarQubePermissions.remove_permission_from_user"><a class="viewcode-back" href="../../sonarqube.html#sonarqube.permissions.SonarQubePermissions.remove_permission_from_user">[docs]</a>    <span class="k">def</span> <span class="nf">remove_permission_from_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">projectKey</span><span class="p">,</span> <span class="n">login</span><span class="p">,</span> <span class="n">permission</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Remove permission from a user.</span>
+<span class="sd">        This service defaults to global permissions, but can be limited to project permissions by providing project key.</span>
+
+<span class="sd">        :param projectKey: Project key</span>
+<span class="sd">        :param login: User login</span>
+<span class="sd">        :param permission: Permission</span>
+<span class="sd">          Possible values are for:</span>
+<span class="sd">            * Possible values for global permissions: admin, profileadmin, gateadmin, scan, provisioning</span>
+<span class="sd">            * Possible values for project permissions admin, codeviewer, issueadmin, securityhotspotadmin, scan, user</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;login&#39;</span><span class="p">:</span> <span class="n">login</span><span class="p">,</span>
+            <span class="s1">&#39;projectKey&#39;</span><span class="p">:</span> <span class="n">projectKey</span><span class="p">,</span>
+            <span class="s1">&#39;permission&#39;</span><span class="p">:</span> <span class="n">permission</span>
+        <span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sonarqube</span><span class="o">.</span><span class="n">make_call</span><span class="p">(</span><span class="s1">&#39;post&#39;</span><span class="p">,</span> <span class="n">API_PERMISSIONS_REMOVE_USER_ENDPOINT</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SonarQubePermissions.apply_template_to_project"><a class="viewcode-back" href="../../sonarqube.html#sonarqube.permissions.SonarQubePermissions.apply_template_to_project">[docs]</a>    <span class="k">def</span> <span class="nf">apply_template_to_project</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">template_name</span><span class="p">,</span> <span class="n">project_key</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Apply a permission template to one project.</span>
+
+<span class="sd">        :param template_name: Template name</span>
+<span class="sd">        :param project_key: Project key</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;projectKey&#39;</span><span class="p">:</span> <span class="n">project_key</span><span class="p">,</span>
+            <span class="s1">&#39;templateName&#39;</span><span class="p">:</span> <span class="n">template_name</span>
+        <span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sonarqube</span><span class="o">.</span><span class="n">make_call</span><span class="p">(</span><span class="s1">&#39;post&#39;</span><span class="p">,</span> <span class="n">API_PERMISSIONS_APPLY_TEMPLATE_ENDPOINT</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SonarQubePermissions.apply_template_to_projects"><a class="viewcode-back" href="../../sonarqube.html#sonarqube.permissions.SonarQubePermissions.apply_template_to_projects">[docs]</a>    <span class="k">def</span> <span class="nf">apply_template_to_projects</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">template_name</span><span class="p">,</span> <span class="n">projects</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">analyzedBefore</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">onProvisionedOnly</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                   <span class="n">q</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">qualifiers</span><span class="o">=</span><span class="s2">&quot;TRK&quot;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Apply a permission template to several projects.</span>
+
+<span class="sd">        :param template_name: Template name</span>
+<span class="sd">        :param projects: Comma-separated list of project keys</span>
+<span class="sd">        :param analyzedBefore: Filter the projects for which last analysis is older than the given date (exclusive).</span>
+<span class="sd">        :param onProvisionedOnly: Filter the projects that are provisioned</span>
+<span class="sd">        :param q: Limit search to:</span>
+<span class="sd">          Possible values are for:</span>
+<span class="sd">            * project names that contain the supplied string</span>
+<span class="sd">            * project keys that are exactly the same as the supplied string</span>
+<span class="sd">        :param qualifiers: Comma-separated list of component qualifiers. Filter the results with the specified</span>
+<span class="sd">          qualifiers. Possible values are:</span>
+<span class="sd">            * TRK - Projects</span>
+<span class="sd">          default value is TRK.</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;templateName&#39;</span><span class="p">:</span> <span class="n">template_name</span><span class="p">,</span>
+            <span class="s1">&#39;qualifiers&#39;</span><span class="p">:</span> <span class="n">qualifiers</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span> <span class="n">projects</span><span class="p">:</span>
+            <span class="n">params</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;projects&quot;</span><span class="p">:</span> <span class="n">projects</span><span class="p">})</span>
+
+        <span class="k">if</span> <span class="n">analyzedBefore</span><span class="p">:</span>
+            <span class="n">params</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;analyzedBefore&quot;</span><span class="p">:</span> <span class="n">analyzedBefore</span><span class="p">})</span>
+
+        <span class="k">if</span> <span class="n">onProvisionedOnly</span><span class="p">:</span>
+            <span class="n">params</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;onProvisionedOnly&quot;</span><span class="p">:</span> <span class="n">onProvisionedOnly</span><span class="p">})</span>
+
+        <span class="k">if</span> <span class="n">q</span><span class="p">:</span>
+            <span class="n">params</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;q&quot;</span><span class="p">:</span> <span class="n">q</span><span class="p">})</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">sonarqube</span><span class="o">.</span><span class="n">make_call</span><span class="p">(</span><span class="s1">&#39;post&#39;</span><span class="p">,</span> <span class="n">API_PERMISSIONS_BULK_APPLY_TEMPLATE_ENDPOINT</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SonarQubePermissions.add_group_to_template"><a class="viewcode-back" href="../../sonarqube.html#sonarqube.permissions.SonarQubePermissions.add_group_to_template">[docs]</a>    <span class="k">def</span> <span class="nf">add_group_to_template</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">group_name</span><span class="p">,</span> <span class="n">template_name</span><span class="p">,</span> <span class="n">permission</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add a group to a permission template.</span>
+
+<span class="sd">        :param group_name: Group name or &#39;anyone&#39; (case insensitive)</span>
+<span class="sd">        :param template_name: Template name</span>
+<span class="sd">        :param permission: Permission</span>
+<span class="sd">          Possible values are for:</span>
+<span class="sd">            * Possible values for project permissions admin, codeviewer, issueadmin, securityhotspotadmin, scan, user</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;groupName&#39;</span><span class="p">:</span> <span class="n">group_name</span><span class="p">,</span>
+            <span class="s1">&#39;templateName&#39;</span><span class="p">:</span> <span class="n">template_name</span><span class="p">,</span>
+            <span class="s1">&#39;permission&#39;</span><span class="p">:</span> <span class="n">permission</span>
+        <span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sonarqube</span><span class="o">.</span><span class="n">make_call</span><span class="p">(</span><span class="s1">&#39;post&#39;</span><span class="p">,</span> <span class="n">API_PERMISSIONS_ADD_GROUP_TO_TEMPLATE_ENDPOINT</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SonarQubePermissions.remove_group_from_template"><a class="viewcode-back" href="../../sonarqube.html#sonarqube.permissions.SonarQubePermissions.remove_group_from_template">[docs]</a>    <span class="k">def</span> <span class="nf">remove_group_from_template</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">group_name</span><span class="p">,</span> <span class="n">template_name</span><span class="p">,</span> <span class="n">permission</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Remove a group from a permission template.</span>
+
+<span class="sd">        :param group_name: Group name or &#39;anyone&#39; (case insensitive)</span>
+<span class="sd">        :param template_name: Template name</span>
+<span class="sd">        :param permission: Permission</span>
+<span class="sd">          Possible values are for:</span>
+<span class="sd">            * Possible values for project permissions admin, codeviewer, issueadmin, securityhotspotadmin, scan, user</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;groupName&#39;</span><span class="p">:</span> <span class="n">group_name</span><span class="p">,</span>
+            <span class="s1">&#39;templateName&#39;</span><span class="p">:</span> <span class="n">template_name</span><span class="p">,</span>
+            <span class="s1">&#39;permission&#39;</span><span class="p">:</span> <span class="n">permission</span>
+        <span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sonarqube</span><span class="o">.</span><span class="n">make_call</span><span class="p">(</span><span class="s1">&#39;post&#39;</span><span class="p">,</span> <span class="n">API_PERMISSIONS_REMOVE_GROUP_FROM_TEMPLATE_ENDPOINT</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SonarQubePermissions.add_project_creator_to_template"><a class="viewcode-back" href="../../sonarqube.html#sonarqube.permissions.SonarQubePermissions.add_project_creator_to_template">[docs]</a>    <span class="k">def</span> <span class="nf">add_project_creator_to_template</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">template_name</span><span class="p">,</span> <span class="n">permission</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add a project creator to a permission template.</span>
+
+<span class="sd">        :param template_name: Template name</span>
+<span class="sd">        :param permission: Permission</span>
+<span class="sd">          Possible values are for:</span>
+<span class="sd">            * Possible values for project permissions admin, codeviewer, issueadmin, securityhotspotadmin, scan, user</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;templateName&#39;</span><span class="p">:</span> <span class="n">template_name</span><span class="p">,</span>
+            <span class="s1">&#39;permission&#39;</span><span class="p">:</span> <span class="n">permission</span>
+        <span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sonarqube</span><span class="o">.</span><span class="n">make_call</span><span class="p">(</span><span class="s1">&#39;post&#39;</span><span class="p">,</span> <span class="n">API_PERMISSIONS_ADD_PROJECT_CREATOR_TO_TEMPLATE_ENDPOINT</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SonarQubePermissions.remove_project_creator_from_template"><a class="viewcode-back" href="../../sonarqube.html#sonarqube.permissions.SonarQubePermissions.remove_project_creator_from_template">[docs]</a>    <span class="k">def</span> <span class="nf">remove_project_creator_from_template</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">template_name</span><span class="p">,</span> <span class="n">permission</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Remove a project creator from a permission template.</span>
+
+<span class="sd">        :param template_name: Template name</span>
+<span class="sd">        :param permission: Permission</span>
+<span class="sd">          Possible values are for:</span>
+<span class="sd">            * Possible values for project permissions admin, codeviewer, issueadmin, securityhotspotadmin, scan, user</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;templateName&#39;</span><span class="p">:</span> <span class="n">template_name</span><span class="p">,</span>
+            <span class="s1">&#39;permission&#39;</span><span class="p">:</span> <span class="n">permission</span>
+        <span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sonarqube</span><span class="o">.</span><span class="n">make_call</span><span class="p">(</span><span class="s1">&#39;post&#39;</span><span class="p">,</span> <span class="n">API_PERMISSIONS_REMOVE_PROJECT_CREATOR_FROM_TEMPLATE_ENDPOINT</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SonarQubePermissions.add_user_to_template"><a class="viewcode-back" href="../../sonarqube.html#sonarqube.permissions.SonarQubePermissions.add_user_to_template">[docs]</a>    <span class="k">def</span> <span class="nf">add_user_to_template</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_login</span><span class="p">,</span> <span class="n">template_name</span><span class="p">,</span> <span class="n">permission</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add a user to a permission template.</span>
+
+<span class="sd">        :param user_login: User login</span>
+<span class="sd">        :param template_name: Template name</span>
+<span class="sd">        :param permission: Permission</span>
+<span class="sd">          Possible values are for:</span>
+<span class="sd">            * Possible values for project permissions admin, codeviewer, issueadmin, securityhotspotadmin, scan, user</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;login&#39;</span><span class="p">:</span> <span class="n">user_login</span><span class="p">,</span>
+            <span class="s1">&#39;templateName&#39;</span><span class="p">:</span> <span class="n">template_name</span><span class="p">,</span>
+            <span class="s1">&#39;permission&#39;</span><span class="p">:</span> <span class="n">permission</span>
+        <span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sonarqube</span><span class="o">.</span><span class="n">make_call</span><span class="p">(</span><span class="s1">&#39;post&#39;</span><span class="p">,</span> <span class="n">API_PERMISSIONS_ADD_USER_TO_TEMPLATE_ENDPOINT</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SonarQubePermissions.remove_user_from_template"><a class="viewcode-back" href="../../sonarqube.html#sonarqube.permissions.SonarQubePermissions.remove_user_from_template">[docs]</a>    <span class="k">def</span> <span class="nf">remove_user_from_template</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_login</span><span class="p">,</span> <span class="n">template_name</span><span class="p">,</span> <span class="n">permission</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Remove a user from a permission template.</span>
+
+<span class="sd">        :param user_login: User login</span>
+<span class="sd">        :param template_name: Template name</span>
+<span class="sd">        :param permission: Permission</span>
+<span class="sd">          Possible values are for:</span>
+<span class="sd">            * Possible values for project permissions admin, codeviewer, issueadmin, securityhotspotadmin, scan, user</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;login&#39;</span><span class="p">:</span> <span class="n">user_login</span><span class="p">,</span>
+            <span class="s1">&#39;templateName&#39;</span><span class="p">:</span> <span class="n">template_name</span><span class="p">,</span>
+            <span class="s1">&#39;permission&#39;</span><span class="p">:</span> <span class="n">permission</span>
+        <span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sonarqube</span><span class="o">.</span><span class="n">make_call</span><span class="p">(</span><span class="s1">&#39;post&#39;</span><span class="p">,</span> <span class="n">API_PERMISSIONS_REMOVE_USER_FROM_TEMPLATE_ENDPOINT</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SonarQubePermissions.create_template"><a class="viewcode-back" href="../../sonarqube.html#sonarqube.permissions.SonarQubePermissions.create_template">[docs]</a>    <span class="k">def</span> <span class="nf">create_template</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">template_name</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">projectKeyPattern</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a permission template.</span>
+
+<span class="sd">        :param template_name: Template name</span>
+<span class="sd">        :param description: Template description</span>
+<span class="sd">        :param projectKeyPattern: Project key pattern. Must be a valid Java regular expression</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">template_name</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span> <span class="n">description</span><span class="p">:</span>
+            <span class="n">params</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="n">description</span><span class="p">})</span>
+
+        <span class="k">if</span> <span class="n">projectKeyPattern</span><span class="p">:</span>
+            <span class="n">params</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;projectKeyPattern&quot;</span><span class="p">:</span> <span class="n">projectKeyPattern</span><span class="p">})</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">sonarqube</span><span class="o">.</span><span class="n">make_call</span><span class="p">(</span><span class="s1">&#39;post&#39;</span><span class="p">,</span> <span class="n">API_PERMISSIONS_CREATE_TEMPLATE_ENDPOINT</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SonarQubePermissions.delete_template"><a class="viewcode-back" href="../../sonarqube.html#sonarqube.permissions.SonarQubePermissions.delete_template">[docs]</a>    <span class="k">def</span> <span class="nf">delete_template</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">template_name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Delete a permission template.</span>
+
+<span class="sd">        :param template_name: Template name</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;templateName&#39;</span><span class="p">:</span> <span class="n">template_name</span>
+        <span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sonarqube</span><span class="o">.</span><span class="n">make_call</span><span class="p">(</span><span class="s1">&#39;post&#39;</span><span class="p">,</span> <span class="n">API_PERMISSIONS_DELETE_TEMPLATE_ENDPOINT</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SonarQubePermissions.search_templates"><a class="viewcode-back" href="../../sonarqube.html#sonarqube.permissions.SonarQubePermissions.search_templates">[docs]</a>    <span class="k">def</span> <span class="nf">search_templates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        List permission templates.</span>
+
+<span class="sd">        :param q: Limit search to permission template names that contain the supplied string.</span>
+<span class="sd">        :return: defaultTemplates, permissionTemplates, permissions</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">if</span> <span class="n">q</span><span class="p">:</span>
+            <span class="n">params</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;q&quot;</span><span class="p">:</span> <span class="n">q</span><span class="p">})</span>
+
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sonarqube</span><span class="o">.</span><span class="n">make_call</span><span class="p">(</span><span class="s1">&#39;get&#39;</span><span class="p">,</span> <span class="n">API_PERMISSIONS_SEARCH_TEMPLATES_ENDPOINT</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">)</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">response</span></div>
+
+<div class="viewcode-block" id="SonarQubePermissions.set_default_template"><a class="viewcode-back" href="../../sonarqube.html#sonarqube.permissions.SonarQubePermissions.set_default_template">[docs]</a>    <span class="k">def</span> <span class="nf">set_default_template</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">template_name</span><span class="p">,</span> <span class="n">qualifier</span><span class="o">=</span><span class="s2">&quot;TRK&quot;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set a permission template as default.</span>
+
+<span class="sd">        :param template_name: Template name</span>
+<span class="sd">        :param qualifier: Project qualifier. Filter the results with the specified qualifier.</span>
+<span class="sd">          Possible values are:</span>
+<span class="sd">            * TRK - Projects</span>
+<span class="sd">          default value is TRK.</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;templateName&#39;</span><span class="p">:</span> <span class="n">template_name</span><span class="p">,</span>
+            <span class="s1">&#39;qualifier&#39;</span><span class="p">:</span> <span class="n">qualifier</span>
+        <span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sonarqube</span><span class="o">.</span><span class="n">make_call</span><span class="p">(</span><span class="s1">&#39;post&#39;</span><span class="p">,</span> <span class="n">API_PERMISSIONS_SET_DEFAULT_TEMPLATE_ENDPOINT</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SonarQubePermissions.update_template"><a class="viewcode-back" href="../../sonarqube.html#sonarqube.permissions.SonarQubePermissions.update_template">[docs]</a>    <span class="k">def</span> <span class="nf">update_template</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">template_id</span><span class="p">,</span> <span class="n">template_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">projectKeyPattern</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Update a permission template.</span>
+
+<span class="sd">        :param template_id: Template id</span>
+<span class="sd">        :param template_name: Template name</span>
+<span class="sd">        :param description: Template description</span>
+<span class="sd">        :param projectKeyPattern: Project key pattern. Must be a valid Java regular expression</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="n">template_id</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span> <span class="n">template_name</span><span class="p">:</span>
+            <span class="n">params</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">template_name</span><span class="p">})</span>
+
+        <span class="k">if</span> <span class="n">description</span><span class="p">:</span>
+            <span class="n">params</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="n">description</span><span class="p">})</span>
+
+        <span class="k">if</span> <span class="n">projectKeyPattern</span><span class="p">:</span>
+            <span class="n">params</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;projectKeyPattern&quot;</span><span class="p">:</span> <span class="n">projectKeyPattern</span><span class="p">})</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">sonarqube</span><span class="o">.</span><span class="n">make_call</span><span class="p">(</span><span class="s1">&#39;post&#39;</span><span class="p">,</span> <span class="n">API_PERMISSIONS_UPDATE_TEMPLATE_ENDPOINT</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Jialiang Shi
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,291 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>sonarqube.ce &mdash; SonarQube Client with Python 1.0.5 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> SonarQube Client with Python
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">SonarQube Client with Python</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+          <li><a href="../sonarqube.html">sonarqube</a> &raquo;</li>
+        
+      <li>sonarqube.ce</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for sonarqube.ce</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="c1"># -*- coding:utf-8 -*-</span>
+<span class="c1"># @Author: Jialiang Shi</span>
+<span class="kn">from</span> <span class="nn">sonarqube.config</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">API_CE_ACTIVITY_ENDPOINT</span><span class="p">,</span>
+    <span class="n">API_CE_ACTIVITY_STATUS_ENDPOINT</span><span class="p">,</span>
+    <span class="n">API_CE_COMPONENT_ENDPOINT</span><span class="p">,</span>
+    <span class="n">API_CE_TASK_ENDPOINT</span>
+<span class="p">)</span>
+
+
+<div class="viewcode-block" id="SonarQubeCe"><a class="viewcode-back" href="../../sonarqube.html#sonarqube.ce.SonarQubeCe">[docs]</a><span class="k">class</span> <span class="nc">SonarQubeCe</span><span class="p">:</span>
+    <span class="n">OPTIONS_SEARCH</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;componentId&#39;</span><span class="p">,</span> <span class="s1">&#39;maxExecutedAt&#39;</span><span class="p">,</span> <span class="s1">&#39;minSubmittedAt&#39;</span><span class="p">,</span>
+                      <span class="s1">&#39;onlyCurrents&#39;</span><span class="p">,</span> <span class="s1">&#39;ps&#39;</span><span class="p">,</span> <span class="s1">&#39;q&#39;</span><span class="p">,</span> <span class="s1">&#39;status&#39;</span><span class="p">,</span> <span class="s1">&#39;task_type&#39;</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sonarqube</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sonarqube</span> <span class="o">=</span> <span class="n">sonarqube</span>
+
+<div class="viewcode-block" id="SonarQubeCe.search_tasks"><a class="viewcode-back" href="../../sonarqube.html#sonarqube.ce.SonarQubeCe.search_tasks">[docs]</a>    <span class="k">def</span> <span class="nf">search_tasks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Search for tasks. optional parameters:</span>
+<span class="sd">          * componentId: Id of the component (project) to filter on</span>
+<span class="sd">          * maxExecutedAt: Maximum date of end of task processing (inclusive)</span>
+<span class="sd">          * minSubmittedAt: Minimum date of task submission (inclusive)</span>
+<span class="sd">          * onlyCurrents: Filter on the last tasks (only the most recent finished task by project).</span>
+<span class="sd">            default value is false.</span>
+<span class="sd">          * ps: Page size. Must be greater than 0 and less or equal than 1000</span>
+<span class="sd">          * q: Limit search to:</span>
+
+<span class="sd">            * component names that contain the supplied string</span>
+<span class="sd">            * component keys that are exactly the same as the supplied string</span>
+<span class="sd">            * task ids that are exactly the same as the supplied string</span>
+
+<span class="sd">            Must not be set together with componentId</span>
+<span class="sd">          * status: Comma separated list of task statuses. Possible values are for:</span>
+
+<span class="sd">            * SUCCESS</span>
+<span class="sd">            * FAILED</span>
+<span class="sd">            * CANCELED</span>
+<span class="sd">            * PENDING</span>
+<span class="sd">            * IN_PROGRESS</span>
+
+<span class="sd">            default value is SUCCESS,FAILED,CANCELED</span>
+<span class="sd">          * task_type: Task type</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sonarqube</span><span class="o">.</span><span class="n">copy_dict</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">OPTIONS_SEARCH</span><span class="p">)</span>
+
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sonarqube</span><span class="o">.</span><span class="n">make_call</span><span class="p">(</span><span class="s1">&#39;get&#39;</span><span class="p">,</span> <span class="n">API_CE_ACTIVITY_ENDPOINT</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">)</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;tasks&#39;</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="SonarQubeCe.get_ce_activity_related_metrics"><a class="viewcode-back" href="../../sonarqube.html#sonarqube.ce.SonarQubeCe.get_ce_activity_related_metrics">[docs]</a>    <span class="k">def</span> <span class="nf">get_ce_activity_related_metrics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">componentId</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns CE activity related metrics.</span>
+
+<span class="sd">        :param componentId: Id of the component (project) to filter on</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="n">componentId</span><span class="p">:</span>
+            <span class="n">params</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;componentId&#39;</span><span class="p">:</span> <span class="n">componentId</span><span class="p">})</span>
+
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sonarqube</span><span class="o">.</span><span class="n">make_call</span><span class="p">(</span><span class="s1">&#39;get&#39;</span><span class="p">,</span> <span class="n">API_CE_ACTIVITY_STATUS_ENDPOINT</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="SonarQubeCe.get_component_queue_and_current_tasks"><a class="viewcode-back" href="../../sonarqube.html#sonarqube.ce.SonarQubeCe.get_component_queue_and_current_tasks">[docs]</a>    <span class="k">def</span> <span class="nf">get_component_queue_and_current_tasks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">component</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the pending tasks, in-progress tasks and the last executed task of a given component (usually a project).</span>
+
+<span class="sd">        :param component: Component key</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;component&#39;</span><span class="p">:</span> <span class="n">component</span><span class="p">}</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sonarqube</span><span class="o">.</span><span class="n">make_call</span><span class="p">(</span><span class="s1">&#39;get&#39;</span><span class="p">,</span> <span class="n">API_CE_COMPONENT_ENDPOINT</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="SonarQubeCe.get_task"><a class="viewcode-back" href="../../sonarqube.html#sonarqube.ce.SonarQubeCe.get_task">[docs]</a>    <span class="k">def</span> <span class="nf">get_task</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task_id</span><span class="p">,</span> <span class="n">additionalFields</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Give Compute Engine task details such as type, status, duration and associated component.</span>
+
+<span class="sd">        :param task_id: Id of task</span>
+<span class="sd">        :param additionalFields: Comma-separated list of the optional fields to be returned in response.</span>
+<span class="sd">          Possible values are for: stacktrace,scannerContext,warning</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="n">task_id</span><span class="p">}</span>
+        <span class="k">if</span> <span class="n">additionalFields</span><span class="p">:</span>
+            <span class="n">params</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;additionalFields&#39;</span><span class="p">:</span> <span class="n">additionalFields</span><span class="p">})</span>
+
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sonarqube</span><span class="o">.</span><span class="n">make_call</span><span class="p">(</span><span class="s1">&#39;get&#39;</span><span class="p">,</span> <span class="n">API_CE_TASK_ENDPOINT</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Jialiang Shi
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
