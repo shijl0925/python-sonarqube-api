@@ -1,0 +1,331 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>sonarqube.components &mdash; SonarQube Client with Python 1.0.5 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> SonarQube Client with Python
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">SonarQube Client with Python</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+          <li><a href="../sonarqube.html">sonarqube</a> &raquo;</li>
+        
+      <li>sonarqube.components</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for sonarqube.components</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="c1"># -*- coding:utf-8 -*-</span>
+<span class="c1"># @Author: Jialiang Shi</span>
+<span class="kn">from</span> <span class="nn">sonarqube.config</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">API_COMPONTENTS_SHOW_ENDPOINT</span><span class="p">,</span>
+    <span class="n">API_COMPONTENTS_SEARCH_ENDPOINT</span><span class="p">,</span>
+    <span class="n">API_COMPONTENTS_TREE_ENDPOINT</span>
+<span class="p">)</span>
+
+
+<div class="viewcode-block" id="SonarQubeComponents"><a class="viewcode-back" href="../../sonarqube.html#sonarqube.components.SonarQubeComponents">[docs]</a><span class="k">class</span> <span class="nc">SonarQubeComponents</span><span class="p">:</span>
+    <span class="n">OPTIONS_SEARCH</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;asc&#39;</span><span class="p">,</span> <span class="s1">&#39;ps&#39;</span><span class="p">,</span> <span class="s1">&#39;q&#39;</span><span class="p">,</span> <span class="s1">&#39;qualifiers&#39;</span><span class="p">,</span> <span class="s1">&#39;s&#39;</span><span class="p">,</span> <span class="s1">&#39;strategy&#39;</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sonarqube</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sonarqube</span> <span class="o">=</span> <span class="n">sonarqube</span>
+
+<div class="viewcode-block" id="SonarQubeComponents.get_project_component_and_ancestors"><a class="viewcode-back" href="../../sonarqube.html#sonarqube.components.SonarQubeComponents.get_project_component_and_ancestors">[docs]</a>    <span class="k">def</span> <span class="nf">get_project_component_and_ancestors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">component</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a component (file, directory, project, view…) and its ancestors. The ancestors are ordered from the</span>
+<span class="sd">        parent to the root project.</span>
+
+<span class="sd">        :param component: Component key</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;component&#39;</span><span class="p">:</span> <span class="n">component</span>
+        <span class="p">}</span>
+
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sonarqube</span><span class="o">.</span><span class="n">make_call</span><span class="p">(</span><span class="s1">&#39;get&#39;</span><span class="p">,</span> <span class="n">API_COMPONTENTS_SHOW_ENDPOINT</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="SonarQubeComponents.search_components"><a class="viewcode-back" href="../../sonarqube.html#sonarqube.components.SonarQubeComponents.search_components">[docs]</a>    <span class="k">def</span> <span class="nf">search_components</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qualifiers</span><span class="p">,</span> <span class="n">language</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Search for components</span>
+
+<span class="sd">        :param qualifiers: Comma-separated list of component qualifiers. Filter the results with</span>
+<span class="sd">          the specified qualifiers. Possible values are:</span>
+
+<span class="sd">          * BRC - Sub-projects</span>
+<span class="sd">          * DIR - Directories</span>
+<span class="sd">          * FIL - Files</span>
+<span class="sd">          * TRK - Projects</span>
+<span class="sd">          * UTS - Test Files</span>
+
+<span class="sd">        :param language: Language key. If provided, only components for the given language are returned.</span>
+<span class="sd">        :param q: Limit search to:</span>
+
+<span class="sd">          * component names that contain the supplied string</span>
+<span class="sd">          * component keys that are exactly the same as the supplied string</span>
+
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;qualifiers&#39;</span><span class="p">:</span> <span class="n">qualifiers</span><span class="p">}</span>
+        <span class="k">if</span> <span class="n">language</span><span class="p">:</span>
+            <span class="n">params</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;language&#39;</span><span class="p">:</span> <span class="n">language</span><span class="p">})</span>
+
+        <span class="k">if</span> <span class="n">q</span><span class="p">:</span>
+            <span class="n">params</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;q&#39;</span><span class="p">:</span> <span class="n">q</span><span class="p">})</span>
+
+        <span class="n">page_num</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">page_size</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">total</span> <span class="o">=</span> <span class="mi">2</span>
+
+        <span class="k">while</span> <span class="n">page_num</span> <span class="o">*</span> <span class="n">page_size</span> <span class="o">&lt;</span> <span class="n">total</span><span class="p">:</span>
+            <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sonarqube</span><span class="o">.</span><span class="n">make_call</span><span class="p">(</span><span class="s1">&#39;get&#39;</span><span class="p">,</span> <span class="n">API_COMPONTENTS_SEARCH_ENDPOINT</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">)</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+
+            <span class="n">page_num</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;paging&#39;</span><span class="p">][</span><span class="s1">&#39;pageIndex&#39;</span><span class="p">]</span>
+            <span class="n">page_size</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;paging&#39;</span><span class="p">][</span><span class="s1">&#39;pageSize&#39;</span><span class="p">]</span>
+            <span class="n">total</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;paging&#39;</span><span class="p">][</span><span class="s1">&#39;total&#39;</span><span class="p">]</span>
+
+            <span class="n">params</span><span class="p">[</span><span class="s1">&#39;p&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">page_num</span> <span class="o">+</span> <span class="mi">1</span>
+
+            <span class="k">for</span> <span class="n">component</span> <span class="ow">in</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;components&#39;</span><span class="p">]:</span>
+                <span class="k">yield</span> <span class="n">component</span></div>
+
+<div class="viewcode-block" id="SonarQubeComponents.get_components_tree"><a class="viewcode-back" href="../../sonarqube.html#sonarqube.components.SonarQubeComponents.get_components_tree">[docs]</a>    <span class="k">def</span> <span class="nf">get_components_tree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">component</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Navigate through components based on the chosen strategy.</span>
+<span class="sd">        When limiting search with the q parameter, directories are not returned.</span>
+
+<span class="sd">        :param component: Base component key. The search is based on this component.</span>
+
+<span class="sd">        optional parameters:</span>
+<span class="sd">          * asc: Ascending sort. default value is true.</span>
+<span class="sd">          * q: Limit search to:</span>
+
+<span class="sd">            * component names that contain the supplied string</span>
+<span class="sd">            * component keys that are exactly the same as the supplied string</span>
+
+<span class="sd">          * qualifiers:Comma-separated list of component qualifiers. Filter the results with</span>
+<span class="sd">            the specified qualifiers. Possible values are:</span>
+
+<span class="sd">              * BRC - Sub-projects</span>
+<span class="sd">              * DIR - Directories</span>
+<span class="sd">              * FIL - Files</span>
+<span class="sd">              * TRK - Projects</span>
+<span class="sd">              * UTS - Test Files</span>
+
+<span class="sd">          * s: Comma-separated list of sort fields,Possible values are for: name, path, qualifier, and default value is name</span>
+<span class="sd">          * strategy: Strategy to search for base component descendants:</span>
+
+<span class="sd">            * children: return the children components of the base component. Grandchildren components are not returned</span>
+<span class="sd">            * all: return all the descendants components of the base component. Grandchildren are returned.</span>
+<span class="sd">            * leaves: return all the descendant components (files, in general) which don&#39;t have other children.</span>
+<span class="sd">              They are the leaves of the component tree.</span>
+
+<span class="sd">            default value is all.</span>
+
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;component&#39;</span><span class="p">:</span> <span class="n">component</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sonarqube</span><span class="o">.</span><span class="n">copy_dict</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">OPTIONS_SEARCH</span><span class="p">)</span>
+
+        <span class="n">page_num</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">page_size</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">total</span> <span class="o">=</span> <span class="mi">2</span>
+
+        <span class="k">while</span> <span class="n">page_num</span> <span class="o">*</span> <span class="n">page_size</span> <span class="o">&lt;</span> <span class="n">total</span><span class="p">:</span>
+            <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sonarqube</span><span class="o">.</span><span class="n">make_call</span><span class="p">(</span><span class="s1">&#39;get&#39;</span><span class="p">,</span> <span class="n">API_COMPONTENTS_TREE_ENDPOINT</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">)</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+
+            <span class="n">page_num</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;paging&#39;</span><span class="p">][</span><span class="s1">&#39;pageIndex&#39;</span><span class="p">]</span>
+            <span class="n">page_size</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;paging&#39;</span><span class="p">][</span><span class="s1">&#39;pageSize&#39;</span><span class="p">]</span>
+            <span class="n">total</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;paging&#39;</span><span class="p">][</span><span class="s1">&#39;total&#39;</span><span class="p">]</span>
+
+            <span class="n">params</span><span class="p">[</span><span class="s1">&#39;p&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">page_num</span> <span class="o">+</span> <span class="mi">1</span>
+
+            <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;components&#39;</span><span class="p">]:</span>
+                <span class="k">yield</span> <span class="n">item</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Jialiang Shi
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

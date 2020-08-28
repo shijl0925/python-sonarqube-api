@@ -1,0 +1,638 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>sonarqube.issues &mdash; SonarQube Client with Python 1.0.5 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> SonarQube Client with Python
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">SonarQube Client with Python</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+          <li><a href="../sonarqube.html">sonarqube</a> &raquo;</li>
+        
+      <li>sonarqube.issues</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for sonarqube.issues</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="c1"># -*- coding:utf-8 -*-</span>
+<span class="c1"># @Author: Jialiang Shi</span>
+<span class="kn">from</span> <span class="nn">sonarqube.config</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">API_ISSUES_SEARCH_ENDPOINT</span><span class="p">,</span>
+    <span class="n">API_ISSUES_ASSIGN_ENDPOINT</span><span class="p">,</span>
+    <span class="n">API_ISSUES_DO_TRANSITION_ENDPOINT</span><span class="p">,</span>
+    <span class="n">API_ISSUES_ADD_COMMENT_ENDPOINT</span><span class="p">,</span>
+    <span class="n">API_ISSUES_EDIT_COMMENT_ENDPOINT</span><span class="p">,</span>
+    <span class="n">API_ISSUES_DELETE_COMMENT_ENDPOINT</span><span class="p">,</span>
+    <span class="n">API_ISSUES_SET_SEVERITY_ENDPOINT</span><span class="p">,</span>
+    <span class="n">API_ISSUES_SET_TYPE_ENDPOINT</span><span class="p">,</span>
+    <span class="n">API_ISSUES_AUTHORS_ENDPOINT</span><span class="p">,</span>
+    <span class="n">API_ISSUES_BULK_CHANGE_ENDPOINT</span><span class="p">,</span>
+    <span class="n">API_ISSUES_CHANGELOG_ENDPOINT</span><span class="p">,</span>
+    <span class="n">API_ISSUES_SET_TAGS_ENDPOINT</span><span class="p">,</span>
+    <span class="n">API_ISSUES_TAGS_ENDPOINT</span>
+<span class="p">)</span>
+
+
+<div class="viewcode-block" id="SonarQubeIssue"><a class="viewcode-back" href="../../sonarqube.html#sonarqube.issues.SonarQubeIssue">[docs]</a><span class="k">class</span> <span class="nc">SonarQubeIssue</span><span class="p">:</span>
+    <span class="n">MAX_SEARCH_NUM</span> <span class="o">=</span> <span class="mi">100</span>
+    <span class="n">OPTIONS_SEARCH</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;additionalFields&#39;</span><span class="p">,</span> <span class="s1">&#39;asc&#39;</span><span class="p">,</span> <span class="s1">&#39;assigned&#39;</span><span class="p">,</span> <span class="s1">&#39;assignees&#39;</span><span class="p">,</span> <span class="s1">&#39;author&#39;</span><span class="p">,</span> <span class="s1">&#39;componentKeys&#39;</span><span class="p">,</span> <span class="s1">&#39;branch&#39;</span><span class="p">,</span>
+                      <span class="s1">&#39;createdAfter&#39;</span><span class="p">,</span> <span class="s1">&#39;createdAt&#39;</span><span class="p">,</span> <span class="s1">&#39;createdBefore&#39;</span><span class="p">,</span> <span class="s1">&#39;createdInLast&#39;</span><span class="p">,</span> <span class="s1">&#39;cwe&#39;</span><span class="p">,</span> <span class="s1">&#39;facets&#39;</span><span class="p">,</span> <span class="s1">&#39;issues&#39;</span><span class="p">,</span>
+                      <span class="s1">&#39;languages&#39;</span><span class="p">,</span> <span class="s1">&#39;onComponentOnly&#39;</span><span class="p">,</span> <span class="s1">&#39;owaspTop10&#39;</span><span class="p">,</span> <span class="s1">&#39;ps&#39;</span><span class="p">,</span> <span class="s1">&#39;resolutions&#39;</span><span class="p">,</span> <span class="s1">&#39;resolved&#39;</span><span class="p">,</span> <span class="s1">&#39;rules&#39;</span><span class="p">,</span> <span class="s1">&#39;s&#39;</span><span class="p">,</span>
+                      <span class="s1">&#39;sansTop25&#39;</span><span class="p">,</span> <span class="s1">&#39;severities&#39;</span><span class="p">,</span> <span class="s1">&#39;sinceLeakPeriod&#39;</span><span class="p">,</span> <span class="s1">&#39;sonarsourceSecurity&#39;</span><span class="p">,</span> <span class="s1">&#39;statuses&#39;</span><span class="p">,</span> <span class="s1">&#39;tags&#39;</span><span class="p">,</span> <span class="s1">&#39;types&#39;</span><span class="p">]</span>
+
+    <span class="n">OPTIONS_BULK</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;add_tags&#39;</span><span class="p">,</span> <span class="s1">&#39;assign&#39;</span><span class="p">,</span> <span class="s1">&#39;comment&#39;</span><span class="p">,</span> <span class="s1">&#39;do_transition&#39;</span><span class="p">,</span> <span class="s1">&#39;remove_tags&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;sendNotifications&#39;</span><span class="p">,</span> <span class="s1">&#39;set_severity&#39;</span><span class="p">,</span> <span class="s1">&#39;set_type&#39;</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sonarqube</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sonarqube</span> <span class="o">=</span> <span class="n">sonarqube</span>
+
+<div class="viewcode-block" id="SonarQubeIssue.search_issues"><a class="viewcode-back" href="../../sonarqube.html#sonarqube.issues.SonarQubeIssue.search_issues">[docs]</a>    <span class="k">def</span> <span class="nf">search_issues</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Search for issues.</span>
+<span class="sd">        optional parameters:</span>
+<span class="sd">          * componentKeys: Comma-separated list of component keys. Retrieve issues associated to a specific list of</span>
+<span class="sd">            components (and all its descendants). A component can be a portfolio, project, module, directory or file.</span>
+<span class="sd">          * branch:</span>
+<span class="sd">          * additionalFields: Comma-separated list of the optional fields to be returned in response. Possible values are for:</span>
+
+<span class="sd">            * _all</span>
+<span class="sd">            * comments</span>
+<span class="sd">            * languages</span>
+<span class="sd">            * actionPlans</span>
+<span class="sd">            * rules</span>
+<span class="sd">            * transitions</span>
+<span class="sd">            * actions</span>
+<span class="sd">            * users</span>
+
+<span class="sd">          * asc: Ascending sort. Possible values are for: true, false, yes, no.default value is true</span>
+<span class="sd">          * assigned: To retrieve assigned or unassigned issues. Possible values are for: true, false, yes, no</span>
+<span class="sd">          * assignees: Comma-separated list of assignee logins. The value &#39;__me__&#39; can be used as a placeholder</span>
+<span class="sd">            for user who performs the request</span>
+<span class="sd">          * author: SCM accounts. To set several values, the parameter must be called once for each value.</span>
+<span class="sd">          * componentKeys: Comma-separated list of component keys. Retrieve issues associated to a specific list of</span>
+<span class="sd">            components (and all its descendants). A component can be a portfolio, project, module, directory or file.</span>
+<span class="sd">          * createdAfter: To retrieve issues created after the given date (inclusive).</span>
+<span class="sd">            Either a date (server timezone) or datetime can be provided.</span>
+<span class="sd">            If this parameter is set, createdSince must not be set</span>
+<span class="sd">          * createdBefore: To retrieve issues created before the given date (inclusive).</span>
+<span class="sd">            Either a date (server timezone) or datetime can be provided.</span>
+<span class="sd">          * createdAt: Datetime to retrieve issues created during a specific analysis</span>
+<span class="sd">          * createdInLast: To retrieve issues created during a time span before the current time (exclusive).</span>
+<span class="sd">            Accepted units are &#39;y&#39; for year, &#39;m&#39; for month, &#39;w&#39; for week and &#39;d&#39; for day. If this parameter is set,</span>
+<span class="sd">            createdAfter must not be set.such as: 1m2w (1 month 2 weeks)</span>
+<span class="sd">          * cwe: Comma-separated list of CWE identifiers. Use &#39;unknown&#39; to select issues not associated to any CWE.</span>
+<span class="sd">          * facets: Comma-separated list of the facets to be computed. No facet is computed by default. Possible values are for:</span>
+
+<span class="sd">            * projects</span>
+<span class="sd">            * moduleUuids</span>
+<span class="sd">            * fileUuids</span>
+<span class="sd">            * assigned_to_me</span>
+<span class="sd">            * severities</span>
+<span class="sd">            * statuses</span>
+<span class="sd">            * resolutions</span>
+<span class="sd">            * rules</span>
+<span class="sd">            * assignees</span>
+<span class="sd">            * authors</span>
+<span class="sd">            * author</span>
+<span class="sd">            * directories</span>
+<span class="sd">            * languages</span>
+<span class="sd">            * tags</span>
+<span class="sd">            * types</span>
+<span class="sd">            * owaspTop10</span>
+<span class="sd">            * sansTop25</span>
+<span class="sd">            * cwe</span>
+<span class="sd">            * createdAt</span>
+<span class="sd">            * sonarsourceSecurity</span>
+
+<span class="sd">          * issues: Comma-separated list of issue keys</span>
+<span class="sd">          * languages: Comma-separated list of languages. such as: java,js</span>
+<span class="sd">          * onComponentOnly: Return only issues at a component&#39;s level, not on its descendants (modules, directories,</span>
+<span class="sd">            files, etc). This parameter is only considered when componentKeys or componentUuids is set. Possible values are for: true,</span>
+<span class="sd">            false, yes, no. default value is false.</span>
+<span class="sd">          *  owaspTop10: Comma-separated list of OWASP Top 10 lowercase categories.</span>
+<span class="sd">          *  resolutions: Comma-separated list of resolutions.Possible values are for:</span>
+
+<span class="sd">            * FALSE-POSITIVE</span>
+<span class="sd">            * WONTFIX</span>
+<span class="sd">            * FIXED</span>
+<span class="sd">            * REMOVED</span>
+
+<span class="sd">          *  resolved: To match resolved or unresolved issues. Possible values are for: true, false, yes, no</span>
+<span class="sd">          *  rules: Comma-separated list of coding rule keys. Format is &lt;repository&gt;:&lt;rule&gt;.such as: squid:AvoidCycles</span>
+<span class="sd">          *  s: Sort field. Possible values are for:</span>
+
+<span class="sd">            * CREATION_DATE</span>
+<span class="sd">            * UPDATE_DATE</span>
+<span class="sd">            * CLOSE_DATE</span>
+<span class="sd">            * ASSIGNEE</span>
+<span class="sd">            * SEVERITY</span>
+<span class="sd">            * STATUS</span>
+<span class="sd">            * FILE_LINE</span>
+
+<span class="sd">          *  sansTop25: Comma-separated list of SANS Top 25 categories. Possible values are for:</span>
+
+<span class="sd">            * insecure-interaction</span>
+<span class="sd">            * risky-resource</span>
+<span class="sd">            * porous-defenses</span>
+
+<span class="sd">          *  severities: Comma-separated list of severities.Possible values are for:</span>
+
+<span class="sd">            * INFO</span>
+<span class="sd">            * MINOR</span>
+<span class="sd">            * MAJOR</span>
+<span class="sd">            * CRITICAL</span>
+<span class="sd">            * BLOCKER</span>
+
+<span class="sd">          *  sinceLeakPeriod: To retrieve issues created since the leak period.If this parameter is set to</span>
+<span class="sd">            a truthy value, createdAfter must not be set and one component id or key must be provided.</span>
+<span class="sd">            Possible values are for: true, false, yes, no. default value is false.</span>
+<span class="sd">          *  sonarsourceSecurity: Comma-separated list of SonarSource security categories. Use &#39;others&#39; to</span>
+<span class="sd">            select issues not associated with any category。Possible values are for:</span>
+
+<span class="sd">            * sql-injection</span>
+<span class="sd">            * command-injection</span>
+<span class="sd">            * path-traversal-injection</span>
+<span class="sd">            * ldap-injection</span>
+<span class="sd">            * xpath-injection</span>
+<span class="sd">            * rce</span>
+<span class="sd">            * dos</span>
+<span class="sd">            * ssrf</span>
+<span class="sd">            * csrf</span>
+<span class="sd">            * xss</span>
+<span class="sd">            * log-injection</span>
+<span class="sd">            * http-response-splitting</span>
+<span class="sd">            * open-redirect</span>
+<span class="sd">            * xxe</span>
+<span class="sd">            * object-injection</span>
+<span class="sd">            * weak-cryptography</span>
+<span class="sd">            * auth</span>
+<span class="sd">            * insecure-conf</span>
+<span class="sd">            * file-manipulation</span>
+<span class="sd">            * others</span>
+
+<span class="sd">          *  statuses: Comma-separated list of statuses.Possible values are for:</span>
+
+<span class="sd">            * OPEN</span>
+<span class="sd">            * CONFIRMED</span>
+<span class="sd">            * REOPENED</span>
+<span class="sd">            * RESOLVED</span>
+<span class="sd">            * CLOSED</span>
+<span class="sd">            * TO_REVIEW</span>
+<span class="sd">            * IN_REVIEW</span>
+<span class="sd">            * REVIEWED</span>
+
+<span class="sd">          *  tags: Comma-separated list of tags.such as: security,convention</span>
+<span class="sd">          *  types: Comma-separated list of types.Possible values are for:</span>
+
+<span class="sd">            * CODE_SMELL</span>
+<span class="sd">            * BUG</span>
+<span class="sd">            * VULNERABILITY</span>
+<span class="sd">            * SECURITY_HOTSPOT</span>
+
+
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sonarqube</span><span class="o">.</span><span class="n">copy_dict</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">OPTIONS_SEARCH</span><span class="p">)</span>
+
+        <span class="n">page_num</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">page_size</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">total</span> <span class="o">=</span> <span class="mi">2</span>
+
+        <span class="k">while</span> <span class="n">page_num</span> <span class="o">*</span> <span class="n">page_size</span> <span class="o">&lt;</span> <span class="n">total</span><span class="p">:</span>
+            <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sonarqube</span><span class="o">.</span><span class="n">make_call</span><span class="p">(</span><span class="s1">&#39;get&#39;</span><span class="p">,</span> <span class="n">API_ISSUES_SEARCH_ENDPOINT</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">)</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+
+            <span class="n">page_num</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;paging&#39;</span><span class="p">][</span><span class="s1">&#39;pageIndex&#39;</span><span class="p">]</span>
+            <span class="n">page_size</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;paging&#39;</span><span class="p">][</span><span class="s1">&#39;pageSize&#39;</span><span class="p">]</span>
+            <span class="n">total</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;paging&#39;</span><span class="p">][</span><span class="s1">&#39;total&#39;</span><span class="p">]</span>
+
+            <span class="n">params</span><span class="p">[</span><span class="s1">&#39;p&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">page_num</span> <span class="o">+</span> <span class="mi">1</span>
+
+            <span class="k">for</span> <span class="n">issue</span> <span class="ow">in</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;issues&#39;</span><span class="p">]:</span>
+                <span class="k">yield</span> <span class="n">issue</span>
+
+            <span class="k">if</span> <span class="n">page_num</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">MAX_SEARCH_NUM</span><span class="p">:</span>
+                <span class="k">break</span></div>
+
+<div class="viewcode-block" id="SonarQubeIssue.issue_assign"><a class="viewcode-back" href="../../sonarqube.html#sonarqube.issues.SonarQubeIssue.issue_assign">[docs]</a>    <span class="k">def</span> <span class="nf">issue_assign</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">issue</span><span class="p">,</span> <span class="n">assignee</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Assign/Unassign an issue</span>
+
+<span class="sd">        :param issue: Issue key</span>
+<span class="sd">        :param assignee: Login of the assignee. When not set, it will unassign the issue. Use &#39;_me&#39; to</span>
+<span class="sd">          assign to current user</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;issue&#39;</span><span class="p">:</span> <span class="n">issue</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="n">assignee</span><span class="p">:</span>
+            <span class="n">params</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;assignee&#39;</span><span class="p">:</span> <span class="n">assignee</span><span class="p">})</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">sonarqube</span><span class="o">.</span><span class="n">make_call</span><span class="p">(</span><span class="s1">&#39;post&#39;</span><span class="p">,</span> <span class="n">API_ISSUES_ASSIGN_ENDPOINT</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SonarQubeIssue.issue_change_severity"><a class="viewcode-back" href="../../sonarqube.html#sonarqube.issues.SonarQubeIssue.issue_change_severity">[docs]</a>    <span class="k">def</span> <span class="nf">issue_change_severity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">issue</span><span class="p">,</span> <span class="n">severity</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Change severity.</span>
+
+<span class="sd">        :param issue: Issue key</span>
+<span class="sd">        :param severity: New severity.Possible values are for:</span>
+
+<span class="sd">          * INFO</span>
+<span class="sd">          * MINOR</span>
+<span class="sd">          * MAJOR</span>
+<span class="sd">          * CRITICAL</span>
+<span class="sd">          * BLOCKER</span>
+
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;issue&#39;</span><span class="p">:</span> <span class="n">issue</span><span class="p">,</span>
+            <span class="s1">&#39;severity&#39;</span><span class="p">:</span> <span class="n">severity</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+        <span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sonarqube</span><span class="o">.</span><span class="n">make_call</span><span class="p">(</span><span class="s1">&#39;post&#39;</span><span class="p">,</span> <span class="n">API_ISSUES_SET_SEVERITY_ENDPOINT</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SonarQubeIssue.issue_set_type"><a class="viewcode-back" href="../../sonarqube.html#sonarqube.issues.SonarQubeIssue.issue_set_type">[docs]</a>    <span class="k">def</span> <span class="nf">issue_set_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">issue</span><span class="p">,</span> <span class="n">issue_type</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Change type of issue, for instance from &#39;code smell&#39; to &#39;bug&#39;.</span>
+
+<span class="sd">        :param issue: Issue key</span>
+<span class="sd">        :param issue_type: New type.Possible values are for:</span>
+
+<span class="sd">          * CODE_SMELL</span>
+<span class="sd">          * BUG</span>
+<span class="sd">          * VULNERABILITY</span>
+<span class="sd">          * SECURITY_HOTSPOT</span>
+
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;issue&#39;</span><span class="p">:</span> <span class="n">issue</span><span class="p">,</span>
+            <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="n">issue_type</span>
+        <span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sonarqube</span><span class="o">.</span><span class="n">make_call</span><span class="p">(</span><span class="s1">&#39;post&#39;</span><span class="p">,</span> <span class="n">API_ISSUES_SET_TYPE_ENDPOINT</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SonarQubeIssue.issue_add_comment"><a class="viewcode-back" href="../../sonarqube.html#sonarqube.issues.SonarQubeIssue.issue_add_comment">[docs]</a>    <span class="k">def</span> <span class="nf">issue_add_comment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">issue</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add a comment.</span>
+
+<span class="sd">        :param issue: Issue key</span>
+<span class="sd">        :param text: Comment text</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;issue&#39;</span><span class="p">:</span> <span class="n">issue</span><span class="p">,</span>
+            <span class="s1">&#39;text&#39;</span><span class="p">:</span> <span class="n">text</span>
+        <span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sonarqube</span><span class="o">.</span><span class="n">make_call</span><span class="p">(</span><span class="s1">&#39;post&#39;</span><span class="p">,</span> <span class="n">API_ISSUES_ADD_COMMENT_ENDPOINT</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SonarQubeIssue.issue_delete_comment"><a class="viewcode-back" href="../../sonarqube.html#sonarqube.issues.SonarQubeIssue.issue_delete_comment">[docs]</a>    <span class="k">def</span> <span class="nf">issue_delete_comment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">comment</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Delete a comment.</span>
+
+<span class="sd">        :param comment: Comment key</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;comment&#39;</span><span class="p">:</span> <span class="n">comment</span>
+        <span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sonarqube</span><span class="o">.</span><span class="n">make_call</span><span class="p">(</span><span class="s1">&#39;post&#39;</span><span class="p">,</span> <span class="n">API_ISSUES_DELETE_COMMENT_ENDPOINT</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SonarQubeIssue.issue_edit_comment"><a class="viewcode-back" href="../../sonarqube.html#sonarqube.issues.SonarQubeIssue.issue_edit_comment">[docs]</a>    <span class="k">def</span> <span class="nf">issue_edit_comment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">comment</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Edit a comment.</span>
+
+<span class="sd">        :param comment: Comment key</span>
+<span class="sd">        :param text: Comment text</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;comment&#39;</span><span class="p">:</span> <span class="n">comment</span><span class="p">,</span>
+            <span class="s1">&#39;text&#39;</span><span class="p">:</span> <span class="n">text</span>
+        <span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sonarqube</span><span class="o">.</span><span class="n">make_call</span><span class="p">(</span><span class="s1">&#39;post&#39;</span><span class="p">,</span> <span class="n">API_ISSUES_EDIT_COMMENT_ENDPOINT</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SonarQubeIssue.issue_do_transition"><a class="viewcode-back" href="../../sonarqube.html#sonarqube.issues.SonarQubeIssue.issue_do_transition">[docs]</a>    <span class="k">def</span> <span class="nf">issue_do_transition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">issue</span><span class="p">,</span> <span class="n">transition</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Do workflow transition on an issue. Requires authentication and Browse permission on project.</span>
+<span class="sd">        The transitions &#39;wontfix&#39; and &#39;falsepositive&#39; require the permission &#39;Administer Issues&#39;.</span>
+<span class="sd">        The transitions involving security hotspots require the permission &#39;Administer Security Hotspot&#39;.</span>
+
+<span class="sd">        :param issue: Issue key</span>
+<span class="sd">        :param transition: Transition.Possible values are for:</span>
+
+<span class="sd">          * confirm</span>
+<span class="sd">          * unconfirm</span>
+<span class="sd">          * reopen</span>
+<span class="sd">          * resolve</span>
+<span class="sd">          * falsepositive</span>
+<span class="sd">          * wontfix</span>
+<span class="sd">          * close</span>
+<span class="sd">          * setinreview</span>
+<span class="sd">          * resolveasreviewed</span>
+<span class="sd">          * openasvulnerability</span>
+<span class="sd">          * resetastoreview</span>
+
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;issue&#39;</span><span class="p">:</span> <span class="n">issue</span><span class="p">,</span>
+            <span class="s1">&#39;transition&#39;</span><span class="p">:</span> <span class="n">transition</span>
+        <span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sonarqube</span><span class="o">.</span><span class="n">make_call</span><span class="p">(</span><span class="s1">&#39;post&#39;</span><span class="p">,</span> <span class="n">API_ISSUES_DO_TRANSITION_ENDPOINT</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SonarQubeIssue.search_scm_accounts"><a class="viewcode-back" href="../../sonarqube.html#sonarqube.issues.SonarQubeIssue.search_scm_accounts">[docs]</a>    <span class="k">def</span> <span class="nf">search_scm_accounts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">project</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Search SCM accounts which match a given query</span>
+
+<span class="sd">        :param project: Project key</span>
+<span class="sd">        :param q: Limit search to authors that contain the supplied string.</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;project&#39;</span><span class="p">:</span> <span class="n">project</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="n">q</span><span class="p">:</span>
+            <span class="n">params</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;q&#39;</span><span class="p">:</span> <span class="n">q</span><span class="p">})</span>
+
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sonarqube</span><span class="o">.</span><span class="n">make_call</span><span class="p">(</span><span class="s1">&#39;get&#39;</span><span class="p">,</span> <span class="n">API_ISSUES_AUTHORS_ENDPOINT</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">)</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;authors&#39;</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="SonarQubeIssue.issues_bulk_change"><a class="viewcode-back" href="../../sonarqube.html#sonarqube.issues.SonarQubeIssue.issues_bulk_change">[docs]</a>    <span class="k">def</span> <span class="nf">issues_bulk_change</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">issues</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Bulk change on issues.</span>
+
+<span class="sd">        :param issues: Comma-separated list of issue keys</span>
+
+<span class="sd">        optional parameters:</span>
+<span class="sd">          * add_tags: Add tags.such as: security,java8</span>
+<span class="sd">          * assign: To assign the list of issues to a specific user (login), or un-assign all the issues</span>
+<span class="sd">          * comment: To add a comment to a list of issues</span>
+<span class="sd">          * do_transition: Transition, Possible values are for:</span>
+
+<span class="sd">            * confirm</span>
+<span class="sd">            * unconfirm</span>
+<span class="sd">            * reopen</span>
+<span class="sd">            * resolve</span>
+<span class="sd">            * falsepositive</span>
+<span class="sd">            * wontfix</span>
+<span class="sd">            * close</span>
+<span class="sd">            * setinreview</span>
+<span class="sd">            * resolveasreviewed</span>
+<span class="sd">            * openasvulnerability</span>
+<span class="sd">            * resetastoreview</span>
+
+<span class="sd">          * remove_tags: Remove tags.such as: security,java8</span>
+<span class="sd">          * sendNotifications: Possible values are for: true, false, yes, no. default value is false.</span>
+<span class="sd">          * issue_severity: To change the severity of the list of issues. Possible values are for:</span>
+
+<span class="sd">            * INFO</span>
+<span class="sd">            * MINOR</span>
+<span class="sd">            * MAJOR</span>
+<span class="sd">            * CRITICAL</span>
+<span class="sd">            * BLOCKER</span>
+
+<span class="sd">          * issue_type: To change the type of the list of issues. Possible values are for:</span>
+
+<span class="sd">            * CODE_SMELL</span>
+<span class="sd">            * BUG</span>
+<span class="sd">            * VULNERABILITY</span>
+<span class="sd">            * SECURITY_HOTSPOT</span>
+
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;issues&#39;</span><span class="p">:</span> <span class="n">issues</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sonarqube</span><span class="o">.</span><span class="n">copy_dict</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">OPTIONS_BULK</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">sonarqube</span><span class="o">.</span><span class="n">make_call</span><span class="p">(</span><span class="s1">&#39;post&#39;</span><span class="p">,</span> <span class="n">API_ISSUES_BULK_CHANGE_ENDPOINT</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SonarQubeIssue.get_issue_changelog"><a class="viewcode-back" href="../../sonarqube.html#sonarqube.issues.SonarQubeIssue.get_issue_changelog">[docs]</a>    <span class="k">def</span> <span class="nf">get_issue_changelog</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">issue</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Display changelog of an issue.</span>
+
+<span class="sd">        :param issue: Issue key</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;issue&#39;</span><span class="p">:</span> <span class="n">issue</span><span class="p">}</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sonarqube</span><span class="o">.</span><span class="n">make_call</span><span class="p">(</span><span class="s1">&#39;get&#39;</span><span class="p">,</span> <span class="n">API_ISSUES_CHANGELOG_ENDPOINT</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="SonarQubeIssue.issue_set_tags"><a class="viewcode-back" href="../../sonarqube.html#sonarqube.issues.SonarQubeIssue.issue_set_tags">[docs]</a>    <span class="k">def</span> <span class="nf">issue_set_tags</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">issue</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set tags on an issue.</span>
+
+<span class="sd">        :param issue: Issue key</span>
+<span class="sd">        :param tags: Comma-separated list of tags. All tags are removed if parameter is empty or not set.</span>
+<span class="sd">          such as: security,cwe,misra-c</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;issue&#39;</span><span class="p">:</span> <span class="n">issue</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="n">tags</span><span class="p">:</span>
+            <span class="n">params</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;tags&#39;</span><span class="p">:</span> <span class="n">tags</span><span class="p">})</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">sonarqube</span><span class="o">.</span><span class="n">make_call</span><span class="p">(</span><span class="s1">&#39;post&#39;</span><span class="p">,</span> <span class="n">API_ISSUES_SET_TAGS_ENDPOINT</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SonarQubeIssue.get_issues_tags"><a class="viewcode-back" href="../../sonarqube.html#sonarqube.issues.SonarQubeIssue.get_issues_tags">[docs]</a>    <span class="k">def</span> <span class="nf">get_issues_tags</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">project</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        List tags</span>
+
+<span class="sd">        :param project:</span>
+<span class="sd">        :param q: Limit search to tags that contain the supplied string.</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;project&#39;</span><span class="p">:</span> <span class="n">project</span><span class="p">}</span>
+        <span class="k">if</span> <span class="n">q</span><span class="p">:</span>
+            <span class="n">params</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;q&#39;</span><span class="p">:</span> <span class="n">q</span><span class="p">})</span>
+
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sonarqube</span><span class="o">.</span><span class="n">make_call</span><span class="p">(</span><span class="s1">&#39;get&#39;</span><span class="p">,</span> <span class="n">API_ISSUES_TAGS_ENDPOINT</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Jialiang Shi
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

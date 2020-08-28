@@ -1,0 +1,365 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>sonarqube.project_analyses &mdash; SonarQube Client with Python 1.0.5 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> SonarQube Client with Python
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">SonarQube Client with Python</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+          <li><a href="../sonarqube.html">sonarqube</a> &raquo;</li>
+        
+      <li>sonarqube.project_analyses</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for sonarqube.project_analyses</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="c1"># -*- coding:utf-8 -*-</span>
+<span class="c1"># @Author: Jialiang Shi</span>
+<span class="kn">from</span> <span class="nn">sonarqube.config</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">API_PROJECT_ANALYSES_CREATE_EVENT_ENDPOINT</span><span class="p">,</span>
+    <span class="n">API_PROJECT_ANALYSES_DELETE_ENDPOINT</span><span class="p">,</span>
+    <span class="n">API_PROJECT_ANALYSES_DELETE_EVENT_ENDPOINT</span><span class="p">,</span>
+    <span class="n">API_PROJECT_ANALYSES_SEARCH_ENDPOINT</span><span class="p">,</span>
+    <span class="n">API_PROJECT_ANALYSES_SET_BASELINE_ENDPOINT</span><span class="p">,</span>
+    <span class="n">API_PROJECT_ANALYSES_UNSET_BASELINE_ENDPOINT</span><span class="p">,</span>
+    <span class="n">API_PROJECT_ANALYSES_UPDATE_EVENT_ENDPOINT</span>
+<span class="p">)</span>
+
+
+<div class="viewcode-block" id="SonarQubeProjectAnalyses"><a class="viewcode-back" href="../../sonarqube.html#sonarqube.project_analyses.SonarQubeProjectAnalyses">[docs]</a><span class="k">class</span> <span class="nc">SonarQubeProjectAnalyses</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sonarqube</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sonarqube</span> <span class="o">=</span> <span class="n">sonarqube</span>
+
+<div class="viewcode-block" id="SonarQubeProjectAnalyses.create_project_analysis_event"><a class="viewcode-back" href="../../sonarqube.html#sonarqube.project_analyses.SonarQubeProjectAnalyses.create_project_analysis_event">[docs]</a>    <span class="k">def</span> <span class="nf">create_project_analysis_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">analysis</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="s2">&quot;OTHER&quot;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a project analysis event.Only event of category &#39;VERSION&#39; and &#39;OTHER&#39; can be created.</span>
+
+<span class="sd">        :param analysis: Analysis key</span>
+<span class="sd">        :param name: Name</span>
+<span class="sd">        :param category: Category.</span>
+<span class="sd">          Possible values are for:</span>
+<span class="sd">            * VERSION</span>
+<span class="sd">            * OTHER</span>
+<span class="sd">          default value is OTHER.</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;analysis&#39;</span><span class="p">:</span> <span class="n">analysis</span><span class="p">,</span>
+            <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span>
+            <span class="s1">&#39;category&#39;</span><span class="p">:</span> <span class="n">category</span>
+        <span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">sonarqube</span><span class="o">.</span><span class="n">make_call</span><span class="p">(</span><span class="s1">&#39;post&#39;</span><span class="p">,</span> <span class="n">API_PROJECT_ANALYSES_CREATE_EVENT_ENDPOINT</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SonarQubeProjectAnalyses.delete_project_analysis"><a class="viewcode-back" href="../../sonarqube.html#sonarqube.project_analyses.SonarQubeProjectAnalyses.delete_project_analysis">[docs]</a>    <span class="k">def</span> <span class="nf">delete_project_analysis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">analysis</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Delete a project analysis.</span>
+
+<span class="sd">        :param analysis: Analysis key</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;analysis&#39;</span><span class="p">:</span> <span class="n">analysis</span>
+        <span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">sonarqube</span><span class="o">.</span><span class="n">make_call</span><span class="p">(</span><span class="s1">&#39;post&#39;</span><span class="p">,</span> <span class="n">API_PROJECT_ANALYSES_DELETE_ENDPOINT</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SonarQubeProjectAnalyses.delete_project_analysis_event"><a class="viewcode-back" href="../../sonarqube.html#sonarqube.project_analyses.SonarQubeProjectAnalyses.delete_project_analysis_event">[docs]</a>    <span class="k">def</span> <span class="nf">delete_project_analysis_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Delete a project analysis event.Only event of category &#39;VERSION&#39; and &#39;OTHER&#39; can be deleted.</span>
+
+<span class="sd">        :param event: Event key</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;event&#39;</span><span class="p">:</span> <span class="n">event</span>
+        <span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">sonarqube</span><span class="o">.</span><span class="n">make_call</span><span class="p">(</span><span class="s1">&#39;post&#39;</span><span class="p">,</span> <span class="n">API_PROJECT_ANALYSES_DELETE_EVENT_ENDPOINT</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SonarQubeProjectAnalyses.search_project_analyses_and_events"><a class="viewcode-back" href="../../sonarqube.html#sonarqube.project_analyses.SonarQubeProjectAnalyses.search_project_analyses_and_events">[docs]</a>    <span class="k">def</span> <span class="nf">search_project_analyses_and_events</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">project</span><span class="p">,</span> <span class="n">branch</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">from_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">to_date</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Search a project analyses and attached events.</span>
+
+<span class="sd">        :param project: Project key</span>
+<span class="sd">        :param branch: Branch key</span>
+<span class="sd">        :param category: Event category. Filter analyses that have at least one event of the category specified.</span>
+<span class="sd">          Possible values are for:</span>
+<span class="sd">            * VERSION</span>
+<span class="sd">            * OTHER</span>
+<span class="sd">            * QUALITY_PROFILE</span>
+<span class="sd">            * QUALITY_GATE</span>
+<span class="sd">            * DEFINITION_CHANGE</span>
+<span class="sd">        :param from_date: Filter analyses created after the given date (inclusive).</span>
+<span class="sd">          Either a date (server timezone) or datetime can be provided</span>
+<span class="sd">        :param to_date: Filter analyses created before the given date (inclusive).</span>
+<span class="sd">          Either a date (server timezone) or datetime can be provided</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;project&#39;</span><span class="p">:</span> <span class="n">project</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span> <span class="n">branch</span><span class="p">:</span>
+            <span class="n">params</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;branch&#39;</span><span class="p">:</span> <span class="n">branch</span><span class="p">})</span>
+
+        <span class="k">if</span> <span class="n">category</span><span class="p">:</span>
+            <span class="n">params</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;category&#39;</span><span class="p">:</span> <span class="n">category</span><span class="p">})</span>
+
+        <span class="k">if</span> <span class="n">from_date</span><span class="p">:</span>
+            <span class="n">params</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;from&#39;</span><span class="p">:</span> <span class="n">from_date</span><span class="p">})</span>
+
+        <span class="k">if</span> <span class="n">to_date</span><span class="p">:</span>
+            <span class="n">params</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;to&#39;</span><span class="p">:</span> <span class="n">to_date</span><span class="p">})</span>
+
+        <span class="n">page_num</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">page_size</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">total</span> <span class="o">=</span> <span class="mi">2</span>
+
+        <span class="k">while</span> <span class="n">page_num</span> <span class="o">*</span> <span class="n">page_size</span> <span class="o">&lt;</span> <span class="n">total</span><span class="p">:</span>
+            <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sonarqube</span><span class="o">.</span><span class="n">make_call</span><span class="p">(</span><span class="s1">&#39;get&#39;</span><span class="p">,</span> <span class="n">API_PROJECT_ANALYSES_SEARCH_ENDPOINT</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">)</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+
+            <span class="n">page_num</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;paging&#39;</span><span class="p">][</span><span class="s1">&#39;pageIndex&#39;</span><span class="p">]</span>
+            <span class="n">page_size</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;paging&#39;</span><span class="p">][</span><span class="s1">&#39;pageSize&#39;</span><span class="p">]</span>
+            <span class="n">total</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;paging&#39;</span><span class="p">][</span><span class="s1">&#39;total&#39;</span><span class="p">]</span>
+
+            <span class="n">params</span><span class="p">[</span><span class="s1">&#39;p&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">page_num</span> <span class="o">+</span> <span class="mi">1</span>
+
+            <span class="k">for</span> <span class="n">analysis</span> <span class="ow">in</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;analyses&#39;</span><span class="p">]:</span>
+                <span class="k">yield</span> <span class="n">analysis</span></div>
+
+<div class="viewcode-block" id="SonarQubeProjectAnalyses.set_analysis_as_baseline_on_project"><a class="viewcode-back" href="../../sonarqube.html#sonarqube.project_analyses.SonarQubeProjectAnalyses.set_analysis_as_baseline_on_project">[docs]</a>    <span class="k">def</span> <span class="nf">set_analysis_as_baseline_on_project</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">project</span><span class="p">,</span> <span class="n">analysis</span><span class="p">,</span> <span class="n">branch</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set an analysis as the baseline of the New Code Period on a project or a long-lived branch.</span>
+<span class="sd">        This manually set baseline overrides the `sonar.leak.period` setting.</span>
+
+<span class="sd">        :param project: Project key</span>
+<span class="sd">        :param analysis: Analysis key</span>
+<span class="sd">        :param branch: Branch key</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;analysis&#39;</span><span class="p">:</span> <span class="n">analysis</span><span class="p">,</span>
+            <span class="s1">&#39;project&#39;</span><span class="p">:</span> <span class="n">project</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="n">branch</span><span class="p">:</span>
+            <span class="n">params</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;branch&#39;</span><span class="p">:</span> <span class="n">branch</span><span class="p">})</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">sonarqube</span><span class="o">.</span><span class="n">make_call</span><span class="p">(</span><span class="s1">&#39;post&#39;</span><span class="p">,</span> <span class="n">API_PROJECT_ANALYSES_SET_BASELINE_ENDPOINT</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SonarQubeProjectAnalyses.unset_baseline_on_project"><a class="viewcode-back" href="../../sonarqube.html#sonarqube.project_analyses.SonarQubeProjectAnalyses.unset_baseline_on_project">[docs]</a>    <span class="k">def</span> <span class="nf">unset_baseline_on_project</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">project</span><span class="p">,</span> <span class="n">branch</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Unset any manually-set New Code Period baseline on a project or a long-lived branch.</span>
+<span class="sd">        Unsetting a manual baseline restores the use of the `sonar.leak.period` setting.</span>
+
+<span class="sd">        :param project: Project key</span>
+<span class="sd">        :param branch: Branch key</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;project&#39;</span><span class="p">:</span> <span class="n">project</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="n">branch</span><span class="p">:</span>
+            <span class="n">params</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;branch&#39;</span><span class="p">:</span> <span class="n">branch</span><span class="p">})</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">sonarqube</span><span class="o">.</span><span class="n">make_call</span><span class="p">(</span><span class="s1">&#39;post&#39;</span><span class="p">,</span> <span class="n">API_PROJECT_ANALYSES_UNSET_BASELINE_ENDPOINT</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SonarQubeProjectAnalyses.update_project_analysis_event"><a class="viewcode-back" href="../../sonarqube.html#sonarqube.project_analyses.SonarQubeProjectAnalyses.update_project_analysis_event">[docs]</a>    <span class="k">def</span> <span class="nf">update_project_analysis_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Update a project analysis event.</span>
+<span class="sd">        Only events of category &#39;VERSION&#39; and &#39;OTHER&#39; can be updated.</span>
+
+<span class="sd">        :param event: Event key</span>
+<span class="sd">        :param name: New name</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;event&#39;</span><span class="p">:</span> <span class="n">event</span><span class="p">,</span>
+            <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">sonarqube</span><span class="o">.</span><span class="n">make_call</span><span class="p">(</span><span class="s1">&#39;post&#39;</span><span class="p">,</span> <span class="n">API_PROJECT_ANALYSES_UPDATE_EVENT_ENDPOINT</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Jialiang Shi
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
