@@ -14,6 +14,7 @@ class SonarQubeMetrics:
     def search_metrics(self):
         """
         Search for metrics
+
         :return:
         """
 
@@ -39,6 +40,7 @@ class SonarQubeMetrics:
     def get_metics_types(self):
         """
         List all available metric types.
+
         :return:
         """
         resp = self.sonarqube.make_call('get', API_METRICS_TYPES_ENDPOINT)

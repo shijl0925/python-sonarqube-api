@@ -11,6 +11,7 @@ class SonarQubeServer:
     def get_server_version(self):
         """
         Version of SonarQube in plain text
+
         :return:
         """
         resp = self.sonarqube.make_call('get', API_SERVER_VERSION_ENDPOINT)

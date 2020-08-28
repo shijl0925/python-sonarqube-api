@@ -11,6 +11,7 @@ class SonarQubeLanguages:
     def get_supported_programming_languages(self, q=None):
         """
         List supported programming languages
+
         :param q: A pattern to match language keys/names against
         :return:
         """

@@ -22,27 +22,31 @@ class SonarQubeUser:
 
     def iterkeys(self):
         """
-        获取所有用户的登录名，返回生成器
+
+        :return:
         """
         for item in self:
             yield item['login']
 
     def keys(self):
         """
-        获取所有用户的登录名，返回列表
+
+        :return:
         """
         return list(self.iterkeys())
 
     def __len__(self):
         """
-        获取用户数量
+
         :return:
         """
         return len(self.keys())
 
     def __contains__(self, login_name):
         """
-        判断用户是否存在
+
+        :param login_name:
+        :return:
         """
         result = self.search_users(q=login_name)
         logins = [item['login'] for item in result]
@@ -50,7 +54,7 @@ class SonarQubeUser:
 
     def __getitem__(self, index):
         """
-        根据坐标获取用户信息
+
         :param index:
         :return:
         """
@@ -58,7 +62,7 @@ class SonarQubeUser:
 
     def __iter__(self):
         """
-        实现迭代
+
         :return:
         """
         self.poll()
@@ -67,6 +71,7 @@ class SonarQubeUser:
     def search_users(self, q=None):
         """
         Get a list of active users.
+
         :param q: Filter on login, name and email
         :return:
         """
@@ -94,13 +99,14 @@ class SonarQubeUser:
     def create_user(self, login, name, email=None, password=None, local='true', scm=None):
         """
         Create a user.
+
         :param login: User login
         :param name: User name
         :param email: User email
         :param password: User password. Only mandatory when creating local user, otherwise it should not be set
-        :param local: Specify if the user should be authenticated from SonarQube server or from an external
-          authentication system. Password should not be set when local is set to false. such as: true, false, yes, no
-          default value is true
+        :param local: Specify if the user should be authenticated from SonarQube server or from an external authentication system.
+          Password should not be set when local is set to false.
+          Possible values are for: true, false, yes, no. default value is true.
         :param scm: List of SCM accounts. To set several values, the parameter must be called once for each value.
         :return:
         """
@@ -123,6 +129,7 @@ class SonarQubeUser:
     def update_user(self, login, name=None, email=None, scm=None):
         """
         Update a user.
+
         :param login: User login
         :param name: User name
         :param email: User email
@@ -149,6 +156,7 @@ class SonarQubeUser:
         Update a user's password. Authenticated users can change their own password,
         provided that the account is not linked to an external authentication system.
         Administer System permission is required to change another user's password.
+
         :param login: User login
         :param newPassword: New password
         :param previousPassword: Previous password. Required when changing one's own password.
@@ -166,6 +174,7 @@ class SonarQubeUser:
     def deactivate_user(self, login):
         """
         Deactivate a user.
+
         :param login: User login
         :return:
         """
@@ -177,13 +186,14 @@ class SonarQubeUser:
     def search_groups_user_belongs_to(self, login, q=None, selected="selected"):
         """
         Lists the groups a user belongs to.
+
         :param login:
         :param q: Limit search to group names that contain the supplied string.
         :param selected: Depending on the value, show only selected items (selected=selected), deselected items
-          (selected=deselected), or all items with their selection status (selected=all).such as:
-          * all
-          * deselected
-          * selected
+          (selected=deselected), or all items with their selection status (selected=all).Possible values are for:
+            * all
+            * deselected
+            * selected
           default value is selected.
         :return:
         """
@@ -218,6 +228,7 @@ class SonarQubeUser:
     def update_user_login(self, login, newLogin):
         """
         Update a user login. A login can be updated many times.
+
         :param login: The current login (case-sensitive)
         :param newLogin: The new login. It must not already exist.
         :return:

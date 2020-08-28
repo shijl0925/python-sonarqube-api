@@ -18,6 +18,7 @@ class SonarQubeUsertokens:
         Please keep your tokens secret. They enable to authenticate and analyze projects.
         It requires administration permissions to specify a 'login' and generate a token for another user. Otherwise,
         a token is generated for the current user.
+
         :param token_name: Token name
         :param user_login: User login. If not set, the token is generated for the authenticated user.
         :return:
@@ -37,6 +38,7 @@ class SonarQubeUsertokens:
         Revoke a user access token.
         It requires administration permissions to specify a 'login' and revoke a token for another user.
         Otherwise, the token for the current user is revoked.
+
         :param token_name:
         :param user_login:
         :return:
@@ -56,6 +58,7 @@ class SonarQubeUsertokens:
         The login must exist and active.
         Field 'lastConnectionDate' is only updated every hour, so it may not be accurate,
         for instance when a user is using a token many times in less than one hour.
+
         :param user_login:
         :return:
         """

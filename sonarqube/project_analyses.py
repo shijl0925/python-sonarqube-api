@@ -19,11 +19,13 @@ class SonarQubeProjectAnalyses:
     def create_project_analysis_event(self, analysis, name, category="OTHER"):
         """
         Create a project analysis event.Only event of category 'VERSION' and 'OTHER' can be created.
+
         :param analysis: Analysis key
         :param name: Name
-        :param category: Category. such as:
-          * VERSION
-          * OTHER
+        :param category: Category.
+          Possible values are for:
+            * VERSION
+            * OTHER
           default value is OTHER.
         :return:
         """
@@ -38,6 +40,7 @@ class SonarQubeProjectAnalyses:
     def delete_project_analysis(self, analysis):
         """
         Delete a project analysis.
+
         :param analysis: Analysis key
         :return:
         """
@@ -50,6 +53,7 @@ class SonarQubeProjectAnalyses:
     def delete_project_analysis_event(self, event):
         """
         Delete a project analysis event.Only event of category 'VERSION' and 'OTHER' can be deleted.
+
         :param event: Event key
         :return:
         """
@@ -62,15 +66,16 @@ class SonarQubeProjectAnalyses:
     def search_project_analyses_and_events(self, project, branch=None, category=None, from_date=None, to_date=None):
         """
         Search a project analyses and attached events.
+
         :param project: Project key
         :param branch: Branch key
         :param category: Event category. Filter analyses that have at least one event of the category specified.
-          such as:
-          * VERSION
-          * OTHER
-          * QUALITY_PROFILE
-          * QUALITY_GATE
-          * DEFINITION_CHANGE
+          Possible values are for:
+            * VERSION
+            * OTHER
+            * QUALITY_PROFILE
+            * QUALITY_GATE
+            * DEFINITION_CHANGE
         :param from_date: Filter analyses created after the given date (inclusive).
           Either a date (server timezone) or datetime can be provided
         :param to_date: Filter analyses created before the given date (inclusive).
@@ -114,6 +119,7 @@ class SonarQubeProjectAnalyses:
         """
         Set an analysis as the baseline of the New Code Period on a project or a long-lived branch.
         This manually set baseline overrides the `sonar.leak.period` setting.
+
         :param project: Project key
         :param analysis: Analysis key
         :param branch: Branch key
@@ -132,6 +138,7 @@ class SonarQubeProjectAnalyses:
         """
         Unset any manually-set New Code Period baseline on a project or a long-lived branch.
         Unsetting a manual baseline restores the use of the `sonar.leak.period` setting.
+
         :param project: Project key
         :param branch: Branch key
         :return:
@@ -148,6 +155,7 @@ class SonarQubeProjectAnalyses:
         """
         Update a project analysis event.
         Only events of category 'VERSION' and 'OTHER' can be updated.
+
         :param event: Event key
         :param name: New name
         :return:

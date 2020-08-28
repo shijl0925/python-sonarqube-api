@@ -21,27 +21,31 @@ class SonarQubeProject:
 
     def iterkeys(self):
         """
-        获取所有项目的key，返回生成器
+
+        :return:
         """
         for item in self:
             yield item['key']
 
     def keys(self):
         """
-        获取所有项目的key，返回列表
+
+        :return:
         """
         return list(self.iterkeys())
 
     def __len__(self):
         """
-        获取项目
+
         :return:
         """
         return len(self.keys())
 
     def __contains__(self, project_key):
         """
-        判断项目是否存在
+
+        :param project_key:
+        :return:
         """
         result = self.search_projects()
         project_keys = [item['key'] for item in result]
@@ -49,7 +53,6 @@ class SonarQubeProject:
 
     def __getitem__(self, index):
         """
-        根据坐标获取项目信息
         :param index:
         :return:
         """
@@ -57,7 +60,7 @@ class SonarQubeProject:
 
     def __iter__(self):
         """
-        实现迭代
+
         :return:
         """
         self.poll()
@@ -66,19 +69,22 @@ class SonarQubeProject:
     def search_projects(self, analyzedBefore=None, onProvisionedOnly="false", projects=None, q=None, qualifiers="TRK"):
         """
         Search for projects or views to administrate them.
+
         :param analyzedBefore: Filter the projects for which last analysis is older than the given date (exclusive).
           Either a date (server timezone) or datetime can be provided.
         :param onProvisionedOnly: Filter the projects that are provisioned. default value is false.
         :param projects: Comma-separated list of project keys
-        :param q: Limit search to:
-          * component names that contain the supplied string
-          * component keys that contain the supplied string
+        :param q:
+          Limit search to:
+            * component names that contain the supplied string
+            * component keys that contain the supplied string
         :param qualifiers: Comma-separated list of component qualifiers. Filter the results with the specified
-          qualifiers. such as:
-          * TRK
-          * VW
-          * APP
+          qualifiers. Possible values are for:
+            * TRK
+            * VW
+            * APP
           default value is TRK.
+
         :return:
         """
         params = {
@@ -114,13 +120,14 @@ class SonarQubeProject:
     def create_project(self, project, name, visibility=None):
         """
         Create a project.
+
         :param project: Key of the project
         :param name: Name of the project. If name is longer than 500, it is abbreviated.
         :param visibility: Whether the created project should be visible to everyone, or only specific user/groups.
           If no visibility is specified, the default project visibility of the organization will be used.
-          such as:
-          * private
-          * public
+          Possible values are for:
+            * private
+            * public
         :return:
         """
         params = {
@@ -135,6 +142,7 @@ class SonarQubeProject:
     def get_project_id(self, project_key):
         """
         get project id
+
         :param project_key:
         :return:
         """
@@ -144,6 +152,7 @@ class SonarQubeProject:
     def delete_project(self, project):
         """
         Delete a project.
+
         :param project: Project key
         :return:
         """
@@ -157,18 +166,20 @@ class SonarQubeProject:
         """
         Delete one or several projects.
         At least one parameter is required among analyzedBefore, projects, projectIds (deprecated since 6.4) and q
+
         :param analyzedBefore: Filter the projects for which last analysis is older than the given date (exclusive).
           Either a date (server timezone) or datetime can be provided.
         :param onProvisionedOnly: Filter the projects that are provisioned.default value is false.
         :param projects: Comma-separated list of project keys
-        :param q: Limit to:
-          * component names that contain the supplied string
-          * component keys that contain the supplied string
+        :param q:
+          Limit to:
+            * component names that contain the supplied string
+            * component keys that contain the supplied string
         :param qualifiers: Comma-separated list of component qualifiers. Filter the results with the specified
-          qualifiers. such as:
-          * TRK
-          * VW
-          * APP
+          qualifiers. Possible values are for:
+            * TRK
+            * VW
+            * APP
           default value is TRK.
         :return:
         """
@@ -191,6 +202,7 @@ class SonarQubeProject:
     def update_project_key(self, previous_project_key, new_project_key):
         """
         Update a project or module key and all its sub-components keys.
+
         :param previous_project_key: Project or module key
         :param new_project_key: New component key
         :return:
@@ -204,6 +216,7 @@ class SonarQubeProject:
     def update_project_visibility(self, project, visibility):
         """
         Updates visibility of a project.
+
         :param project: Project key
         :param visibility: New visibility
         :return:

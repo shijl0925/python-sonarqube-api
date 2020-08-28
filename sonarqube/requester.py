@@ -20,7 +20,11 @@ class Requester:
     AUTH_COOKIE = None
 
     def __init__(self, *args, **kwargs):
+        """
 
+        :param args:
+        :param kwargs:
+        """
         username = None
         password = None
         token = None
@@ -48,6 +52,15 @@ class Requester:
             self.session.mount('https://', retry_adapter)
 
     def get_request_dict(self, params=None, data=None, files=None, headers=None, **kwargs):
+        """
+
+        :param params:
+        :param data:
+        :param files:
+        :param headers:
+        :param kwargs:
+        :return:
+        """
         requestKwargs = kwargs
         if self.token:
             requestKwargs['auth'] = self.token, ''
@@ -88,6 +101,9 @@ class Requester:
     def _update_url_scheme(self, url):
         """
         Updates scheme of given url to the one used in SonarQube baseurl.
+
+        :param url:
+        :return:
         """
         if self.base_scheme and not url.startswith("%s://" % self.base_scheme):
             url_split = urlparse.urlsplit(url)
@@ -103,6 +119,15 @@ class Requester:
         return url
 
     def get(self, url, params=None, headers=None, allow_redirects=True, stream=False):
+        """
+
+        :param url:
+        :param params:
+        :param headers:
+        :param allow_redirects:
+        :param stream:
+        :return:
+        """
         requestKwargs = self.get_request_dict(
             params=params,
             headers=headers,
@@ -112,6 +137,17 @@ class Requester:
         return self.session.get(self._update_url_scheme(url), **requestKwargs)
 
     def post(self, url, params=None, data=None, files=None, headers=None, allow_redirects=True, **kwargs):
+        """
+
+        :param url:
+        :param params:
+        :param data:
+        :param files:
+        :param headers:
+        :param allow_redirects:
+        :param kwargs:
+        :return:
+        """
         requestKwargs = self.get_request_dict(
             params=params,
             data=data,

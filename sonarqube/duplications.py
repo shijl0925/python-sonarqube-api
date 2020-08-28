@@ -11,6 +11,7 @@ class SonarQubeDuplications:
     def get_duplications(self, key):
         """
         Get duplications. Require Browse permission on file's project
+
         :param key: File key
         :return:
         """

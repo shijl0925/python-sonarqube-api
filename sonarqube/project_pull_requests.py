@@ -14,6 +14,7 @@ class SonarQubepRrojectPullRequests:
     def search_project_pull_requests(self, project):
         """
         List the pull requests of a project.
+
         :param project: Project key
         :return:
         """
@@ -26,6 +27,7 @@ class SonarQubepRrojectPullRequests:
     def delete_project_pull_requests(self, project, pullRequest):
         """
         Delete a pull request.
+
         :param project: Project key
         :param pullRequest: Pull request id
         :return:
