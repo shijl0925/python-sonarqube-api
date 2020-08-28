@@ -15,6 +15,7 @@ class SonarQubeProjectBranches:
     def search_project_branches(self, project):
         """
         List the branches of a project.
+
         :param project: Project key
         :return:
         """
@@ -28,6 +29,7 @@ class SonarQubeProjectBranches:
     def delete_project_branch(self, project, branch):
         """
         Delete a non-main branch of a project.
+
         :param project: Project key
         :param branch: Name of the branch
         :return:
@@ -41,6 +43,7 @@ class SonarQubeProjectBranches:
     def rename_project_branch(self, project, name):
         """
         Rename the main branch of a project
+
         :param project: Project key
         :param name: New name of the main branch
         :return:

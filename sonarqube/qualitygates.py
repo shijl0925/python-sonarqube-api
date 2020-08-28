@@ -27,6 +27,7 @@ class SonarQubeQualityGates:
     def copy_quality_gate(self, source_id, gate_name):
         """
         Copy a Quality Gate.
+
         :param source_id: The ID of the source quality gate
         :param gate_name: The name of the quality gate to create
         :return:
@@ -37,6 +38,7 @@ class SonarQubeQualityGates:
     def create_quality_gate(self, gate_name):
         """
         Create a Quality Gate.
+
         :param gate_name: The name of the quality gate to create
         :return:
         """
@@ -46,6 +48,7 @@ class SonarQubeQualityGates:
     def delete_quality_gate(self, gate_id):
         """
         Delete a Quality Gate.
+
         :param gate_id: ID of the quality gate to delete
         :return:
         """
@@ -55,6 +58,7 @@ class SonarQubeQualityGates:
     def rename_quality_gate(self, gate_id, gate_name):
         """
         Rename a Quality Gate.
+
         :param gate_id: ID of the quality gate to rename
         :param gate_name: New name of the quality gate
         :return:
@@ -65,20 +69,22 @@ class SonarQubeQualityGates:
     def create_condition_to_quality_gate(self, gateId, metric, error, op=None):
         """
         Add a new condition to a quality gate.
+
         :param gateId: ID of the quality gate
         :param metric: Condition metric.
           Only metric of the following types are allowed:
-          * INT
-          * MILLISEC
-          * RATING
-          * WORK_DUR
-          * FLOAT
-          * PERCENT
-          * LEVEL
+            * INT
+            * MILLISEC
+            * RATING
+            * WORK_DUR
+            * FLOAT
+            * PERCENT
+            * LEVEL
         :param error: Condition error threshold
-        :param op: Condition operator:
-          * LT = is lower than
-          * GT = is greater than
+        :param op: Condition operator
+          Possible values are for:
+            * LT = is lower than
+            * GT = is greater than
         :return:
         """
         params = {
@@ -94,6 +100,7 @@ class SonarQubeQualityGates:
     def delete_condition_from_quality_gate(self, condition_id):
         """
         Delete a condition from a quality gate.
+
         :param condition_id: Condition ID
         :return:
         """
@@ -103,20 +110,22 @@ class SonarQubeQualityGates:
     def update_condition_to_quality_gate(self, condition_id, metric, error, op=None):
         """
         Update a condition attached to a quality gate.
+
         :param condition_id: Condition ID
         :param metric: Condition metric.
           Only metric of the following types are allowed:
-          * INT
-          * MILLISEC
-          * RATING
-          * WORK_DUR
-          * FLOAT
-          * PERCENT
-          * LEVEL
+            * INT
+            * MILLISEC
+            * RATING
+            * WORK_DUR
+            * FLOAT
+            * PERCENT
+            * LEVEL
         :param error: Condition error threshold
-        :param op: Condition operator:
-          * LT = is lower than
-          * GT = is greater than
+        :param op: Condition operator
+          Possible values are for:
+            * LT = is lower than
+            * GT = is greater than
         :return:
         """
         params = {
@@ -131,13 +140,15 @@ class SonarQubeQualityGates:
 
     def get_qualitygate_projects(self, gate_id, selected="selected"):
         """
+        Search for projects associated (or not) to a quality gate.
 
         :param gate_id: Quality Gate ID
         :param selected: Depending on the value, show only selected items (selected=selected),
-          deselected items (selected=deselected), or all items with their selection status (selected=all).such as:
-          * all
-          * deselected
-          * selected
+          deselected items (selected=deselected), or all items with their selection status (selected=all).
+          Possible values are for:
+            * all
+            * deselected
+            * selected
           default value is selected
         :return:
         """
@@ -166,6 +177,7 @@ class SonarQubeQualityGates:
     def set_default_qualitygate(self, gate_id):
         """
         Set a quality gate as the default quality gate.
+
         :param gate_id: ID of the quality gate to set as default
         :return:
         """
@@ -174,9 +186,10 @@ class SonarQubeQualityGates:
 
     def get_project_qualitygates_status(self, project_key=None, analysisId=None, branch=None):
         """
-        Get the quality gate status of a project or a Compute Engine task. return 'ok','WARN','ERROR'.
+        Get the quality gate status of a project or a Compute Engine task. return 'ok','WARN','ERROR'
         The NONE status is returned when there is no quality gate associated with the analysis.
         Returns an HTTP code 404 if the analysis associated with the task is not found or does not exist.
+
         :param project_key: Project key
         :param analysisId: Analysis id
         :param branch: Branch key
@@ -197,6 +210,7 @@ class SonarQubeQualityGates:
     def get_quality_gates(self):
         """
         Get a list of quality gates
+
         :return:
         """
         resp = self.sonarqube.make_call('get', API_QUALITYGATES_LIST_ENDPOINT)
@@ -206,6 +220,7 @@ class SonarQubeQualityGates:
     def select_quality_gate_for_project(self, project_key, gate_id):
         """
         Associate a project to a quality gate.
+
         :param project_key: Project key
         :param gate_id: Quality gate id
         :return:
@@ -216,6 +231,7 @@ class SonarQubeQualityGates:
     def remove_project_from_quality_gate(self, project_key):
         """
         Remove the association of a project from a quality gate.
+
         :param project_key: Project key
         :return:
         """
@@ -225,6 +241,7 @@ class SonarQubeQualityGates:
     def show_quality_gate(self, gate_id=None, gate_name=None):
         """
         Display the details of a quality gate.
+
         :param gate_id: ID of the quality gate. Either id or name must be set
         :param gate_name: Name of the quality gate. Either id or name must be set
         :return:
@@ -242,6 +259,7 @@ class SonarQubeQualityGates:
     def get_quality_gate_of_project(self, project_key):
         """
         Get the quality gate of a project.
+
         :param project_key: Project key
         :return:
         """

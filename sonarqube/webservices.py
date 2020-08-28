@@ -2,7 +2,8 @@
 # -*- coding:utf-8 -*-
 # @Author: Jialiang Shi
 from sonarqube.config import (
-    API_WEBSERVICES_LIST_ENDPOINT
+    API_WEBSERVICES_LIST_ENDPOINT,
+    API_WEBSERVICES_RESPONSE_EXAMPLE_ENDPOINT
 )
 
 
@@ -13,8 +14,9 @@ class SonarQubeWebservices:
     def list_web_services(self, include_internals="false"):
         """
         List web services
+
         :param include_internals: Include web services that are implemented for internal use only.
-        Their forward-compatibility is not assured
+          Their forward-compatibility is not assured
         :return:
         """
         params = {'include_internals': include_internals}
@@ -22,3 +24,19 @@ class SonarQubeWebservices:
         resp = self.sonarqube.make_call('get', API_WEBSERVICES_LIST_ENDPOINT, **params)
         response = resp.json()
         return response['webServices']
+
+    def web_service_response_example(self, action, controller):
+        """
+        Display web service response example
+
+        :param action: Action of the web service
+        :param controller: Controller of the web service
+        :return:
+        """
+        params = {
+            'action': action,
+            'controller': controller
+        }
+
+        resp = self.sonarqube.make_call('post', API_WEBSERVICES_RESPONSE_EXAMPLE_ENDPOINT, **params)
+        return resp.json()

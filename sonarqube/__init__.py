@@ -32,6 +32,7 @@ from .server import SonarQubeServer
 from .user_tokens import SonarQubeUsertokens
 from .webhooks import SonarQubeWebhooks
 from .webservices import SonarQubeWebservices
+from .system import SonarQubeSystem
 
 
 class SonarQubeClient:
@@ -71,6 +72,7 @@ class SonarQubeClient:
     def strip_trailing_slash(cls, url):
         """
         remove url's trailing slash
+
         :param url:
         :return:
         """
@@ -263,6 +265,10 @@ class SonarQubeClient:
     @property
     def webservices(self):
         return SonarQubeWebservices(self)
+
+    @property
+    def system(self):
+        return SonarQubeSystem(self)
 
     @staticmethod
     def copy_dict(dest, src, option):

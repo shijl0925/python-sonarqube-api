@@ -19,25 +19,29 @@ class SonarQubeCe:
     def search_tasks(self, **kwargs):
         """
         Search for tasks. optional parameters:
-        componentId: Id of the component (project) to filter on
-        maxExecutedAt: Maximum date of end of task processing (inclusive)
-        minSubmittedAt: Minimum date of task submission (inclusive)
-        onlyCurrents: Filter on the last tasks (only the most recent finished task by project).
-          default value is false.
-        ps: Page size. Must be greater than 0 and less or equal than 1000
-        q: Limit search to:
-          * component names that contain the supplied string
-          * component keys that are exactly the same as the supplied string
-          * task ids that are exactly the same as the supplied string
-           Must not be set together with componentId
-        status: Comma separated list of task statuses. such as:
-          * SUCCESS
-          * FAILED
-          * CANCELED
-          * PENDING
-          * IN_PROGRESS
-          default value is SUCCESS,FAILED,CANCELED
-        task_type: Task type
+          * componentId: Id of the component (project) to filter on
+          * maxExecutedAt: Maximum date of end of task processing (inclusive)
+          * minSubmittedAt: Minimum date of task submission (inclusive)
+          * onlyCurrents: Filter on the last tasks (only the most recent finished task by project).
+            default value is false.
+          * ps: Page size. Must be greater than 0 and less or equal than 1000
+          * q: Limit search to:
+
+            * component names that contain the supplied string
+            * component keys that are exactly the same as the supplied string
+            * task ids that are exactly the same as the supplied string
+
+            Must not be set together with componentId
+          * status: Comma separated list of task statuses. Possible values are for:
+
+            * SUCCESS
+            * FAILED
+            * CANCELED
+            * PENDING
+            * IN_PROGRESS
+
+            default value is SUCCESS,FAILED,CANCELED
+          * task_type: Task type
         :return:
         """
         params = {}
@@ -51,6 +55,7 @@ class SonarQubeCe:
     def get_ce_activity_related_metrics(self, componentId=None):
         """
         Returns CE activity related metrics.
+
         :param componentId: Id of the component (project) to filter on
         :return:
         """
@@ -64,6 +69,7 @@ class SonarQubeCe:
     def get_component_queue_and_current_tasks(self, component):
         """
         Get the pending tasks, in-progress tasks and the last executed task of a given component (usually a project).
+
         :param component: Component key
         :return:
         """
@@ -74,9 +80,10 @@ class SonarQubeCe:
     def get_task(self, task_id, additionalFields=None):
         """
         Give Compute Engine task details such as type, status, duration and associated component.
+
         :param task_id: Id of task
         :param additionalFields: Comma-separated list of the optional fields to be returned in response.
-        such as: stacktrace,scannerContext,warning
+          Possible values are for: stacktrace,scannerContext,warning
         :return:
         """
         params = {'id': task_id}

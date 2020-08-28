@@ -15,6 +15,7 @@ class SonarQubeProjectLinks:
     def create_project_link(self, projectKey, name, url):
         """
         Create a new project link.
+
         :param projectKey: Project key
         :param name: Link name
         :param url: Link url
@@ -30,6 +31,7 @@ class SonarQubeProjectLinks:
     def delete_project_link(self, link_id):
         """
         Delete existing project link.
+
         :param link_id: Link id
         :return:
         """
@@ -41,6 +43,7 @@ class SonarQubeProjectLinks:
     def search_project_links(self, projectKey):
         """
         List links of a project.
+
         :param projectKey: Project Key
         :return:
         """
