@@ -65,3 +65,8 @@ html_theme = 'sphinx_rtd_theme'
 html_static_path = ['_static']
 
 master_doc = 'index'
+
+man_pages = [
+    (master_doc, 'python-sonarqube-api', 'SonarQube Client with Python',
+     [author], 1)
+]
