@@ -156,3 +156,43 @@ class Requester:
             allow_redirects=allow_redirects,
             **kwargs)
         return self.session.post(self._update_url_scheme(url), **requestKwargs)
+
+    def put(self, url, params=None, data=None, files=None, headers=None, allow_redirects=True, **kwargs):
+        """
+
+        :param url:
+        :param params:
+        :param data:
+        :param files:
+        :param headers:
+        :param allow_redirects:
+        :param kwargs:
+        :return:
+        """
+        requestKwargs = self.get_request_dict(
+            params=params,
+            data=data,
+            files=files,
+            headers=headers,
+            allow_redirects=allow_redirects,
+            **kwargs)
+        return self.session.put(self._update_url_scheme(url), **requestKwargs)
+
+    def delete(self, url, params=None, data=None, headers=None, allow_redirects=True, **kwargs):
+        """
+
+        :param url:
+        :param params:
+        :param data:
+        :param headers:
+        :param allow_redirects:
+        :param kwargs:
+        :return:
+        """
+        requestKwargs = self.get_request_dict(
+            params=params,
+            data=data,
+            headers=headers,
+            allow_redirects=allow_redirects,
+            **kwargs)
+        return self.session.delete(self._update_url_scheme(url), **requestKwargs)
