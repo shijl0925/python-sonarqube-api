@@ -26,86 +26,94 @@ class SonarQubePermissions:
     def __init__(self, sonarqube):
         self.sonarqube = sonarqube
 
-    def add_permission_to_group(self, projectKey, groupName, permission):
+    def add_permission_to_group(self, groupName, permission, projectKey=None):
         """
         Add permission to a group.
         This service defaults to global permissions, but can be limited to project permissions by providing project key.
         The group name must be provided.
 
-        :param projectKey: Project key
         :param groupName: Group name or 'anyone' (case insensitive)
         :param permission: Permission.
           Possible values are for:
             * Possible values for global permissions: admin, profileadmin, gateadmin, scan, provisioning
             * Possible values for project permissions admin, codeviewer, issueadmin, securityhotspotadmin, scan, user
+        :param projectKey: Project key
         :return:
         """
         params = {
             'groupName': groupName,
-            'projectKey': projectKey,
             'permission': permission
         }
+        if projectKey:
+            params.update({"projectKey": projectKey})
+
         self.sonarqube.make_call('post', API_PERMISSIONS_ADD_GROUP_ENDPOINT, **params)
 
-    def remove_permission_from_group(self, projectKey, groupName, permission):
+    def remove_permission_from_group(self, groupName, permission, projectKey=None):
         """
         Remove a permission from a group.
         This service defaults to global permissions, but can be limited to project permissions by providing project key.
         The group name must be provided.
 
-        :param projectKey: Project key
         :param groupName: Group name or 'anyone' (case insensitive)
         :param permission: Permission
           Possible values are for:
             * Possible values for global permissions: admin, profileadmin, gateadmin, scan, provisioning
             * Possible values for project permissions admin, codeviewer, issueadmin, securityhotspotadmin, scan, user
+        :param projectKey: Project key
         :return:
         """
         params = {
             'groupName': groupName,
-            'projectKey': projectKey,
             'permission': permission
         }
+        if projectKey:
+            params.update({"projectKey": projectKey})
+
         self.sonarqube.make_call('post', API_PERMISSIONS_REMOVE_GROUP_ENDPOINT, **params)
 
-    def add_permission_to_user(self, projectKey, login, permission):
+    def add_permission_to_user(self, login, permission, projectKey=None):
         """
         Add permission to a user.
         This service defaults to global permissions, but can be limited to project permissions by providing project key.
 
-        :param projectKey: Project key
         :param login: User login
         :param permission: Permission
           Possible values are for:
             * Possible values for global permissions: admin, profileadmin, gateadmin, scan, provisioning
             * Possible values for project permissions admin, codeviewer, issueadmin, securityhotspotadmin, scan, user
+        :param projectKey: Project key
         :return:
         """
         params = {
             'login': login,
-            'projectKey': projectKey,
             'permission': permission
         }
+        if projectKey:
+            params.update({"projectKey": projectKey})
+
         self.sonarqube.make_call('post', API_PERMISSIONS_ADD_USER_ENDPOINT, **params)
 
-    def remove_permission_from_user(self, projectKey, login, permission):
+    def remove_permission_from_user(self, login, permission, projectKey=None):
         """
         Remove permission from a user.
         This service defaults to global permissions, but can be limited to project permissions by providing project key.
 
-        :param projectKey: Project key
         :param login: User login
         :param permission: Permission
           Possible values are for:
             * Possible values for global permissions: admin, profileadmin, gateadmin, scan, provisioning
             * Possible values for project permissions admin, codeviewer, issueadmin, securityhotspotadmin, scan, user
+        :param projectKey: Project key
         :return:
         """
         params = {
             'login': login,
-            'projectKey': projectKey,
             'permission': permission
         }
+        if projectKey:
+            params.update({"projectKey": projectKey})
+
         self.sonarqube.make_call('post', API_PERMISSIONS_REMOVE_USER_ENDPOINT, **params)
 
     def apply_template_to_project(self, template_name, project_key):
