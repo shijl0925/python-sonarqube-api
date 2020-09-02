@@ -13,7 +13,7 @@ class SonarQubeSettings:
     def __init__(self, sonarqube):
         self.sonarqube = sonarqube
 
-    def update_setting_value(self, setting_key, setting_value, component_key=None, fieldValues=None):
+    def update_setting_value(self, setting_key, setting_value, component_key=None, field_values=None):
         """
         Update a setting value.
         The settings defined in conf/sonar.properties are read-only and can't be changed.
@@ -21,7 +21,7 @@ class SonarQubeSettings:
         :param setting_key: Setting key
         :param setting_value: Setting value. To reset a value, please use the reset web service.
         :param component_key: Component key
-        :param fieldValues: Setting field values. To set several values, the parameter must be called once for
+        :param field_values: Setting field values. To set several values, the parameter must be called once for
           each value.
         :return:
         """
@@ -32,8 +32,8 @@ class SonarQubeSettings:
         if component_key:
             params.update({"component": component_key})
 
-        if fieldValues:
-            params.update({"fieldValues": fieldValues})
+        if field_values:
+            params.update({"fieldValues": field_values})
 
         self.sonarqube.make_call('post', API_SETTINGS_SET_ENDPOINT, **params)
 

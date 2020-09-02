@@ -24,7 +24,7 @@ Delete a Webhook.::
 
 Get the recent deliveries for a specified project::
 
-    deliveries = sonar.webhooks.get_webhook_deliveries(componentKey="my-project")
+    deliveries = sonar.webhooks.get_webhook_deliveries(component_key="my-project")
 
 Get a webhook delivery by its id.::
 

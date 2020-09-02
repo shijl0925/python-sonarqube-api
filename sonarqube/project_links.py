@@ -12,17 +12,17 @@ class SonarQubeProjectLinks:
     def __init__(self, sonarqube):
         self.sonarqube = sonarqube
 
-    def create_project_link(self, projectKey, name, url):
+    def create_project_link(self, project_key, name, url):
         """
         Create a new project link.
 
-        :param projectKey: Project key
+        :param project_key: Project key
         :param name: Link name
         :param url: Link url
         :return:
         """
         params = {
-            'projectKey': projectKey,
+            'projectKey': project_key,
             'name': name,
             'url': url
         }
@@ -40,15 +40,15 @@ class SonarQubeProjectLinks:
         }
         self.sonarqube.make_call('post', API_PROJECT_LINKS_DELETE_ENDPOINT, **params)
 
-    def search_project_links(self, projectKey):
+    def search_project_links(self, project_key):
         """
         List links of a project.
 
-        :param projectKey: Project Key
+        :param project_key: Project Key
         :return:
         """
         params = {
-            'projectKey': projectKey
+            'projectKey': project_key
         }
         resp = self.sonarqube.make_call('get', API_PROJECT_LINKS_SEARCH_ENDPOINT, **params)
         response = resp.json()

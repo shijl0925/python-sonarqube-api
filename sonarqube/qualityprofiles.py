@@ -67,18 +67,20 @@ class SonarQubeQualityprofiles:
 
         self.sonarqube.make_call('post', API_QUALITYPROFILES_ACTIVATE_RULE_ENDPOINT, **data)
 
-    def search_quality_profiles(self, defaults="false", language=None, project_key=None, profile_name=None):
+    def search_quality_profiles(self, defaults=False, language=None, project_key=None, profile_name=None):
         """
         Search quality profiles
 
         :param defaults: If set to true, return only the quality profiles marked as default for each language.
-          Possible values are for: true, false, yes, no.default value is false.
+          Possible values are for: True or False. default value is False.
         :param language: Language key. If provided, only profiles for the given language are returned.
         :param project_key: Project key
         :param profile_name: Quality profile name
         :return:
         """
-        params = {'defaults': defaults}
+        params = {
+            'defaults': defaults and 'true' or 'false'
+        }
 
         if language:
             params.update({'language': language})
@@ -241,17 +243,17 @@ class SonarQubeQualityprofiles:
             for event in response['events']:
                 yield event
 
-    def copy_quality_profile(self, fromKey, toName):
+    def copy_quality_profile(self, profile_key, new_profile_name):
         """
         Copy a quality profile.
 
-        :param fromKey: Quality profile key
-        :param toName: Name for the new quality profile.
+        :param profile_key: Quality profile key
+        :param new_profile_name: Name for the new quality profile.
         :return:
         """
         params = {
-            'fromKey': fromKey,
-            'toName': toName
+            'fromKey': profile_key,
+            'toName': new_profile_name
         }
         self.sonarqube.make_call('post', API_QUALITYPROFILES_COPY_ENDPOINT, **params)
 
@@ -308,11 +310,11 @@ class SonarQubeQualityprofiles:
 
         self.sonarqube.make_call('post', API_QUALITYPROFILES_DELETE_ENDPOINT, **params)
 
-    def export_quality_profile(self, exporterKey=None, language=None, profile_name=None):
+    def export_quality_profile(self, exporter_key=None, language=None, profile_name=None):
         """
         Export a quality profile.
 
-        :param exporterKey: Output format. If left empty, the same format as api/qualityprofiles/backup is used.
+        :param exporter_key: Output format. If left empty, the same format as api/qualityprofiles/backup is used.
           Possible values are described by api/qualityprofiles/exporters.
           Possible values are for:
             * sonarlint-vs-vbnet
@@ -328,8 +330,8 @@ class SonarQubeQualityprofiles:
         """
         params = {}
 
-        if exporterKey:
-            params.update({'exporterKey': exporterKey})
+        if exporter_key:
+            params.update({'exporterKey': exporter_key})
 
         if language:
             params.update({'language': language})

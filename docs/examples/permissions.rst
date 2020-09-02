@@ -10,23 +10,23 @@ Examples
 
 Add permission to a group::
 
-    sonar.permissions.add_permission_to_group(groupName="sonar-users", permission="scan", projectKey="my_project")
+    sonar.permissions.add_permission_to_group(group_name="sonar-users", permission="scan", project_key="my_project")
 
 or::
 
-    sonar.permissions.add_permission_to_group(groupName="sonar-users", permission="profileadmin")
+    sonar.permissions.add_permission_to_group(group_name="sonar-users", permission="profileadmin")
 
 Remove a permission from a group::
 
-    sonar.permissions.remove_permission_from_group(groupName="sonar-users", permission="scan", projectKey="my_project")
+    sonar.permissions.remove_permission_from_group(group_name="sonar-users", permission="scan", project_key="my_project")
 
 or::
 
-    sonar.permissions.remove_permission_from_group(groupName="sonar-users", permission="profileadmin")
+    sonar.permissions.remove_permission_from_group(group_name="sonar-users", permission="profileadmin")
 
 Add permission to a user::
 
-    sonar.permissions.add_permission_to_user(login="kevin", permission="codeviewer", projectKey="my_project")
+    sonar.permissions.add_permission_to_user(login="kevin", permission="codeviewer", project_key="my_project")
 
 or::
 
@@ -34,7 +34,7 @@ or::
 
 Remove permission from a user::
 
-    sonar.permissions.remove_permission_from_user(login="kevin", permission="codeviewer", projectKey="my_project")
+    sonar.permissions.remove_permission_from_user(login="kevin", permission="codeviewer", project_key="my_project")
 
 or::
 
@@ -79,7 +79,7 @@ Remove a user from a permission template.::
 
 Create a permission template.::
 
-    sonar.permissions.create_template("test-template", description="test template", projectKeyPattern=".*\.finance\..*")
+    sonar.permissions.create_template("test-template", description="test template", pattern=".*\.finance\..*")
 
 Delete a permission template.::
 
@@ -98,6 +98,6 @@ Update a permission template.::
     sonar.permissions.update_template(template_id="AXQqe0yfjOKlq86mQn4t",
                                       template_name="test-permission-template",
                                       description="test permission template",
-                                      projectKeyPattern=".*\.finance\..*"
+                                      pattern=".*\.finance\..*"
                                       )
 
