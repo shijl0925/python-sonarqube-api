@@ -66,13 +66,14 @@ class SonarQubeProject:
         self.poll()
         return self._data
 
-    def search_projects(self, analyzedBefore=None, onProvisionedOnly="false", projects=None, q=None, qualifiers="TRK"):
+    def search_projects(self, analyzedBefore=None, onProvisionedOnly=False, projects=None, q=None, qualifiers="TRK"):
         """
         Search for projects or views to administrate them.
 
         :param analyzedBefore: Filter the projects for which last analysis is older than the given date (exclusive).
           Either a date (server timezone) or datetime can be provided.
-        :param onProvisionedOnly: Filter the projects that are provisioned. default value is false.
+        :param onProvisionedOnly: Filter the projects that are provisioned.
+          Possible values are for: True or False. default value is False.
         :param projects: Comma-separated list of project keys
         :param q:
           Limit search to:
@@ -88,7 +89,7 @@ class SonarQubeProject:
         :return:
         """
         params = {
-            'onProvisionedOnly': onProvisionedOnly,
+            'onProvisionedOnly': onProvisionedOnly and 'true' or 'false',
             'qualifiers': qualifiers.upper()
         }
         page_num = 1
@@ -161,7 +162,7 @@ class SonarQubeProject:
         }
         self.sonarqube.make_call('post', API_PROJECTS_DELETE_ENDPOINT, **params)
 
-    def bulk_delete_projects(self, analyzedBefore=None, onProvisionedOnly="false", projects=None,
+    def bulk_delete_projects(self, analyzedBefore=None, onProvisionedOnly=False, projects=None,
                              q=None, qualifiers="TRK"):
         """
         Delete one or several projects.
@@ -169,7 +170,8 @@ class SonarQubeProject:
 
         :param analyzedBefore: Filter the projects for which last analysis is older than the given date (exclusive).
           Either a date (server timezone) or datetime can be provided.
-        :param onProvisionedOnly: Filter the projects that are provisioned.default value is false.
+        :param onProvisionedOnly: Filter the projects that are provisioned.
+          Possible values are for: True or False. default value is False.
         :param projects: Comma-separated list of project keys
         :param q:
           Limit to:
@@ -184,7 +186,7 @@ class SonarQubeProject:
         :return:
         """
         params = {
-            'onProvisionedOnly': onProvisionedOnly,
+            'onProvisionedOnly': onProvisionedOnly and 'true' or 'false',
             'qualifiers': qualifiers.upper()
         }
 

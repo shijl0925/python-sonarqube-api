@@ -26,53 +26,53 @@ class SonarQubePermissions:
     def __init__(self, sonarqube):
         self.sonarqube = sonarqube
 
-    def add_permission_to_group(self, groupName, permission, projectKey=None):
+    def add_permission_to_group(self, group_name, permission, project_key=None):
         """
         Add permission to a group.
         This service defaults to global permissions, but can be limited to project permissions by providing project key.
         The group name must be provided.
 
-        :param groupName: Group name or 'anyone' (case insensitive)
+        :param group_name: Group name or 'anyone' (case insensitive)
         :param permission: Permission.
           Possible values are for:
             * Possible values for global permissions: admin, profileadmin, gateadmin, scan, provisioning
             * Possible values for project permissions admin, codeviewer, issueadmin, securityhotspotadmin, scan, user
-        :param projectKey: Project key
+        :param project_key: Project key
         :return:
         """
         params = {
-            'groupName': groupName,
+            'groupName': group_name,
             'permission': permission
         }
-        if projectKey:
-            params.update({"projectKey": projectKey})
+        if project_key:
+            params.update({"projectKey": project_key})
 
         self.sonarqube.make_call('post', API_PERMISSIONS_ADD_GROUP_ENDPOINT, **params)
 
-    def remove_permission_from_group(self, groupName, permission, projectKey=None):
+    def remove_permission_from_group(self, group_name, permission, project_key=None):
         """
         Remove a permission from a group.
         This service defaults to global permissions, but can be limited to project permissions by providing project key.
         The group name must be provided.
 
-        :param groupName: Group name or 'anyone' (case insensitive)
+        :param group_name: Group name or 'anyone' (case insensitive)
         :param permission: Permission
           Possible values are for:
             * Possible values for global permissions: admin, profileadmin, gateadmin, scan, provisioning
             * Possible values for project permissions admin, codeviewer, issueadmin, securityhotspotadmin, scan, user
-        :param projectKey: Project key
+        :param project_key: Project key
         :return:
         """
         params = {
-            'groupName': groupName,
+            'groupName': group_name,
             'permission': permission
         }
-        if projectKey:
-            params.update({"projectKey": projectKey})
+        if project_key:
+            params.update({"projectKey": project_key})
 
         self.sonarqube.make_call('post', API_PERMISSIONS_REMOVE_GROUP_ENDPOINT, **params)
 
-    def add_permission_to_user(self, login, permission, projectKey=None):
+    def add_permission_to_user(self, login, permission, project_key=None):
         """
         Add permission to a user.
         This service defaults to global permissions, but can be limited to project permissions by providing project key.
@@ -82,19 +82,19 @@ class SonarQubePermissions:
           Possible values are for:
             * Possible values for global permissions: admin, profileadmin, gateadmin, scan, provisioning
             * Possible values for project permissions admin, codeviewer, issueadmin, securityhotspotadmin, scan, user
-        :param projectKey: Project key
+        :param project_key: Project key
         :return:
         """
         params = {
             'login': login,
             'permission': permission
         }
-        if projectKey:
-            params.update({"projectKey": projectKey})
+        if project_key:
+            params.update({"projectKey": project_key})
 
         self.sonarqube.make_call('post', API_PERMISSIONS_ADD_USER_ENDPOINT, **params)
 
-    def remove_permission_from_user(self, login, permission, projectKey=None):
+    def remove_permission_from_user(self, login, permission, project_key=None):
         """
         Remove permission from a user.
         This service defaults to global permissions, but can be limited to project permissions by providing project key.
@@ -104,15 +104,15 @@ class SonarQubePermissions:
           Possible values are for:
             * Possible values for global permissions: admin, profileadmin, gateadmin, scan, provisioning
             * Possible values for project permissions admin, codeviewer, issueadmin, securityhotspotadmin, scan, user
-        :param projectKey: Project key
+        :param project_key: Project key
         :return:
         """
         params = {
             'login': login,
             'permission': permission
         }
-        if projectKey:
-            params.update({"projectKey": projectKey})
+        if project_key:
+            params.update({"projectKey": project_key})
 
         self.sonarqube.make_call('post', API_PERMISSIONS_REMOVE_USER_ENDPOINT, **params)
 
@@ -130,7 +130,7 @@ class SonarQubePermissions:
         }
         self.sonarqube.make_call('post', API_PERMISSIONS_APPLY_TEMPLATE_ENDPOINT, **params)
 
-    def apply_template_to_projects(self, template_name, projects=None, analyzedBefore=None, onProvisionedOnly=None,
+    def apply_template_to_projects(self, template_name, projects=None, analyzedBefore=None, onProvisionedOnly=False,
                                    q=None, qualifiers="TRK"):
         """
         Apply a permission template to several projects.
@@ -138,7 +138,8 @@ class SonarQubePermissions:
         :param template_name: Template name
         :param projects: Comma-separated list of project keys
         :param analyzedBefore: Filter the projects for which last analysis is older than the given date (exclusive).
-        :param onProvisionedOnly: Filter the projects that are provisioned
+        :param onProvisionedOnly: Filter the projects that are provisioned.
+          Possible values are for: True or False. default value is False.
         :param q: Limit search to:
           Possible values are for:
             * project names that contain the supplied string
@@ -151,7 +152,8 @@ class SonarQubePermissions:
         """
         params = {
             'templateName': template_name,
-            'qualifiers': qualifiers
+            'qualifiers': qualifiers,
+            'onProvisionedOnly': onProvisionedOnly and 'true' or 'false'
         }
 
         if projects:
@@ -159,9 +161,6 @@ class SonarQubePermissions:
 
         if analyzedBefore:
             params.update({"analyzedBefore": analyzedBefore})
-
-        if onProvisionedOnly:
-            params.update({"onProvisionedOnly": onProvisionedOnly})
 
         if q:
             params.update({"q": q})
@@ -272,13 +271,13 @@ class SonarQubePermissions:
         }
         self.sonarqube.make_call('post', API_PERMISSIONS_REMOVE_USER_FROM_TEMPLATE_ENDPOINT, **params)
 
-    def create_template(self, template_name, description=None, projectKeyPattern=None):
+    def create_template(self, template_name, description=None, pattern=None):
         """
         Create a permission template.
 
         :param template_name: Template name
         :param description: Template description
-        :param projectKeyPattern: Project key pattern. Must be a valid Java regular expression
+        :param pattern: Project key pattern. Must be a valid Java regular expression
         :return:
         """
         params = {
@@ -288,8 +287,8 @@ class SonarQubePermissions:
         if description:
             params.update({"description": description})
 
-        if projectKeyPattern:
-            params.update({"projectKeyPattern": projectKeyPattern})
+        if pattern:
+            params.update({"projectKeyPattern": pattern})
 
         self.sonarqube.make_call('post', API_PERMISSIONS_CREATE_TEMPLATE_ENDPOINT, **params)
 
@@ -338,14 +337,14 @@ class SonarQubePermissions:
         }
         self.sonarqube.make_call('post', API_PERMISSIONS_SET_DEFAULT_TEMPLATE_ENDPOINT, **params)
 
-    def update_template(self, template_id, template_name=None, description=None, projectKeyPattern=None):
+    def update_template(self, template_id, template_name=None, description=None, pattern=None):
         """
         Update a permission template.
 
         :param template_id: Template id
         :param template_name: Template name
         :param description: Template description
-        :param projectKeyPattern: Project key pattern. Must be a valid Java regular expression
+        :param pattern: Project key pattern. Must be a valid Java regular expression
         :return:
         """
         params = {
@@ -358,7 +357,7 @@ class SonarQubePermissions:
         if description:
             params.update({"description": description})
 
-        if projectKeyPattern:
-            params.update({"projectKeyPattern": projectKeyPattern})
+        if pattern:
+            params.update({"projectKeyPattern": pattern})
 
         self.sonarqube.make_call('post', API_PERMISSIONS_UPDATE_TEMPLATE_ENDPOINT, **params)

@@ -151,23 +151,23 @@ class SonarQubeUser:
 
         self.sonarqube.make_call('post', API_USERS_UPDATE_ENDPOINT, **params)
 
-    def change_user_password(self, login, newPassword, previousPassword=None):
+    def change_user_password(self, login, new_password, previous_password=None):
         """
         Update a user's password. Authenticated users can change their own password,
         provided that the account is not linked to an external authentication system.
         Administer System permission is required to change another user's password.
 
         :param login: User login
-        :param newPassword: New password
-        :param previousPassword: Previous password. Required when changing one's own password.
+        :param new_password: New password
+        :param previous_password: Previous password. Required when changing one's own password.
         :return:
         """
         params = {
             'login': login,
-            'password': newPassword
+            'password': new_password
         }
-        if previousPassword:
-            params.update({'previousPassword': previousPassword})
+        if previous_password:
+            params.update({'previousPassword': previous_password})
 
         self.sonarqube.make_call('post', API_USERS_CHANGE_PASSWORD_ENDPOINT, **params)
 
@@ -225,17 +225,17 @@ class SonarQubeUser:
             for group in response['groups']:
                 yield group
 
-    def update_user_login(self, login, newLogin):
+    def update_user_login(self, login, new_login):
         """
         Update a user login. A login can be updated many times.
 
         :param login: The current login (case-sensitive)
-        :param newLogin: The new login. It must not already exist.
+        :param new_login: The new login. It must not already exist.
         :return:
         """
         params = {
             'login': login,
-            'newLogin': newLogin
+            'newLogin': new_login
         }
 
         self.sonarqube.make_call('post', API_USERS_UPDATE_LOGIN_ENDPOINT, **params)

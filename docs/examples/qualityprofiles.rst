@@ -59,7 +59,7 @@ Get the history of changes on a quality profile: rule activation/deactivation, c
 
 Copy a quality profile.::
 
-    sonar.qualityprofiles.copy_quality_profile(fromKey="AW7vWZ7X6yOn6l1iXsR_", toName="FindBugs&P3C-test")
+    sonar.qualityprofiles.copy_quality_profile(profile_key="AW7vWZ7X6yOn6l1iXsR_", new_profile_name="FindBugs&P3C-test")
 
 Create a quality profile.::
 
@@ -76,7 +76,7 @@ Delete a quality profile and all its descendants.::
 
 Export a quality profile.::
 
-    quality_profile = sonar.qualityprofiles.export_quality_profile(exporterKey="pmd", language="java", profile_name="FindBugs&P3C")
+    quality_profile = sonar.qualityprofiles.export_quality_profile(exporter_key="pmd", language="java", profile_name="FindBugs&P3C")
     with open("quality_profile.xml", "w") as f:
         f.write(quality_profile)
 

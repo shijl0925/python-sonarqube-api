@@ -58,13 +58,13 @@ class SonarQubeWebhooks:
 
         self.sonarqube.make_call('post', API_WEBHOOKS_DELETE_ENDPOINT, **params)
 
-    def get_webhook_deliveries(self, webhook_key=None, componentKey=None, ceTaskId=None):
+    def get_webhook_deliveries(self, webhook_key=None, component_key=None, task_id=None):
         """
         Get the recent deliveries for a specified project or Compute Engine task.
 
         :param webhook_key: Key of the webhook that triggered those deliveries
-        :param componentKey: Key of the project
-        :param ceTaskId: Id of the Compute Engine task
+        :param component_key: Key of the project
+        :param task_id: Id of the Compute Engine task
         :return:
         """
         params = {}
@@ -72,11 +72,11 @@ class SonarQubeWebhooks:
         if webhook_key:
             params.update({'webhook': webhook_key})
 
-        if componentKey:
-            params.update({'componentKey': componentKey})
+        if component_key:
+            params.update({'componentKey': component_key})
 
-        if ceTaskId:
-            params.update({'ceTaskId': ceTaskId})
+        if task_id:
+            params.update({'ceTaskId': task_id})
 
         page_num = 1
         page_size = 1

@@ -308,16 +308,19 @@ class SonarQubeRules:
         }
         self.sonarqube.make_call('post', API_RULES_DELETE_ENDPOINT, **params)
 
-    def get_rule(self, rule_key, actives="false"):
+    def get_rule(self, rule_key, actives=False):
         """
         Get detailed information about a rule.
 
         :param rule_key: Rule key
-        :param actives: Show rule's activations for all profiles ("active rules"). Possible values are for: true, false, yes, no
-          default value is fasle.
+        :param actives: Show rule's activations for all profiles ("active rules").
+          Possible values are for: True or False. default value is False.
         :return:
         """
-        params = {'key': rule_key, 'actives': actives}
+        params = {
+            'key': rule_key,
+            'actives': actives and 'true' or 'false'
+        }
 
         res = self.sonarqube.make_call('get', API_RULES_SHOW_ENDPOINT, **params)
         return res.json()

@@ -26,7 +26,7 @@ Rename a Quality Gate.::
 
 Add a new condition to a quality gate.::
 
-    sonar.qualitygates.create_condition_to_quality_gate(gateId=6, metric="new_coverage", error="80", op="LT")
+    sonar.qualitygates.create_condition_to_quality_gate(gate_id=6, metric="new_coverage", error="80", op="LT")
 
 Delete a condition from a quality gate.::
 
