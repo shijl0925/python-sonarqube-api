@@ -83,7 +83,7 @@ class SonarQubeClient:
     def __str__(self):
         return '{}'.format(self._sonarqube_url)
 
-    def _get_url(self, endpoint):
+    def _get_endpoint_url(self, endpoint):
         """
         Return the complete url including host and port for a given endpoint.
 
@@ -95,21 +95,21 @@ class SonarQubeClient:
     def make_call(self, method, endpoint, **data):
         """
         Make the call to the service with the given method, queryset and data,
-        using the initial session.
+        using the requester.
 
-        Note: data is not passed as a single dictionary for better testability
-        (see https://github.com/kako-nawao/python-sonarqube-api/issues/15).
-
-        :param method: http method (get, post, put, patch)
+        :param method: http method (get, post, put, delete)
         :param endpoint: relative url to make the call
         :param data: queryset or body
         :return: response
         """
         call = getattr(self.requester, method.lower())
-        base_url = self._get_url(endpoint)
+        base_url = self._get_endpoint_url(endpoint)
         res = call(base_url, params=data or {})
         # Analyse response status and return or raise exception
         # Note: redirects are followed automatically by requests
+
+        # res.raise_for_status()
+
         if res.status_code < 300:
             # OK, return http response
             return res
