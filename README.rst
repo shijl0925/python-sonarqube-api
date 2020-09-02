@@ -4,14 +4,22 @@ Python SonarQube Client
 
 A Python Client for SonarQube Server APIs.
 
+.. image:: https://img.shields.io/pypi/pyversions/python-sonarqube-api.svg
+    :target: https://pypi.python.org/pypi/python-sonarqube-api
+.. image:: https://img.shields.io/pypi/v/python-sonarqube-api.svg
+    :target: https://pypi.python.org/pypi/python-sonarqube-api
+.. image:: https://img.shields.io/pypi/dm/python-sonarqube-api.svg
+    :target: https://pypistats.org/packages/python-sonarqube-api
+.. image:: https://img.shields.io/github/license/shijl0925/python-sonarqube-api.svg
+    :target: LICENSE
+
+
 Installation
 ============
 
 Install::
 
     pip install python-sonarqube-api
-
-
 
 Documentation
 =============
@@ -23,7 +31,7 @@ The full documentation for API is available on `readthedocs
 Compatibility
 =============
 
-* This package is compatible Python versions 2.7, 3.4, 3.5 and 3.6.
+* This package is compatible Python versions 2.7, 3.3+.
 * Tested with SonarQube v7.9.x Community Edition
 
 Usage
@@ -50,4 +58,11 @@ as tokens can easily be revoked in the event of unintended exposure::
 
     h = SonarQubeClient(token='*****************')
 
+
+API example
+-----------
+
+The API example supported by the SonarQubeClient are:
+The example documentation for API is available on `API examples
+<https://python-sonarqube-api.readthedocs.io/en/latest/examples.html>`_.
 
