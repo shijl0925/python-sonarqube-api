@@ -52,16 +52,16 @@ class SonarQubeCe:
         response = resp.json()
         return response['tasks']
 
-    def get_ce_activity_related_metrics(self, componentId=None):
+    def get_ce_activity_related_metrics(self, component_id=None):
         """
         Returns CE activity related metrics.
 
-        :param componentId: Id of the component (project) to filter on
+        :param component_id: Id of the component (project) to filter on
         :return:
         """
         params = {}
-        if componentId:
-            params.update({'componentId': componentId})
+        if component_id:
+            params.update({'componentId': component_id})
 
         resp = self.sonarqube.make_call('get', API_CE_ACTIVITY_STATUS_ENDPOINT, **params)
         return resp.json()
@@ -77,18 +77,18 @@ class SonarQubeCe:
         resp = self.sonarqube.make_call('get', API_CE_COMPONENT_ENDPOINT, **params)
         return resp.json()
 
-    def get_task(self, task_id, additionalFields=None):
+    def get_task(self, task_id, fields=None):
         """
         Give Compute Engine task details such as type, status, duration and associated component.
 
         :param task_id: Id of task
-        :param additionalFields: Comma-separated list of the optional fields to be returned in response.
+        :param fields: Comma-separated list of the optional fields to be returned in response.
           Possible values are for: stacktrace,scannerContext,warning
         :return:
         """
         params = {'id': task_id}
-        if additionalFields:
-            params.update({'additionalFields': additionalFields})
+        if fields:
+            params.update({'additionalFields': fields})
 
         resp = self.sonarqube.make_call('get', API_CE_TASK_ENDPOINT, **params)
         return resp.json()

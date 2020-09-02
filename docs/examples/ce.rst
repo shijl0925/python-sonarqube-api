@@ -18,7 +18,7 @@ or::
 
 Returns CE activity related metrics::
 
-    metrics = sonar.ce.get_ce_activity_related_metrics(componentId="AXD1qDmE5ohQwTlZZPR6")
+    metrics = sonar.ce.get_ce_activity_related_metrics(component_id="AXD1qDmE5ohQwTlZZPR6")
 
 Get the pending tasks, in-progress tasks and the last executed task of a given component (usually a project)::
 
@@ -26,4 +26,4 @@ Get the pending tasks, in-progress tasks and the last executed task of a given c
 
 Give Compute Engine task details such as type, status, duration and associated component::
 
-    task = sonar.ce.get_task(task_id="AXQJiIU3jOKlq86mQnLe", additionalFields="stacktrace,scannerContext,warnings")
+    task = sonar.ce.get_task(task_id="AXQJiIU3jOKlq86mQnLe", fields="stacktrace,scannerContext,warnings")

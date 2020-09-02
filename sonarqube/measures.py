@@ -18,27 +18,27 @@ new_code_smells,coverage,new_coverage'
     def __init__(self, sonarqube):
         self.sonarqube = sonarqube
 
-    def get_component_with_specified_measures(self, component, branch=None, additionalFields=None, metricKeys=None):
+    def get_component_with_specified_measures(self, component, branch=None, fields=None, metric_keys=None):
         """
         Return component with specified measures.
 
-        :param metricKeys:Comma-separated list of metric keys. Possible values are for: ncloc,complexity,violations
         :param component: Component key
         :param branch:
-        :param additionalFields: Comma-separated list of additional fields that can be returned in the response.
+        :param fields: Comma-separated list of additional fields that can be returned in the response.
           Possible values are for: metrics,periods
+        :param metric_keys: Comma-separated list of metric keys. Possible values are for: ncloc,complexity,violations
         :return:
         """
         params = {
-            'metricKeys': metricKeys or self.default_metricKeys,
+            'metricKeys': metric_keys or self.default_metricKeys,
             'component': component
         }
 
         if branch:
             params.update({'branch': branch})
 
-        if additionalFields:
-            params.update({'additionalFields': additionalFields})
+        if fields:
+            params.update({'additionalFields': fields})
 
         resp = self.sonarqube.make_call('get', API_MEASURES_COMPONENT_ENDPOINT, **params)
         response = resp.json()

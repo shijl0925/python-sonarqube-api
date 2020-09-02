@@ -66,11 +66,11 @@ class SonarQubeQualityGates:
         params = {'id': gate_id, 'name': gate_name}
         self.sonarqube.make_call('post', API_QUALITYGATES_RENAME_ENDPOINT, **params)
 
-    def create_condition_to_quality_gate(self, gateId, metric, error, op=None):
+    def create_condition_to_quality_gate(self, gate_id, metric, error, op=None):
         """
         Add a new condition to a quality gate.
 
-        :param gateId: ID of the quality gate
+        :param gate_id: ID of the quality gate
         :param metric: Condition metric.
           Only metric of the following types are allowed:
             * INT
@@ -88,7 +88,7 @@ class SonarQubeQualityGates:
         :return:
         """
         params = {
-            'gateId': gateId,
+            'gateId': gate_id,
             'metric': metric.upper(),
             'error': error
         }
@@ -184,14 +184,14 @@ class SonarQubeQualityGates:
         params = {'id': gate_id}
         self.sonarqube.make_call('post', API_QUALITYGATES_SET_AS_DEFAULT_ENDPOINT, **params)
 
-    def get_project_qualitygates_status(self, project_key=None, analysisId=None, branch=None):
+    def get_project_qualitygates_status(self, project_key=None, analysis_id=None, branch=None):
         """
         Get the quality gate status of a project or a Compute Engine task. return 'ok','WARN','ERROR'
         The NONE status is returned when there is no quality gate associated with the analysis.
         Returns an HTTP code 404 if the analysis associated with the task is not found or does not exist.
 
         :param project_key: Project key
-        :param analysisId: Analysis id
+        :param analysis_id: Analysis id
         :param branch: Branch key
         :return:
         """
@@ -200,8 +200,8 @@ class SonarQubeQualityGates:
             params.update({'projectKey': project_key})
             if branch:
                 params.update({'branch': branch})
-        elif analysisId:
-            params.update({'analysisId': analysisId})
+        elif analysis_id:
+            params.update({'analysisId': analysis_id})
 
         resp = self.sonarqube.make_call('get', API_QUALITYGATES_PROJECT_STATUS_ENDPOINT, **params)
         response = resp.json()

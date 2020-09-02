@@ -61,42 +61,42 @@ class Requester:
         :param kwargs:
         :return:
         """
-        requestKwargs = kwargs
+        request_kwargs = kwargs
         if self.token:
-            requestKwargs['auth'] = self.token, ''
+            request_kwargs['auth'] = self.token, ''
         elif self.username and self.password:
-            requestKwargs['auth'] = (self.username, self.password)
+            request_kwargs['auth'] = (self.username, self.password)
 
         if params:
             assert isinstance(
                 params, dict), 'Params must be a dict, got %s' % repr(params)
-            requestKwargs['params'] = params
+            request_kwargs['params'] = params
 
         if headers:
             assert isinstance(
                 headers, dict), \
                 'headers must be a dict, got %s' % repr(headers)
-            requestKwargs['headers'] = headers
+            request_kwargs['headers'] = headers
 
         if self.AUTH_COOKIE:
-            currentheaders = requestKwargs.get('headers', {})
+            currentheaders = request_kwargs.get('headers', {})
             currentheaders.update({'Cookie': self.AUTH_COOKIE})
-            requestKwargs['headers'] = currentheaders
+            request_kwargs['headers'] = currentheaders
 
-        requestKwargs['verify'] = self.ssl_verify
-        requestKwargs['cert'] = self.cert
+        request_kwargs['verify'] = self.ssl_verify
+        request_kwargs['cert'] = self.cert
 
         if data:
             # It may seem odd, but some SonarQube operations require posting
             # an empty string.
-            requestKwargs['data'] = data
+            request_kwargs['data'] = data
 
         if files:
-            requestKwargs['files'] = files
+            request_kwargs['files'] = files
 
-        requestKwargs['timeout'] = self.timeout
+        request_kwargs['timeout'] = self.timeout
 
-        return requestKwargs
+        return request_kwargs
 
     def _update_url_scheme(self, url):
         """
@@ -128,13 +128,13 @@ class Requester:
         :param stream:
         :return:
         """
-        requestKwargs = self.get_request_dict(
+        request_kwargs = self.get_request_dict(
             params=params,
             headers=headers,
             allow_redirects=allow_redirects,
             stream=stream
         )
-        return self.session.get(self._update_url_scheme(url), **requestKwargs)
+        return self.session.get(self._update_url_scheme(url), **request_kwargs)
 
     def post(self, url, params=None, data=None, files=None, headers=None, allow_redirects=True, **kwargs):
         """
@@ -148,14 +148,14 @@ class Requester:
         :param kwargs:
         :return:
         """
-        requestKwargs = self.get_request_dict(
+        request_kwargs = self.get_request_dict(
             params=params,
             data=data,
             files=files,
             headers=headers,
             allow_redirects=allow_redirects,
             **kwargs)
-        return self.session.post(self._update_url_scheme(url), **requestKwargs)
+        return self.session.post(self._update_url_scheme(url), **request_kwargs)
 
     def put(self, url, params=None, data=None, files=None, headers=None, allow_redirects=True, **kwargs):
         """
@@ -169,14 +169,14 @@ class Requester:
         :param kwargs:
         :return:
         """
-        requestKwargs = self.get_request_dict(
+        request_kwargs = self.get_request_dict(
             params=params,
             data=data,
             files=files,
             headers=headers,
             allow_redirects=allow_redirects,
             **kwargs)
-        return self.session.put(self._update_url_scheme(url), **requestKwargs)
+        return self.session.put(self._update_url_scheme(url), **request_kwargs)
 
     def delete(self, url, params=None, data=None, headers=None, allow_redirects=True, **kwargs):
         """
@@ -189,10 +189,10 @@ class Requester:
         :param kwargs:
         :return:
         """
-        requestKwargs = self.get_request_dict(
+        request_kwargs = self.get_request_dict(
             params=params,
             data=data,
             headers=headers,
             allow_redirects=allow_redirects,
             **kwargs)
-        return self.session.delete(self._update_url_scheme(url), **requestKwargs)
+        return self.session.delete(self._update_url_scheme(url), **request_kwargs)

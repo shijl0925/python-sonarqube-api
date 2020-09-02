@@ -11,15 +11,17 @@ class SonarQubeWebservices:
     def __init__(self, sonarqube):
         self.sonarqube = sonarqube
 
-    def list_web_services(self, include_internals="false"):
+    def list_web_services(self, include_internals=False):
         """
         List web services
 
         :param include_internals: Include web services that are implemented for internal use only.
-          Their forward-compatibility is not assured
+          Their forward-compatibility is not assured. Possible values are for: True or False. default value is False.
         :return:
         """
-        params = {'include_internals': include_internals}
+        params = {
+            'include_internals': include_internals and 'true' or 'false'
+        }
 
         resp = self.sonarqube.make_call('get', API_WEBSERVICES_LIST_ENDPOINT, **params)
         response = resp.json()
