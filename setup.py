@@ -45,7 +45,7 @@ setup(
         'Topic :: Software Development'
     ],
 
-    keywords='api sonarqube sonar',
+    keywords='api sonarqube sonar client wrapper',
     packages=find_packages(exclude=['contrib', 'docs', 'test*']),
 
     # https://packaging.python.org/en/latest/requirements.html
@@ -57,4 +57,7 @@ setup(
 
     # http://docs.python.org/3.4/distutils/setupscript.html#installing-additional-files # noqa
     data_files=[],
+
+    # Test suite (required for Py2)
+    test_suite="tests",
 )
