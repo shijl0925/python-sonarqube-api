@@ -1,4 +1,4 @@
-# Examples and apps
+# Examples
 
 Here you can find different examples of how to use a library.
 
