@@ -24,7 +24,7 @@ copyright = '2020, Jialiang Shi'
 author = 'Jialiang Shi'
 
 # The full version, including alpha/beta/rc tags
-release = '1.0.5'
+release = '1.0.6'
 
 
 # -- General configuration ---------------------------------------------------
@@ -33,24 +33,30 @@ release = '1.0.5'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = ['sphinx.ext.autodoc',
-    'sphinx.ext.doctest',
-    'sphinx.ext.intersphinx',
-    'sphinx.ext.todo',
-    'sphinx.ext.coverage',
-    'sphinx.ext.mathjax',
-    'sphinx.ext.viewcode',
-    'sphinx.ext.napoleon',
-    'sphinx_rtd_theme'
+              'sphinx.ext.doctest',
+              'sphinx.ext.intersphinx',
+              'sphinx.ext.todo',
+              'sphinx.ext.coverage',
+              'sphinx.ext.mathjax',
+              'sphinx.ext.viewcode',
+              'sphinx.ext.napoleon',
+              'sphinx_rtd_theme',
+              'sphinx.ext.githubpages'
 ]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
+
+# The suffix of source filenames.
+source_suffix = ".rst"
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
+# The name of the Pygments (syntax highlighting) style to use.
+pygments_style = 'sphinx'
 
 # -- Options for HTML output -------------------------------------------------
 
@@ -64,9 +70,9 @@ html_theme = 'sphinx_rtd_theme'
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
 
+# The master toctree document.
 master_doc = 'index'
 
 man_pages = [
-    (master_doc, 'python-sonarqube-api', 'SonarQube Client with Python',
-     [author], 1)
+    (master_doc, 'python-sonarqube-api', 'SonarQube Client with Python', [author], 1)
 ]

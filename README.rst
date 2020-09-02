@@ -12,14 +12,16 @@ Install::
     pip install python-sonarqube-api
 
 
-Document
--------------
 
-https://python-sonarqube-api.readthedocs.io/en/latest/
+Documentation
+=============
+
+The full documentation for API is available on `readthedocs
+<https://python-sonarqube-api.readthedocs.io/en/latest/>`_.
 
 
 Compatibility
--------------
+=============
 
 * This package is compatible Python versions 2.7, 3.4, 3.5 and 3.6.
 * Tested with SonarQube v7.9.x Community Edition
