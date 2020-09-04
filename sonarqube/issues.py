@@ -18,7 +18,7 @@ from sonarqube.config import (
 )
 
 
-class SonarQubeIssue:
+class SonarQubeIssues:
     MAX_SEARCH_NUM = 100
     OPTIONS_SEARCH = ['additionalFields', 'asc', 'assigned', 'assignees', 'author', 'componentKeys', 'branch',
                       'createdAfter', 'createdAt', 'createdBefore', 'createdInLast', 'cwe', 'facets', 'issues',

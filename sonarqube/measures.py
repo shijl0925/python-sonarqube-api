@@ -9,7 +9,7 @@ from sonarqube.config import (
 
 
 class SonarQubeMeasure:
-    default_metricKeys = 'code_smells,bugs,vulnerabilities,new_bugs,new_vulnerabilities,\
+    default_metrickeys = 'code_smells,bugs,vulnerabilities,new_bugs,new_vulnerabilities,\
 new_code_smells,coverage,new_coverage'
 
     OPTIONS_SEARCH = ['branch', 'additionalFields', 'asc', 'metricKeys', 'metricPeriodSort', 'metricSort',
@@ -30,7 +30,7 @@ new_code_smells,coverage,new_coverage'
         :return:
         """
         params = {
-            'metricKeys': metric_keys or self.default_metricKeys,
+            'metricKeys': metric_keys or self.default_metrickeys,
             'component': component
         }
 
