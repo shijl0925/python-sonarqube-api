@@ -16,7 +16,7 @@ from .project_branches import SonarQubeProjectBranches
 from .qualitygates import SonarQubeQualityGates
 from .components import SonarQubeComponents
 from .rules import SonarQubeRules
-from .qualityprofiles import SonarQubeQualityprofiles
+from .qualityprofiles import SonarQubeQualityProfiles
 from .duplications import SonarQubeDuplications
 from .metrics import SonarQubeMetrics
 from .settings import SonarQubeSettings
@@ -202,7 +202,7 @@ class SonarQubeClient:
 
     @property
     def qualityprofiles(self):
-        return SonarQubeQualityprofiles(self)
+        return SonarQubeQualityProfiles(self)
 
     @property
     def duplications(self):

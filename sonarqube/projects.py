@@ -140,15 +140,6 @@ class SonarQubeProject:
 
         self.sonarqube.make_call('post', API_PROJECTS_CREATE_ENDPOINT, **params)
 
-    def get_project_id(self, project_key):
-        """
-        get project id
-
-        :param project_key:
-        :return:
-        """
-        components = self.sonarqube.components.get_project_component_and_ancestors(project_key)
-        return components['component']['id']
 
     def delete_project(self, project):
         """
