@@ -6,7 +6,7 @@ from .requester import Requester
 from .users import SonarQubeUser
 from .projects import SonarQubeProject
 from .user_groups import SonarQubeUserGroups
-from .issues import SonarQubeIssue
+from .issues import SonarQubeIssues
 from .measures import SonarQubeMeasure
 from .notifications import SonarQubeNotification
 from .project_links import SonarQubeProjectLinks
@@ -65,7 +65,7 @@ class SonarQubeClient:
             ssl_verify=ssl_verify,
             cert=cert,
             timeout=timeout,
-            max_retries=max_retries,
+            max_retries=max_retries
         )
 
     @classmethod
@@ -108,15 +108,15 @@ class SonarQubeClient:
         # Analyse response status and return or raise exception
         # Note: redirects are followed automatically by requests
 
-        # res.raise_for_status()
-
+        error_message = "Error in request. "
         if res.status_code < 300:
             # OK, return http response
             return res
 
+        # raise error. res.raise_for_status()
         elif res.status_code == 400:
             # Validation error
-            msg = 'Error in request. ' + \
+            msg = error_message + \
                   'Possibly validation error [%s]: %s' % (
                       res.status_code, ', '.join(e['msg'] for e in res.json()['errors']))
 
@@ -124,7 +124,7 @@ class SonarQubeClient:
 
         elif res.status_code in (401, 403):
             # Auth error
-            msg = 'Error in request. ' + \
+            msg = error_message + \
                   'Possibly authentication failed [%s]: %s' % (
                       res.status_code, res.reason)
             if res.text:
@@ -134,20 +134,18 @@ class SonarQubeClient:
 
         elif res.status_code < 500:
             # Other 4xx, generic client error
-            msg = 'Error in request. ' + \
+            msg = error_message + \
                   'Possibly client error [%s]: %s' % (
                       res.status_code, ', '.join(e['msg'] for e in res.json()['errors']))
 
-            # raise ClientError(res.reason)
             raise ClientError(msg)
 
         else:
             # 5xx is server error
-            msg = 'Error in request. ' + \
+            msg = error_message + \
                   'Possibly server error [%s]: %s' % (
                       res.status_code, res.reason)
 
-            # raise ServerError(res.reason)
             raise ServerError(msg)
 
     @property
@@ -168,7 +166,7 @@ class SonarQubeClient:
 
     @property
     def issues(self):
-        return SonarQubeIssue(self)
+        return SonarQubeIssues(self)
 
     @property
     def notifications(self):
