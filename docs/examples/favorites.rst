@@ -2,14 +2,14 @@
 api/favorites
 =============
 
-Manage user favorites
-_____________________
+Manage user favorites.
+----------------------
 
 Examples
 --------
 Search for the authenticated user favorites::
 
-    favorites = sonar.favorites.search_favorites()
+    favorites = list(sonar.favorites.search_favorites())
 
 Add a component (project, file etc.) as favorite for the authenticated user::
 

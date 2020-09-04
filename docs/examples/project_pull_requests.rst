@@ -2,8 +2,8 @@
 api/project_pull_requests
 =========================
 
-Manage pull request (only available when the Branch plugin is installed)
-________________________________________________________________________
+Manage pull request (only available when the Branch plugin is installed).
+-------------------------------------------------------------------------
 
 Examples
 --------

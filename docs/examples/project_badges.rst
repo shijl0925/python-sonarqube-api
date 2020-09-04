@@ -2,8 +2,8 @@
 api/project_badges
 ==================
 
-Generate badges based on quality gates or measures
-__________________________________________________
+Generate badges based on quality gates or measures.
+---------------------------------------------------
 
 Examples
 --------

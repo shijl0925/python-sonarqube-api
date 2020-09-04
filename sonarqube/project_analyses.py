@@ -27,7 +27,7 @@ class SonarQubeProjectAnalyses:
             * VERSION
             * OTHER
           default value is OTHER.
-        :return:
+        :return: request response
         """
         params = {
             'analysis': analysis,
@@ -35,7 +35,7 @@ class SonarQubeProjectAnalyses:
             'category': category
         }
 
-        self.sonarqube.make_call('post', API_PROJECT_ANALYSES_CREATE_EVENT_ENDPOINT, **params)
+        return self.sonarqube.make_call('post', API_PROJECT_ANALYSES_CREATE_EVENT_ENDPOINT, **params)
 
     def delete_project_analysis(self, analysis):
         """
@@ -158,11 +158,11 @@ class SonarQubeProjectAnalyses:
 
         :param event: Event key
         :param name: New name
-        :return:
+        :return: request response
         """
         params = {
             'event': event,
             'name': name,
         }
 
-        self.sonarqube.make_call('post', API_PROJECT_ANALYSES_UPDATE_EVENT_ENDPOINT, **params)
+        return self.sonarqube.make_call('post', API_PROJECT_ANALYSES_UPDATE_EVENT_ENDPOINT, **params)

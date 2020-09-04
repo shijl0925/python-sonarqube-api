@@ -14,6 +14,7 @@ API examples
    examples/issues
    examples/languages
    examples/measures
+   examples/metrics
    examples/notifications
    examples/permissions
    examples/project_analysis

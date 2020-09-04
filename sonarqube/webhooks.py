@@ -26,7 +26,7 @@ class SonarQubeWebhooks:
         :param url: Server endpoint that will receive the webhook payload, for example 'http://my_server/foo'. If HTTP
           Basic authentication is used, HTTPS is recommended to avoid man in the middle attacks.
           Example: 'https://myLogin:myPassword@my_server/foo'
-        :return:
+        :return: request response
         """
         params = {
             'name': name,
@@ -41,8 +41,7 @@ class SonarQubeWebhooks:
         if url:
             params.update({'url': url})
 
-        resp = self.sonarqube.make_call('post', API_WEBHOOKS_CREATE_ENDPOINT, **params)
-        return resp.json()
+        return self.sonarqube.make_call('post', API_WEBHOOKS_CREATE_ENDPOINT, **params)
 
     def delete_webhook(self, webhook_key):
         """

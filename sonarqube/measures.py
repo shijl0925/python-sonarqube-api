@@ -46,8 +46,7 @@ new_code_smells,coverage,new_coverage'
             params.update({'additionalFields': fields})
 
         resp = self.sonarqube.make_call('get', API_MEASURES_COMPONENT_ENDPOINT, **params)
-        response = resp.json()
-        return response
+        return resp.json()
 
     def get_component_tree_with_specified_measures(self, component_key, **kwargs):
         """

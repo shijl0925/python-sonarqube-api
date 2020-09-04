@@ -3,14 +3,14 @@ api/rules
 =========
 
 Get and update some details of automatic rules, and manage custom rules.
-________________________________________________________________________
+------------------------------------------------------------------------
 
 Examples
 --------
 
 Search for a collection of relevant rules matching a specified query.::
 
-    rules = sonar.rules.search_rules(tags="correctness", languages="java")
+    rules = list(sonar.rules.search_rules(tags="correctness", languages="java"))
 
 Create a a custom rule.::
 

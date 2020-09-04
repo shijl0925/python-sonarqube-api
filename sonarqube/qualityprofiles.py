@@ -46,7 +46,7 @@ class SonarQubeQualityProfiles:
             * CRITICAL
             * BLOCKER
         :param params: customized parameters for the rule.Ignored if parameter reset is true.
-        :return: request response
+        :return:
         """
         data = {
             'rule': rule_key,
@@ -222,13 +222,13 @@ class SonarQubeQualityProfiles:
 
         :param profile_key: Quality profile key
         :param new_profile_name: Name for the new quality profile.
-        :return:
+        :return: request response
         """
         params = {
             'fromKey': profile_key,
             'toName': new_profile_name
         }
-        self.sonarqube.make_call('post', API_QUALITYPROFILES_COPY_ENDPOINT, **params)
+        return self.sonarqube.make_call('post', API_QUALITYPROFILES_COPY_ENDPOINT, **params)
 
     def create_quality_profile(self, language, profile_name, **kwargs):
         """
@@ -237,7 +237,7 @@ class SonarQubeQualityProfiles:
         :param language: Quality profile language
         :param profile_name: Quality profile name
         :param kwargs:
-        :return:
+        :return: request response
         """
         params = {
             'language': language,
@@ -246,7 +246,7 @@ class SonarQubeQualityProfiles:
         if kwargs:
             self.sonarqube.copy_dict(params, kwargs, self.OPTIONS_CREATE)
 
-        self.sonarqube.make_call('post', API_QUALITYPROFILES_CREATE_ENDPOINT, **params)
+        return self.sonarqube.make_call('post', API_QUALITYPROFILES_CREATE_ENDPOINT, **params)
 
     def deactivate_rule_on_quality_profile(self, profile_key, rule_key):
         """

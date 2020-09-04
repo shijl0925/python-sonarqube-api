@@ -3,7 +3,7 @@ api/qualitygates
 ================
 
 Manage quality gates, including conditions and project association.
-___________________________________________________________________
+-------------------------------------------------------------------
 
 Examples
 --------
@@ -38,7 +38,7 @@ Update a condition attached to a quality gate.::
 
 Search for projects associated (or not) to a quality gate.::
 
-    projects = sonar.qualitygates.get_qualitygate_projects(gate_id=2)
+    projects = list(sonar.qualitygates.get_qualitygate_projects(gate_id=2))
 
 Set a quality gate as the default quality gate.::
 

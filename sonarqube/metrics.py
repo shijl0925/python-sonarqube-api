@@ -37,7 +37,7 @@ class SonarQubeMetrics:
             for metric in response['metrics']:
                 yield metric
 
-    def get_metics_types(self):
+    def get_metrics_types(self):
         """
         List all available metric types.
 
@@ -45,5 +45,4 @@ class SonarQubeMetrics:
         """
         resp = self.sonarqube.make_call('get', API_METRICS_TYPES_ENDPOINT)
         response = resp.json()
-        types = response['types']
-        return types
+        return response['types']

@@ -21,7 +21,7 @@ class SonarQubeUsertokens:
 
         :param token_name: Token name
         :param user_login: User login. If not set, the token is generated for the authenticated user.
-        :return:
+        :return: request response
         """
         params = {
             'name': token_name,
@@ -30,8 +30,7 @@ class SonarQubeUsertokens:
         if user_login:
             params.update({'login': user_login})
 
-        resp = self.sonarqube.make_call('post', API_USER_TOKENS_GENERATE_ENDPOINT, **params)
-        return resp.json()
+        return self.sonarqube.make_call('post', API_USER_TOKENS_GENERATE_ENDPOINT, **params)
 
     def revoke_user_token(self, token_name, user_login=None):
         """
