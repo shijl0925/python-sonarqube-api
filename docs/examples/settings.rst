@@ -3,7 +3,7 @@ api/settings
 ============
 
 Manage settings.
-________________
+----------------
 
 Examples
 --------

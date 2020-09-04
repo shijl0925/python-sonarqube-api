@@ -3,7 +3,7 @@ api/qualityprofiles
 ===================
 
 Manage quality profiles.
-________________________
+------------------------
 
 Examples
 --------
@@ -50,8 +50,8 @@ Change a quality profile's parent.::
 
 Get the history of changes on a quality profile: rule activation/deactivation, change in parameters/severity. Events are ordered by date in descending order (most recent first).::
 
-    change_history = sonar.qualityprofiles.get_history_of_changes_on_quality_profile(language="java",
-                                                                                     profile_name="FindBugs")
+    change_history = list(sonar.qualityprofiles.get_history_of_changes_on_quality_profile(language="java",
+                                                                                     profile_name="FindBugs"))
 
 Copy a quality profile.::
 
@@ -90,7 +90,7 @@ Show a quality profile's ancestors and children.::
 
 List projects with their association status regarding a quality profile::
 
-    projects = sonar.qualityprofiles.get_projects_associate_with_quality_profile(profile_key="AW7vWZ7X6yOn6l1iXsR_")
+    projects = list(sonar.qualityprofiles.get_projects_associate_with_quality_profile(profile_key="AW7vWZ7X6yOn6l1iXsR_"))
 
 Rename a quality profile.::
 

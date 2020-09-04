@@ -2,8 +2,8 @@
 api/project_tags
 ================
 
-Manage project tags
-___________________
+Manage project tags.
+--------------------
 
 Examples
 --------

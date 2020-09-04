@@ -3,7 +3,7 @@ api/sources
 ===========
 
 Get details on source files.
-____________________________
+----------------------------
 
 Examples
 --------

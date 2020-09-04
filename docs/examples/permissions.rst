@@ -3,7 +3,7 @@ api/permissions
 ===============
 
 Manage permission templates, and the granting and revoking of permissions at the global and project levels.
-___________________________________________________________________________________________________________
+-----------------------------------------------------------------------------------------------------------
 
 Examples
 --------

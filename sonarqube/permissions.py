@@ -278,7 +278,7 @@ class SonarQubePermissions:
         :param template_name: Template name
         :param description: Template description
         :param pattern: Project key pattern. Must be a valid Java regular expression
-        :return:
+        :return: request response.
         """
         params = {
             'name': template_name
@@ -290,7 +290,7 @@ class SonarQubePermissions:
         if pattern:
             params.update({"projectKeyPattern": pattern})
 
-        self.sonarqube.make_call('post', API_PERMISSIONS_CREATE_TEMPLATE_ENDPOINT, **params)
+        return self.sonarqube.make_call('post', API_PERMISSIONS_CREATE_TEMPLATE_ENDPOINT, **params)
 
     def delete_template(self, template_name):
         """
@@ -345,7 +345,7 @@ class SonarQubePermissions:
         :param template_name: Template name
         :param description: Template description
         :param pattern: Project key pattern. Must be a valid Java regular expression
-        :return:
+        :return: request response
         """
         params = {
             'id': template_id
@@ -360,4 +360,4 @@ class SonarQubePermissions:
         if pattern:
             params.update({"projectKeyPattern": pattern})
 
-        self.sonarqube.make_call('post', API_PERMISSIONS_UPDATE_TEMPLATE_ENDPOINT, **params)
+        return self.sonarqube.make_call('post', API_PERMISSIONS_UPDATE_TEMPLATE_ENDPOINT, **params)

@@ -3,14 +3,14 @@ api/user_groups
 ===============
 
 Manage user groups.
-___________________
+-------------------
 
 Examples
 --------
 
 Search for user groups::
 
-    user_groups = sonar.user_groups.search_user_groups()
+    user_groups = list(sonar.user_groups.search_user_groups())
 
 Create a group.::
 
@@ -34,5 +34,5 @@ Remove a user from a group.::
 
 Search for users with membership information with respect to a group.::
 
-    users = sonar.user_groups.search_users_belong_to_group(group_name="my-group")
+    users = list(sonar.user_groups.search_users_belong_to_group(group_name="my-group"))
 

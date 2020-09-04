@@ -210,7 +210,7 @@ class SonarQubeIssues:
         :param issue: Issue key
         :param assignee: Login of the assignee. When not set, it will unassign the issue. Use '_me' to
           assign to current user
-        :return:
+        :return: request response
         """
         params = {
             'issue': issue
@@ -218,7 +218,7 @@ class SonarQubeIssues:
         if assignee:
             params.update({'assignee': assignee})
 
-        self.sonarqube.make_call('post', API_ISSUES_ASSIGN_ENDPOINT, **params)
+        return self.sonarqube.make_call('post', API_ISSUES_ASSIGN_ENDPOINT, **params)
 
     def issue_change_severity(self, issue, severity):
         """
@@ -233,13 +233,13 @@ class SonarQubeIssues:
           * CRITICAL
           * BLOCKER
 
-        :return:
+        :return: request response
         """
         params = {
             'issue': issue,
             'severity': severity.upper()
         }
-        self.sonarqube.make_call('post', API_ISSUES_SET_SEVERITY_ENDPOINT, **params)
+        return self.sonarqube.make_call('post', API_ISSUES_SET_SEVERITY_ENDPOINT, **params)
 
     def issue_set_type(self, issue, issue_type):
         """
@@ -253,13 +253,13 @@ class SonarQubeIssues:
           * VULNERABILITY
           * SECURITY_HOTSPOT
 
-        :return:
+        :return: request response
         """
         params = {
             'issue': issue,
             'type': issue_type
         }
-        self.sonarqube.make_call('post', API_ISSUES_SET_TYPE_ENDPOINT, **params)
+        return self.sonarqube.make_call('post', API_ISSUES_SET_TYPE_ENDPOINT, **params)
 
     def issue_add_comment(self, issue, text):
         """
@@ -267,25 +267,25 @@ class SonarQubeIssues:
 
         :param issue: Issue key
         :param text: Comment text
-        :return:
+        :return: request response
         """
         params = {
             'issue': issue,
             'text': text
         }
-        self.sonarqube.make_call('post', API_ISSUES_ADD_COMMENT_ENDPOINT, **params)
+        return self.sonarqube.make_call('post', API_ISSUES_ADD_COMMENT_ENDPOINT, **params)
 
     def issue_delete_comment(self, comment):
         """
         Delete a comment.
 
         :param comment: Comment key
-        :return:
+        :return: request response
         """
         params = {
             'comment': comment
         }
-        self.sonarqube.make_call('post', API_ISSUES_DELETE_COMMENT_ENDPOINT, **params)
+        return self.sonarqube.make_call('post', API_ISSUES_DELETE_COMMENT_ENDPOINT, **params)
 
     def issue_edit_comment(self, comment, text):
         """
@@ -293,13 +293,13 @@ class SonarQubeIssues:
 
         :param comment: Comment key
         :param text: Comment text
-        :return:
+        :return: request response
         """
         params = {
             'comment': comment,
             'text': text
         }
-        self.sonarqube.make_call('post', API_ISSUES_EDIT_COMMENT_ENDPOINT, **params)
+        return self.sonarqube.make_call('post', API_ISSUES_EDIT_COMMENT_ENDPOINT, **params)
 
     def issue_do_transition(self, issue, transition):
         """
@@ -322,13 +322,13 @@ class SonarQubeIssues:
           * openasvulnerability
           * resetastoreview
 
-        :return:
+        :return: request response
         """
         params = {
             'issue': issue,
             'transition': transition
         }
-        self.sonarqube.make_call('post', API_ISSUES_DO_TRANSITION_ENDPOINT, **params)
+        return self.sonarqube.make_call('post', API_ISSUES_DO_TRANSITION_ENDPOINT, **params)
 
     def search_scm_accounts(self, project, q=None):
         """
@@ -389,7 +389,7 @@ class SonarQubeIssues:
             * VULNERABILITY
             * SECURITY_HOTSPOT
 
-        :return:
+        :return: request response
         """
         params = {
             'issues': issues
@@ -397,7 +397,7 @@ class SonarQubeIssues:
         if kwargs:
             self.sonarqube.copy_dict(params, kwargs, self.OPTIONS_BULK)
 
-        self.sonarqube.make_call('post', API_ISSUES_BULK_CHANGE_ENDPOINT, **params)
+        return self.sonarqube.make_call('post', API_ISSUES_BULK_CHANGE_ENDPOINT, **params)
 
     def get_issue_changelog(self, issue):
         """
@@ -417,7 +417,7 @@ class SonarQubeIssues:
         :param issue: Issue key
         :param tags: Comma-separated list of tags. All tags are removed if parameter is empty or not set.
           such as: security,cwe,misra-c
-        :return:
+        :return: request response
         """
         params = {
             'issue': issue
@@ -425,7 +425,7 @@ class SonarQubeIssues:
         if tags:
             params.update({'tags': tags})
 
-        self.sonarqube.make_call('post', API_ISSUES_SET_TAGS_ENDPOINT, **params)
+        return self.sonarqube.make_call('post', API_ISSUES_SET_TAGS_ENDPOINT, **params)
 
     def get_issues_tags(self, project, q=None):
         """

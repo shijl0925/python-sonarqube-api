@@ -9,3 +9,4 @@ setup a sonarqube client::
     username = "admin"
     password = "admin"
     sonar = SonarQubeClient(sonarqube_url=url, username=username, password=password)
+

@@ -2,8 +2,8 @@
 api/webhooks
 ============
 
-Webhooks allow to notify external services when a project analysis is done
-__________________________________________________________________________
+Webhooks allow to notify external services when a project analysis is done.
+---------------------------------------------------------------------------
 
 Examples
 --------
@@ -24,7 +24,7 @@ Delete a Webhook.::
 
 Get the recent deliveries for a specified project::
 
-    deliveries = sonar.webhooks.get_webhook_deliveries(component_key="my-project")
+    deliveries = list(sonar.webhooks.get_webhook_deliveries(component_key="my-project"))
 
 Get a webhook delivery by its id.::
 

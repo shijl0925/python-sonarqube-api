@@ -84,9 +84,9 @@ class SonarQubeSystem:
             migration (optionally after DB has been restored from backup).
           * MIGRATION_REQUIRED: DB migration is required.
 
-        :return:
+        :return: request response
         """
-        self.sonarqube.make_call('post', API_SYSTEM_MIGRATE_DB_ENDPOINT)
+        return self.sonarqube.make_call('post', API_SYSTEM_MIGRATE_DB_ENDPOINT)
 
     def ping_server(self):
         """

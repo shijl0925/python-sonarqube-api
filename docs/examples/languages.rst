@@ -3,7 +3,7 @@ api/languages
 =============
 
 Get the list of programming languages supported in this instance.
-_________________________________________________________________
+-----------------------------------------------------------------
 
 Examples
 --------

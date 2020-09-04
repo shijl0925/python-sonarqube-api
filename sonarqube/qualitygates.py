@@ -46,13 +46,13 @@ class SonarQubeQualityGates:
 
         :param gate_name: The name of the quality gate to create
         :param organization: Organization key. If no organization is provided, the default organization is used.
-        :return:
+        :return: request response
         """
         params = {'name': gate_name}
         if organization:
             params.update({"organization": organization})
 
-        self.sonarqube.make_call('post', API_QUALITYGATES_CREATE_ENDPOINT, **params)
+        return self.sonarqube.make_call('post', API_QUALITYGATES_CREATE_ENDPOINT, **params)
 
     def delete_quality_gate(self, gate_id, organization=None):
         """
@@ -103,7 +103,7 @@ class SonarQubeQualityGates:
             * LT = is lower than
             * GT = is greater than
         :param organization: Organization key. If no organization is provided, the default organization is used.
-        :return:
+        :return: request response
         """
         params = {
             'gateId': gate_id,
@@ -117,7 +117,7 @@ class SonarQubeQualityGates:
         if organization:
             params.update({"organization": organization})
 
-        self.sonarqube.make_call('post', API_QUALITYGATES_CREATE_CONDITION_ENDPOINT, **params)
+        return self.sonarqube.make_call('post', API_QUALITYGATES_CREATE_CONDITION_ENDPOINT, **params)
 
     def delete_condition_from_quality_gate(self, condition_id, organization=None):
         """

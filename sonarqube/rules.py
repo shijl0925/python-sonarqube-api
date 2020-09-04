@@ -234,7 +234,6 @@ class SonarQubeRules:
             * SECURITY_HOTSPOT
         :return: request response
         """
-        # Build data to post
         data = {
             'custom_key': key,
             'name': name,
@@ -253,7 +252,7 @@ class SonarQubeRules:
         if params:
             data.update({"params": params})
 
-        self.sonarqube.make_call('post', API_RULES_CREATE_ENDPOINT, **data)
+        return self.sonarqube.make_call('post', API_RULES_CREATE_ENDPOINT, **data)
 
     def update_rule(self, key, **kwargs):
         """
@@ -289,13 +288,13 @@ class SonarQubeRules:
           * tags: Optional comma-separated list of tags to set. Use blank value to remove current tags.
             Tags are not changed if the parameter is not set.
 
-        :return:
+        :return: request response
         """
         data = {'key': key}
         if kwargs:
             self.sonarqube.copy_dict(data, kwargs, self.OPTIONS_UPDATE)
 
-        self.sonarqube.make_call('post', API_RULES_UPDATE_ENDPOINT, **data)
+        return self.sonarqube.make_call('post', API_RULES_UPDATE_ENDPOINT, **data)
 
     def delete_rule(self, rule_key):
         """

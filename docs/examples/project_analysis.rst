@@ -3,7 +3,7 @@ api/project_analyses
 ====================
 
 Manage project analyses.
-________________________
+------------------------
 
 Examples
 --------
@@ -22,7 +22,7 @@ Delete a project analysis.::
 
 Search a project analyses and attached events.::
 
-    project_analyses_and_events = sonar.project_analyses.search_project_analyses_and_events(project="my_project")
+    project_analyses_and_events = list(sonar.project_analyses.search_project_analyses_and_events(project="my_project"))
 
 
 Set an analysis as the baseline of the New Code Period on a project or a long-lived branch. This manually set baseline overrides the `sonar.leak.period` setting.::

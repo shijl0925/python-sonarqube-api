@@ -19,14 +19,14 @@ class SonarQubeProjectLinks:
         :param project_key: Project key
         :param name: Link name
         :param url: Link url
-        :return:
+        :return: request response
         """
         params = {
             'projectKey': project_key,
             'name': name,
             'url': url
         }
-        self.sonarqube.make_call('post', API_PROJECT_LINKS_CREATE_ENDPOINT, **params)
+        return self.sonarqube.make_call('post', API_PROJECT_LINKS_CREATE_ENDPOINT, **params)
 
     def delete_project_link(self, link_id):
         """
