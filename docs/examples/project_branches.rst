@@ -2,8 +2,8 @@
 api/project_branches
 ====================
 
-Manage branch (only available when the Branch plugin is installed)
-__________________________________________________________________
+Manage branch (only available when the Branch plugin is installed).
+-------------------------------------------------------------------
 
 Examples
 --------

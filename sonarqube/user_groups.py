@@ -112,7 +112,7 @@ class SonarQubeUserGroups:
         :param group_name: Name for the new group. A group name cannot be larger than 255 characters and must be unique.
           The value 'anyone' (whatever the case) is reserved and cannot be used.
         :param description: Description for the new group. A group description cannot be larger than 200 characters.
-        :return:
+        :return: request response
         """
         params = {
             'name': group_name
@@ -120,7 +120,7 @@ class SonarQubeUserGroups:
         if description:
             params.update({'description': description})
 
-        self.sonarqube.make_call('post', API_USER_GROUPS_CREATE_ENDPOINT, **params)
+        return self.sonarqube.make_call('post', API_USER_GROUPS_CREATE_ENDPOINT, **params)
 
     def delete_group(self, group_name):
         """

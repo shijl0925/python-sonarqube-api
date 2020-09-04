@@ -3,14 +3,14 @@ api/projects
 ============
 
 Manage project existence.
-_________________________
+-------------------------
 
 Examples
 --------
 
 Search for projects or views to administrate them.::
 
-    projects = sonar.projects.search_projects()
+    projects = list(sonar.projects.search_projects())
 
 Create a project.::
 

@@ -108,7 +108,7 @@ class SonarQubeUser:
           Password should not be set when local is set to false.
           Possible values are for: true, false, yes, no. default value is true.
         :param scm: List of SCM accounts. To set several values, the parameter must be called once for each value.
-        :return:
+        :return: request response
         """
         params = {
             'login': login,
@@ -124,7 +124,7 @@ class SonarQubeUser:
         if scm:
             params.update({'scmAccount': scm})
 
-        self.sonarqube.make_call('post', API_USERS_CREATE_ENDPOINT, **params)
+        return self.sonarqube.make_call('post', API_USERS_CREATE_ENDPOINT, **params)
 
     def update_user(self, login, name=None, email=None, scm=None):
         """
@@ -134,7 +134,7 @@ class SonarQubeUser:
         :param name: User name
         :param email: User email
         :param scm: SCM accounts.
-        :return:
+        :return: request response
         """
         params = {
             'login': login
@@ -149,7 +149,7 @@ class SonarQubeUser:
         if scm:
             params.update({'scmAccount': scm})
 
-        self.sonarqube.make_call('post', API_USERS_UPDATE_ENDPOINT, **params)
+        return self.sonarqube.make_call('post', API_USERS_UPDATE_ENDPOINT, **params)
 
     def change_user_password(self, login, new_password, previous_password=None):
         """
@@ -176,12 +176,12 @@ class SonarQubeUser:
         Deactivate a user.
 
         :param login: User login
-        :return:
+        :return: request response
         """
         params = {
             'login': login
         }
-        self.sonarqube.make_call('post', API_USERS_DEACTIVATE_ENDPOINT, **params)
+        return self.sonarqube.make_call('post', API_USERS_DEACTIVATE_ENDPOINT, **params)
 
     def search_groups_user_belongs_to(self, login, q=None, selected="selected"):
         """

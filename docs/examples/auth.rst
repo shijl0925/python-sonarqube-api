@@ -3,7 +3,7 @@ api/authentication
 ==================
 
 Handle authentication.
-______________________
+----------------------
 
 Examples
 --------
@@ -18,5 +18,5 @@ logout a user::
 
 check credentials::
 
-    print(sonar.auth.check_credentials())
+    result = sonar.auth.check_credentials()
 

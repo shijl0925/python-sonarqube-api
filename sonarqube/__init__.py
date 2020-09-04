@@ -100,7 +100,7 @@ class SonarQubeClient:
         :param method: http method (get, post, put, delete)
         :param endpoint: relative url to make the call
         :param data: queryset or body
-        :return: response
+        :return: request response
         """
         call = getattr(self.requester, method.lower())
         base_url = self._get_endpoint_url(endpoint)

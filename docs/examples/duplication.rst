@@ -3,7 +3,7 @@ api/duplications
 ================
 
 Get duplication information for a project.
-__________________________________________
+------------------------------------------
 
 Examples
 --------

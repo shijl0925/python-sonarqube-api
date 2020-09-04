@@ -3,14 +3,14 @@ api/users
 =========
 
 Manage users.
-_____________________
+-------------
 
 Examples
 --------
 
 Get a list of active users.::
 
-    users = sonar.users.search_users()
+    users = list(sonar.users.search_users())
 
 Create a user.::
 

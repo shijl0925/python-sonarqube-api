@@ -129,7 +129,7 @@ class SonarQubeProject:
           Possible values are for:
             * private
             * public
-        :return:
+        :return: request response
         """
         params = {
             'name': name,
@@ -138,8 +138,7 @@ class SonarQubeProject:
         if visibility:
             params.update({'visibility': visibility})
 
-        self.sonarqube.make_call('post', API_PROJECTS_CREATE_ENDPOINT, **params)
-
+        return self.sonarqube.make_call('post', API_PROJECTS_CREATE_ENDPOINT, **params)
 
     def delete_project(self, project):
         """

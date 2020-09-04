@@ -2,8 +2,8 @@
 api/notifications
 =================
 
-Manage notifications of the authenticated user
-______________________________________________
+Manage notifications of the authenticated user.
+-----------------------------------------------
 
 Examples
 --------

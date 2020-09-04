@@ -3,7 +3,7 @@ api/project_links
 =================
 
 Manage projects links.
-______________________
+----------------------
 
 Examples
 --------
