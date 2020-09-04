@@ -20,10 +20,6 @@ Search quality profiles::
 
 Select the default profile for a given language.::
 
-    sonar.qualityprofiles.set_default_quality_profile(profile_key="AW6IlZePiz06S56BEnK1")
-
-or::
-
     sonar.qualityprofiles.set_default_quality_profile(language="java", profile_name="FindBugs&P3C")
 
 Associate a project with a quality profile.::

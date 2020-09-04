@@ -9,33 +9,38 @@ from sonarqube.config import (
 
 
 class SonarQubeMeasure:
-    default_metrickeys = 'code_smells,bugs,vulnerabilities,new_bugs,new_vulnerabilities,\
+    default_metric_keys = 'code_smells,bugs,vulnerabilities,new_bugs,new_vulnerabilities,\
 new_code_smells,coverage,new_coverage'
 
-    OPTIONS_SEARCH = ['branch', 'additionalFields', 'asc', 'metricKeys', 'metricPeriodSort', 'metricSort',
-                      'metricSortFilter', 'ps', 'q', 'qualifiers', 's', 'strategy']
+    OPTIONS_COMPONENT_TREE = ['branch', 'pullRequest', 'additionalFields', 'asc', 'metricKeys', 'metricPeriodSort',
+                              'metricSort', 'metricSortFilter', 'ps', 'q', 'qualifiers', 's', 'strategy']
 
     def __init__(self, sonarqube):
         self.sonarqube = sonarqube
 
-    def get_component_with_specified_measures(self, component, branch=None, fields=None, metric_keys=None):
+    def get_component_with_specified_measures(self, component, branch=None, pull_request_id=None,
+                                              fields=None, metric_keys=None):
         """
         Return component with specified measures.
 
         :param component: Component key
-        :param branch:
+        :param branch: Branch key.
+        :param pull_request_id: Pull request id.
         :param fields: Comma-separated list of additional fields that can be returned in the response.
           Possible values are for: metrics,periods
         :param metric_keys: Comma-separated list of metric keys. Possible values are for: ncloc,complexity,violations
         :return:
         """
         params = {
-            'metricKeys': metric_keys or self.default_metrickeys,
+            'metricKeys': metric_keys or self.default_metric_keys,
             'component': component
         }
 
         if branch:
             params.update({'branch': branch})
+
+        if pull_request_id:
+            params.update({'pullRequest': pull_request_id})
 
         if fields:
             params.update({'additionalFields': fields})
@@ -52,7 +57,8 @@ new_code_smells,coverage,new_coverage'
         :param component_key: Component key.
 
         optional parameters:
-          * branch:
+          * branch: Branch key.
+          * pullRequest: Pull request id.
           * metricKeys: Comma-separated list of metric keys. Possible values are for: ncloc,complexity,violations
           * additionalFields: Comma-separated list of additional fields that can be returned in the response.
             Possible values are for: metrics,periods
@@ -95,10 +101,10 @@ new_code_smells,coverage,new_coverage'
         """
         params = {
             'component': component_key,
-            'metricKeys': self.default_metricKeys,
+            'metricKeys': self.default_metric_keys,
         }
         if kwargs:
-            self.sonarqube.copy_dict(params, kwargs, self.OPTIONS_SEARCH)
+            self.sonarqube.copy_dict(params, kwargs, self.OPTIONS_COMPONENT_TREE)
 
         page_num = 1
         page_size = 1
@@ -117,12 +123,14 @@ new_code_smells,coverage,new_coverage'
             for component in response['components']:
                 yield component
 
-    def search_measures_history(self, component, branch=None, metrics=None, from_date=None, to_date=None):
+    def search_measures_history(self, component, branch=None, pull_request_id=None,
+                                metrics=None, from_date=None, to_date=None):
         """
         Search measures history of a component
 
-        :param component:
-        :param branch:
+        :param component: Component key.
+        :param branch: Branch key.
+        :param pull_request_id: Pull request id.
         :param metrics: Comma-separated list of metric keys.Possible values are for: ncloc,coverage,new_violations
         :param from_date: Filter measures created after the given date (inclusive).
           Either a date (server timezone) or datetime can be provided
@@ -131,12 +139,15 @@ new_code_smells,coverage,new_coverage'
         :return:
         """
         params = {
-            'metrics': metrics or self.default_metricKeys,
+            'metrics': metrics or self.default_metric_keys,
             'component': component
         }
 
         if branch:
             params.update({'branch': branch})
+
+        if pull_request_id:
+            params.update({'pullRequest': pull_request_id})
 
         if from_date:
             params.update({'from': from_date})

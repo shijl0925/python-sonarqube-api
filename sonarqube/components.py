@@ -9,22 +9,30 @@ from sonarqube.config import (
 
 
 class SonarQubeComponents:
-    OPTIONS_SEARCH = ['asc', 'ps', 'q', 'qualifiers', 's', 'strategy']
+    OPTIONS_TREE = ['asc', 'ps', 'q', 'qualifiers', 's', 'strategy', 'branch', 'pullRequest']
 
     def __init__(self, sonarqube):
         self.sonarqube = sonarqube
 
-    def get_project_component_and_ancestors(self, component):
+    def get_project_component_and_ancestors(self, component, branch=None, pull_request_id=None):
         """
         Returns a component (file, directory, project, view…) and its ancestors. The ancestors are ordered from the
         parent to the root project.
 
         :param component: Component key
+        :param branch: Branch key.
+        :param pull_request_id: Pull request id
         :return:
         """
         params = {
             'component': component
         }
+
+        if branch:
+            params.update({'branch': branch})
+
+        if pull_request_id:
+            params.update({'pullRequest': pull_request_id})
 
         resp = self.sonarqube.make_call('get', API_COMPONTENTS_SHOW_ENDPOINT, **params)
         return resp.json()
@@ -83,6 +91,8 @@ class SonarQubeComponents:
 
         optional parameters:
           * asc: Ascending sort. default value is true.
+          * branch: Branch key.
+          * pullRequest: Pull request id.
           * q: Limit search to:
 
             * component names that contain the supplied string
@@ -114,7 +124,7 @@ class SonarQubeComponents:
         }
 
         if kwargs:
-            self.sonarqube.copy_dict(params, kwargs, self.OPTIONS_SEARCH)
+            self.sonarqube.copy_dict(params, kwargs, self.OPTIONS_TREE)
 
         page_num = 1
         page_size = 1
