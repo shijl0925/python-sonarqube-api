@@ -24,8 +24,8 @@ from sonarqube.config import (
 )
 
 
-class SonarQubeQualityprofiles:
-    OPTIONS_CREATE = ['backup_findbugs', 'backup_pmd', 'backup_sonarlint-vs-cs-fake', 'backup_sonarlint-vs-vbnet-fake']
+class SonarQubeQualityProfiles:
+    OPTIONS_CREATE = ['backup_sonarlint-vs-cs-fake', 'backup_sonarlint-vs-vbnet-fake']
 
     def __init__(self, sonarqube):
         self.sonarqube = sonarqube
@@ -95,130 +95,103 @@ class SonarQubeQualityprofiles:
         response = res.json()
         return response['profiles']
 
-    def set_default_quality_profile(self, profile_key=None, language=None, profile_name=None):
+    def set_default_quality_profile(self, language, profile_name):
         """
         Select the default profile for a given language.
 
-        :param profile_key: Quality profile key.
-        :param language: Quality profile language. Mandatory if 'key' is not set.
-        :param profile_name:
+        :param language: Quality profile language.
+        :param profile_name: Quality profile name.
         :return:
         """
-        params = {}
-
-        if profile_key:
-            params.update({'key': profile_key})
-
-        elif language and profile_name:
-            params.update({'language': language})
-            params.update({'qualityProfile': profile_name})
+        params = {
+            'language': language,
+            'qualityProfile': profile_name
+        }
 
         self.sonarqube.make_call('post', API_QUALITYPROFILES_SET_DEFAULT_ENDPOINT, **params)
 
-    def associate_project_with_quality_profile(self, project, profile_key=None, language=None, profile_name=None):
+    def associate_project_with_quality_profile(self, project, language, profile_name):
         """
         Associate a project with a quality profile.
 
         :param project: Project key.
-        :param profile_key: Quality profile key.
-        :param language: Quality profile language. Mandatory if 'key' is not set.
-        :param profile_name: Quality profile name. Mandatory if 'key' is not set.
+        :param language: Quality profile language.
+        :param profile_name: Quality profile name.
         :return:
         """
-        params = {'project': project}
-
-        if profile_key:
-            params.update({'key': profile_key})
-
-        elif language and profile_name:
-            params.update({'language': language})
-            params.update({'qualityProfile': profile_name})
+        params = {
+            'project': project,
+            'language': language,
+            'qualityProfile': profile_name
+        }
 
         self.sonarqube.make_call('post', API_QUALITYPROFILES_ADD_PROJECT_ENDPOINT, **params)
 
-    def remove_project_associate_with_quality_profile(self, project, profile_key=None, language=None,
-                                                      profile_name=None):
+    def remove_project_associate_with_quality_profile(self, project, language, profile_name):
         """
         Remove a project's association with a quality profile.
 
         :param project: Project key
-        :param profile_key: Quality profile key.
-        :param language: Quality profile language. Mandatory if 'key' is not set.
-        :param profile_name: Quality profile name. Mandatory if 'key' is not set.
+        :param language: Quality profile language.
+        :param profile_name: Quality profile name.
         :return:
         """
-        params = {'project': project}
-
-        if profile_key:
-            params.update({'key': profile_key})
-
-        elif language and profile_name:
-            params.update({'language': language})
-            params.update({'qualityProfile': profile_name})
+        params = {
+            'project': project,
+            'language': language,
+            'qualityProfile': profile_name
+        }
 
         self.sonarqube.make_call('post', API_QUALITYPROFILES_REMOVE_PROJECT_ENDPOINT, **params)
 
-    def backup_quality_profile(self, profile_key=None, language=None, profile_name=None):
+    def backup_quality_profile(self, language, profile_name):
         """
         Backup a quality profile in XML form. The exported profile can be restored through api/qualityprofiles/restore.
 
-        :param profile_key: Quality profile key.
-        :param language: Quality profile language. Mandatory if 'key' is not set.
-        :param profile_name: Quality profile name. Mandatory if 'key' is not set.
+        :param language: Quality profile language.
+        :param profile_name: Quality profile name.
         :return:
         """
-        params = {}
-        if profile_key:
-            params.update({'key': profile_key})
-
-        elif language and profile_name:
-            params.update({'language': language})
-            params.update({'qualityProfile': profile_name})
+        params = {
+            'language': language,
+            'qualityProfile': profile_name
+        }
 
         resp = self.sonarqube.make_call('get', API_QUALITYPROFILES_BACKUP_ENDPOINT, **params)
         return resp.text
 
-    def change_parent_of_quality_profile(self, parent_profile_name, profile_key=None, language=None, profile_name=None):
+    def change_parent_of_quality_profile(self, parent_profile_name, language, profile_name):
         """
         Change a quality profile's parent.
 
         :param parent_profile_name: Parent quality profile name.
-        :param profile_key: Quality profile key.
-        :param language: Quality profile language. Mandatory if 'key' is not set.
-        :param profile_name: Quality profile name. Mandatory if 'key' is not set.
+        :param language: Quality profile language.
+        :param profile_name: Quality profile name.
         :return:
         """
-        params = {"parentQualityProfile": parent_profile_name}
-        if profile_key:
-            params.update({'key': profile_key})
-
-        elif language and profile_name:
-            params.update({'language': language})
-            params.update({'qualityProfile': profile_name})
+        params = {
+            'parentQualityProfile': parent_profile_name,
+            'language': language,
+            'qualityProfile': profile_name
+        }
 
         self.sonarqube.make_call('post', API_QUALITYPROFILES_CHANGE_PARENT_ENDPOINT, **params)
 
-    def get_history_of_changes_on_quality_profile(self, profile_key=None, language=None, profile_name=None,
-                                                  since_data=None, to_data=None):
+    def get_history_of_changes_on_quality_profile(self, language, profile_name, since_data=None, to_data=None):
         """
         Get the history of changes on a quality profile: rule activation/deactivation, change in parameters/severity.
         Events are ordered by date in descending order (most recent first).
 
-        :param profile_key: Quality profile key.
-        :param language: Quality profile language. Mandatory if 'key' is not set.
-        :param profile_name: Quality profile language. Mandatory if 'key' is not set.
+        :param language: Quality profile language.
+        :param profile_name: Quality profile language.
         :param since_data: Start date for the changelog. Either a date (server timezone) or datetime can be provided.
         :param to_data: End date for the changelog. Either a date (server timezone) or datetime can be provided.
         :return:
         """
-        params = {}
-
-        if profile_key:
-            params.update({'key': profile_key})
-
-        elif language and profile_name:
-            params.update({'language': language})
-            params.update({'qualityProfile': profile_name})
+        params = {
+            'language': language,
+            'qualityProfile': profile_name
+        }
 
         if since_data:
             params.update({'since': since_data})
@@ -289,24 +262,19 @@ class SonarQubeQualityprofiles:
         }
         self.sonarqube.make_call('post', API_QUALITYPROFILES_DEACTIVATE_RULE_ENDPOINT, **params)
 
-    def delete_quality_profile(self, profile_key=None, language=None, profile_name=None):
+    def delete_quality_profile(self, language, profile_name):
         """
         Delete a quality profile and all its descendants.
         The default quality profile cannot be deleted.
 
-        :param profile_key: Quality profile key.
-        :param language: Quality profile language. Mandatory if 'key' is not set.
-        :param profile_name: Quality profile name. Mandatory if 'key' is not set.
+        :param language: Quality profile language.
+        :param profile_name: Quality profile name.
         :return:
         """
-        params = {}
-
-        if profile_key:
-            params.update({'key': profile_key})
-
-        elif language and profile_name:
-            params.update({'language': language})
-            params.update({'qualityProfile': profile_name})
+        params = {
+            'language': language,
+            'qualityProfile': profile_name
+        }
 
         self.sonarqube.make_call('post', API_QUALITYPROFILES_DELETE_ENDPOINT, **params)
 
@@ -362,23 +330,18 @@ class SonarQubeQualityprofiles:
         response = res.json()
         return response['importers']
 
-    def show_quality_profile(self, profile_key=None, language=None, profile_name=None):
+    def show_quality_profile(self, language, profile_name):
         """
         Show a quality profile's ancestors and children.
 
-        :param profile_key: Quality profile key.
-        :param language: Quality profile language. Mandatory if 'key' is not set.
-        :param profile_name: Quality profile name. Mandatory if 'key' is not set.
+        :param language: Quality profile language.
+        :param profile_name: Quality profile name.
         :return:
         """
-        params = {}
-
-        if profile_key:
-            params.update({'key': profile_key})
-
-        elif language and profile_name:
-            params.update({'language': language})
-            params.update({'qualityProfile': profile_name})
+        params = {
+            'language': language,
+            'qualityProfile': profile_name
+        }
 
         res = self.sonarqube.make_call('get', API_QUALITYPROFILES_INHERITANCE_ENDPOINT, **params)
         return res.json()

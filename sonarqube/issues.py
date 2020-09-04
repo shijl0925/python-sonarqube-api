@@ -21,9 +21,10 @@ from sonarqube.config import (
 class SonarQubeIssues:
     MAX_SEARCH_NUM = 100
     OPTIONS_SEARCH = ['additionalFields', 'asc', 'assigned', 'assignees', 'author', 'componentKeys', 'branch',
-                      'createdAfter', 'createdAt', 'createdBefore', 'createdInLast', 'cwe', 'facets', 'issues',
-                      'languages', 'onComponentOnly', 'owaspTop10', 'ps', 'resolutions', 'resolved', 'rules', 's',
-                      'sansTop25', 'severities', 'sinceLeakPeriod', 'sonarsourceSecurity', 'statuses', 'tags', 'types']
+                      'pullRequest',  'createdAfter', 'createdAt', 'createdBefore', 'createdInLast', 'cwe', 'facets',
+                      'issues', 'languages', 'onComponentOnly', 'owaspTop10', 'ps', 'resolutions', 'resolved', 'rules',
+                      's', 'sansTop25', 'severities', 'sinceLeakPeriod', 'sonarsourceSecurity', 'statuses', 'tags',
+                      'types']
 
     OPTIONS_BULK = ['add_tags', 'assign', 'comment', 'do_transition', 'remove_tags',
                     'sendNotifications', 'set_severity', 'set_type']
@@ -37,7 +38,8 @@ class SonarQubeIssues:
         optional parameters:
           * componentKeys: Comma-separated list of component keys. Retrieve issues associated to a specific list of
             components (and all its descendants). A component can be a portfolio, project, module, directory or file.
-          * branch:
+          * branch: Branch key.
+          * pullRequest: Pull request id.
           * additionalFields: Comma-separated list of the optional fields to be returned in response. Possible values are for:
 
             * _all

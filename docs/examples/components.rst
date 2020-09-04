@@ -12,7 +12,7 @@ Examples
 Returns a component (file, directory, project, view) and its ancestors. The ancestors are ordered from the parent to the root project.::
 
 
-    component = sonar.components.get_project_component_and_ancestors("BMW_SDK_CPP")
+    component = sonar.components.get_project_component_and_ancestors("my_project")
 
 Search for components::
 
