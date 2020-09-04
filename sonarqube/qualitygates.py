@@ -40,10 +40,11 @@ class SonarQubeQualityGates:
         Create a Quality Gate.
 
         :param gate_name: The name of the quality gate to create
-        :return:
+        :return: Returns id and name of quality gate
         """
         params = {'name': gate_name}
-        self.sonarqube.make_call('post', API_QUALITYGATES_CREATE_ENDPOINT, **params)
+        res = self.sonarqube.make_call('post', API_QUALITYGATES_CREATE_ENDPOINT, **params)
+        return res
 
     def delete_quality_gate(self, gate_id):
         """
