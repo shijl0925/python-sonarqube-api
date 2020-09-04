@@ -1,8 +1,3 @@
-=======================
-Python SonarQube Client
-=======================
-
-A Python Client for SonarQube Server APIs.
 
 .. image:: https://img.shields.io/pypi/pyversions/python-sonarqube-api.svg
     :target: https://pypi.python.org/pypi/python-sonarqube-api
@@ -10,16 +5,23 @@ A Python Client for SonarQube Server APIs.
     :target: https://pypi.python.org/pypi/python-sonarqube-api
 .. image:: https://img.shields.io/pypi/dm/python-sonarqube-api.svg
     :target: https://pypistats.org/packages/python-sonarqube-api
+.. image:: https://sonarcloud.io/api/project_badges/measure?project=shijl0925_python-sonarqube-api&metric=alert_status
+    :target: https://sonarcloud.io/dashboard?id=shijl0925_python-sonarqube-api
 .. image:: https://img.shields.io/github/license/shijl0925/python-sonarqube-api.svg
     :target: LICENSE
 
+=======================
+Python SonarQube Client
+=======================
+
+A Python Client for SonarQube Server APIs.
 
 Installation
 ============
 
 Install::
 
-    pip install python-sonarqube-api
+    pip install  --upgrade python-sonarqube-api
 
 Documentation
 =============
