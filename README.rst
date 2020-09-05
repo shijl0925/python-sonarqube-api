@@ -27,7 +27,7 @@ Documentation
 =============
 
 The full documentation for API is available on `readthedocs
-<https://python-sonarqube-api.readthedocs.io/en/1.0.8/>`_.
+<https://python-sonarqube-api.readthedocs.io/en/1.0.9/>`_.
 
 
 Compatibility
@@ -46,7 +46,7 @@ Example getting projects with coverage and issues metrics::
 
     from sonarqube import SonarQubeClient
 
-    h = SonarQubeClient(user='admin', password='admin')
+    h = SonarQubeClient(sonarqube_url="http://localhost:9000", user='admin', password='admin')
     for project in h.projects:
         # do something with project data...
 
@@ -58,7 +58,7 @@ Sonar authentication tokens can also be used in place of username and password,
 which is particularly useful when accessing the SonarQube API from a CI server,
 as tokens can easily be revoked in the event of unintended exposure::
 
-    h = SonarQubeClient(token='*****************')
+    h = SonarQubeClient(sonarqube_url="http://localhost:9000", token='*****************')
 
 
 API example
@@ -66,5 +66,5 @@ API example
 
 The API example supported by the SonarQubeClient are:
 The example documentation for API is available on `API examples
-<https://python-sonarqube-api.readthedocs.io/en/1.0.8/examples.html>`_.
+<https://python-sonarqube-api.readthedocs.io/en/1.0.9/examples.html>`_.
 

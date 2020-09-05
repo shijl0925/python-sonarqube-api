@@ -40,5 +40,4 @@ class SonarQubeWebservices:
             'controller': controller
         }
 
-        resp = self.sonarqube.make_call('post', API_WEBSERVICES_RESPONSE_EXAMPLE_ENDPOINT, **params)
-        return resp.json()
+        return self.sonarqube.make_call('post', API_WEBSERVICES_RESPONSE_EXAMPLE_ENDPOINT, **params)

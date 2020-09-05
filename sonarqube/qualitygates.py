@@ -296,20 +296,15 @@ class SonarQubeQualityGates:
 
         self.sonarqube.make_call('post', API_QUALITYGATES_DESELECT_ENDPOINT, **params)
 
-    def show_quality_gate(self, gate_id=None, gate_name=None, organization=None):
+    def show_quality_gate(self, gate_name, organization=None):
         """
         Display the details of a quality gate.
 
-        :param gate_id: ID of the quality gate. Either id or name must be set
-        :param gate_name: Name of the quality gate. Either id or name must be set
+        :param gate_name: Name of the quality gate.
         :param organization: Organization key. If no organization is provided, the default organization is used.
         :return:
         """
-        params = {}
-        if gate_id:
-            params.update({'id': gate_id})
-        elif gate_name:
-            params.update({'name': gate_name})
+        params = {'name': gate_name}
 
         if organization:
             params.update({"organization": organization})
