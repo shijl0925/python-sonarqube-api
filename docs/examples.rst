@@ -34,3 +34,4 @@ API examples
    examples/webhooks
    examples/server
    examples/sources
+   examples/plugins

@@ -24,6 +24,7 @@ from .sources import SonarQubeSources
 from .auth import SonarQubeAuth
 from .favorite import SonarQubeFavorites
 from .languages import SonarQubeLanguages
+from .plugins import SonarQubePlugins
 from .project_badges import SonarQubeProjectBadges
 from .project_tags import SonarQubeProjectTags
 from .project_pull_requests import SonarQubepRrojectPullRequests
@@ -48,7 +49,7 @@ class SonarQubeClient:
                  token=None,
                  ssl_verify=True,
                  cert=None,
-                 timeout=10,
+                 timeout=60,
                  max_retries=None):
         self._sonarqube_url = self.strip_trailing_slash(sonarqube_url or self.DEFAULT_URL)
 
@@ -267,6 +268,10 @@ class SonarQubeClient:
     @property
     def system(self):
         return SonarQubeSystem(self)
+
+    @property
+    def plugins(self):
+        return SonarQubePlugins(self)
 
     @staticmethod
     def copy_dict(dest, src, option):
