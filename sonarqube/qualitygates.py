@@ -169,7 +169,7 @@ class SonarQubeQualityGates:
 
         self.sonarqube.make_call('post', API_QUALITYGATES_UPDATE_CONDITION_ENDPOINT, **params)
 
-    def get_qualitygate_projects(self, gate_id, selected="selected", organization=None):
+    def get_qualitygate_projects(self, gate_id, selected="selected", query=None, organization=None):
         """
         Search for projects associated (or not) to a quality gate.
 
@@ -181,6 +181,8 @@ class SonarQubeQualityGates:
             * deselected
             * selected
           default value is selected
+        :param query: To search for projects containing this string.
+          If this parameter is set, "selected" is set to "all".
         :param organization: Organization key. If no organization is provided, the default organization is used.
         :return:
         """
@@ -188,6 +190,8 @@ class SonarQubeQualityGates:
             'gateId': gate_id,
             'selected': selected
         }
+        if query:
+            params.update({"query": query})
 
         if organization:
             params.update({"organization": organization})
