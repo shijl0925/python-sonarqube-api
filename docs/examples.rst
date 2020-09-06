@@ -9,7 +9,7 @@ API examples
    examples/auth
    examples/ce
    examples/components
-   examples/duplication
+   examples/duplications
    examples/favorites
    examples/issues
    examples/languages

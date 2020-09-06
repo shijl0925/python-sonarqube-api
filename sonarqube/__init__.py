@@ -22,7 +22,7 @@ from .metrics import SonarQubeMetrics
 from .settings import SonarQubeSettings
 from .sources import SonarQubeSources
 from .auth import SonarQubeAuth
-from .favorite import SonarQubeFavorites
+from .favorites import SonarQubeFavorites
 from .languages import SonarQubeLanguages
 from .plugins import SonarQubePlugins
 from .project_badges import SonarQubeProjectBadges
