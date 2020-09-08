@@ -25,7 +25,8 @@ class SonarQubeSources:
         :param from_line: First line to return. Starts at 1
         :param to_line: Last line to return (inclusive)
         :param commits_by_line: Group lines by SCM commit if value is false, else display commits for each line,even if
-          two consecutive lines relate to the same commit. Possible values are for: true, false, yes, no. default value is false.
+          two consecutive lines relate to the same commit. Possible values are for: true, false, yes, no. default value
+          is false.
         :return:
         """
         params = {

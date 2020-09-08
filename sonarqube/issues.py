@@ -21,7 +21,7 @@ from sonarqube.config import (
 class SonarQubeIssues:
     MAX_SEARCH_NUM = 100
     OPTIONS_SEARCH = ['additionalFields', 'asc', 'assigned', 'assignees', 'author', 'componentKeys', 'branch',
-                      'pullRequest',  'createdAfter', 'createdAt', 'createdBefore', 'createdInLast', 'cwe', 'facets',
+                      'pullRequest', 'createdAfter', 'createdAt', 'createdBefore', 'createdInLast', 'cwe', 'facets',
                       'issues', 'languages', 'onComponentOnly', 'owaspTop10', 'ps', 'resolutions', 'resolved', 'rules',
                       's', 'sansTop25', 'severities', 'sinceLeakPeriod', 'sonarsourceSecurity', 'statuses', 'tags',
                       'types']
