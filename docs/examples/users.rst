@@ -18,7 +18,7 @@ Create a user.::
 
 Update a user.::
 
-    sonar.users.update_user(login="sonar", email="sonar@wz-inc.com")
+    sonar.users.update_user(login="sonar", email="sonar@company.com")
 
 Deactivate a user.::
 

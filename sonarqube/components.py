@@ -107,7 +107,8 @@ class SonarQubeComponents:
               * TRK - Projects
               * UTS - Test Files
 
-          * s: Comma-separated list of sort fields,Possible values are for: name, path, qualifier, and default value is name
+          * s: Comma-separated list of sort fields,Possible values are for: name, path, qualifier,
+            and default value is name
           * strategy: Strategy to search for base component descendants:
 
             * children: return the children components of the base component. Grandchildren components are not returned
