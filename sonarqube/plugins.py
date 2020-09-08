@@ -26,7 +26,8 @@ class SonarQubePlugins:
           * COMPATIBLE: plugin is compatible with current SonarQube instance.
           * INCOMPATIBLE: plugin is not compatible with current SonarQube instance.
           * REQUIRES_SYSTEM_UPGRADE: plugin requires SonarQube to be upgraded before being installed.
-          * DEPS_REQUIRE_SYSTEM_UPGRADE: at least one plugin on which the plugin is dependent requires SonarQube to be upgraded.
+          * DEPS_REQUIRE_SYSTEM_UPGRADE: at least one plugin on which the plugin is dependent requires SonarQube to
+            be upgraded.
 
         :return:
         """

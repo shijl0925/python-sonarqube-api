@@ -104,8 +104,8 @@ class SonarQubeUser:
         :param name: User name
         :param email: User email
         :param password: User password. Only mandatory when creating local user, otherwise it should not be set
-        :param local: Specify if the user should be authenticated from SonarQube server or from an external authentication system.
-          Password should not be set when local is set to false.
+        :param local: Specify if the user should be authenticated from SonarQube server or from an external
+          authentication system. Password should not be set when local is set to false.
           Possible values are for: true, false, yes, no. default value is true.
         :param scm: List of SCM accounts. To set several values, the parameter must be called once for each value.
         :return: request response
