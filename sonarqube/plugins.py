@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 # @Author: Jialiang Shi
+from sonarqube.rest_client import RestClient
 from sonarqube.config import (
     API_PLUGINS_AVAILABLE_ENDPOINT,
     API_PLUGINS_CANCEL_ALL_ENDPOINT,
@@ -13,9 +14,16 @@ from sonarqube.config import (
 )
 
 
-class SonarQubePlugins:
-    def __init__(self, sonarqube):
-        self.sonarqube = sonarqube
+class SonarQubePlugins(RestClient):
+    """
+    SonarQube plugins Operations
+    """
+    def __init__(self, **kwargs):
+        """
+
+        :param kwargs:
+        """
+        super(SonarQubePlugins, self).__init__(**kwargs)
 
     def get_available_plugins(self):
         """
@@ -31,7 +39,7 @@ class SonarQubePlugins:
 
         :return:
         """
-        resp = self.sonarqube.make_call('get', API_PLUGINS_AVAILABLE_ENDPOINT)
+        resp = self.get(API_PLUGINS_AVAILABLE_ENDPOINT)
         response = resp.json()
         return response['plugins']
 
@@ -41,7 +49,7 @@ class SonarQubePlugins:
 
         :return:
         """
-        self.sonarqube.make_call('post', API_PLUGINS_CANCEL_ALL_ENDPOINT)
+        self.post(API_PLUGINS_CANCEL_ALL_ENDPOINT)
 
     def install_plugin(self, plugin_key):
         """
@@ -55,7 +63,7 @@ class SonarQubePlugins:
             'key': plugin_key
         }
 
-        self.sonarqube.make_call('post', API_PLUGINS_INSTALL_ENDPOINT, **params)
+        self.post(API_PLUGINS_INSTALL_ENDPOINT, params=params)
 
     def get_installed_plugins(self, fields=None):
         """
@@ -70,7 +78,7 @@ class SonarQubePlugins:
         if fields:
             params.update({'f': fields})
 
-        resp = self.sonarqube.make_call('get', API_PLUGINS_INSTALLED_ENDPOINT, **params)
+        resp = self.get(API_PLUGINS_INSTALLED_ENDPOINT, params=params)
         response = resp.json()
         return response['plugins']
 
@@ -81,7 +89,7 @@ class SonarQubePlugins:
 
         :return:
         """
-        resp = self.sonarqube.make_call('get', API_PLUGINS_PENDING_ENDPOINT)
+        resp = self.get(API_PLUGINS_PENDING_ENDPOINT)
         return resp.json()
 
     def uninstall_plugin(self, plugin_key):
@@ -95,7 +103,7 @@ class SonarQubePlugins:
             'key': plugin_key
         }
 
-        self.sonarqube.make_call('post', API_PLUGINS_UNINSTALL_ENDPOINT, **params)
+        self.post(API_PLUGINS_UNINSTALL_ENDPOINT, params=params)
 
     def update_plugin(self, plugin_key):
         """
@@ -109,7 +117,7 @@ class SonarQubePlugins:
             'key': plugin_key
         }
 
-        self.sonarqube.make_call('post', API_PLUGINS_UPDATE_ENDPOINT, **params)
+        self.post(API_PLUGINS_UPDATE_ENDPOINT, params=params)
 
     def get_available_update_plugins(self):
         """
@@ -121,5 +129,5 @@ class SonarQubePlugins:
 
         :return:
         """
-        resp = self.sonarqube.make_call('get', API_PLUGINS_UPDATES_ENDPOINT)
+        resp = self.get(API_PLUGINS_UPDATES_ENDPOINT)
         return resp.json()

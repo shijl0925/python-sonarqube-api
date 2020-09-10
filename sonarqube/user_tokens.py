@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 # @Author: Jialiang Shi
+from sonarqube.rest_client import RestClient
 from sonarqube.config import (
     API_USER_TOKENS_GENERATE_ENDPOINT,
     API_USER_TOKENS_REVOKE_ENDPOINT,
@@ -8,9 +9,16 @@ from sonarqube.config import (
 )
 
 
-class SonarQubeUsertokens:
-    def __init__(self, sonarqube):
-        self.sonarqube = sonarqube
+class SonarQubeUserTokens(RestClient):
+    """
+    SonarQube user tokens Operations
+    """
+    def __init__(self, **kwargs):
+        """
+
+        :param kwargs:
+        """
+        super(SonarQubeUserTokens, self).__init__(**kwargs)
 
     def generate_user_token(self, token_name, user_login=None):
         """
@@ -30,7 +38,7 @@ class SonarQubeUsertokens:
         if user_login:
             params.update({'login': user_login})
 
-        return self.sonarqube.make_call('post', API_USER_TOKENS_GENERATE_ENDPOINT, **params)
+        return self.post(API_USER_TOKENS_GENERATE_ENDPOINT, params=params)
 
     def revoke_user_token(self, token_name, user_login=None):
         """
@@ -49,7 +57,7 @@ class SonarQubeUsertokens:
         if user_login:
             params.update({'login': user_login})
 
-        self.sonarqube.make_call('post', API_USER_TOKENS_REVOKE_ENDPOINT, **params)
+        self.post(API_USER_TOKENS_REVOKE_ENDPOINT, params=params)
 
     def search_user_tokens(self, user_login=None):
         """
@@ -66,6 +74,6 @@ class SonarQubeUsertokens:
         if user_login:
             params.update({'login': user_login})
 
-        resp = self.sonarqube.make_call('get', API_USER_TOKENS_SEARCH_ENDPOINT, **params)
+        resp = self.get(API_USER_TOKENS_SEARCH_ENDPOINT, params=params)
         response = resp.json()
         return response['userTokens']

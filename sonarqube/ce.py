@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 # @Author: Jialiang Shi
+from sonarqube.rest_client import RestClient
 from sonarqube.config import (
     API_CE_ACTIVITY_ENDPOINT,
     API_CE_ACTIVITY_STATUS_ENDPOINT,
@@ -9,12 +10,19 @@ from sonarqube.config import (
 )
 
 
-class SonarQubeCe:
+class SonarQubeCe(RestClient):
+    """
+    SonarQube ce Operations
+    """
     OPTIONS_SEARCH = ['componentId', 'maxExecutedAt', 'minSubmittedAt',
                       'onlyCurrents', 'ps', 'q', 'status', 'task_type']
 
-    def __init__(self, sonarqube):
-        self.sonarqube = sonarqube
+    def __init__(self, **kwargs):
+        """
+
+        :param kwargs:
+        """
+        super(SonarQubeCe, self).__init__(**kwargs)
 
     def search_tasks(self, **kwargs):
         """
@@ -46,9 +54,9 @@ class SonarQubeCe:
         """
         params = {}
         if kwargs:
-            self.sonarqube.copy_dict(params, kwargs, self.OPTIONS_SEARCH)
+            self.api.copy_dict(params, kwargs, self.OPTIONS_SEARCH)
 
-        resp = self.sonarqube.make_call('get', API_CE_ACTIVITY_ENDPOINT, **params)
+        resp = self.get(API_CE_ACTIVITY_ENDPOINT, params=params)
         response = resp.json()
         return response['tasks']
 
@@ -63,7 +71,7 @@ class SonarQubeCe:
         if component_id:
             params.update({'componentId': component_id})
 
-        resp = self.sonarqube.make_call('get', API_CE_ACTIVITY_STATUS_ENDPOINT, **params)
+        resp = self.get(API_CE_ACTIVITY_STATUS_ENDPOINT, params=params)
         return resp.json()
 
     def get_component_queue_and_current_tasks(self, component):
@@ -74,7 +82,8 @@ class SonarQubeCe:
         :return:
         """
         params = {'component': component}
-        resp = self.sonarqube.make_call('get', API_CE_COMPONENT_ENDPOINT, **params)
+
+        resp = self.get(API_CE_COMPONENT_ENDPOINT, params=params)
         return resp.json()
 
     def get_task(self, task_id, fields=None):
@@ -90,5 +99,5 @@ class SonarQubeCe:
         if fields:
             params.update({'additionalFields': fields})
 
-        resp = self.sonarqube.make_call('get', API_CE_TASK_ENDPOINT, **params)
+        resp = self.get(API_CE_TASK_ENDPOINT, params=params)
         return resp.json()

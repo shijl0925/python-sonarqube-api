@@ -1,15 +1,23 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 # @Author: Jialiang Shi
+from sonarqube.rest_client import RestClient
 from sonarqube.config import (
     API_METRICS_SEARCH_ENDPOINT,
     API_METRICS_TYPES_ENDPOINT
 )
 
 
-class SonarQubeMetrics:
-    def __init__(self, sonarqube):
-        self.sonarqube = sonarqube
+class SonarQubeMetrics(RestClient):
+    """
+    SonarQube metrics Operations
+    """
+    def __init__(self, **kwargs):
+        """
+
+        :param kwargs:
+        """
+        super(SonarQubeMetrics, self).__init__(**kwargs)
 
     def search_metrics(self):
         """
@@ -25,7 +33,7 @@ class SonarQubeMetrics:
         total = 2
 
         while page_num * page_size < total:
-            resp = self.sonarqube.make_call('get', API_METRICS_SEARCH_ENDPOINT, **params)
+            resp = self.get(API_METRICS_SEARCH_ENDPOINT, params=params)
             response = resp.json()
 
             page_num = response['p']
@@ -43,6 +51,6 @@ class SonarQubeMetrics:
 
         :return:
         """
-        resp = self.sonarqube.make_call('get', API_METRICS_TYPES_ENDPOINT)
+        resp = self.get(API_METRICS_TYPES_ENDPOINT)
         response = resp.json()
         return response['types']

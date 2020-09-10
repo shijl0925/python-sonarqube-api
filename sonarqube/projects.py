@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 # @Author: Jialiang Shi
+from sonarqube.rest_client import RestClient
 from sonarqube.config import (
     API_PROJECTS_BULK_DELETE_ENDPOINT,
     API_PROJECTS_SEARCH_ENDPOINT,
@@ -11,12 +12,24 @@ from sonarqube.config import (
 )
 
 
-class SonarQubeProject:
-    def __init__(self, sonarqube):
-        self.sonarqube = sonarqube
+class SonarQubeProjects(RestClient):
+    """
+    SonarQube projects Operations
+    """
+    def __init__(self, **kwargs):
+        """
+
+        :param kwargs:
+        """
+        super(SonarQubeProjects, self).__init__(**kwargs)
         self._data = None
 
     def poll(self):
+        """
+        get projects data
+
+        :return:
+        """
         self._data = self.search_projects()
 
     def iterkeys(self):
@@ -106,7 +119,7 @@ class SonarQubeProject:
             params.update({'q': q})
 
         while page_num * page_size < total:
-            resp = self.sonarqube.make_call('get', API_PROJECTS_SEARCH_ENDPOINT, **params)
+            resp = self.get(API_PROJECTS_SEARCH_ENDPOINT, params=params)
             response = resp.json()
 
             page_num = response['paging']['pageIndex']
@@ -138,7 +151,7 @@ class SonarQubeProject:
         if visibility:
             params.update({'visibility': visibility})
 
-        return self.sonarqube.make_call('post', API_PROJECTS_CREATE_ENDPOINT, **params)
+        return self.post(API_PROJECTS_CREATE_ENDPOINT, params=params)
 
     def delete_project(self, project):
         """
@@ -150,7 +163,8 @@ class SonarQubeProject:
         params = {
             'project': project
         }
-        self.sonarqube.make_call('post', API_PROJECTS_DELETE_ENDPOINT, **params)
+
+        self.post(API_PROJECTS_DELETE_ENDPOINT, params=params)
 
     def bulk_delete_projects(self, analyzedBefore=None, onProvisionedOnly=False, projects=None,
                              q=None, qualifiers="TRK"):
@@ -189,7 +203,7 @@ class SonarQubeProject:
         if q:
             params.update({'q': q})
 
-        self.sonarqube.make_call('post', API_PROJECTS_BULK_DELETE_ENDPOINT, **params)
+        self.post(API_PROJECTS_BULK_DELETE_ENDPOINT, params=params)
 
     def update_project_key(self, previous_project_key, new_project_key):
         """
@@ -203,7 +217,8 @@ class SonarQubeProject:
             'from': previous_project_key,
             'to': new_project_key
         }
-        self.sonarqube.make_call('post', API_PROJECTS_UPDATE_KEY_ENDPOINT, **params)
+
+        self.post(API_PROJECTS_UPDATE_KEY_ENDPOINT, params=params)
 
     def update_project_visibility(self, project, visibility):
         """
@@ -217,4 +232,5 @@ class SonarQubeProject:
             'project': project,
             'visibility': visibility
         }
-        self.sonarqube.make_call('post', API_PROJECTS_UPDATE_VISIBILITY_ENDPOINT, **params)
+
+        self.post(API_PROJECTS_UPDATE_VISIBILITY_ENDPOINT, params=params)

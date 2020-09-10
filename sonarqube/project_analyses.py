@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 # @Author: Jialiang Shi
+from sonarqube.rest_client import RestClient
 from sonarqube.config import (
     API_PROJECT_ANALYSES_CREATE_EVENT_ENDPOINT,
     API_PROJECT_ANALYSES_DELETE_ENDPOINT,
@@ -12,9 +13,16 @@ from sonarqube.config import (
 )
 
 
-class SonarQubeProjectAnalyses:
-    def __init__(self, sonarqube):
-        self.sonarqube = sonarqube
+class SonarQubeProjectAnalyses(RestClient):
+    """
+    SonarQube project analyses Operations
+    """
+    def __init__(self, **kwargs):
+        """
+
+        :param kwargs:
+        """
+        super(SonarQubeProjectAnalyses, self).__init__(**kwargs)
 
     def create_project_analysis_event(self, analysis, name, category="OTHER"):
         """
@@ -35,7 +43,7 @@ class SonarQubeProjectAnalyses:
             'category': category
         }
 
-        return self.sonarqube.make_call('post', API_PROJECT_ANALYSES_CREATE_EVENT_ENDPOINT, **params)
+        return self.post(API_PROJECT_ANALYSES_CREATE_EVENT_ENDPOINT, params=params)
 
     def delete_project_analysis(self, analysis):
         """
@@ -48,7 +56,7 @@ class SonarQubeProjectAnalyses:
             'analysis': analysis
         }
 
-        self.sonarqube.make_call('post', API_PROJECT_ANALYSES_DELETE_ENDPOINT, **params)
+        self.post(API_PROJECT_ANALYSES_DELETE_ENDPOINT, params=params)
 
     def delete_project_analysis_event(self, event):
         """
@@ -61,7 +69,7 @@ class SonarQubeProjectAnalyses:
             'event': event
         }
 
-        self.sonarqube.make_call('post', API_PROJECT_ANALYSES_DELETE_EVENT_ENDPOINT, **params)
+        self.post(API_PROJECT_ANALYSES_DELETE_EVENT_ENDPOINT, params=params)
 
     def search_project_analyses_and_events(self, project, branch=None, category=None, from_date=None, to_date=None):
         """
@@ -103,7 +111,7 @@ class SonarQubeProjectAnalyses:
         total = 2
 
         while page_num * page_size < total:
-            resp = self.sonarqube.make_call('get', API_PROJECT_ANALYSES_SEARCH_ENDPOINT, **params)
+            resp = self.get(API_PROJECT_ANALYSES_SEARCH_ENDPOINT, params=params)
             response = resp.json()
 
             page_num = response['paging']['pageIndex']
@@ -132,7 +140,7 @@ class SonarQubeProjectAnalyses:
         if branch:
             params.update({'branch': branch})
 
-        self.sonarqube.make_call('post', API_PROJECT_ANALYSES_SET_BASELINE_ENDPOINT, **params)
+        self.post(API_PROJECT_ANALYSES_SET_BASELINE_ENDPOINT, params=params)
 
     def unset_baseline_on_project(self, project, branch=None):
         """
@@ -149,7 +157,7 @@ class SonarQubeProjectAnalyses:
         if branch:
             params.update({'branch': branch})
 
-        self.sonarqube.make_call('post', API_PROJECT_ANALYSES_UNSET_BASELINE_ENDPOINT, **params)
+        self.post(API_PROJECT_ANALYSES_UNSET_BASELINE_ENDPOINT, params=params)
 
     def update_project_analysis_event(self, event, name):
         """
@@ -165,4 +173,4 @@ class SonarQubeProjectAnalyses:
             'name': name,
         }
 
-        return self.sonarqube.make_call('post', API_PROJECT_ANALYSES_UPDATE_EVENT_ENDPOINT, **params)
+        return self.post(API_PROJECT_ANALYSES_UPDATE_EVENT_ENDPOINT, params=params)

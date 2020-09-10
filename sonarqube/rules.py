@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 # @Author: Jialiang Shi
+from sonarqube.rest_client import RestClient
 from sonarqube.config import (
     API_RULES_SEARCH_ENDPOINT,
     API_RULES_CREATE_ENDPOINT,
@@ -12,7 +13,10 @@ from sonarqube.config import (
 )
 
 
-class SonarQubeRules:
+class SonarQubeRules(RestClient):
+    """
+    SonarQube rules Operations
+    """
     OPTIONS_SEARCH = ['activation', 'qprofile', 'languages', 'active_severities', 'asc', 'available_since', 'cwe', 'f',
                       'facets', 'include_external', 'inheritance', 'is_template', 'owaspTop10', 'q', 'repositories',
                       'rule_key', 's', 'sansTop25', 'severities', 'sonarsourceSecurity', 'statuses', 'tags',
@@ -21,8 +25,12 @@ class SonarQubeRules:
     OPTIONS_UPDATE = ['name', 'description', 'markdown_note', 'remediation_fn_base_effort', 'remediation_fn_type',
                       'remediation_fy_gap_multiplier', 'severity', 'status', 'tags']
 
-    def __init__(self, sonarqube):
-        self.sonarqube = sonarqube
+    def __init__(self, **kwargs):
+        """
+
+        :param kwargs:
+        """
+        super(SonarQubeRules, self).__init__(**kwargs)
 
     def search_rules(self, **kwargs):
         """
@@ -183,26 +191,24 @@ class SonarQubeRules:
         """
         params = {}
         if kwargs:
-            self.sonarqube.copy_dict(params, kwargs, self.OPTIONS_SEARCH)
+            self.api.copy_dict(params, kwargs, self.OPTIONS_SEARCH)
 
-        # Page counters
         page_num = 1
         page_size = 1
         n_rules = 2
 
-        # Cycle through rules
         while page_num * page_size < n_rules:
-            # Update paging information for calculation
-            res = self.sonarqube.make_call('get', API_RULES_SEARCH_ENDPOINT, **params).json()
-            page_num = res['p']
-            page_size = res['ps']
-            n_rules = res['total']
+            resp = self.get(API_RULES_SEARCH_ENDPOINT, params=params)
+            response = resp.json()
 
-            # Update page number (next) in queryset
+            page_num = response['p']
+            page_size = response['ps']
+            n_rules = response['total']
+
             params['p'] = page_num + 1
 
             # Yield rules
-            for rule in res['rules']:
+            for rule in response['rules']:
                 yield rule
 
     def create_rule(self, key, name, description, template_key, severity, status=None, rule_type=None, **params):
@@ -252,7 +258,7 @@ class SonarQubeRules:
         if params:
             data.update({"params": params})
 
-        return self.sonarqube.make_call('post', API_RULES_CREATE_ENDPOINT, **data)
+        return self.post(API_RULES_CREATE_ENDPOINT, params=data)
 
     def update_rule(self, key, **kwargs):
         """
@@ -292,9 +298,9 @@ class SonarQubeRules:
         """
         data = {'key': key}
         if kwargs:
-            self.sonarqube.copy_dict(data, kwargs, self.OPTIONS_UPDATE)
+            self.api.copy_dict(data, kwargs, self.OPTIONS_UPDATE)
 
-        return self.sonarqube.make_call('post', API_RULES_UPDATE_ENDPOINT, **data)
+        return self.post(API_RULES_UPDATE_ENDPOINT, params=data)
 
     def delete_rule(self, rule_key):
         """
@@ -305,7 +311,8 @@ class SonarQubeRules:
         params = {
             'key': rule_key
         }
-        self.sonarqube.make_call('post', API_RULES_DELETE_ENDPOINT, **params)
+
+        self.post(API_RULES_DELETE_ENDPOINT, params=params)
 
     def get_rule(self, rule_key, actives=False):
         """
@@ -321,7 +328,7 @@ class SonarQubeRules:
             'actives': actives and 'true' or 'false'
         }
 
-        res = self.sonarqube.make_call('get', API_RULES_SHOW_ENDPOINT, **params)
+        res = self.get(API_RULES_SHOW_ENDPOINT, params=params)
         return res.json()
 
     def get_rule_repositories(self, language=None, q=None):
@@ -340,7 +347,7 @@ class SonarQubeRules:
         if q:
             params.update({"q": q})
 
-        resp = self.sonarqube.make_call('get', API_RULES_REPOSITORIES_ENDPOINT, **params)
+        resp = self.get(API_RULES_REPOSITORIES_ENDPOINT, params=params)
         response = resp.json()
         return response['repositories']
 
@@ -357,6 +364,6 @@ class SonarQubeRules:
         if q:
             params.update({"q": q})
 
-        resp = self.sonarqube.make_call('get', API_RULES_TAGS_ENDPOINT, **params)
+        resp = self.get(API_RULES_TAGS_ENDPOINT, params=params)
         response = resp.json()
         return response['tags']

@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 # @Author: Jialiang Shi
+from sonarqube.rest_client import RestClient
 from sonarqube.config import (
     API_QUALITYGATES_LIST_ENDPOINT,
     API_QUALITYGATES_PROJECT_STATUS_ENDPOINT,
@@ -20,9 +21,16 @@ from sonarqube.config import (
 )
 
 
-class SonarQubeQualityGates:
-    def __init__(self, sonarqube):
-        self.sonarqube = sonarqube
+class SonarQubeQualityGates(RestClient):
+    """
+    SonarQube quality gates Operations
+    """
+    def __init__(self, **kwargs):
+        """
+
+        :param kwargs:
+        """
+        super(SonarQubeQualityGates, self).__init__(**kwargs)
 
     def copy_quality_gate(self, source_id, gate_name, organization=None):
         """
@@ -38,7 +46,7 @@ class SonarQubeQualityGates:
         if organization:
             params.update({"organization": organization})
 
-        self.sonarqube.make_call('post', API_QUALITYGATES_COPY_ENDPOINT, **params)
+        self.post(API_QUALITYGATES_COPY_ENDPOINT, params=params)
 
     def create_quality_gate(self, gate_name, organization=None):
         """
@@ -52,7 +60,7 @@ class SonarQubeQualityGates:
         if organization:
             params.update({"organization": organization})
 
-        return self.sonarqube.make_call('post', API_QUALITYGATES_CREATE_ENDPOINT, **params)
+        return self.post(API_QUALITYGATES_CREATE_ENDPOINT, params=params)
 
     def delete_quality_gate(self, gate_id, organization=None):
         """
@@ -66,7 +74,7 @@ class SonarQubeQualityGates:
         if organization:
             params.update({"organization": organization})
 
-        self.sonarqube.make_call('post', API_QUALITYGATES_DESTROY_ENDPOINT, **params)
+        self.post(API_QUALITYGATES_DESTROY_ENDPOINT, params=params)
 
     def rename_quality_gate(self, gate_id, gate_name, organization=None):
         """
@@ -81,7 +89,7 @@ class SonarQubeQualityGates:
         if organization:
             params.update({"organization": organization})
 
-        self.sonarqube.make_call('post', API_QUALITYGATES_RENAME_ENDPOINT, **params)
+        self.post(API_QUALITYGATES_RENAME_ENDPOINT, params=params)
 
     def create_condition_to_quality_gate(self, gate_id, metric, error, op=None, organization=None):
         """
@@ -117,7 +125,7 @@ class SonarQubeQualityGates:
         if organization:
             params.update({"organization": organization})
 
-        return self.sonarqube.make_call('post', API_QUALITYGATES_CREATE_CONDITION_ENDPOINT, **params)
+        return self.post(API_QUALITYGATES_CREATE_CONDITION_ENDPOINT, params=params)
 
     def delete_condition_from_quality_gate(self, condition_id, organization=None):
         """
@@ -131,7 +139,7 @@ class SonarQubeQualityGates:
         if organization:
             params.update({"organization": organization})
 
-        self.sonarqube.make_call('post', API_QUALITYGATES_DELETE_CONDITION_ENDPOINT, **params)
+        self.post(API_QUALITYGATES_DELETE_CONDITION_ENDPOINT, params=params)
 
     def update_condition_to_quality_gate(self, condition_id, metric, error, op=None, organization=None):
         """
@@ -167,7 +175,7 @@ class SonarQubeQualityGates:
         if organization:
             params.update({"organization": organization})
 
-        self.sonarqube.make_call('post', API_QUALITYGATES_UPDATE_CONDITION_ENDPOINT, **params)
+        self.post(API_QUALITYGATES_UPDATE_CONDITION_ENDPOINT, params=params)
 
     def get_qualitygate_projects(self, gate_id, selected="selected", query=None, organization=None):
         """
@@ -201,7 +209,7 @@ class SonarQubeQualityGates:
         total = 2
 
         while page_num * page_size < total:
-            resp = self.sonarqube.make_call('get', API_QUALITYGATES_SEARCH_ENDPOINT, **params)
+            resp = self.get(API_QUALITYGATES_SEARCH_ENDPOINT, params=params)
             response = resp.json()
 
             page_num = response['paging']['pageIndex']
@@ -225,7 +233,7 @@ class SonarQubeQualityGates:
         if organization:
             params.update({"organization": organization})
 
-        self.sonarqube.make_call('post', API_QUALITYGATES_SET_AS_DEFAULT_ENDPOINT, **params)
+        self.post(API_QUALITYGATES_SET_AS_DEFAULT_ENDPOINT, params=params)
 
     def get_project_qualitygates_status(self, project_key=None, analysis_id=None, branch=None, pull_request_id=None):
         """
@@ -252,7 +260,7 @@ class SonarQubeQualityGates:
         elif analysis_id:
             params.update({'analysisId': analysis_id})
 
-        resp = self.sonarqube.make_call('get', API_QUALITYGATES_PROJECT_STATUS_ENDPOINT, **params)
+        resp = self.get(API_QUALITYGATES_PROJECT_STATUS_ENDPOINT, params=params)
         response = resp.json()
         return response['projectStatus']
 
@@ -267,7 +275,7 @@ class SonarQubeQualityGates:
         if organization:
             params.update({"organization": organization})
 
-        resp = self.sonarqube.make_call('get', API_QUALITYGATES_LIST_ENDPOINT, **params)
+        resp = self.get(API_QUALITYGATES_LIST_ENDPOINT, params=params)
         response = resp.json()
         return response['qualitygates']
 
@@ -284,7 +292,7 @@ class SonarQubeQualityGates:
         if organization:
             params.update({"organization": organization})
 
-        self.sonarqube.make_call('post', API_QUALITYGATES_SELECT_ENDPOINT, **params)
+        self.post(API_QUALITYGATES_SELECT_ENDPOINT, params=params)
 
     def remove_project_from_quality_gate(self, project_key, organization=None):
         """
@@ -298,7 +306,7 @@ class SonarQubeQualityGates:
         if organization:
             params.update({"organization": organization})
 
-        self.sonarqube.make_call('post', API_QUALITYGATES_DESELECT_ENDPOINT, **params)
+        self.post(API_QUALITYGATES_DESELECT_ENDPOINT, params=params)
 
     def show_quality_gate(self, gate_name, organization=None):
         """
@@ -313,7 +321,7 @@ class SonarQubeQualityGates:
         if organization:
             params.update({"organization": organization})
 
-        resp = self.sonarqube.make_call('get', API_QUALITYGATES_SHOW_ENDPOINT, **params)
+        resp = self.get(API_QUALITYGATES_SHOW_ENDPOINT, params=params)
         response = resp.json()
         return response
 
@@ -329,6 +337,6 @@ class SonarQubeQualityGates:
         if organization:
             params.update({"organization": organization})
 
-        resp = self.sonarqube.make_call('get', API_QUALITYGATES_GET_BY_PROJECT_ENDPOINT, **params)
+        resp = self.get(API_QUALITYGATES_GET_BY_PROJECT_ENDPOINT, params=params)
         response = resp.json()
         return response['qualityGate']

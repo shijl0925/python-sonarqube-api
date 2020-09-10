@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 # @Author: Jialiang Shi
+from sonarqube.rest_client import RestClient
 from sonarqube.config import (
     API_WEBHOOKS_CREATE_ENDPOINT,
     API_WEBHOOKS_DELETE_ENDPOINT,
@@ -11,9 +12,16 @@ from sonarqube.config import (
 )
 
 
-class SonarQubeWebhooks:
-    def __init__(self, sonarqube):
-        self.sonarqube = sonarqube
+class SonarQubeWebhooks(RestClient):
+    """
+    SonarQube webhooks Operations
+    """
+    def __init__(self, **kwargs):
+        """
+
+        :param kwargs:
+        """
+        super(SonarQubeWebhooks, self).__init__(**kwargs)
 
     def create_webhook(self, name, project=None, secret=None, url=None):
         """
@@ -41,7 +49,7 @@ class SonarQubeWebhooks:
         if url:
             params.update({'url': url})
 
-        return self.sonarqube.make_call('post', API_WEBHOOKS_CREATE_ENDPOINT, **params)
+        return self.post(API_WEBHOOKS_CREATE_ENDPOINT, params=params)
 
     def delete_webhook(self, webhook_key):
         """
@@ -55,7 +63,7 @@ class SonarQubeWebhooks:
             'webhook': webhook_key,
         }
 
-        self.sonarqube.make_call('post', API_WEBHOOKS_DELETE_ENDPOINT, **params)
+        self.post(API_WEBHOOKS_DELETE_ENDPOINT, params=params)
 
     def get_webhook_deliveries(self, webhook_key=None, component_key=None, task_id=None):
         """
@@ -82,7 +90,7 @@ class SonarQubeWebhooks:
         total = 2
 
         while page_num * page_size < total:
-            resp = self.sonarqube.make_call('get', API_WEBHOOKS_DELIVERIES_ENDPOINT, **params)
+            resp = self.get(API_WEBHOOKS_DELIVERIES_ENDPOINT, params=params)
             response = resp.json()
 
             page_num = response['paging']['pageIndex']
@@ -102,7 +110,8 @@ class SonarQubeWebhooks:
         :return:
         """
         params = {'deliveryId': delivery_id}
-        resp = self.sonarqube.make_call('get', API_WEBHOOKS_DELIVERY_ENDPOINT, **params)
+
+        resp = self.get(API_WEBHOOKS_DELIVERY_ENDPOINT, params=params)
         response = resp.json()
         return response['delivery']
 
@@ -117,7 +126,7 @@ class SonarQubeWebhooks:
         if project:
             params.update({'project': project})
 
-        resp = self.sonarqube.make_call('get', API_WEBHOOKS_LIST_ENDPOINT, **params)
+        resp = self.get(API_WEBHOOKS_LIST_ENDPOINT, params=params)
         response = resp.json()
         return response['webhooks']
 
@@ -141,4 +150,4 @@ class SonarQubeWebhooks:
         if secret:
             params.update({'secret': secret})
 
-        self.sonarqube.make_call('post', API_WEBHOOKS_UPDATE_ENDPOINT, **params)
+        self.post(API_WEBHOOKS_UPDATE_ENDPOINT, params=params)

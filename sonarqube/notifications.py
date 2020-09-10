@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 # @Author: Jialiang Shi
+from sonarqube.rest_client import RestClient
 from sonarqube.config import (
     API_NOTIFICATIONS_LIST_ENDPOINT,
     API_NOTIFICATIONS_ADD_ENDPOINT,
@@ -8,9 +9,16 @@ from sonarqube.config import (
 )
 
 
-class SonarQubeNotification:
-    def __init__(self, sonarqube):
-        self.sonarqube = sonarqube
+class SonarQubeNotifications(RestClient):
+    """
+    SonarQube notifications Operations
+    """
+    def __init__(self, **kwargs):
+        """
+
+        :param kwargs:
+        """
+        super(SonarQubeNotifications, self).__init__(**kwargs)
 
     def get_user_notifications(self, login):
         """
@@ -22,7 +30,8 @@ class SonarQubeNotification:
         params = {
             'login': login
         }
-        resp = self.sonarqube.make_call('get', API_NOTIFICATIONS_LIST_ENDPOINT, **params)
+
+        resp = self.get(API_NOTIFICATIONS_LIST_ENDPOINT, params=params)
         response = resp.json()
         return response['notifications']
 
@@ -50,7 +59,7 @@ class SonarQubeNotification:
         if project:
             params.update({'project': project})
 
-        self.sonarqube.make_call('post', API_NOTIFICATIONS_ADD_ENDPOINT, **params)
+        self.post(API_NOTIFICATIONS_ADD_ENDPOINT, params=params)
 
     def remove_notification_for_user(self, login, notification_type, channel="EmailNotificationChannel", project=None):
         """
@@ -76,4 +85,4 @@ class SonarQubeNotification:
         if project:
             params.update({'project': project})
 
-        self.sonarqube.make_call('post', API_NOTIFICATIONS_REMOVE_ENDPOINT, **params)
+        self.post(API_NOTIFICATIONS_REMOVE_ENDPOINT, params=params)

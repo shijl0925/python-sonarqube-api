@@ -1,15 +1,23 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 # @Author: Jialiang Shi
+from sonarqube.rest_client import RestClient
 from sonarqube.config import (
     API_WEBSERVICES_LIST_ENDPOINT,
     API_WEBSERVICES_RESPONSE_EXAMPLE_ENDPOINT
 )
 
 
-class SonarQubeWebservices:
-    def __init__(self, sonarqube):
-        self.sonarqube = sonarqube
+class SonarQubeWebservices(RestClient):
+    """
+    SonarQube webservices Operations
+    """
+    def __init__(self, **kwargs):
+        """
+
+        :param sonarqube:
+        """
+        super(SonarQubeWebservices, self).__init__(**kwargs)
 
     def list_web_services(self, include_internals=False):
         """
@@ -23,7 +31,7 @@ class SonarQubeWebservices:
             'include_internals': include_internals and 'true' or 'false'
         }
 
-        resp = self.sonarqube.make_call('get', API_WEBSERVICES_LIST_ENDPOINT, **params)
+        resp = self.get(API_WEBSERVICES_LIST_ENDPOINT, params=params)
         response = resp.json()
         return response['webServices']
 
@@ -40,4 +48,4 @@ class SonarQubeWebservices:
             'controller': controller
         }
 
-        return self.sonarqube.make_call('post', API_WEBSERVICES_RESPONSE_EXAMPLE_ENDPOINT, **params)
+        return self.post(API_WEBSERVICES_RESPONSE_EXAMPLE_ENDPOINT, params=params)

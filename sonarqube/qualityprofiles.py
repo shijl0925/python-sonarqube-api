@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 # @Author: Jialiang Shi
+from sonarqube.rest_client import RestClient
 from sonarqube.config import (
     API_QUALITYPROFILES_ACTIVATE_RULE_ENDPOINT,
     API_QUALITYPROFILES_SEARCH_ENDPOINT,
@@ -24,11 +25,18 @@ from sonarqube.config import (
 )
 
 
-class SonarQubeQualityProfiles:
+class SonarQubeQualityProfiles(RestClient):
+    """
+    SonarQube quality profiles Operations
+    """
     OPTIONS_CREATE = ['backup_sonarlint-vs-cs-fake', 'backup_sonarlint-vs-vbnet-fake']
 
-    def __init__(self, sonarqube):
-        self.sonarqube = sonarqube
+    def __init__(self, **kwargs):
+        """
+
+        :param kwargs:
+        """
+        super(SonarQubeQualityProfiles, self).__init__(**kwargs)
 
     def activate_rule_for_quality_profile(self, profile_key, rule_key, reset=False, severity=None, **params):
         """
@@ -65,7 +73,7 @@ class SonarQubeQualityProfiles:
             if params:
                 data['params'] = params
 
-        self.sonarqube.make_call('post', API_QUALITYPROFILES_ACTIVATE_RULE_ENDPOINT, **data)
+        self.post(API_QUALITYPROFILES_ACTIVATE_RULE_ENDPOINT, params=data)
 
     def search_quality_profiles(self, defaults=False, language=None, project_key=None, profile_name=None):
         """
@@ -91,7 +99,7 @@ class SonarQubeQualityProfiles:
         if profile_name:
             params.update({'qualityProfile': profile_name})
 
-        res = self.sonarqube.make_call('get', API_QUALITYPROFILES_SEARCH_ENDPOINT, **params)
+        res = self.get(API_QUALITYPROFILES_SEARCH_ENDPOINT, params=params)
         response = res.json()
         return response['profiles']
 
@@ -108,7 +116,7 @@ class SonarQubeQualityProfiles:
             'qualityProfile': profile_name
         }
 
-        self.sonarqube.make_call('post', API_QUALITYPROFILES_SET_DEFAULT_ENDPOINT, **params)
+        self.post(API_QUALITYPROFILES_SET_DEFAULT_ENDPOINT, params=params)
 
     def associate_project_with_quality_profile(self, project, language, profile_name):
         """
@@ -125,7 +133,7 @@ class SonarQubeQualityProfiles:
             'qualityProfile': profile_name
         }
 
-        self.sonarqube.make_call('post', API_QUALITYPROFILES_ADD_PROJECT_ENDPOINT, **params)
+        self.post(API_QUALITYPROFILES_ADD_PROJECT_ENDPOINT, params=params)
 
     def remove_project_associate_with_quality_profile(self, project, language, profile_name):
         """
@@ -142,7 +150,7 @@ class SonarQubeQualityProfiles:
             'qualityProfile': profile_name
         }
 
-        self.sonarqube.make_call('post', API_QUALITYPROFILES_REMOVE_PROJECT_ENDPOINT, **params)
+        self.post(API_QUALITYPROFILES_REMOVE_PROJECT_ENDPOINT, params=params)
 
     def backup_quality_profile(self, language, profile_name):
         """
@@ -157,7 +165,7 @@ class SonarQubeQualityProfiles:
             'qualityProfile': profile_name
         }
 
-        resp = self.sonarqube.make_call('get', API_QUALITYPROFILES_BACKUP_ENDPOINT, **params)
+        resp = self.get(API_QUALITYPROFILES_BACKUP_ENDPOINT, params=params)
         return resp.text
 
     def change_parent_of_quality_profile(self, parent_profile_name, language, profile_name):
@@ -175,7 +183,7 @@ class SonarQubeQualityProfiles:
             'qualityProfile': profile_name
         }
 
-        self.sonarqube.make_call('post', API_QUALITYPROFILES_CHANGE_PARENT_ENDPOINT, **params)
+        self.post(API_QUALITYPROFILES_CHANGE_PARENT_ENDPOINT, params=params)
 
     def get_history_of_changes_on_quality_profile(self, language, profile_name, since_data=None, to_data=None):
         """
@@ -204,7 +212,7 @@ class SonarQubeQualityProfiles:
         total = 2
 
         while page_num * page_size < total:
-            resp = self.sonarqube.make_call('get', API_QUALITYPROFILES_CHANGELOG_ENDPOINT, **params)
+            resp = self.get(API_QUALITYPROFILES_CHANGELOG_ENDPOINT, params=params)
             response = resp.json()
 
             page_num = response['p']
@@ -228,7 +236,7 @@ class SonarQubeQualityProfiles:
             'fromKey': profile_key,
             'toName': new_profile_name
         }
-        return self.sonarqube.make_call('post', API_QUALITYPROFILES_COPY_ENDPOINT, **params)
+        return self.post(API_QUALITYPROFILES_COPY_ENDPOINT, params=params)
 
     def create_quality_profile(self, language, profile_name, **kwargs):
         """
@@ -244,9 +252,9 @@ class SonarQubeQualityProfiles:
             'name': profile_name
         }
         if kwargs:
-            self.sonarqube.copy_dict(params, kwargs, self.OPTIONS_CREATE)
+            self.api.copy_dict(params, kwargs, self.OPTIONS_CREATE)
 
-        return self.sonarqube.make_call('post', API_QUALITYPROFILES_CREATE_ENDPOINT, **params)
+        return self.post(API_QUALITYPROFILES_CREATE_ENDPOINT, params=params)
 
     def deactivate_rule_on_quality_profile(self, profile_key, rule_key):
         """
@@ -260,7 +268,8 @@ class SonarQubeQualityProfiles:
             'key': profile_key,
             'rule': rule_key
         }
-        self.sonarqube.make_call('post', API_QUALITYPROFILES_DEACTIVATE_RULE_ENDPOINT, **params)
+
+        self.post(API_QUALITYPROFILES_DEACTIVATE_RULE_ENDPOINT, params=params)
 
     def delete_quality_profile(self, language, profile_name):
         """
@@ -276,7 +285,7 @@ class SonarQubeQualityProfiles:
             'qualityProfile': profile_name
         }
 
-        self.sonarqube.make_call('post', API_QUALITYPROFILES_DELETE_ENDPOINT, **params)
+        self.post(API_QUALITYPROFILES_DELETE_ENDPOINT, params=params)
 
     def export_quality_profile(self, exporter_key=None, language=None, profile_name=None):
         """
@@ -307,7 +316,7 @@ class SonarQubeQualityProfiles:
         if profile_name:
             params.update({'profile_name': profile_name})
 
-        res = self.sonarqube.make_call('get', API_QUALITYPROFILES_EXPORT_ENDPOINT, **params)
+        res = self.get(API_QUALITYPROFILES_EXPORT_ENDPOINT, params=params)
         return res.text
 
     def get_supported_exporters(self):
@@ -316,7 +325,7 @@ class SonarQubeQualityProfiles:
 
         :return:
         """
-        res = self.sonarqube.make_call('get', API_QUALITYPROFILES_EXPORTERS_ENDPOINT)
+        res = self.get(API_QUALITYPROFILES_EXPORTERS_ENDPOINT)
         response = res.json()
         return response['exporters']
 
@@ -326,7 +335,7 @@ class SonarQubeQualityProfiles:
 
         :return:
         """
-        res = self.sonarqube.make_call('get', API_QUALITYPROFILES_IMPORTERS_ENDPOINT)
+        res = self.get(API_QUALITYPROFILES_IMPORTERS_ENDPOINT)
         response = res.json()
         return response['importers']
 
@@ -343,7 +352,7 @@ class SonarQubeQualityProfiles:
             'qualityProfile': profile_name
         }
 
-        res = self.sonarqube.make_call('get', API_QUALITYPROFILES_INHERITANCE_ENDPOINT, **params)
+        res = self.get(API_QUALITYPROFILES_INHERITANCE_ENDPOINT, params=params)
         return res.json()
 
     def get_projects_associate_with_quality_profile(self, profile_key, q=None, selected="selected"):
@@ -374,7 +383,7 @@ class SonarQubeQualityProfiles:
         total = 2
 
         while page_num * page_size < total:
-            resp = self.sonarqube.make_call('get', API_QUALITYPROFILES_PROJECTS_ENDPOINT, **params)
+            resp = self.get(API_QUALITYPROFILES_PROJECTS_ENDPOINT, params=params)
             response = resp.json()
 
             page_num = response['paging']['pageIndex']
@@ -398,7 +407,8 @@ class SonarQubeQualityProfiles:
             'key': profile_key,
             'name': profile_name
         }
-        self.sonarqube.make_call('post', API_QUALITYPROFILES_RENAME_ENDPOINT, **params)
+
+        self.post(API_QUALITYPROFILES_RENAME_ENDPOINT, params=params)
 
     def restore_quality_profile(self, backup):
         """
@@ -410,4 +420,5 @@ class SonarQubeQualityProfiles:
         :return:
         """
         params = {'backup': backup}
-        self.sonarqube.make_call('post', API_QUALITYPROFILES_RESTORE_ENDPOINT, **params)
+
+        self.post(API_QUALITYPROFILES_RESTORE_ENDPOINT, params=params)

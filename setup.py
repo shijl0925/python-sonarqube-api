@@ -22,7 +22,7 @@ setup(
     # https://packaging.python.org/en/latest/single_source_version.html
     version='1.1.0',
 
-    description='A Python Client for SonarQube Server APIs.',
+    description='Python wrapper for the SonarQube API.',
     long_description=long_description,
     url='https://github.com/shijl0925/python-sonarqube-api',
     author='Jialiang Shi',

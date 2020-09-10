@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 # @Author: Jialiang Shi
+from sonarqube.rest_client import RestClient
 from sonarqube.config import (
     API_ISSUES_SEARCH_ENDPOINT,
     API_ISSUES_ASSIGN_ENDPOINT,
@@ -18,7 +19,10 @@ from sonarqube.config import (
 )
 
 
-class SonarQubeIssues:
+class SonarQubeIssues(RestClient):
+    """
+    SonarQube issues Operations
+    """
     MAX_SEARCH_NUM = 100
     OPTIONS_SEARCH = ['additionalFields', 'asc', 'assigned', 'assignees', 'author', 'componentKeys', 'branch',
                       'pullRequest', 'createdAfter', 'createdAt', 'createdBefore', 'createdInLast', 'cwe', 'facets',
@@ -29,8 +33,12 @@ class SonarQubeIssues:
     OPTIONS_BULK = ['add_tags', 'assign', 'comment', 'do_transition', 'remove_tags',
                     'sendNotifications', 'set_severity', 'set_type']
 
-    def __init__(self, sonarqube):
-        self.sonarqube = sonarqube
+    def __init__(self, **kwargs):
+        """
+
+        :param kwargs:
+        """
+        super(SonarQubeIssues, self).__init__(**kwargs)
 
     def search_issues(self, **kwargs):
         """
@@ -181,14 +189,14 @@ class SonarQubeIssues:
         """
         params = {}
         if kwargs:
-            self.sonarqube.copy_dict(params, kwargs, self.OPTIONS_SEARCH)
+            self.api.copy_dict(params, kwargs, self.OPTIONS_SEARCH)
 
         page_num = 1
         page_size = 1
         total = 2
 
         while page_num * page_size < total:
-            resp = self.sonarqube.make_call('get', API_ISSUES_SEARCH_ENDPOINT, **params)
+            resp = self.get(API_ISSUES_SEARCH_ENDPOINT, params=params)
             response = resp.json()
 
             page_num = response['paging']['pageIndex']
@@ -218,7 +226,7 @@ class SonarQubeIssues:
         if assignee:
             params.update({'assignee': assignee})
 
-        return self.sonarqube.make_call('post', API_ISSUES_ASSIGN_ENDPOINT, **params)
+        return self.post(API_ISSUES_ASSIGN_ENDPOINT, params=params)
 
     def issue_change_severity(self, issue, severity):
         """
@@ -239,7 +247,8 @@ class SonarQubeIssues:
             'issue': issue,
             'severity': severity.upper()
         }
-        return self.sonarqube.make_call('post', API_ISSUES_SET_SEVERITY_ENDPOINT, **params)
+
+        return self.post(API_ISSUES_SET_SEVERITY_ENDPOINT, params=params)
 
     def issue_set_type(self, issue, issue_type):
         """
@@ -259,7 +268,8 @@ class SonarQubeIssues:
             'issue': issue,
             'type': issue_type
         }
-        return self.sonarqube.make_call('post', API_ISSUES_SET_TYPE_ENDPOINT, **params)
+
+        return self.post(API_ISSUES_SET_TYPE_ENDPOINT, params=params)
 
     def issue_add_comment(self, issue, text):
         """
@@ -273,7 +283,8 @@ class SonarQubeIssues:
             'issue': issue,
             'text': text
         }
-        return self.sonarqube.make_call('post', API_ISSUES_ADD_COMMENT_ENDPOINT, **params)
+
+        return self.post(API_ISSUES_ADD_COMMENT_ENDPOINT, params=params)
 
     def issue_delete_comment(self, comment):
         """
@@ -285,7 +296,8 @@ class SonarQubeIssues:
         params = {
             'comment': comment
         }
-        return self.sonarqube.make_call('post', API_ISSUES_DELETE_COMMENT_ENDPOINT, **params)
+
+        return self.post(API_ISSUES_DELETE_COMMENT_ENDPOINT, params=params)
 
     def issue_edit_comment(self, comment, text):
         """
@@ -299,7 +311,8 @@ class SonarQubeIssues:
             'comment': comment,
             'text': text
         }
-        return self.sonarqube.make_call('post', API_ISSUES_EDIT_COMMENT_ENDPOINT, **params)
+
+        return self.post(API_ISSUES_EDIT_COMMENT_ENDPOINT, params=params)
 
     def issue_do_transition(self, issue, transition):
         """
@@ -328,7 +341,8 @@ class SonarQubeIssues:
             'issue': issue,
             'transition': transition
         }
-        return self.sonarqube.make_call('post', API_ISSUES_DO_TRANSITION_ENDPOINT, **params)
+
+        return self.post(API_ISSUES_DO_TRANSITION_ENDPOINT, params=params)
 
     def search_scm_accounts(self, project, q=None):
         """
@@ -344,7 +358,7 @@ class SonarQubeIssues:
         if q:
             params.update({'q': q})
 
-        resp = self.sonarqube.make_call('get', API_ISSUES_AUTHORS_ENDPOINT, **params)
+        resp = self.get(API_ISSUES_AUTHORS_ENDPOINT, params=params)
         response = resp.json()
         return response['authors']
 
@@ -395,9 +409,9 @@ class SonarQubeIssues:
             'issues': issues
         }
         if kwargs:
-            self.sonarqube.copy_dict(params, kwargs, self.OPTIONS_BULK)
+            self.api.copy_dict(params, kwargs, self.OPTIONS_BULK)
 
-        return self.sonarqube.make_call('post', API_ISSUES_BULK_CHANGE_ENDPOINT, **params)
+        return self.post(API_ISSUES_BULK_CHANGE_ENDPOINT, params=params)
 
     def get_issue_changelog(self, issue):
         """
@@ -407,7 +421,7 @@ class SonarQubeIssues:
         :return:
         """
         params = {'issue': issue}
-        resp = self.sonarqube.make_call('get', API_ISSUES_CHANGELOG_ENDPOINT, **params)
+        resp = self.get(API_ISSUES_CHANGELOG_ENDPOINT, params=params)
         return resp.json()
 
     def issue_set_tags(self, issue, tags=None):
@@ -425,7 +439,7 @@ class SonarQubeIssues:
         if tags:
             params.update({'tags': tags})
 
-        return self.sonarqube.make_call('post', API_ISSUES_SET_TAGS_ENDPOINT, **params)
+        return self.post(API_ISSUES_SET_TAGS_ENDPOINT, params=params)
 
     def get_issues_tags(self, project, q=None):
         """
@@ -439,5 +453,5 @@ class SonarQubeIssues:
         if q:
             params.update({'q': q})
 
-        resp = self.sonarqube.make_call('get', API_ISSUES_TAGS_ENDPOINT, **params)
+        resp = self.get(API_ISSUES_TAGS_ENDPOINT, params=params)
         return resp.json()

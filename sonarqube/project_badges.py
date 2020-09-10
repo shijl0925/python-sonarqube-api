@@ -1,15 +1,23 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 # @Author: Jialiang Shi
+from sonarqube.rest_client import RestClient
 from sonarqube.config import (
     API_PROJECT_BADGES_MEASURE_ENDPOINT,
     API_PROJECT_BADGES_QUALITY_GATE_ENDPOINT
 )
 
 
-class SonarQubeProjectBadges:
-    def __init__(self, sonarqube):
-        self.sonarqube = sonarqube
+class SonarQubeProjectBadges(RestClient):
+    """
+    SonarQube project badges Operations
+    """
+    def __init__(self, **kwargs):
+        """
+
+        :param kwargs:
+        """
+        super(SonarQubeProjectBadges, self).__init__(**kwargs)
 
     def generate_badge_for_project_measures(self, project, metric, branch=None):
         """
@@ -39,7 +47,7 @@ class SonarQubeProjectBadges:
         if branch:
             params.update({'branch': branch})
 
-        resp = self.sonarqube.make_call('get', API_PROJECT_BADGES_MEASURE_ENDPOINT, **params)
+        resp = self.get(API_PROJECT_BADGES_MEASURE_ENDPOINT, params=params)
         return resp.text
 
     def generate_badge_for_project_quality_gate(self, project, branch=None):
@@ -56,5 +64,5 @@ class SonarQubeProjectBadges:
         if branch:
             params.update({'branch': branch})
 
-        resp = self.sonarqube.make_call('get', API_PROJECT_BADGES_QUALITY_GATE_ENDPOINT, **params)
+        resp = self.get(API_PROJECT_BADGES_QUALITY_GATE_ENDPOINT, params=params)
         return resp.text

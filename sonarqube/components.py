@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 # @Author: Jialiang Shi
+from sonarqube.rest_client import RestClient
 from sonarqube.config import (
     API_COMPONTENTS_SHOW_ENDPOINT,
     API_COMPONTENTS_SEARCH_ENDPOINT,
@@ -8,11 +9,18 @@ from sonarqube.config import (
 )
 
 
-class SonarQubeComponents:
+class SonarQubeComponents(RestClient):
+    """
+    SonarQube components Operations
+    """
     OPTIONS_TREE = ['asc', 'ps', 'q', 'qualifiers', 's', 'strategy', 'branch', 'pullRequest']
 
-    def __init__(self, sonarqube):
-        self.sonarqube = sonarqube
+    def __init__(self, **kwargs):
+        """
+
+        :param kwargs:
+        """
+        super(SonarQubeComponents, self).__init__(**kwargs)
 
     def get_project_component_and_ancestors(self, component, branch=None, pull_request_id=None):
         """
@@ -34,7 +42,7 @@ class SonarQubeComponents:
         if pull_request_id:
             params.update({'pullRequest': pull_request_id})
 
-        resp = self.sonarqube.make_call('get', API_COMPONTENTS_SHOW_ENDPOINT, **params)
+        resp = self.get(API_COMPONTENTS_SHOW_ENDPOINT, params=params)
         return resp.json()
 
     def search_components(self, qualifiers, language=None, q=None):
@@ -70,7 +78,7 @@ class SonarQubeComponents:
         total = 2
 
         while page_num * page_size < total:
-            resp = self.sonarqube.make_call('get', API_COMPONTENTS_SEARCH_ENDPOINT, **params)
+            resp = self.get(API_COMPONTENTS_SEARCH_ENDPOINT, params=params)
             response = resp.json()
 
             page_num = response['paging']['pageIndex']
@@ -125,14 +133,14 @@ class SonarQubeComponents:
         }
 
         if kwargs:
-            self.sonarqube.copy_dict(params, kwargs, self.OPTIONS_TREE)
+            self.api.copy_dict(params, kwargs, self.OPTIONS_TREE)
 
         page_num = 1
         page_size = 1
         total = 2
 
         while page_num * page_size < total:
-            resp = self.sonarqube.make_call('get', API_COMPONTENTS_TREE_ENDPOINT, **params)
+            resp = self.get(API_COMPONTENTS_TREE_ENDPOINT, params=params)
             response = resp.json()
 
             page_num = response['paging']['pageIndex']

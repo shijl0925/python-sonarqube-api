@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 # @Author: Jialiang Shi
+from sonarqube.rest_client import RestClient
 from sonarqube.config import (
     API_PROJECT_LINKS_CREATE_ENDPOINT,
     API_PROJECT_LINKS_DELETE_ENDPOINT,
@@ -8,9 +9,16 @@ from sonarqube.config import (
 )
 
 
-class SonarQubeProjectLinks:
-    def __init__(self, sonarqube):
-        self.sonarqube = sonarqube
+class SonarQubeProjectLinks(RestClient):
+    """
+    SonarQube project links Operations
+    """
+    def __init__(self, **kwargs):
+        """
+
+        :param kwargs:
+        """
+        super(SonarQubeProjectLinks, self).__init__(**kwargs)
 
     def create_project_link(self, project_key, name, url):
         """
@@ -26,7 +34,8 @@ class SonarQubeProjectLinks:
             'name': name,
             'url': url
         }
-        return self.sonarqube.make_call('post', API_PROJECT_LINKS_CREATE_ENDPOINT, **params)
+
+        return self.post(API_PROJECT_LINKS_CREATE_ENDPOINT, params=params)
 
     def delete_project_link(self, link_id):
         """
@@ -38,7 +47,8 @@ class SonarQubeProjectLinks:
         params = {
             'id': link_id
         }
-        self.sonarqube.make_call('post', API_PROJECT_LINKS_DELETE_ENDPOINT, **params)
+
+        self.post(API_PROJECT_LINKS_DELETE_ENDPOINT, params=params)
 
     def search_project_links(self, project_key):
         """
@@ -50,6 +60,7 @@ class SonarQubeProjectLinks:
         params = {
             'projectKey': project_key
         }
-        resp = self.sonarqube.make_call('get', API_PROJECT_LINKS_SEARCH_ENDPOINT, **params)
+
+        resp = self.get(API_PROJECT_LINKS_SEARCH_ENDPOINT, params=params)
         response = resp.json()
         return response["links"]

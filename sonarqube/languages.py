@@ -1,12 +1,20 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 # @Author: Jialiang Shi
+from sonarqube.rest_client import RestClient
 from sonarqube.config import API_LANGUAGES_LIST_ENDPOINT
 
 
-class SonarQubeLanguages:
-    def __init__(self, sonarqube):
-        self.sonarqube = sonarqube
+class SonarQubeLanguages(RestClient):
+    """
+    SonarQube languages Operations
+    """
+    def __init__(self, **kwargs):
+        """
+
+        :param kwargs:
+        """
+        super(SonarQubeLanguages, self).__init__(**kwargs)
 
     def get_supported_programming_languages(self, q=None):
         """
@@ -18,5 +26,6 @@ class SonarQubeLanguages:
         params = {}
         if q:
             params.update({'q': q})
-        resp = self.sonarqube.make_call('get', API_LANGUAGES_LIST_ENDPOINT, **params)
+
+        resp = self.get(API_LANGUAGES_LIST_ENDPOINT, params=params)
         return resp.json()
