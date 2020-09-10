@@ -1,12 +1,20 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 # @Author: Jialiang Shi
+from sonarqube.rest_client import RestClient
 from sonarqube.config import API_DUPLICATIONS_SHOW_ENDPOINT
 
 
-class SonarQubeDuplications:
-    def __init__(self, sonarqube):
-        self.sonarqube = sonarqube
+class SonarQubeDuplications(RestClient):
+    """
+    SonarQube duplications Operations
+    """
+    def __init__(self, **kwargs):
+        """
+
+        :param kwargs:
+        """
+        super(SonarQubeDuplications, self).__init__(**kwargs)
 
     def get_duplications(self, key):
         """
@@ -16,5 +24,6 @@ class SonarQubeDuplications:
         :return:
         """
         params = {'key': key}
-        resp = self.sonarqube.make_call('get', API_DUPLICATIONS_SHOW_ENDPOINT, **params)
+
+        resp = self.get(API_DUPLICATIONS_SHOW_ENDPOINT, params=params)
         return resp.json()

@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 # @Author: Jialiang Shi
+from sonarqube.rest_client import RestClient
 from sonarqube.config import (
     API_USER_GROUPS_SEARCH_ENDPOINT,
     API_USER_GROUPS_CREATE_ENDPOINT,
@@ -12,12 +13,24 @@ from sonarqube.config import (
 )
 
 
-class SonarQubeUserGroups:
-    def __init__(self, sonarqube):
-        self.sonarqube = sonarqube
+class SonarQubeUserGroups(RestClient):
+    """
+    SonarQube user_groups Operations
+    """
+    def __init__(self, **kwargs):
+        """
+
+        :param kwargs:
+        """
+        super(SonarQubeUserGroups, self).__init__(**kwargs)
         self._data = None
 
     def poll(self):
+        """
+        get user_groups data
+
+        :return:
+        """
         self._data = self.search_user_groups()
 
     def iterkeys(self):
@@ -93,7 +106,7 @@ class SonarQubeUserGroups:
             params['q'] = q
 
         while page_num * page_size < total:
-            resp = self.sonarqube.make_call('get', API_USER_GROUPS_SEARCH_ENDPOINT, **params)
+            resp = self.get(API_USER_GROUPS_SEARCH_ENDPOINT, params=params)
             response = resp.json()
 
             page_num = response['paging']['pageIndex']
@@ -120,7 +133,7 @@ class SonarQubeUserGroups:
         if description:
             params.update({'description': description})
 
-        return self.sonarqube.make_call('post', API_USER_GROUPS_CREATE_ENDPOINT, **params)
+        return self.post(API_USER_GROUPS_CREATE_ENDPOINT, params=params)
 
     def delete_group(self, group_name):
         """
@@ -133,7 +146,7 @@ class SonarQubeUserGroups:
             'name': group_name
         }
 
-        self.sonarqube.make_call('post', API_USER_GROUPS_DELETE_ENDPOINT, **params)
+        self.post(API_USER_GROUPS_DELETE_ENDPOINT, params=params)
 
     def update_group(self, group_id, group_name=None, description=None):
         """
@@ -155,7 +168,7 @@ class SonarQubeUserGroups:
         if description:
             params.update({'description': description})
 
-        self.sonarqube.make_call('post', API_USER_GROUPS_UPDATE_ENDPOINT, **params)
+        self.post(API_USER_GROUPS_UPDATE_ENDPOINT, params=params)
 
     def add_user_to_group(self, group_name, user_login):
         """
@@ -169,7 +182,8 @@ class SonarQubeUserGroups:
             'login': user_login,
             'name': group_name
         }
-        self.sonarqube.make_call('post', API_USER_GROUPS_ADD_USER_ENDPOINT, **params)
+
+        self.post(API_USER_GROUPS_ADD_USER_ENDPOINT, params=params)
 
     def remove_user_from_group(self, group_name, user_login):
         """
@@ -183,7 +197,8 @@ class SonarQubeUserGroups:
             'login': user_login,
             'name': group_name
         }
-        self.sonarqube.make_call('post', API_USER_GROUPS_REMOVE_USER_ENDPOINT, **params)
+
+        self.post(API_USER_GROUPS_REMOVE_USER_ENDPOINT, params=params)
 
     def search_users_belong_to_group(self, group_name, q=None, selected="selected"):
         """
@@ -211,7 +226,7 @@ class SonarQubeUserGroups:
             params.update({'q': q})
 
         while page_num * page_size < total:
-            resp = self.sonarqube.make_call('get', API_USER_GROUPS_USERS_ENDPOINT, **params)
+            resp = self.get(API_USER_GROUPS_USERS_ENDPOINT, params=params)
             response = resp.json()
 
             page_num = response['p']

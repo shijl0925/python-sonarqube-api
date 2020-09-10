@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 # @Author: Jialiang Shi
+from sonarqube.rest_client import RestClient
 from sonarqube.config import (
     API_PERMISSIONS_ADD_GROUP_ENDPOINT,
     API_PERMISSIONS_REMOVE_GROUP_ENDPOINT,
@@ -22,9 +23,16 @@ from sonarqube.config import (
 )
 
 
-class SonarQubePermissions:
-    def __init__(self, sonarqube):
-        self.sonarqube = sonarqube
+class SonarQubePermissions(RestClient):
+    """
+    SonarQube permissions Operations
+    """
+    def __init__(self, **kwargs):
+        """
+
+        :param kwargs:
+        """
+        super(SonarQubePermissions, self).__init__(**kwargs)
 
     def add_permission_to_group(self, group_name, permission, project_key=None):
         """
@@ -47,7 +55,7 @@ class SonarQubePermissions:
         if project_key:
             params.update({"projectKey": project_key})
 
-        self.sonarqube.make_call('post', API_PERMISSIONS_ADD_GROUP_ENDPOINT, **params)
+        self.post(API_PERMISSIONS_ADD_GROUP_ENDPOINT, params=params)
 
     def remove_permission_from_group(self, group_name, permission, project_key=None):
         """
@@ -70,7 +78,7 @@ class SonarQubePermissions:
         if project_key:
             params.update({"projectKey": project_key})
 
-        self.sonarqube.make_call('post', API_PERMISSIONS_REMOVE_GROUP_ENDPOINT, **params)
+        self.post(API_PERMISSIONS_REMOVE_GROUP_ENDPOINT, params=params)
 
     def add_permission_to_user(self, login, permission, project_key=None):
         """
@@ -92,7 +100,7 @@ class SonarQubePermissions:
         if project_key:
             params.update({"projectKey": project_key})
 
-        self.sonarqube.make_call('post', API_PERMISSIONS_ADD_USER_ENDPOINT, **params)
+        self.post(API_PERMISSIONS_ADD_USER_ENDPOINT, params=params)
 
     def remove_permission_from_user(self, login, permission, project_key=None):
         """
@@ -114,7 +122,7 @@ class SonarQubePermissions:
         if project_key:
             params.update({"projectKey": project_key})
 
-        self.sonarqube.make_call('post', API_PERMISSIONS_REMOVE_USER_ENDPOINT, **params)
+        self.post(API_PERMISSIONS_REMOVE_USER_ENDPOINT, params=params)
 
     def apply_template_to_project(self, template_name, project_key):
         """
@@ -128,7 +136,8 @@ class SonarQubePermissions:
             'projectKey': project_key,
             'templateName': template_name
         }
-        self.sonarqube.make_call('post', API_PERMISSIONS_APPLY_TEMPLATE_ENDPOINT, **params)
+
+        self.post(API_PERMISSIONS_APPLY_TEMPLATE_ENDPOINT, params=params)
 
     def apply_template_to_projects(self, template_name, projects=None, analyzedBefore=None, onProvisionedOnly=False,
                                    q=None, qualifiers="TRK"):
@@ -165,7 +174,7 @@ class SonarQubePermissions:
         if q:
             params.update({"q": q})
 
-        self.sonarqube.make_call('post', API_PERMISSIONS_BULK_APPLY_TEMPLATE_ENDPOINT, **params)
+        self.post(API_PERMISSIONS_BULK_APPLY_TEMPLATE_ENDPOINT, params=params)
 
     def add_group_to_template(self, group_name, template_name, permission):
         """
@@ -183,7 +192,8 @@ class SonarQubePermissions:
             'templateName': template_name,
             'permission': permission
         }
-        self.sonarqube.make_call('post', API_PERMISSIONS_ADD_GROUP_TO_TEMPLATE_ENDPOINT, **params)
+
+        self.post(API_PERMISSIONS_ADD_GROUP_TO_TEMPLATE_ENDPOINT, params=params)
 
     def remove_group_from_template(self, group_name, template_name, permission):
         """
@@ -201,7 +211,8 @@ class SonarQubePermissions:
             'templateName': template_name,
             'permission': permission
         }
-        self.sonarqube.make_call('post', API_PERMISSIONS_REMOVE_GROUP_FROM_TEMPLATE_ENDPOINT, **params)
+
+        self.post(API_PERMISSIONS_REMOVE_GROUP_FROM_TEMPLATE_ENDPOINT, params=params)
 
     def add_project_creator_to_template(self, template_name, permission):
         """
@@ -217,7 +228,8 @@ class SonarQubePermissions:
             'templateName': template_name,
             'permission': permission
         }
-        self.sonarqube.make_call('post', API_PERMISSIONS_ADD_PROJECT_CREATOR_TO_TEMPLATE_ENDPOINT, **params)
+
+        self.post(API_PERMISSIONS_ADD_PROJECT_CREATOR_TO_TEMPLATE_ENDPOINT, params=params)
 
     def remove_project_creator_from_template(self, template_name, permission):
         """
@@ -233,7 +245,8 @@ class SonarQubePermissions:
             'templateName': template_name,
             'permission': permission
         }
-        self.sonarqube.make_call('post', API_PERMISSIONS_REMOVE_PROJECT_CREATOR_FROM_TEMPLATE_ENDPOINT, **params)
+
+        self.post(API_PERMISSIONS_REMOVE_PROJECT_CREATOR_FROM_TEMPLATE_ENDPOINT, params=params)
 
     def add_user_to_template(self, user_login, template_name, permission):
         """
@@ -251,7 +264,8 @@ class SonarQubePermissions:
             'templateName': template_name,
             'permission': permission
         }
-        self.sonarqube.make_call('post', API_PERMISSIONS_ADD_USER_TO_TEMPLATE_ENDPOINT, **params)
+
+        self.post(API_PERMISSIONS_ADD_USER_TO_TEMPLATE_ENDPOINT, params=params)
 
     def remove_user_from_template(self, user_login, template_name, permission):
         """
@@ -269,7 +283,8 @@ class SonarQubePermissions:
             'templateName': template_name,
             'permission': permission
         }
-        self.sonarqube.make_call('post', API_PERMISSIONS_REMOVE_USER_FROM_TEMPLATE_ENDPOINT, **params)
+
+        self.post(API_PERMISSIONS_REMOVE_USER_FROM_TEMPLATE_ENDPOINT, params=params)
 
     def create_template(self, template_name, description=None, pattern=None):
         """
@@ -290,7 +305,7 @@ class SonarQubePermissions:
         if pattern:
             params.update({"projectKeyPattern": pattern})
 
-        return self.sonarqube.make_call('post', API_PERMISSIONS_CREATE_TEMPLATE_ENDPOINT, **params)
+        self.post(API_PERMISSIONS_CREATE_TEMPLATE_ENDPOINT, params=params)
 
     def delete_template(self, template_name):
         """
@@ -302,7 +317,8 @@ class SonarQubePermissions:
         params = {
             'templateName': template_name
         }
-        self.sonarqube.make_call('post', API_PERMISSIONS_DELETE_TEMPLATE_ENDPOINT, **params)
+
+        self.post(API_PERMISSIONS_DELETE_TEMPLATE_ENDPOINT, params=params)
 
     def search_templates(self, q=None):
         """
@@ -316,7 +332,7 @@ class SonarQubePermissions:
         if q:
             params.update({"q": q})
 
-        resp = self.sonarqube.make_call('get', API_PERMISSIONS_SEARCH_TEMPLATES_ENDPOINT, **params)
+        resp = self.get(API_PERMISSIONS_SEARCH_TEMPLATES_ENDPOINT, params=params)
         response = resp.json()
         return response
 
@@ -335,7 +351,8 @@ class SonarQubePermissions:
             'templateName': template_name,
             'qualifier': qualifier
         }
-        self.sonarqube.make_call('post', API_PERMISSIONS_SET_DEFAULT_TEMPLATE_ENDPOINT, **params)
+
+        self.post(API_PERMISSIONS_SET_DEFAULT_TEMPLATE_ENDPOINT, params=params)
 
     def update_template(self, template_id, template_name=None, description=None, pattern=None):
         """
@@ -360,4 +377,4 @@ class SonarQubePermissions:
         if pattern:
             params.update({"projectKeyPattern": pattern})
 
-        return self.sonarqube.make_call('post', API_PERMISSIONS_UPDATE_TEMPLATE_ENDPOINT, **params)
+        return self.post(API_PERMISSIONS_UPDATE_TEMPLATE_ENDPOINT, params=params)

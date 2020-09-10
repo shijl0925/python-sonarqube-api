@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 # @Author: Jialiang Shi
+from sonarqube.rest_client import RestClient
 from sonarqube.config import (
     API_USERS_SEARCH_ENDPOINT,
     API_USERS_CREATE_ENDPOINT,
@@ -12,12 +13,24 @@ from sonarqube.config import (
 )
 
 
-class SonarQubeUser:
-    def __init__(self, sonarqube):
-        self.sonarqube = sonarqube
+class SonarQubeUsers(RestClient):
+    """
+    SonarQube users Operations
+    """
+    def __init__(self, **kwargs):
+        """
+
+        :param kwargs:
+        """
+        super(SonarQubeUsers, self).__init__(**kwargs)
         self._data = None
 
     def poll(self):
+        """
+        get users data
+
+        :return:
+        """
         self._data = self.search_users()
 
     def iterkeys(self):
@@ -84,7 +97,7 @@ class SonarQubeUser:
             params.update({'q': q})
 
         while page_num * page_size < total:
-            resp = self.sonarqube.make_call('get', API_USERS_SEARCH_ENDPOINT, **params)
+            resp = self.get(API_USERS_SEARCH_ENDPOINT, params=params)
             response = resp.json()
 
             page_num = response['paging']['pageIndex']
@@ -124,7 +137,7 @@ class SonarQubeUser:
         if scm:
             params.update({'scmAccount': scm})
 
-        return self.sonarqube.make_call('post', API_USERS_CREATE_ENDPOINT, **params)
+        return self.post(API_USERS_CREATE_ENDPOINT, params=params)
 
     def update_user(self, login, name=None, email=None, scm=None):
         """
@@ -149,7 +162,7 @@ class SonarQubeUser:
         if scm:
             params.update({'scmAccount': scm})
 
-        return self.sonarqube.make_call('post', API_USERS_UPDATE_ENDPOINT, **params)
+        return self.post(API_USERS_UPDATE_ENDPOINT, params=params)
 
     def change_user_password(self, login, new_password, previous_password=None):
         """
@@ -169,7 +182,7 @@ class SonarQubeUser:
         if previous_password:
             params.update({'previousPassword': previous_password})
 
-        self.sonarqube.make_call('post', API_USERS_CHANGE_PASSWORD_ENDPOINT, **params)
+        self.post(API_USERS_CHANGE_PASSWORD_ENDPOINT, params=params)
 
     def deactivate_user(self, login):
         """
@@ -181,7 +194,8 @@ class SonarQubeUser:
         params = {
             'login': login
         }
-        return self.sonarqube.make_call('post', API_USERS_DEACTIVATE_ENDPOINT, **params)
+
+        return self.post(API_USERS_DEACTIVATE_ENDPOINT, params=params)
 
     def search_groups_user_belongs_to(self, login, q=None, selected="selected"):
         """
@@ -213,7 +227,7 @@ class SonarQubeUser:
             params.update({'q': q})
 
         while page_num * page_size < total:
-            resp = self.sonarqube.make_call('get', API_USERS_GROUPS_ENDPOINT, **params)
+            resp = self.get(API_USERS_GROUPS_ENDPOINT, params=params)
             response = resp.json()
 
             page_num = response['paging']['pageIndex']
@@ -238,4 +252,4 @@ class SonarQubeUser:
             'newLogin': new_login
         }
 
-        self.sonarqube.make_call('post', API_USERS_UPDATE_LOGIN_ENDPOINT, **params)
+        self.post(API_USERS_UPDATE_LOGIN_ENDPOINT, params=params)

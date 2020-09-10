@@ -1,14 +1,14 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 # @Author: Jialiang Shi
-from .exceptions import ClientError, AuthError, ValidationError, ServerError
-from .requester import Requester
-from .users import SonarQubeUser
-from .projects import SonarQubeProject
+import requests
+from .exceptions import ValidationError
+from .users import SonarQubeUsers
+from .projects import SonarQubeProjects
 from .user_groups import SonarQubeUserGroups
 from .issues import SonarQubeIssues
-from .measures import SonarQubeMeasure
-from .notifications import SonarQubeNotification
+from .measures import SonarQubeMeasures
+from .notifications import SonarQubeNotifications
 from .project_links import SonarQubeProjectLinks
 from .permissions import SonarQubePermissions
 from .ce import SonarQubeCe
@@ -27,10 +27,10 @@ from .languages import SonarQubeLanguages
 from .plugins import SonarQubePlugins
 from .project_badges import SonarQubeProjectBadges
 from .project_tags import SonarQubeProjectTags
-from .project_pull_requests import SonarQubepRrojectPullRequests
+from .project_pull_requests import SonarQubeRrojectPullRequests
 from .project_analyses import SonarQubeProjectAnalyses
 from .server import SonarQubeServer
-from .user_tokens import SonarQubeUsertokens
+from .user_tokens import SonarQubeUserTokens
 from .webhooks import SonarQubeWebhooks
 from .webservices import SonarQubeWebservices
 from .system import SonarQubeSystem
@@ -42,32 +42,19 @@ class SonarQubeClient:
     """
     DEFAULT_URL = "http://localhost:9000"
 
-    def __init__(self,
-                 sonarqube_url=None,
-                 username=None,
-                 password=None,
-                 token=None,
-                 ssl_verify=True,
-                 cert=None,
-                 timeout=60,
-                 max_retries=None):
-        self._sonarqube_url = self.strip_trailing_slash(sonarqube_url or self.DEFAULT_URL)
+    def __init__(self, sonarqube_url=None, username=None, password=None, token=None):
 
+        self.sonarqube_url = self.strip_trailing_slash(sonarqube_url or self.DEFAULT_URL)
+
+        _session = requests.Session()
         if token:
-            auth = (token, )
+            _session.auth = (token, '')
         elif username and password:
-            auth = (username, password)
+            _session.auth = (username, password)
         else:
             raise ValidationError("Please provide both username and password, or provide token!")
 
-        self.requester = Requester(
-            *auth,
-            baseurl=self._sonarqube_url,
-            ssl_verify=ssl_verify,
-            cert=cert,
-            timeout=timeout,
-            max_retries=max_retries
-        )
+        self.session = _session
 
     @classmethod
     def strip_trailing_slash(cls, url):
@@ -82,199 +69,297 @@ class SonarQubeClient:
         return url
 
     def __str__(self):
-        return '{}'.format(self._sonarqube_url)
-
-    def _get_endpoint_url(self, endpoint):
-        """
-        Return the complete url including host and port for a given endpoint.
-
-        :param endpoint: service endpoint as str
-        :return: complete url (including host and port) as str
-        """
-        return '{}{}'.format(self._sonarqube_url, endpoint)
-
-    def make_call(self, method, endpoint, **data):
-        """
-        Make the call to the service with the given method, queryset and data,
-        using the requester.
-
-        :param method: http method (get, post, put, delete)
-        :param endpoint: relative url to make the call
-        :param data: queryset or body
-        :return: request response
-        """
-        call = getattr(self.requester, method.lower())
-        base_url = self._get_endpoint_url(endpoint)
-        res = call(base_url, params=data or {})
-        # Analyse response status and return or raise exception
-        # Note: redirects are followed automatically by requests
-
-        error_message = "Error in request. "
-        if res.status_code < 300:
-            # OK, return http response
-            return res
-
-        # raise error. res.raise_for_status()
-        elif res.status_code == 400:
-            # Validation error
-            msg = error_message + \
-                  'Possibly validation error [%s]: %s' % (
-                      res.status_code, ', '.join(e['msg'] for e in res.json()['errors']))
-
-            raise ValidationError(msg)
-
-        elif res.status_code in (401, 403):
-            # Auth error
-            msg = error_message + \
-                  'Possibly authentication failed [%s]: %s' % (
-                      res.status_code, res.reason)
-            if res.text:
-                msg += '\n' + res.text
-
-            raise AuthError(msg)
-
-        elif res.status_code < 500:
-            # Other 4xx, generic client error
-            msg = error_message + \
-                  'Possibly client error [%s]: %s' % (
-                      res.status_code, ', '.join(e['msg'] for e in res.json()['errors']))
-
-            raise ClientError(msg)
-
-        else:
-            # 5xx is server error
-            msg = error_message + \
-                  'Possibly server error [%s]: %s' % (
-                      res.status_code, res.reason)
-
-            raise ServerError(msg)
+        return '{}'.format(self.sonarqube_url)
 
     @property
     def users(self):
-        return SonarQubeUser(self)
+        """
+        SonarQube users Operations
+
+        :return:
+        """
+        return SonarQubeUsers(api=self)
 
     @property
     def user_groups(self):
-        return SonarQubeUserGroups(self)
+        """
+        SonarQube user_groups Operations
+
+        :return:
+        """
+        return SonarQubeUserGroups(api=self)
 
     @property
     def projects(self):
-        return SonarQubeProject(self)
+        """
+        SonarQube projects Operations
+
+        :return:
+        """
+        return SonarQubeProjects(api=self)
 
     @property
     def measures(self):
-        return SonarQubeMeasure(self)
+        """
+        SonarQube measures Operations
+
+        :return:
+        """
+        return SonarQubeMeasures(api=self)
 
     @property
     def issues(self):
-        return SonarQubeIssues(self)
+        """
+        SonarQube issues Operations
+
+        :return:
+        """
+        return SonarQubeIssues(api=self)
 
     @property
     def notifications(self):
-        return SonarQubeNotification(self)
+        """
+        SonarQube notifications Operations
+
+        :return:
+        """
+        return SonarQubeNotifications(api=self)
 
     @property
     def project_links(self):
-        return SonarQubeProjectLinks(self)
+        """
+        SonarQube project links Operations
+
+        :return:
+        """
+        return SonarQubeProjectLinks(api=self)
 
     @property
     def permissions(self):
-        return SonarQubePermissions(self)
+        """
+        SonarQube permissions Operations
+
+        :return:
+        """
+        return SonarQubePermissions(api=self)
 
     @property
     def ce(self):
-        return SonarQubeCe(self)
+        """
+        SonarQube ce Operations
+
+        :return:
+        """
+        return SonarQubeCe(api=self)
 
     @property
     def project_branches(self):
-        return SonarQubeProjectBranches(self)
+        """
+        SonarQube project branches Operations
+
+        :return:
+        """
+        return SonarQubeProjectBranches(api=self)
 
     @property
     def qualitygates(self):
-        return SonarQubeQualityGates(self)
+        """
+        SonarQube quality gates Operations
+
+        :return:
+        """
+        return SonarQubeQualityGates(api=self)
 
     @property
     def components(self):
-        return SonarQubeComponents(self)
+        """
+        SonarQube components Operations
+
+        :return:
+        """
+        return SonarQubeComponents(api=self)
 
     @property
     def rules(self):
-        return SonarQubeRules(self)
+        """
+        SonarQube rules Operations
+
+        :return:
+        """
+        return SonarQubeRules(api=self)
 
     @property
     def qualityprofiles(self):
-        return SonarQubeQualityProfiles(self)
+        """
+        SonarQube quality profiles Operations
+
+        :return:
+        """
+        return SonarQubeQualityProfiles(api=self)
 
     @property
     def duplications(self):
-        return SonarQubeDuplications(self)
+        """
+        SonarQube duplications Operations
+
+        :return:
+        """
+        return SonarQubeDuplications(api=self)
 
     @property
     def metrics(self):
-        return SonarQubeMetrics(self)
+        """
+        SonarQube metrics Operations
+
+        :return:
+        """
+        return SonarQubeMetrics(api=self)
 
     @property
     def settings(self):
-        return SonarQubeSettings(self)
+        """
+        SonarQube settings Operations
+
+        :return:
+        """
+        return SonarQubeSettings(api=self)
 
     @property
     def sources(self):
-        return SonarQubeSources(self)
+        """
+        SonarQube sources Operations
+
+        :return:
+        """
+        return SonarQubeSources(api=self)
 
     @property
     def auth(self):
-        return SonarQubeAuth(self)
+        """
+        SonarQube authentication Operations
+
+        :return:
+        """
+        return SonarQubeAuth(api=self)
 
     @property
     def favorites(self):
-        return SonarQubeFavorites(self)
+        """
+        SonarQube favorites Operations
+
+        :return:
+        """
+        return SonarQubeFavorites(api=self)
 
     @property
     def languages(self):
-        return SonarQubeLanguages(self)
+        """
+        SonarQube languages Operations
+
+        :return:
+        """
+        return SonarQubeLanguages(api=self)
 
     @property
     def project_badges(self):
-        return SonarQubeProjectBadges(self)
+        """
+        SonarQube project badges Operations
+
+        :return:
+        """
+        return SonarQubeProjectBadges(api=self)
 
     @property
     def project_tags(self):
-        return SonarQubeProjectTags(self)
+        """
+        SonarQube project tags Operations
+
+        :return:
+        """
+        return SonarQubeProjectTags(api=self)
 
     @property
     def project_pull_requests(self):
-        return SonarQubepRrojectPullRequests(self)
+        """
+        SonarQube project pull requests Operations
+
+        :return:
+        """
+        return SonarQubeRrojectPullRequests(api=self)
 
     @property
     def project_analyses(self):
-        return SonarQubeProjectAnalyses(self)
+        """
+        SonarQube project analyses Operations
+
+        :return:
+        """
+        return SonarQubeProjectAnalyses(api=self)
 
     @property
     def server(self):
-        return SonarQubeServer(self)
+        """
+        SonarQube server Operations
+
+        :return:
+        """
+        return SonarQubeServer(api=self)
 
     @property
     def user_tokens(self):
-        return SonarQubeUsertokens(self)
+        """
+        SonarQube user tokens Operations
+
+        :return:
+        """
+        return SonarQubeUserTokens(api=self)
 
     @property
     def webhooks(self):
-        return SonarQubeWebhooks(self)
+        """
+        SonarQube webhooks Operations
+
+        :return:
+        """
+        return SonarQubeWebhooks(api=self)
 
     @property
     def webservices(self):
-        return SonarQubeWebservices(self)
+        """
+        SonarQube webservices Operations
+
+        :return:
+        """
+        return SonarQubeWebservices(api=self)
 
     @property
     def system(self):
-        return SonarQubeSystem(self)
+        """
+        SonarQube system Operations
+
+        :return:
+        """
+        return SonarQubeSystem(api=self)
 
     @property
     def plugins(self):
-        return SonarQubePlugins(self)
+        """
+        SonarQube plugins Operations
+
+        :return:
+        """
+        return SonarQubePlugins(api=self)
 
     @staticmethod
     def copy_dict(dest, src, option):
+        """
+        copy a dictionary to anther dictionary
+
+        :param dest:
+        :param src:
+        :param option:
+        :return:
+        """
         for k, v in src.items():
             if k in option:
                 if isinstance(v, dict):

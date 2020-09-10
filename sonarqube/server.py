@@ -1,12 +1,20 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 # @Author: Jialiang Shi
+from sonarqube.rest_client import RestClient
 from sonarqube.config import API_SERVER_VERSION_ENDPOINT
 
 
-class SonarQubeServer:
-    def __init__(self, sonarqube):
-        self.sonarqube = sonarqube
+class SonarQubeServer(RestClient):
+    """
+    SonarQube server Operations
+    """
+    def __init__(self, **kwargs):
+        """
+
+        :param kwargs:
+        """
+        super(SonarQubeServer, self).__init__(**kwargs)
 
     def get_server_version(self):
         """
@@ -14,5 +22,5 @@ class SonarQubeServer:
 
         :return:
         """
-        resp = self.sonarqube.make_call('get', API_SERVER_VERSION_ENDPOINT)
+        resp = self.get(API_SERVER_VERSION_ENDPOINT)
         return resp.text

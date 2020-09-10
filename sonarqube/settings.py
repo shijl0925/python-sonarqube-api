@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 # @Author: Jialiang Shi
+from sonarqube.rest_client import RestClient
 from sonarqube.config import (
     API_SETTINGS_SET_ENDPOINT,
     API_SETTINGS_RESET_ENDPOINT,
@@ -9,9 +10,16 @@ from sonarqube.config import (
 )
 
 
-class SonarQubeSettings:
-    def __init__(self, sonarqube):
-        self.sonarqube = sonarqube
+class SonarQubeSettings(RestClient):
+    """
+    SonarQube settings Operations
+    """
+    def __init__(self, **kwargs):
+        """
+
+        :param kwargs:
+        """
+        super(SonarQubeSettings, self).__init__(**kwargs)
 
     def update_setting_value(self, setting_key, setting_value, component_key=None, field_values=None):
         """
@@ -35,7 +43,7 @@ class SonarQubeSettings:
         if field_values:
             params.update({"fieldValues": field_values})
 
-        self.sonarqube.make_call('post', API_SETTINGS_SET_ENDPOINT, **params)
+        self.post(API_SETTINGS_SET_ENDPOINT, params=params)
 
     def remove_setting_value(self, setting_keys, component_key=None):
         """
@@ -52,7 +60,7 @@ class SonarQubeSettings:
         if component_key:
             params.update({"component": component_key})
 
-        self.sonarqube.make_call('post', API_SETTINGS_RESET_ENDPOINT, **params)
+        self.post(API_SETTINGS_RESET_ENDPOINT, params=params)
 
     def get_settings_values(self, component_key=None, setting_keys=None):
         """
@@ -71,7 +79,7 @@ class SonarQubeSettings:
         if setting_keys:
             params.update({"keys": setting_keys})
 
-        resp = self.sonarqube.make_call('get', API_SETTINGS_VALUES_ENDPOINT, **params)
+        resp = self.get(API_SETTINGS_VALUES_ENDPOINT, params=params)
         response = resp.json()
         return response['settings']
 
@@ -86,6 +94,6 @@ class SonarQubeSettings:
         if component_key:
             params.update({"component": component_key})
 
-        resp = self.sonarqube.make_call('get', API_SETTINGS_LIST_DEFINITIONS_ENDPOINT, **params)
+        resp = self.get(API_SETTINGS_LIST_DEFINITIONS_ENDPOINT, params=params)
         response = resp.json()
         return response['definitions']
