@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 # @Author: Jialiang Shi
+from sonarqube.rest_client import RestClient
 from sonarqube.config import (
     API_AUTH_LOGIN_ENDPOINT,
     API_AUTH_LOGOUT_ENDPOINT,
@@ -8,9 +9,16 @@ from sonarqube.config import (
 )
 
 
-class SonarQubeAuth:
-    def __init__(self, sonarqube):
-        self.sonarqube = sonarqube
+class SonarQubeAuth(RestClient):
+    """
+    SonarQube authentication Operations
+    """
+    def __init__(self, **kwargs):
+        """
+
+        :param kwargs:
+        """
+        super(SonarQubeAuth, self).__init__(**kwargs)
 
     def authenticate_user(self, login, password):
         """
@@ -24,7 +32,8 @@ class SonarQubeAuth:
             'login': login,
             'password': password
         }
-        self.sonarqube.make_call('post', API_AUTH_LOGIN_ENDPOINT, **params)
+
+        self.post(API_AUTH_LOGIN_ENDPOINT, params=params)
 
     def logout_user(self):
         """
@@ -32,7 +41,7 @@ class SonarQubeAuth:
 
         :return:
         """
-        self.sonarqube.make_call('post', API_AUTH_LOGOUT_ENDPOINT)
+        self.post(API_AUTH_LOGOUT_ENDPOINT)
 
     def check_credentials(self):
         """
@@ -40,5 +49,5 @@ class SonarQubeAuth:
 
         :return:
         """
-        resp = self.sonarqube.make_call('get', API_AUTH_VALIDATE_ENDPOINT)
+        resp = self.get(API_AUTH_VALIDATE_ENDPOINT)
         return resp.json()

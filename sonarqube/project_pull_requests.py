@@ -1,15 +1,23 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 # @Author: Jialiang Shi
+from sonarqube.rest_client import RestClient
 from sonarqube.config import (
     API_PROJECT_PULL_REQUESTS_DELETE_ENDPOINT,
     API_PROJECT_PULL_REQUESTS_LIST_ENDPOINT
 )
 
 
-class SonarQubepRrojectPullRequests:
-    def __init__(self, sonarqube):
-        self.sonarqube = sonarqube
+class SonarQubeRrojectPullRequests(RestClient):
+    """
+    SonarQube project pull requests Operations
+    """
+    def __init__(self, **kwargs):
+        """
+
+        :param kwargs:
+        """
+        super(SonarQubeRrojectPullRequests, self).__init__(**kwargs)
 
     def search_project_pull_requests(self, project):
         """
@@ -21,7 +29,8 @@ class SonarQubepRrojectPullRequests:
         params = {
             'project': project
         }
-        resp = self.sonarqube.make_call('get', API_PROJECT_PULL_REQUESTS_LIST_ENDPOINT, **params)
+
+        resp = self.get(API_PROJECT_PULL_REQUESTS_LIST_ENDPOINT, params=params)
         return resp.json()
 
     def delete_project_pull_requests(self, project, pull_request_id):
@@ -36,4 +45,5 @@ class SonarQubepRrojectPullRequests:
             'project': project,
             'pullRequest': pull_request_id
         }
-        self.sonarqube.make_call('post', API_PROJECT_PULL_REQUESTS_DELETE_ENDPOINT, **params)
+
+        self.post(API_PROJECT_PULL_REQUESTS_DELETE_ENDPOINT, params=params)

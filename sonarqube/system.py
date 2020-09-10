@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 # @Author: Jialiang Shi
+from sonarqube.rest_client import RestClient
 from sonarqube.config import (
     API_SYSTEM_CHANGE_LOG_LEVEL_ENDPOINT,
     API_SYSTEM_DB_MIGRATION_STATUS_ENDPOINT,
@@ -14,9 +15,16 @@ from sonarqube.config import (
 )
 
 
-class SonarQubeSystem:
-    def __init__(self, sonarqube):
-        self.sonarqube = sonarqube
+class SonarQubeSystem(RestClient):
+    """
+    SonarQube system Operations
+    """
+    def __init__(self, **kwargs):
+        """
+
+        :param kwargs:
+        """
+        super(SonarQubeSystem, self).__init__(**kwargs)
 
     def change_log_level(self, level):
         """
@@ -27,7 +35,8 @@ class SonarQubeSystem:
         :return:
         """
         params = {'level': level}
-        self.sonarqube.make_call('post', API_SYSTEM_CHANGE_LOG_LEVEL_ENDPOINT, **params)
+
+        self.post(API_SYSTEM_CHANGE_LOG_LEVEL_ENDPOINT, params=params)
 
     def get_database_migration_status(self):
         """
@@ -43,7 +52,7 @@ class SonarQubeSystem:
 
         :return:
         """
-        resp = self.sonarqube.make_call('get', API_SYSTEM_DB_MIGRATION_STATUS_ENDPOINT)
+        resp = self.get(API_SYSTEM_DB_MIGRATION_STATUS_ENDPOINT)
         return resp.json()
 
     def get_health_status(self):
@@ -56,7 +65,7 @@ class SonarQubeSystem:
 
         :return:
         """
-        resp = self.sonarqube.make_call('get', API_SYSTEM_HEALTH_ENDPOINT)
+        resp = self.get(API_SYSTEM_HEALTH_ENDPOINT)
         return resp.json()
 
     def get_logs(self, process='app'):
@@ -67,7 +76,8 @@ class SonarQubeSystem:
         :return:
         """
         params = {'process': process}
-        resp = self.sonarqube.make_call('get', API_SYSTEM_LOGS_ENDPOINT, **params)
+
+        resp = self.get(API_SYSTEM_LOGS_ENDPOINT, params=params)
         return resp.text
 
     def migrate_database(self):
@@ -86,7 +96,7 @@ class SonarQubeSystem:
 
         :return: request response
         """
-        return self.sonarqube.make_call('post', API_SYSTEM_MIGRATE_DB_ENDPOINT)
+        return self.post(API_SYSTEM_MIGRATE_DB_ENDPOINT)
 
     def ping_server(self):
         """
@@ -94,7 +104,7 @@ class SonarQubeSystem:
 
         :return:
         """
-        resp = self.sonarqube.make_call('get', API_SYSTEM_PING_ENDPOINT)
+        resp = self.get(API_SYSTEM_PING_ENDPOINT)
         return resp.text
 
     def restart_server(self):
@@ -103,7 +113,7 @@ class SonarQubeSystem:
 
         :return:
         """
-        self.sonarqube.make_call('post', API_SYSTEM_RESTART_ENDPOINT)
+        self.post(API_SYSTEM_RESTART_ENDPOINT)
 
     def get_server_state(self):
         """
@@ -122,7 +132,7 @@ class SonarQubeSystem:
 
         :return:
         """
-        resp = self.sonarqube.make_call('get', API_SYSTEM_STATUS_ENDPOINT)
+        resp = self.get(API_SYSTEM_STATUS_ENDPOINT)
         return resp.json()
 
     def get_available_upgrades(self):
@@ -133,5 +143,5 @@ class SonarQubeSystem:
 
         :return:
         """
-        resp = self.sonarqube.make_call('get', API_SYSTEM_UPGRADES_ENDPOINT)
+        resp = self.get(API_SYSTEM_UPGRADES_ENDPOINT)
         return resp.json()

@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 # @Author: Jialiang Shi
+from sonarqube.rest_client import RestClient
 from sonarqube.config import (
     API_MEASURES_COMPONENT_ENDPOINT,
     API_MEASURES_COMPONENT_TREE_ENDPOINT,
@@ -8,15 +9,22 @@ from sonarqube.config import (
 )
 
 
-class SonarQubeMeasure:
+class SonarQubeMeasures(RestClient):
+    """
+    SonarQube measures Operations
+    """
     default_metric_keys = 'code_smells,bugs,vulnerabilities,new_bugs,new_vulnerabilities,\
 new_code_smells,coverage,new_coverage'
 
     OPTIONS_COMPONENT_TREE = ['branch', 'pullRequest', 'additionalFields', 'asc', 'metricKeys', 'metricPeriodSort',
                               'metricSort', 'metricSortFilter', 'ps', 'q', 'qualifiers', 's', 'strategy']
 
-    def __init__(self, sonarqube):
-        self.sonarqube = sonarqube
+    def __init__(self, **kwargs):
+        """
+
+        :param kwargs:
+        """
+        super(SonarQubeMeasures, self).__init__(**kwargs)
 
     def get_component_with_specified_measures(self, component, branch=None, pull_request_id=None,
                                               fields=None, metric_keys=None):
@@ -45,7 +53,7 @@ new_code_smells,coverage,new_coverage'
         if fields:
             params.update({'additionalFields': fields})
 
-        resp = self.sonarqube.make_call('get', API_MEASURES_COMPONENT_ENDPOINT, **params)
+        resp = self.get(API_MEASURES_COMPONENT_ENDPOINT, params=params)
         return resp.json()
 
     def get_component_tree_with_specified_measures(self, component_key, **kwargs):
@@ -103,14 +111,14 @@ new_code_smells,coverage,new_coverage'
             'metricKeys': self.default_metric_keys,
         }
         if kwargs:
-            self.sonarqube.copy_dict(params, kwargs, self.OPTIONS_COMPONENT_TREE)
+            self.api.copy_dict(params, kwargs, self.OPTIONS_COMPONENT_TREE)
 
         page_num = 1
         page_size = 1
         total = 2
 
         while page_num * page_size < total:
-            resp = self.sonarqube.make_call('get', API_MEASURES_COMPONENT_TREE_ENDPOINT, **params)
+            resp = self.get(API_MEASURES_COMPONENT_TREE_ENDPOINT, params=params)
             response = resp.json()
 
             page_num = response['paging']['pageIndex']
@@ -159,7 +167,7 @@ new_code_smells,coverage,new_coverage'
         total = 2
 
         while page_num * page_size < total:
-            resp = self.sonarqube.make_call('get', API_MEASURES_SEARCH_HISTORY_ENDPOINT, **params)
+            resp = self.get(API_MEASURES_SEARCH_HISTORY_ENDPOINT, params=params)
             response = resp.json()
 
             page_num = response['paging']['pageIndex']

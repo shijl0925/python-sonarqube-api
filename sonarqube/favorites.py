@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 # @Author: Jialiang Shi
+from sonarqube.rest_client import RestClient
 from sonarqube.config import (
     API_FAVORITES_ADD_ENDPOINT,
     API_FAVORITES_REMOVE_ENDPOINT,
@@ -8,9 +9,16 @@ from sonarqube.config import (
 )
 
 
-class SonarQubeFavorites:
-    def __init__(self, sonarqube):
-        self.sonarqube = sonarqube
+class SonarQubeFavorites(RestClient):
+    """
+    SonarQube favorites Operations
+    """
+    def __init__(self, **kwargs):
+        """
+
+        :param kwargs:
+        """
+        super(SonarQubeFavorites, self).__init__(**kwargs)
 
     def search_favorites(self):
         """
@@ -24,7 +32,7 @@ class SonarQubeFavorites:
         total = 2
 
         while page_num * page_size < total:
-            resp = self.sonarqube.make_call('get', API_FAVORITES_SEARCH_ENDPOINT, **params)
+            resp = self.get(API_FAVORITES_SEARCH_ENDPOINT, params=params)
             response = resp.json()
 
             page_num = response['paging']['pageIndex']
@@ -46,7 +54,8 @@ class SonarQubeFavorites:
         params = {
             'component': component
         }
-        self.sonarqube.make_call('post', API_FAVORITES_ADD_ENDPOINT, **params)
+
+        self.post(API_FAVORITES_ADD_ENDPOINT, params=params)
 
     def remove_component_from_favorites(self, component):
         """
@@ -58,4 +67,5 @@ class SonarQubeFavorites:
         params = {
             'component': component
         }
-        self.sonarqube.make_call('post', API_FAVORITES_REMOVE_ENDPOINT, **params)
+
+        self.post(API_FAVORITES_REMOVE_ENDPOINT, params=params)

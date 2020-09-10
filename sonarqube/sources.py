@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 # @Author: Jialiang Shi
+from sonarqube.rest_client import RestClient
 from sonarqube.config import (
     API_SOURCES_SCM_ENDPOINT,
     API_SOURCES_SHOW_ENDPOINT,
@@ -8,9 +9,16 @@ from sonarqube.config import (
 )
 
 
-class SonarQubeSources:
-    def __init__(self, sonarqube):
-        self.sonarqube = sonarqube
+class SonarQubeSources(RestClient):
+    """
+    SonarQube sources Operations
+    """
+    def __init__(self, **kwargs):
+        """
+
+        :param kwargs:
+        """
+        super(SonarQubeSources, self).__init__(**kwargs)
 
     def get_source_file_scm(self, file_key, from_line=1, to_line=None, commits_by_line='false'):
         """
@@ -38,7 +46,7 @@ class SonarQubeSources:
         if to_line:
             params.update({"to": to_line})
 
-        resp = self.sonarqube.make_call('get', API_SOURCES_SCM_ENDPOINT, **params)
+        resp = self.get(API_SOURCES_SCM_ENDPOINT, params=params)
         response = resp.json()
         return response['scm']
 
@@ -59,7 +67,7 @@ class SonarQubeSources:
         if to_line:
             params.update({"to": to_line})
 
-        resp = self.sonarqube.make_call('get', API_SOURCES_SHOW_ENDPOINT, **params)
+        resp = self.get(API_SOURCES_SHOW_ENDPOINT, params=params)
         response = resp.json()
         return response['sources']
 
@@ -73,5 +81,6 @@ class SonarQubeSources:
         params = {
             'key': file_key
         }
-        resp = self.sonarqube.make_call('get', API_SOURCES_RAW_ENDPOINT, **params)
+
+        resp = self.get(API_SOURCES_RAW_ENDPOINT, params=params)
         return resp.text

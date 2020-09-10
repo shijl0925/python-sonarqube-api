@@ -1,15 +1,23 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 # @Author: Jialiang Shi
+from sonarqube.rest_client import RestClient
 from sonarqube.config import (
     API_PROJECT_TAGS_SEARCH_ENDPOINT,
     API_PROJECT_TAGS_SET_ENDPOINT
 )
 
 
-class SonarQubeProjectTags:
-    def __init__(self, sonarqube):
-        self.sonarqube = sonarqube
+class SonarQubeProjectTags(RestClient):
+    """
+    SonarQube project tags Operations
+    """
+    def __init__(self, **kwargs):
+        """
+
+        :param kwargs:
+        """
+        super(SonarQubeProjectTags, self).__init__(**kwargs)
 
     def search_project_tags(self, q=None):
         """
@@ -22,7 +30,7 @@ class SonarQubeProjectTags:
         if q:
             params.update({'q': q})
 
-        resp = self.sonarqube.make_call('get', API_PROJECT_TAGS_SEARCH_ENDPOINT, **params)
+        resp = self.get(API_PROJECT_TAGS_SEARCH_ENDPOINT, params=params)
         return resp.json()
 
     def set_project_tags(self, project, tags):
@@ -37,4 +45,5 @@ class SonarQubeProjectTags:
             'project': project,
             'tags': tags
         }
-        self.sonarqube.make_call('post', API_PROJECT_TAGS_SET_ENDPOINT, **params)
+
+        self.post(API_PROJECT_TAGS_SET_ENDPOINT, params=params)
