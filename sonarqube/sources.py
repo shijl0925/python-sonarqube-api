@@ -71,16 +71,24 @@ class SonarQubeSources(RestClient):
         response = resp.json()
         return response['sources']
 
-    def get_sources_raw(self, file_key):
+    def get_sources_raw(self, file_key, branch=None, pull_request_id=None):
         """
         Get source code as raw text. Require 'See Source Code' permission on file.
 
         :param file_key: File key
+        :param branch: Branch key
+        :param pull_request_id: Pull request id
         :return:
         """
         params = {
             'key': file_key
         }
+
+        if branch:
+            params.update({'branch': branch})
+
+        if pull_request_id:
+            params.update({'pullRequest': pull_request_id})
 
         resp = self.get(API_SOURCES_RAW_ENDPOINT, params=params)
         return resp.text

@@ -20,7 +20,7 @@ setup(
     name='python-sonarqube-api',
 
     # https://packaging.python.org/en/latest/single_source_version.html
-    version='1.1.1',
+    version='1.1.2',
 
     description='Python wrapper for the SonarQube API.',
     long_description=long_description,

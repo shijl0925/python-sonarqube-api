@@ -15,7 +15,7 @@ class SonarQubeCe(RestClient):
     SonarQube ce Operations
     """
     OPTIONS_SEARCH = ['componentId', 'maxExecutedAt', 'minSubmittedAt',
-                      'onlyCurrents', 'ps', 'q', 'status', 'task_type']
+                      'onlyCurrents', 'ps', 'q', 'status', 'type']
 
     def __init__(self, **kwargs):
         """
@@ -49,7 +49,7 @@ class SonarQubeCe(RestClient):
             * IN_PROGRESS
 
             default value is SUCCESS,FAILED,CANCELED
-          * task_type: Task type
+          * type: Task type
         :return:
         """
         params = {}
