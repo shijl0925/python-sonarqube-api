@@ -22,7 +22,7 @@ class SonarQubeRules(RestClient):
                       'rule_key', 's', 'sansTop25', 'severities', 'sonarsourceSecurity', 'statuses', 'tags',
                       'template_key', 'issue_types']
 
-    OPTIONS_UPDATE = ['name', 'description', 'markdown_note', 'remediation_fn_base_effort', 'remediation_fn_type',
+    OPTIONS_UPDATE = ['name', 'markdown_description', 'markdown_note', 'remediation_fn_base_effort', 'remediation_fn_type',
                       'remediation_fy_gap_multiplier', 'severity', 'status', 'tags']
 
     def __init__(self, **kwargs):
