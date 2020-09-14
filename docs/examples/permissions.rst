@@ -38,7 +38,7 @@ Remove permission from a user::
 
 or::
 
-    sonar.permissions.add_permission_to_user(login="kevin", permission="gateadmin")
+    sonar.permissions.remove_permission_from_user(login="kevin", permission="gateadmin")
 
 Apply a permission template to one project.::
 
