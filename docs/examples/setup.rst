@@ -10,3 +10,11 @@ setup a sonarqube client::
     password = "admin"
     sonar = SonarQubeClient(sonarqube_url=url, username=username, password=password)
 
+
+setup sonarcloud client::
+
+    from sonarqube import SonarCloudClient
+    sonarcloud_url = "https://sonarcloud.io"
+    sonarcloud_token = "*********************"
+    sonar = SonarQubeClient(sonarcloud_url=sonarcloud_url, token=sonarcloud_token)
+
