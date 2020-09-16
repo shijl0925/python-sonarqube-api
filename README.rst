@@ -10,11 +10,9 @@
 .. image:: https://img.shields.io/github/license/shijl0925/python-sonarqube-api.svg
     :target: LICENSE
 
-=====================================
-Python wrapper for the SonarQube API.
-=====================================
-
-Python SonarQube
+====================================================
+Python wrapper for the SonarQube and SonarCloud API.
+====================================================
 
 Installation
 ============
@@ -34,38 +32,43 @@ Documentation
 =============
 
 The full documentation for API is available on `readthedocs
-<https://python-sonarqube-api.readthedocs.io/en/1.1.2/>`_.
+<https://python-sonarqube-api.readthedocs.io/en/1.1.3/>`_.
 
 
 Compatibility
 =============
 
 * This package is compatible Python versions 2.7, 3.3+.
-* Tested with SonarQube v7.9.x Community Edition
+* Tested with SonarQube v7.9.x Community Edition and SonarCloud Server.
 
 Usage
 =====
 
+For SonarQube Community Edition
+-------------------------------
+
 The Client is easy to use, you just need to initialize it with the
 connection parameters (default sonarqube url is http://localhost:9000).
 
-Example getting projects with coverage and issues metrics::
+Example::
 
     from sonarqube import SonarQubeClient
 
     h = SonarQubeClient(sonarqube_url="http://localhost:9000", user='admin', password='admin')
-    for project in h.projects:
-        # do something with project data...
 
-Since the actual response data from SonarQube server is usually paged, all
-methods return generators to optimize memory as well retrieval performance of
-the first items.
 
-Sonar authentication tokens can also be used in place of username and password,
-which is particularly useful when accessing the SonarQube API from a CI server,
-as tokens can easily be revoked in the event of unintended exposure::
+Sonar authentication tokens can also be used in place of username and password::
 
     h = SonarQubeClient(sonarqube_url="http://localhost:9000", token='*****************')
+
+
+For SonarCloud
+--------------
+
+Example::
+
+    from sonarqube import SonarCloudClient
+    h = SonarCloudClient(sonarcloud_url="https://sonarcloud.io", token='*****************')
 
 
 API example
@@ -73,5 +76,5 @@ API example
 
 The API example supported by the SonarQubeClient are:
 The example documentation for API is available on `API examples
-<https://python-sonarqube-api.readthedocs.io/en/1.1.2/examples.html>`_.
+<https://python-sonarqube-api.readthedocs.io/en/1.1.3/examples.html>`_.
 

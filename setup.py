@@ -20,9 +20,9 @@ setup(
     name='python-sonarqube-api',
 
     # https://packaging.python.org/en/latest/single_source_version.html
-    version='1.1.2',
+    version='1.1.3',
 
-    description='Python wrapper for the SonarQube API.',
+    description='Python wrapper for the SonarQube and SonarCloud API.',
     long_description=long_description,
     url='https://github.com/shijl0925/python-sonarqube-api',
     author='Jialiang Shi',
@@ -45,7 +45,7 @@ setup(
         'Topic :: Software Development'
     ],
 
-    keywords='api sonarqube sonar client wrapper',
+    keywords='api sonarqube sonar client wrapper sonarcloud',
     packages=find_packages(exclude=['contrib', 'docs', 'test*']),
 
     # https://packaging.python.org/en/latest/requirements.html
