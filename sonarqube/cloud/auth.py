@@ -1,37 +1,20 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 # @Author: Jialiang Shi
-from sonarqube.utils.rest_client import RestClient
-from sonarqube.utils.config import (
-    API_AUTH_LOGOUT_ENDPOINT,
-    API_AUTH_VALIDATE_ENDPOINT
-)
+from sonarqube.community.auth import SonarQubeAuth
 
 
-class SonarCloudAuth(RestClient):
+class SonarCloudAuth(SonarQubeAuth):
     """
     SonarCloud authentication Operations
     """
-    def __init__(self, **kwargs):
-        """
 
-        :param kwargs:
+    def authenticate_user(self, login, password):
         """
-        super(SonarCloudAuth, self).__init__(**kwargs)
+        Authenticate a user.
 
-    def logout_user(self):
-        """
-        Logout a user.
-
+        :param login: Login of the user
+        :param password: Password of the user
         :return:
         """
-        self.post(API_AUTH_LOGOUT_ENDPOINT)
-
-    def check_credentials(self):
-        """
-        Check credentials.
-
-        :return:
-        """
-        resp = self.get(API_AUTH_VALIDATE_ENDPOINT)
-        return resp.json()
+        raise AttributeError("%s does not support this method" % self.__class__.__name__)

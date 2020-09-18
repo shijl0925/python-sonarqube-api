@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 # @Author: Jialiang Shi
-from sonarqube.utils.rest_client import RestClient
+from sonarqube.community.qualitygates import SonarQubeQualityGates
 from sonarqube.utils.config import (
     API_QUALITYGATES_LIST_ENDPOINT,
     API_QUALITYGATES_PROJECT_STATUS_ENDPOINT,
@@ -21,16 +21,10 @@ from sonarqube.utils.config import (
 )
 
 
-class SonarCloudQualityGates(RestClient):
+class SonarCloudQualityGates(SonarQubeQualityGates):
     """
     SonarCloud quality gates Operations
     """
-    def __init__(self, **kwargs):
-        """
-
-        :param kwargs:
-        """
-        super(SonarCloudQualityGates, self).__init__(**kwargs)
 
     def copy_quality_gate(self, source_id, gate_name, organization):
         """
@@ -237,35 +231,6 @@ class SonarCloudQualityGates(RestClient):
         }
 
         self.post(API_QUALITYGATES_SET_AS_DEFAULT_ENDPOINT, params=params)
-
-    def get_project_qualitygates_status(self, project_key=None, analysis_id=None, branch=None, pull_request_id=None):
-        """
-        Get the quality gate status of a project or a Compute Engine task. return 'ok','WARN','ERROR'
-        The NONE status is returned when there is no quality gate associated with the analysis.
-        Returns an HTTP code 404 if the analysis associated with the task is not found or does not exist.
-
-        :param project_key: Project key
-        :param analysis_id: Analysis id
-        :param branch: Branch key
-        :param pull_request_id:
-        :return:
-        """
-        params = {}
-        if project_key:
-            params.update({'projectKey': project_key})
-
-            if branch:
-                params.update({'branch': branch})
-
-            if pull_request_id:
-                params.update({'pullRequest': pull_request_id})
-
-        elif analysis_id:
-            params.update({'analysisId': analysis_id})
-
-        resp = self.get(API_QUALITYGATES_PROJECT_STATUS_ENDPOINT, params=params)
-        response = resp.json()
-        return response['projectStatus']
 
     def get_quality_gates(self, organization):
         """
