@@ -1,50 +1,23 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 # @Author: Jialiang Shi
-from sonarqube.utils.rest_client import RestClient
+from sonarqube.community.issues import SonarQubeIssues
 from sonarqube.utils.config import (
-    API_ISSUES_SEARCH_ENDPOINT,
-    API_ISSUES_ASSIGN_ENDPOINT,
-    API_ISSUES_DO_TRANSITION_ENDPOINT,
     API_ISSUES_ADD_COMMENT_ENDPOINT,
-    API_ISSUES_EDIT_COMMENT_ENDPOINT,
-    API_ISSUES_DELETE_COMMENT_ENDPOINT,
-    API_ISSUES_SET_SEVERITY_ENDPOINT,
-    API_ISSUES_SET_TYPE_ENDPOINT,
     API_ISSUES_AUTHORS_ENDPOINT,
-    API_ISSUES_BULK_CHANGE_ENDPOINT,
-    API_ISSUES_CHANGELOG_ENDPOINT,
-    API_ISSUES_SET_TAGS_ENDPOINT,
     API_ISSUES_TAGS_ENDPOINT
 )
 
 
-class SonarCloudIssues(RestClient):
+class SonarCloudIssues(SonarQubeIssues):
     """
     SonarCloud issues Operations
     """
-    MAX_SEARCH_NUM = 100
     OPTIONS_SEARCH = ['additionalFields', 'asc', 'assigned', 'assignees', 'author', 'componentKeys', 'branch',
                       'pullRequest', 'createdAfter', 'createdAt', 'createdBefore', 'createdInLast', 'cwe', 'facets',
                       'issues', 'languages', 'onComponentOnly', 'owaspTop10', 'ps', 'resolutions', 'resolved', 'rules',
                       's', 'sansTop25', 'severities', 'sinceLeakPeriod', 'sonarsourceSecurity', 'statuses', 'tags',
                       'types', 'organization']
-
-    OPTIONS_BULK = ['add_tags', 'assign', 'comment', 'do_transition', 'remove_tags',
-                    'sendNotifications', 'set_severity', 'set_type']
-
-    def __init__(self, **kwargs):
-        """
-
-        :param kwargs:
-        """
-        super(SonarCloudIssues, self).__init__(**kwargs)
-
-    def __getitem__(self, key):
-        result = list(self.search_issues(issues=key))
-        for issue in result:
-            if issue['key'] == key:
-                return issue
 
     def search_issues(self, **kwargs):
         """
@@ -195,89 +168,7 @@ class SonarCloudIssues(RestClient):
 
         :return:
         """
-        params = {}
-        if kwargs:
-            self.api.copy_dict(params, kwargs, self.OPTIONS_SEARCH)
-
-        page_num = 1
-        page_size = 1
-        total = 2
-
-        while page_num * page_size < total:
-            resp = self.get(API_ISSUES_SEARCH_ENDPOINT, params=params)
-            response = resp.json()
-
-            page_num = response['paging']['pageIndex']
-            page_size = response['paging']['pageSize']
-            total = response['paging']['total']
-
-            params['p'] = page_num + 1
-
-            for issue in response['issues']:
-                yield issue
-
-            if page_num >= self.MAX_SEARCH_NUM:
-                break
-
-    def issue_assign(self, issue, assignee=None):
-        """
-        Assign/Unassign an issue
-
-        :param issue: Issue key
-        :param assignee: Login of the assignee. When not set, it will unassign the issue. Use '_me' to
-          assign to current user
-        :return: request response
-        """
-        params = {
-            'issue': issue
-        }
-        if assignee:
-            params.update({'assignee': assignee})
-
-        return self.post(API_ISSUES_ASSIGN_ENDPOINT, params=params)
-
-    def issue_change_severity(self, issue, severity):
-        """
-        Change severity.
-
-        :param issue: Issue key
-        :param severity: New severity.Possible values are for:
-
-          * INFO
-          * MINOR
-          * MAJOR
-          * CRITICAL
-          * BLOCKER
-
-        :return: request response
-        """
-        params = {
-            'issue': issue,
-            'severity': severity.upper()
-        }
-
-        return self.post(API_ISSUES_SET_SEVERITY_ENDPOINT, params=params)
-
-    def issue_set_type(self, issue, issue_type):
-        """
-        Change type of issue, for instance from 'code smell' to 'bug'.
-
-        :param issue: Issue key
-        :param issue_type: New type.Possible values are for:
-
-          * CODE_SMELL
-          * BUG
-          * VULNERABILITY
-          * SECURITY_HOTSPOT
-
-        :return: request response
-        """
-        params = {
-            'issue': issue,
-            'type': issue_type
-        }
-
-        return self.post(API_ISSUES_SET_TYPE_ENDPOINT, params=params)
+        return super().search_issues(**kwargs)
 
     def issue_add_comment(self, issue, text, feedback=False):
         """
@@ -298,64 +189,6 @@ class SonarCloudIssues(RestClient):
 
         return self.post(API_ISSUES_ADD_COMMENT_ENDPOINT, params=params)
 
-    def issue_delete_comment(self, comment):
-        """
-        Delete a comment.
-
-        :param comment: Comment key
-        :return: request response
-        """
-        params = {
-            'comment': comment
-        }
-
-        return self.post(API_ISSUES_DELETE_COMMENT_ENDPOINT, params=params)
-
-    def issue_edit_comment(self, comment, text):
-        """
-        Edit a comment.
-
-        :param comment: Comment key
-        :param text: Comment text
-        :return: request response
-        """
-        params = {
-            'comment': comment,
-            'text': text
-        }
-
-        return self.post(API_ISSUES_EDIT_COMMENT_ENDPOINT, params=params)
-
-    def issue_do_transition(self, issue, transition):
-        """
-        Do workflow transition on an issue. Requires authentication and Browse permission on project.
-        The transitions 'wontfix' and 'falsepositive' require the permission 'Administer Issues'.
-        The transitions involving security hotspots require the permission 'Administer Security Hotspot'.
-
-        :param issue: Issue key
-        :param transition: Transition.Possible values are for:
-
-          * confirm
-          * unconfirm
-          * reopen
-          * resolve
-          * falsepositive
-          * wontfix
-          * close
-          * setinreview
-          * resolveasreviewed
-          * openasvulnerability
-          * resetastoreview
-
-        :return: request response
-        """
-        params = {
-            'issue': issue,
-            'transition': transition
-        }
-
-        return self.post(API_ISSUES_DO_TRANSITION_ENDPOINT, params=params)
-
     def search_scm_accounts(self, organization, project, q=None):
         """
         Search SCM accounts which match a given query
@@ -375,85 +208,6 @@ class SonarCloudIssues(RestClient):
         resp = self.get(API_ISSUES_AUTHORS_ENDPOINT, params=params)
         response = resp.json()
         return response['authors']
-
-    def issues_bulk_change(self, issues, **kwargs):
-        """
-        Bulk change on issues.
-
-        :param issues: Comma-separated list of issue keys
-
-        optional parameters:
-          * add_tags: Add tags.such as: security,java8
-          * assign: To assign the list of issues to a specific user (login), or un-assign all the issues
-          * comment: To add a comment to a list of issues
-          * do_transition: Transition, Possible values are for:
-
-            * confirm
-            * unconfirm
-            * reopen
-            * resolve
-            * falsepositive
-            * wontfix
-            * close
-            * setinreview
-            * resolveasreviewed
-            * openasvulnerability
-            * resetastoreview
-
-          * remove_tags: Remove tags.such as: security,java8
-          * sendNotifications: Possible values are for: true, false, yes, no. default value is false.
-          * issue_severity: To change the severity of the list of issues. Possible values are for:
-
-            * INFO
-            * MINOR
-            * MAJOR
-            * CRITICAL
-            * BLOCKER
-
-          * issue_type: To change the type of the list of issues. Possible values are for:
-
-            * CODE_SMELL
-            * BUG
-            * VULNERABILITY
-            * SECURITY_HOTSPOT
-
-        :return: request response
-        """
-        params = {
-            'issues': issues
-        }
-        if kwargs:
-            self.api.copy_dict(params, kwargs, self.OPTIONS_BULK)
-
-        return self.post(API_ISSUES_BULK_CHANGE_ENDPOINT, params=params)
-
-    def get_issue_changelog(self, issue):
-        """
-        Display changelog of an issue.
-
-        :param issue: Issue key
-        :return:
-        """
-        params = {'issue': issue}
-        resp = self.get(API_ISSUES_CHANGELOG_ENDPOINT, params=params)
-        return resp.json()
-
-    def issue_set_tags(self, issue, tags=None):
-        """
-        Set tags on an issue.
-
-        :param issue: Issue key
-        :param tags: Comma-separated list of tags. All tags are removed if parameter is empty or not set.
-          such as: security,cwe,misra-c
-        :return: request response
-        """
-        params = {
-            'issue': issue
-        }
-        if tags:
-            params.update({'tags': tags})
-
-        return self.post(API_ISSUES_SET_TAGS_ENDPOINT, params=params)
 
     def get_issues_tags(self, organization, project, q=None):
         """

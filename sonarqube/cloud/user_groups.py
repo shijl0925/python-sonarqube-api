@@ -1,28 +1,23 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 # @Author: Jialiang Shi
-from sonarqube.utils.rest_client import RestClient
+from sonarqube.community.user_groups import SonarQubeUserGroups
 from sonarqube.utils.config import (
     API_USER_GROUPS_SEARCH_ENDPOINT,
     API_USER_GROUPS_CREATE_ENDPOINT,
     API_USER_GROUPS_DELETE_ENDPOINT,
-    API_USER_GROUPS_UPDATE_ENDPOINT,
     API_USER_GROUPS_USERS_ENDPOINT,
     API_USER_GROUPS_ADD_USER_ENDPOINT,
     API_USER_GROUPS_REMOVE_USER_ENDPOINT
 )
 
 
-class SonarCloudUserGroups(RestClient):
+class SonarCloudUserGroups(SonarQubeUserGroups):
     """
     SonarCloud user_groups Operations
     """
-    def __init__(self, **kwargs):
-        """
-
-        :param kwargs:
-        """
-        super(SonarCloudUserGroups, self).__init__(**kwargs)
+    def __getitem__(self, key):
+        raise AttributeError("%s does not support this method" % self.__class__.__name__)
 
     def search_user_groups(self, organization, fields=None, q=None):
         """
@@ -95,28 +90,6 @@ class SonarCloudUserGroups(RestClient):
         }
 
         self.post(API_USER_GROUPS_DELETE_ENDPOINT, params=params)
-
-    def update_group(self, group_id, group_name=None, description=None):
-        """
-        Update a group.
-
-        :param group_id: Identifier of the group.
-        :param group_name: New optional name for the group. A group name cannot be larger than 255 characters and must
-          be unique. Value 'anyone' (whatever the case) is reserved and cannot be used. If value is empty or not
-          defined, then name is not changed.
-        :param description: New optional description for the group. A group description cannot be larger than
-          200 characters. If value is not defined, then description is not changed.
-        :return:
-        """
-        params = {'id': group_id}
-
-        if group_name:
-            params.update({'name': group_name})
-
-        if description:
-            params.update({'description': description})
-
-        self.post(API_USER_GROUPS_UPDATE_ENDPOINT, params=params)
 
     def add_user_to_group(self, group_name, user_login, organization):
         """

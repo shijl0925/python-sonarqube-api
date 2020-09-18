@@ -1,27 +1,20 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 # @Author: Jialiang Shi
-from sonarqube.utils.rest_client import RestClient
+from sonarqube.community.projects import SonarQubeProjects
 from sonarqube.utils.config import (
     API_PROJECTS_BULK_DELETE_ENDPOINT,
     API_PROJECTS_SEARCH_ENDPOINT,
-    API_PROJECTS_CREATE_ENDPOINT,
-    API_PROJECTS_DELETE_ENDPOINT,
-    API_PROJECTS_UPDATE_VISIBILITY_ENDPOINT,
-    API_PROJECTS_UPDATE_KEY_ENDPOINT
+    API_PROJECTS_CREATE_ENDPOINT
 )
 
 
-class SonarCloudProjects(RestClient):
+class SonarCloudProjects(SonarQubeProjects):
     """
     SonarCloud projects Operations
     """
-    def __init__(self, **kwargs):
-        """
-
-        :param kwargs:
-        """
-        super(SonarCloudProjects, self).__init__(**kwargs)
+    def __getitem__(self, key):
+        raise AttributeError("%s does not support this method" % self.__class__.__name__)
 
     def search_projects(self, organization, analyzedBefore=None, onProvisionedOnly=False, projects=None, q=None):
         """
@@ -94,21 +87,7 @@ class SonarCloudProjects(RestClient):
 
         return self.post(API_PROJECTS_CREATE_ENDPOINT, params=params)
 
-    def delete_project(self, project):
-        """
-        Delete a project.
-
-        :param project: Project key
-        :return:
-        """
-        params = {
-            'project': project
-        }
-
-        self.post(API_PROJECTS_DELETE_ENDPOINT, params=params)
-
-    def bulk_delete_projects(self, organization, analyzedBefore=None, onProvisionedOnly=False, projects=None,
-                             q=None):
+    def bulk_delete_projects(self, organization, analyzedBefore=None, onProvisionedOnly=False, projects=None, q=None):
         """
         Delete one or several projects.
         At least one parameter is required among analyzedBefore, projects, projectIds (deprecated since 6.4) and q
@@ -141,33 +120,3 @@ class SonarCloudProjects(RestClient):
             params.update({'q': q})
 
         self.post(API_PROJECTS_BULK_DELETE_ENDPOINT, params=params)
-
-    def update_project_key(self, previous_project_key, new_project_key):
-        """
-        Update a project or module key and all its sub-components keys.
-
-        :param previous_project_key: Project or module key
-        :param new_project_key: New component key
-        :return:
-        """
-        params = {
-            'from': previous_project_key,
-            'to': new_project_key
-        }
-
-        self.post(API_PROJECTS_UPDATE_KEY_ENDPOINT, params=params)
-
-    def update_project_visibility(self, project, visibility):
-        """
-        Updates visibility of a project.
-
-        :param project: Project key
-        :param visibility: New visibility
-        :return:
-        """
-        params = {
-            'project': project,
-            'visibility': visibility
-        }
-
-        self.post(API_PROJECTS_UPDATE_VISIBILITY_ENDPOINT, params=params)

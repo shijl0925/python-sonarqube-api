@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 # @Author: Jialiang Shi
-from sonarqube.utils.rest_client import RestClient
+from sonarqube.community.permissions import SonarQubePermissions
 from sonarqube.utils.config import (
     API_PERMISSIONS_ADD_GROUP_ENDPOINT,
     API_PERMISSIONS_REMOVE_GROUP_ENDPOINT,
@@ -18,21 +18,14 @@ from sonarqube.utils.config import (
     API_PERMISSIONS_CREATE_TEMPLATE_ENDPOINT,
     API_PERMISSIONS_DELETE_TEMPLATE_ENDPOINT,
     API_PERMISSIONS_SEARCH_TEMPLATES_ENDPOINT,
-    API_PERMISSIONS_SET_DEFAULT_TEMPLATE_ENDPOINT,
-    API_PERMISSIONS_UPDATE_TEMPLATE_ENDPOINT
+    API_PERMISSIONS_SET_DEFAULT_TEMPLATE_ENDPOINT
 )
 
 
-class SonarCloudPermissions(RestClient):
+class SonarCloudPermissions(SonarQubePermissions):
     """
     SonarCloud permissions Operations
     """
-    def __init__(self, **kwargs):
-        """
-
-        :param kwargs:
-        """
-        super(SonarCloudPermissions, self).__init__(**kwargs)
 
     def add_permission_to_group(self, group_name, organization, permission, project_key=None):
         """
@@ -384,28 +377,3 @@ class SonarCloudPermissions(RestClient):
         }
 
         self.post(API_PERMISSIONS_SET_DEFAULT_TEMPLATE_ENDPOINT, params=params)
-
-    def update_template(self, template_id, template_name=None, description=None, pattern=None):
-        """
-        Update a permission template.
-
-        :param template_id: Template id
-        :param template_name: Template name
-        :param description: Template description
-        :param pattern: Project key pattern. Must be a valid Java regular expression
-        :return: request response
-        """
-        params = {
-            'id': template_id
-        }
-
-        if template_name:
-            params.update({"name": template_name})
-
-        if description:
-            params.update({"description": description})
-
-        if pattern:
-            params.update({"projectKeyPattern": pattern})
-
-        return self.post(API_PERMISSIONS_UPDATE_TEMPLATE_ENDPOINT, params=params)

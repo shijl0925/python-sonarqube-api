@@ -1,23 +1,17 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 # @Author: Jialiang Shi
-from sonarqube.utils.rest_client import RestClient
+from sonarqube.community.project_badges import SonarQubeProjectBadges
 from sonarqube.utils.config import (
     API_PROJECT_BADGES_MEASURE_ENDPOINT,
     API_PROJECT_BADGES_QUALITY_GATE_ENDPOINT
 )
 
 
-class SonarCloudProjectBadges(RestClient):
+class SonarCloudProjectBadges(SonarQubeProjectBadges):
     """
     SonarCloud project badges Operations
     """
-    def __init__(self, **kwargs):
-        """
-
-        :param kwargs:
-        """
-        super(SonarCloudProjectBadges, self).__init__(**kwargs)
 
     def generate_badge_for_project_measures(self, project, metric, branch=None, token=None):
         """
