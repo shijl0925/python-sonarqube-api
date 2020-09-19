@@ -54,7 +54,7 @@ Example::
 
     from sonarqube import SonarQubeClient
 
-    h = SonarQubeClient(sonarqube_url="http://localhost:9000", user='admin', password='admin')
+    h = SonarQubeClient(sonarqube_url="http://localhost:9000", username='admin', password='admin')
 
 
 Sonar authentication tokens can also be used in place of username and password::
