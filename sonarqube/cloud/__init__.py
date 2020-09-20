@@ -7,30 +7,30 @@ from sonarqube.cloud.users import SonarCloudUsers
 from sonarqube.cloud.projects import SonarCloudProjects
 from sonarqube.cloud.user_groups import SonarCloudUserGroups
 from sonarqube.cloud.issues import SonarCloudIssues
-from sonarqube.cloud.measures import SonarCloudMeasures
-from sonarqube.cloud.notifications import SonarCloudNotifications
-from sonarqube.cloud.project_links import SonarCloudProjectLinks
+from sonarqube.community.measures import SonarQubeMeasures as SonarCloudMeasures
+from sonarqube.community.notifications import SonarQubeNotifications as SonarCloudNotifications
+from sonarqube.community.project_links import SonarQubeProjectLinks as SonarCloudProjectLinks
 from sonarqube.cloud.permissions import SonarCloudPermissions
 from sonarqube.cloud.ce import SonarCloudCe
-from sonarqube.cloud.project_branches import SonarCloudProjectBranches
+from sonarqube.community.project_branches import SonarQubeProjectBranches as SonarCloudProjectBranches
 from sonarqube.cloud.qualitygates import SonarCloudQualityGates
 from sonarqube.cloud.components import SonarCloudComponents
 from sonarqube.cloud.rules import SonarCloudRules
 from sonarqube.cloud.qualityprofiles import SonarCloudQualityProfiles
-from sonarqube.cloud.duplications import SonarCloudDuplications
-from sonarqube.cloud.metrics import SonarCloudMetrics
+from sonarqube.community.duplications import SonarQubeDuplications as SonarCloudDuplications
+from sonarqube.community.metrics import SonarQubeMetrics as SonarCloudMetrics
 from sonarqube.cloud.settings import SonarCloudSettings
-from sonarqube.cloud.sources import SonarCloudSources
+from sonarqube.community.sources import SonarQubeSources as SonarCloudSources
 from sonarqube.cloud.auth import SonarCloudAuth
-from sonarqube.cloud.favorites import SonarCloudFavorites
-from sonarqube.cloud.languages import SonarCloudLanguages
+from sonarqube.community.favorites import SonarQubeFavorites as SonarCloudFavorites
+from sonarqube.community.languages import SonarQubeLanguages as SonarCloudLanguages
 from sonarqube.cloud.project_badges import SonarCloudProjectBadges
-from sonarqube.cloud.project_tags import SonarCloudProjectTags
-from sonarqube.cloud.project_pull_requests import SonarCloudProjectPullRequests
-from sonarqube.cloud.project_analyses import SonarCloudProjectAnalyses
-from sonarqube.cloud.user_tokens import SonarCloudUserTokens
+from sonarqube.community.project_tags import SonarQubeProjectTags as SonarCloudProjectTags
+from sonarqube.community.project_pull_requests import SonarQubeProjectPullRequests as SonarCloudProjectPullRequests
+from sonarqube.community.project_analyses import SonarQubeProjectAnalyses as SonarCloudProjectAnalyses
+from sonarqube.community.user_tokens import SonarQubeUserTokens as SonarCloudUserTokens
 from sonarqube.cloud.webhooks import SonarCloudWebhooks
-from sonarqube.cloud.webservices import SonarCloudWebservices
+from sonarqube.community.webservices import SonarQubeWebservices as SonarCloudWebservices
 
 
 class SonarCloudClient:
