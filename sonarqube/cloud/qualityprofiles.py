@@ -251,7 +251,7 @@ class SonarCloudQualityProfiles(SonarQubeQualityProfiles):
             params.update({'language': language})
 
         if profile_name:
-            params.update({'profile_name': profile_name})
+            params.update({'qualityProfile': profile_name})
 
         res = self.get(API_QUALITYPROFILES_EXPORT_ENDPOINT, params=params)
         return res.text
