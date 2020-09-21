@@ -11,12 +11,19 @@ from sonarqube.utils.config import (
     API_USER_GROUPS_ADD_USER_ENDPOINT,
     API_USER_GROUPS_REMOVE_USER_ENDPOINT
 )
+from sonarqube.utils.common import POST
 
 
 class SonarQubeUserGroups(RestClient):
     """
     SonarQube user_groups Operations
     """
+    special_attributes_map = {
+        'group_name': 'name',
+        'group_id': 'id',
+        'user_login': 'login'
+    }
+
     def __init__(self, **kwargs):
         """
 
@@ -67,6 +74,7 @@ class SonarQubeUserGroups(RestClient):
             for group in response['groups']:
                 yield group
 
+    @POST(API_USER_GROUPS_CREATE_ENDPOINT)
     def create_group(self, group_name, description=None):
         """
         Create a group.
@@ -76,27 +84,17 @@ class SonarQubeUserGroups(RestClient):
         :param description: Description for the new group. A group description cannot be larger than 200 characters.
         :return: request response
         """
-        params = {
-            'name': group_name
-        }
-        if description:
-            params.update({'description': description})
 
-        return self.post(API_USER_GROUPS_CREATE_ENDPOINT, params=params)
-
+    @POST(API_USER_GROUPS_DELETE_ENDPOINT)
     def delete_group(self, group_name):
         """
         Delete a group. The default groups cannot be deleted.
 
-        :param group_name:
+        :param group_name: group name
         :return:
         """
-        params = {
-            'name': group_name
-        }
 
-        self.post(API_USER_GROUPS_DELETE_ENDPOINT, params=params)
-
+    @POST(API_USER_GROUPS_UPDATE_ENDPOINT)
     def update_group(self, group_id, group_name=None, description=None):
         """
         Update a group.
@@ -109,16 +107,8 @@ class SonarQubeUserGroups(RestClient):
           200 characters. If value is not defined, then description is not changed.
         :return:
         """
-        params = {'id': group_id}
 
-        if group_name:
-            params.update({'name': group_name})
-
-        if description:
-            params.update({'description': description})
-
-        self.post(API_USER_GROUPS_UPDATE_ENDPOINT, params=params)
-
+    @POST(API_USER_GROUPS_ADD_USER_ENDPOINT)
     def add_user_to_group(self, group_name, user_login):
         """
         Add a user to a group.
@@ -127,13 +117,8 @@ class SonarQubeUserGroups(RestClient):
         :param user_login: User login
         :return:
         """
-        params = {
-            'login': user_login,
-            'name': group_name
-        }
 
-        self.post(API_USER_GROUPS_ADD_USER_ENDPOINT, params=params)
-
+    @POST(API_USER_GROUPS_REMOVE_USER_ENDPOINT)
     def remove_user_from_group(self, group_name, user_login):
         """
         Remove a user from a group.
@@ -142,12 +127,6 @@ class SonarQubeUserGroups(RestClient):
         :param user_login: User login
         :return:
         """
-        params = {
-            'login': user_login,
-            'name': group_name
-        }
-
-        self.post(API_USER_GROUPS_REMOVE_USER_ENDPOINT, params=params)
 
     def search_users_belong_to_group(self, group_name, q=None, selected="selected"):
         """

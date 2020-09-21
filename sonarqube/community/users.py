@@ -11,9 +11,17 @@ from sonarqube.utils.config import (
     API_USERS_DEACTIVATE_ENDPOINT,
     API_USERS_UPDATE_LOGIN_ENDPOINT
 )
+from sonarqube.utils.common import GET, POST
 
 
 class SonarQubeUsers(RestClient):
+    special_attributes_map = {
+        'scm': 'scmAccount',
+        'previous_password': 'previousPassword',
+        'new_password': 'password',
+        'new_login': 'newLogin'
+    }
+
     """
     SonarQube users Operations
     """
@@ -93,6 +101,7 @@ class SonarQubeUsers(RestClient):
 
         return self.post(API_USERS_CREATE_ENDPOINT, params=params)
 
+    @POST(API_USERS_UPDATE_ENDPOINT)
     def update_user(self, login, name=None, email=None, scm=None):
         """
         Update a user.
@@ -103,21 +112,8 @@ class SonarQubeUsers(RestClient):
         :param scm: SCM accounts.
         :return: request response
         """
-        params = {
-            'login': login
-        }
 
-        if name:
-            params.update({'name': name})
-
-        if email:
-            params.update({'email': email})
-
-        if scm:
-            params.update({'scmAccount': scm})
-
-        return self.post(API_USERS_UPDATE_ENDPOINT, params=params)
-
+    @POST(API_USERS_CHANGE_PASSWORD_ENDPOINT)
     def change_user_password(self, login, new_password, previous_password=None):
         """
         Update a user's password. Authenticated users can change their own password,
@@ -129,15 +125,8 @@ class SonarQubeUsers(RestClient):
         :param previous_password: Previous password. Required when changing one's own password.
         :return:
         """
-        params = {
-            'login': login,
-            'password': new_password
-        }
-        if previous_password:
-            params.update({'previousPassword': previous_password})
 
-        self.post(API_USERS_CHANGE_PASSWORD_ENDPOINT, params=params)
-
+    @POST(API_USERS_DEACTIVATE_ENDPOINT)
     def deactivate_user(self, login):
         """
         Deactivate a user.
@@ -145,11 +134,6 @@ class SonarQubeUsers(RestClient):
         :param login: User login
         :return: request response
         """
-        params = {
-            'login': login
-        }
-
-        return self.post(API_USERS_DEACTIVATE_ENDPOINT, params=params)
 
     def search_groups_user_belongs_to(self, login, q=None, selected="selected"):
         """
@@ -193,6 +177,7 @@ class SonarQubeUsers(RestClient):
             for group in response['groups']:
                 yield group
 
+    @POST(API_USERS_UPDATE_LOGIN_ENDPOINT)
     def update_user_login(self, login, new_login):
         """
         Update a user login. A login can be updated many times.
@@ -201,9 +186,3 @@ class SonarQubeUsers(RestClient):
         :param new_login: The new login. It must not already exist.
         :return:
         """
-        params = {
-            'login': login,
-            'newLogin': new_login
-        }
-
-        self.post(API_USERS_UPDATE_LOGIN_ENDPOINT, params=params)

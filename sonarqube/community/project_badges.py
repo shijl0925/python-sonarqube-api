@@ -6,6 +6,7 @@ from sonarqube.utils.config import (
     API_PROJECT_BADGES_MEASURE_ENDPOINT,
     API_PROJECT_BADGES_QUALITY_GATE_ENDPOINT
 )
+from sonarqube.utils.common import GET, POST
 
 
 class SonarQubeProjectBadges(RestClient):
@@ -19,6 +20,7 @@ class SonarQubeProjectBadges(RestClient):
         """
         super(SonarQubeProjectBadges, self).__init__(**kwargs)
 
+    @GET(API_PROJECT_BADGES_MEASURE_ENDPOINT)
     def generate_badge_for_project_measures(self, project, metric, branch=None):
         """
         Generate badge for project's measure as an SVG.
@@ -40,16 +42,8 @@ class SonarQubeProjectBadges(RestClient):
             * vulnerabilities
         :return:
         """
-        params = {
-            'project': project,
-            'metric': metric
-        }
-        if branch:
-            params.update({'branch': branch})
 
-        resp = self.get(API_PROJECT_BADGES_MEASURE_ENDPOINT, params=params)
-        return resp.text
-
+    @GET(API_PROJECT_BADGES_QUALITY_GATE_ENDPOINT)
     def generate_badge_for_project_quality_gate(self, project, branch=None):
         """
         Generate badge for project's quality gate as an SVG.
@@ -58,11 +52,3 @@ class SonarQubeProjectBadges(RestClient):
         :param branch: Long living branch key
         :return:
         """
-        params = {
-            'project': project,
-        }
-        if branch:
-            params.update({'branch': branch})
-
-        resp = self.get(API_PROJECT_BADGES_QUALITY_GATE_ENDPOINT, params=params)
-        return resp.text

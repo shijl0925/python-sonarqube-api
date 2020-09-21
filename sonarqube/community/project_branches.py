@@ -7,6 +7,7 @@ from sonarqube.utils.config import (
     API_PROJECT_BRANCHES_DELETE_ENDPOINT,
     API_PROJECT_BRANCHES_RENAME_ENDPOINT
 )
+from sonarqube.utils.common import GET, POST
 
 
 class SonarQubeProjectBranches(RestClient):
@@ -20,6 +21,7 @@ class SonarQubeProjectBranches(RestClient):
         """
         super(SonarQubeProjectBranches, self).__init__(**kwargs)
 
+    @GET(API_PROJECT_BRANCHES_LIST_ENDPOINT)
     def search_project_branches(self, project):
         """
         List the branches of a project.
@@ -27,14 +29,8 @@ class SonarQubeProjectBranches(RestClient):
         :param project: Project key
         :return:
         """
-        params = {
-            'project': project
-        }
 
-        resp = self.get(API_PROJECT_BRANCHES_LIST_ENDPOINT, params=params)
-        response = resp.json()
-        return response['branches']
-
+    @POST(API_PROJECT_BRANCHES_DELETE_ENDPOINT)
     def delete_project_branch(self, project, branch):
         """
         Delete a non-main branch of a project.
@@ -43,13 +39,8 @@ class SonarQubeProjectBranches(RestClient):
         :param branch: Name of the branch
         :return:
         """
-        params = {
-            'project': project,
-            'branch': branch
-        }
 
-        self.post(API_PROJECT_BRANCHES_DELETE_ENDPOINT, params=params)
-
+    @POST(API_PROJECT_BRANCHES_RENAME_ENDPOINT)
     def rename_project_branch(self, project, name):
         """
         Rename the main branch of a project
@@ -58,9 +49,3 @@ class SonarQubeProjectBranches(RestClient):
         :param name: New name of the main branch
         :return:
         """
-        params = {
-            'project': project,
-            'name': name
-        }
-
-        self.post(API_PROJECT_BRANCHES_RENAME_ENDPOINT, params=params)

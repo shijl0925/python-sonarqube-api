@@ -13,6 +13,7 @@ from sonarqube.utils.config import (
     API_SYSTEM_STATUS_ENDPOINT,
     API_SYSTEM_UPGRADES_ENDPOINT
 )
+from sonarqube.utils.common import GET, POST
 
 
 class SonarQubeSystem(RestClient):
@@ -26,6 +27,7 @@ class SonarQubeSystem(RestClient):
         """
         super(SonarQubeSystem, self).__init__(**kwargs)
 
+    @POST(API_SYSTEM_CHANGE_LOG_LEVEL_ENDPOINT)
     def change_log_level(self, level):
         """
         Temporarily changes level of logs. New level is not persistent and is lost when restarting server.
@@ -34,10 +36,8 @@ class SonarQubeSystem(RestClient):
           Possible values are: TRACE, DEBUG, INFO.
         :return:
         """
-        params = {'level': level}
 
-        self.post(API_SYSTEM_CHANGE_LOG_LEVEL_ENDPOINT, params=params)
-
+    @POST(API_SYSTEM_DB_MIGRATION_STATUS_ENDPOINT)
     def get_database_migration_status(self):
         """
         Display the database migration status of SonarQube.
@@ -52,9 +52,8 @@ class SonarQubeSystem(RestClient):
 
         :return:
         """
-        resp = self.get(API_SYSTEM_DB_MIGRATION_STATUS_ENDPOINT)
-        return resp.json()
 
+    @POST(API_SYSTEM_HEALTH_ENDPOINT)
     def get_health_status(self):
         """
         Provide health status of SonarQube.
@@ -65,9 +64,8 @@ class SonarQubeSystem(RestClient):
 
         :return:
         """
-        resp = self.get(API_SYSTEM_HEALTH_ENDPOINT)
-        return resp.json()
 
+    @GET(API_SYSTEM_LOGS_ENDPOINT)
     def get_logs(self, process='app'):
         """
         Get system logs in plain-text format.
@@ -75,11 +73,8 @@ class SonarQubeSystem(RestClient):
         :param process: Process to get logs from. Possible values are: app, ce, es, web. default value is app.
         :return:
         """
-        params = {'process': process}
 
-        resp = self.get(API_SYSTEM_LOGS_ENDPOINT, params=params)
-        return resp.text
-
+    @POST(API_SYSTEM_MIGRATE_DB_ENDPOINT)
     def migrate_database(self):
         """
         Migrate the database to match the current version of SonarQube.
@@ -96,25 +91,24 @@ class SonarQubeSystem(RestClient):
 
         :return: request response
         """
-        return self.post(API_SYSTEM_MIGRATE_DB_ENDPOINT)
 
+    @GET(API_SYSTEM_PING_ENDPOINT)
     def ping_server(self):
         """
         Answers "pong" as plain-text
 
         :return:
         """
-        resp = self.get(API_SYSTEM_PING_ENDPOINT)
-        return resp.text
 
+    @POST(API_SYSTEM_RESTART_ENDPOINT)
     def restart_server(self):
         """
         Restart server.
 
         :return:
         """
-        self.post(API_SYSTEM_RESTART_ENDPOINT)
 
+    @GET(API_SYSTEM_STATUS_ENDPOINT)
     def get_server_state(self):
         """
         Get state information about SonarQube.
@@ -132,9 +126,8 @@ class SonarQubeSystem(RestClient):
 
         :return:
         """
-        resp = self.get(API_SYSTEM_STATUS_ENDPOINT)
-        return resp.json()
 
+    @GET(API_SYSTEM_UPGRADES_ENDPOINT)
     def get_available_upgrades(self):
         """
         Lists available upgrades for the SonarQube instance (if any) and for each one, lists incompatible plugins
@@ -143,5 +136,3 @@ class SonarQubeSystem(RestClient):
 
         :return:
         """
-        resp = self.get(API_SYSTEM_UPGRADES_ENDPOINT)
-        return resp.json()

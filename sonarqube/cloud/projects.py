@@ -7,6 +7,7 @@ from sonarqube.utils.config import (
     API_PROJECTS_SEARCH_ENDPOINT,
     API_PROJECTS_CREATE_ENDPOINT
 )
+from sonarqube.utils.common import GET, POST
 
 
 class SonarCloudProjects(SonarQubeProjects):
@@ -63,6 +64,7 @@ class SonarCloudProjects(SonarQubeProjects):
             for component in response['components']:
                 yield component
 
+    @POST(API_PROJECTS_CREATE_ENDPOINT)
     def create_project(self, project, name, organization, visibility=None):
         """
         Create a project.
@@ -77,17 +79,9 @@ class SonarCloudProjects(SonarQubeProjects):
             * public
         :return: request response
         """
-        params = {
-            'name': name,
-            'project': project,
-            'organization': organization
-        }
-        if visibility:
-            params.update({'visibility': visibility})
 
-        return self.post(API_PROJECTS_CREATE_ENDPOINT, params=params)
-
-    def bulk_delete_projects(self, organization, analyzedBefore=None, onProvisionedOnly=False, projects=None, q=None):
+    @POST(API_PROJECTS_BULK_DELETE_ENDPOINT)
+    def bulk_delete_projects(self, organization, analyzedBefore=None, onProvisionedOnly='false', projects=None, q=None):
         """
         Delete one or several projects.
         At least one parameter is required among analyzedBefore, projects, projectIds (deprecated since 6.4) and q
@@ -105,18 +99,3 @@ class SonarCloudProjects(SonarQubeProjects):
 
         :return:
         """
-        params = {
-            'onProvisionedOnly': onProvisionedOnly and 'true' or 'false',
-            'organization': organization
-        }
-
-        if analyzedBefore:
-            params.update({'analyzedBefore': analyzedBefore})
-
-        if projects:
-            params.update({'projects': projects})
-
-        if q:
-            params.update({'q': q})
-
-        self.post(API_PROJECTS_BULK_DELETE_ENDPOINT, params=params)

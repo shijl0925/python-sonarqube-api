@@ -3,7 +3,7 @@
 # @Author: Jialiang Shi
 from sonarqube.utils.rest_client import RestClient
 from sonarqube.utils.config import API_SERVER_VERSION_ENDPOINT
-
+from sonarqube.utils.common import GET, POST
 
 class SonarQubeServer(RestClient):
     """
@@ -16,11 +16,10 @@ class SonarQubeServer(RestClient):
         """
         super(SonarQubeServer, self).__init__(**kwargs)
 
+    @GET(API_SERVER_VERSION_ENDPOINT)
     def get_server_version(self):
         """
         Version of SonarQube in plain text
 
         :return:
         """
-        resp = self.get(API_SERVER_VERSION_ENDPOINT)
-        return resp.text

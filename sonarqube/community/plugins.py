@@ -12,9 +12,14 @@ from sonarqube.utils.config import (
     API_PLUGINS_UPDATE_ENDPOINT,
     API_PLUGINS_UPDATES_ENDPOINT
 )
+from sonarqube.utils.common import GET, POST
 
 
 class SonarQubePlugins(RestClient):
+    special_attributes_map = {
+        'plugin_key': 'key',
+        'fields': 'f'
+    }
     """
     SonarQube plugins Operations
     """
@@ -25,6 +30,7 @@ class SonarQubePlugins(RestClient):
         """
         super(SonarQubePlugins, self).__init__(**kwargs)
 
+    @GET(API_PLUGINS_AVAILABLE_ENDPOINT)
     def get_available_plugins(self):
         """
         Get the list of all the plugins available for installation on the SonarQube instance, sorted by plugin name.
@@ -39,18 +45,16 @@ class SonarQubePlugins(RestClient):
 
         :return:
         """
-        resp = self.get(API_PLUGINS_AVAILABLE_ENDPOINT)
-        response = resp.json()
-        return response['plugins']
 
+    @POST(API_PLUGINS_CANCEL_ALL_ENDPOINT)
     def cancel_operation_pending_plugins(self):
         """
         Cancels any operation pending on any plugin (install, update or uninstall)
 
         :return:
         """
-        self.post(API_PLUGINS_CANCEL_ALL_ENDPOINT)
 
+    @POST(API_PLUGINS_INSTALL_ENDPOINT)
     def install_plugin(self, plugin_key):
         """
         Installs the latest version of a plugin specified by its key.
@@ -59,12 +63,8 @@ class SonarQubePlugins(RestClient):
         :param plugin_key: The key identifying the plugin to install
         :return:
         """
-        params = {
-            'key': plugin_key
-        }
 
-        self.post(API_PLUGINS_INSTALL_ENDPOINT, params=params)
-
+    @GET(API_PLUGINS_INSTALLED_ENDPOINT)
     def get_installed_plugins(self, fields=None):
         """
         Get the list of all the plugins installed on the SonarQube instance, sorted by plugin name.
@@ -74,14 +74,8 @@ class SonarQubePlugins(RestClient):
             * category - category as defined in the Update Center. A connection to the Update Center is needed
         :return:
         """
-        params = {}
-        if fields:
-            params.update({'f': fields})
 
-        resp = self.get(API_PLUGINS_INSTALLED_ENDPOINT, params=params)
-        response = resp.json()
-        return response['plugins']
-
+    @GET(API_PLUGINS_PENDING_ENDPOINT)
     def get_pending_plugins(self):
         """
         Get the list of plugins which will either be installed or removed at the next startup of the SonarQube instance,
@@ -89,9 +83,8 @@ class SonarQubePlugins(RestClient):
 
         :return:
         """
-        resp = self.get(API_PLUGINS_PENDING_ENDPOINT)
-        return resp.json()
 
+    @POST(API_PLUGINS_UNINSTALL_ENDPOINT)
     def uninstall_plugin(self, plugin_key):
         """
         Uninstalls the plugin specified by its key.
@@ -99,12 +92,8 @@ class SonarQubePlugins(RestClient):
         :param plugin_key: The key identifying the plugin to uninstall
         :return:
         """
-        params = {
-            'key': plugin_key
-        }
 
-        self.post(API_PLUGINS_UNINSTALL_ENDPOINT, params=params)
-
+    @POST(API_PLUGINS_UPDATE_ENDPOINT)
     def update_plugin(self, plugin_key):
         """
         Updates a plugin specified by its key to the latest version compatible with the SonarQube instance.
@@ -113,12 +102,8 @@ class SonarQubePlugins(RestClient):
         :param plugin_key: The key identifying the plugin to update
         :return:
         """
-        params = {
-            'key': plugin_key
-        }
 
-        self.post(API_PLUGINS_UPDATE_ENDPOINT, params=params)
-
+    @GET(API_PLUGINS_UPDATES_ENDPOINT)
     def get_available_update_plugins(self):
         """
         Lists plugins installed on the SonarQube instance for which at least one newer version is available,
@@ -129,5 +114,3 @@ class SonarQubePlugins(RestClient):
 
         :return:
         """
-        resp = self.get(API_PLUGINS_UPDATES_ENDPOINT)
-        return resp.json()

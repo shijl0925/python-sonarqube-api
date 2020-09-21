@@ -8,6 +8,7 @@ from sonarqube.utils.config import (
     API_RULES_SHOW_ENDPOINT,
     API_RULES_TAGS_ENDPOINT
 )
+from sonarqube.utils.common import GET, POST
 
 
 class SonarCloudRules(SonarQubeRules):
@@ -24,7 +25,6 @@ class SonarCloudRules(SonarQubeRules):
         :param organization: organization key.
 
           optional parameters:
-          * organization: organization key.
           * activation: Filter rules that are activated or deactivated on the selected Quality profile. Ignored if the parameter 'qprofile' is not set.
           * qprofile: Quality profile key to filter on. Used only if the parameter 'activation' is set.
           * languages: Comma-separated list of languages
@@ -199,6 +199,23 @@ class SonarCloudRules(SonarQubeRules):
             for rule in response['rules']:
                 yield rule
 
+    def create_rule(self, custom_key, name, markdown_description, template_key, severity, status=None, rule_type=None,
+                    params=None):
+        """
+
+        :param custom_key:
+        :param name:
+        :param markdown_description:
+        :param template_key:
+        :param severity:
+        :param status:
+        :param rule_type:
+        :param params:
+        :return:
+        """
+        raise AttributeError("%s does not support this method" % self.__class__.__name__)
+
+    @POST(API_RULES_UPDATE_ENDPOINT)
     def update_rule(self, key, organization, **kwargs):
         """
         Update an existing rule.
@@ -236,31 +253,28 @@ class SonarCloudRules(SonarQubeRules):
 
         :return: request response
         """
-        data = {'key': key, 'organization': organization}
-        if kwargs:
-            self.api.copy_dict(data, kwargs, self.OPTIONS_UPDATE)
 
-        return self.post(API_RULES_UPDATE_ENDPOINT, params=data)
+    def delete_rule(self, key):
+        """
 
-    def get_rule(self, rule_key, organization, actives=False):
+        :param key:
+        :return:
+        """
+        raise AttributeError("%s does not support this method" % self.__class__.__name__)
+
+    @GET(API_RULES_SHOW_ENDPOINT)
+    def get_rule(self, key, organization, actives='false'):
         """
         Get detailed information about a rule.
 
-        :param rule_key: Rule key
+        :param key: Rule key
         :param organization: organization key.
         :param actives: Show rule's activations for all profiles ("active rules").
-          Possible values are for: True or False. default value is False.
+          Possible values are for: true or false. default value is false.
         :return:
         """
-        params = {
-            'key': rule_key,
-            'organization': organization,
-            'actives': actives and 'true' or 'false'
-        }
 
-        res = self.get(API_RULES_SHOW_ENDPOINT, params=params)
-        return res.json()
-
+    @GET(API_RULES_TAGS_ENDPOINT)
     def get_rule_tags(self, organization, ps=10, q=None):
         """
         List rule tags
@@ -270,11 +284,3 @@ class SonarCloudRules(SonarQubeRules):
         :param q: Limit search to tags that contain the supplied string.
         :return:
         """
-        params = {'organization': organization, 'ps': ps}
-
-        if q:
-            params.update({"q": q})
-
-        resp = self.get(API_RULES_TAGS_ENDPOINT, params=params)
-        response = resp.json()
-        return response['tags']

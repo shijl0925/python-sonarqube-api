@@ -7,6 +7,7 @@ from sonarqube.utils.config import (
     API_AUTH_LOGOUT_ENDPOINT,
     API_AUTH_VALIDATE_ENDPOINT
 )
+from sonarqube.utils.common import GET, POST
 
 
 class SonarQubeAuth(RestClient):
@@ -20,6 +21,7 @@ class SonarQubeAuth(RestClient):
         """
         super(SonarQubeAuth, self).__init__(**kwargs)
 
+    @POST(API_AUTH_LOGIN_ENDPOINT)
     def authenticate_user(self, login, password):
         """
         Authenticate a user.
@@ -28,26 +30,19 @@ class SonarQubeAuth(RestClient):
         :param password: Password of the user
         :return:
         """
-        params = {
-            'login': login,
-            'password': password
-        }
 
-        self.post(API_AUTH_LOGIN_ENDPOINT, params=params)
-
+    @POST(API_AUTH_LOGOUT_ENDPOINT)
     def logout_user(self):
         """
         Logout a user.
 
         :return:
         """
-        self.post(API_AUTH_LOGOUT_ENDPOINT)
 
+    @GET(API_AUTH_VALIDATE_ENDPOINT)
     def check_credentials(self):
         """
         Check credentials.
 
         :return:
         """
-        resp = self.get(API_AUTH_VALIDATE_ENDPOINT)
-        return resp.json()

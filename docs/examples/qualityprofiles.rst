@@ -59,7 +59,7 @@ Copy a quality profile.::
 
 Create a quality profile.::
 
-    sonar.qualityprofiles.create_quality_profile(language="java", profile_name="FindBugs&P3C-test")
+    sonar.qualityprofiles.create_quality_profile(language="java", name="FindBugs&P3C-test")
 
 Deactivate a rule on a quality profile.::
 
@@ -94,7 +94,7 @@ List projects with their association status regarding a quality profile::
 
 Rename a quality profile.::
 
-    sonar.qualityprofiles.rename_quality_profile(profile_key="AXQkj1lxjOKlq86mQny7", profile_name="FindBugs&P3C-test")
+    sonar.qualityprofiles.rename_quality_profile(key="AXQkj1lxjOKlq86mQny7", name="FindBugs&P3C-test")
 
 Restore a quality profile using an XML file. The restored profile name is taken from the backup file, so if a profile with the same name and language already exists, it will be overwritten.::
 
