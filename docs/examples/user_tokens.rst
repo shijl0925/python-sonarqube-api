@@ -18,5 +18,5 @@ Revoke a user access token.::
 
 List the access tokens of a user.::
 
-    user_tokens = sonar.user_tokens.search_user_tokens(user_login="kevin")
+    user_tokens = sonar.user_tokens.search_user_tokens(login="kevin")
 

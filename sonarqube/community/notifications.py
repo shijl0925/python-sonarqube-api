@@ -7,12 +7,17 @@ from sonarqube.utils.config import (
     API_NOTIFICATIONS_ADD_ENDPOINT,
     API_NOTIFICATIONS_REMOVE_ENDPOINT
 )
+from sonarqube.utils.common import GET, POST
 
 
 class SonarQubeNotifications(RestClient):
     """
     SonarQube notifications Operations
     """
+    special_attributes_map = {
+        'notification_type': 'type'
+    }
+
     def __init__(self, **kwargs):
         """
 
@@ -20,6 +25,7 @@ class SonarQubeNotifications(RestClient):
         """
         super(SonarQubeNotifications, self).__init__(**kwargs)
 
+    @GET(API_NOTIFICATIONS_LIST_ENDPOINT)
     def get_user_notifications(self, login):
         """
         List notifications of the authenticated user.
@@ -27,14 +33,8 @@ class SonarQubeNotifications(RestClient):
         :param login: User login
         :return:
         """
-        params = {
-            'login': login
-        }
 
-        resp = self.get(API_NOTIFICATIONS_LIST_ENDPOINT, params=params)
-        response = resp.json()
-        return response['notifications']
-
+    @POST(API_NOTIFICATIONS_ADD_ENDPOINT)
     def add_notification_for_user(self, login, notification_type, channel="EmailNotificationChannel", project=None):
         """
         Add a notification for the authenticated user.
@@ -50,17 +50,8 @@ class SonarQubeNotifications(RestClient):
         :param project: Project key
         :return:
         """
-        params = {
-            'login': login,
-            'type': notification_type,
-            'channel': channel
-        }
 
-        if project:
-            params.update({'project': project})
-
-        self.post(API_NOTIFICATIONS_ADD_ENDPOINT, params=params)
-
+    @POST(API_NOTIFICATIONS_REMOVE_ENDPOINT)
     def remove_notification_for_user(self, login, notification_type, channel="EmailNotificationChannel", project=None):
         """
         Remove a notification for the authenticated user.
@@ -76,13 +67,3 @@ class SonarQubeNotifications(RestClient):
         :param project: Project key
         :return:
         """
-        params = {
-            'login': login,
-            'type': notification_type,
-            'channel': channel
-        }
-
-        if project:
-            params.update({'project': project})
-
-        self.post(API_NOTIFICATIONS_REMOVE_ENDPOINT, params=params)

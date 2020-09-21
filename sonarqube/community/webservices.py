@@ -6,6 +6,7 @@ from sonarqube.utils.config import (
     API_WEBSERVICES_LIST_ENDPOINT,
     API_WEBSERVICES_RESPONSE_EXAMPLE_ENDPOINT
 )
+from sonarqube.utils.common import GET, POST
 
 
 class SonarQubeWebservices(RestClient):
@@ -19,22 +20,17 @@ class SonarQubeWebservices(RestClient):
         """
         super(SonarQubeWebservices, self).__init__(**kwargs)
 
-    def list_web_services(self, include_internals=False):
+    @GET(API_WEBSERVICES_LIST_ENDPOINT)
+    def list_web_services(self, include_internals='false'):
         """
         List web services
 
         :param include_internals: Include web services that are implemented for internal use only.
-          Their forward-compatibility is not assured. Possible values are for: True or False. default value is False.
+          Their forward-compatibility is not assured. Possible values are for: true or false. default value is false.
         :return:
         """
-        params = {
-            'include_internals': include_internals and 'true' or 'false'
-        }
 
-        resp = self.get(API_WEBSERVICES_LIST_ENDPOINT, params=params)
-        response = resp.json()
-        return response['webServices']
-
+    @POST(API_WEBSERVICES_RESPONSE_EXAMPLE_ENDPOINT)
     def web_service_response_example(self, action, controller):
         """
         Display web service response example
@@ -43,9 +39,3 @@ class SonarQubeWebservices(RestClient):
         :param controller: Controller of the web service
         :return:
         """
-        params = {
-            'action': action,
-            'controller': controller
-        }
-
-        return self.post(API_WEBSERVICES_RESPONSE_EXAMPLE_ENDPOINT, params=params)

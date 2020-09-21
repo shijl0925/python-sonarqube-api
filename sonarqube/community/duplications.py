@@ -3,12 +3,15 @@
 # @Author: Jialiang Shi
 from sonarqube.utils.rest_client import RestClient
 from sonarqube.utils.config import API_DUPLICATIONS_SHOW_ENDPOINT
+from sonarqube.utils.common import GET
 
 
 class SonarQubeDuplications(RestClient):
     """
     SonarQube duplications Operations
     """
+    special_attributes_map = {'pull_request_id': 'pullRequest'}
+
     def __init__(self, **kwargs):
         """
 
@@ -16,6 +19,7 @@ class SonarQubeDuplications(RestClient):
         """
         super(SonarQubeDuplications, self).__init__(**kwargs)
 
+    @GET(API_DUPLICATIONS_SHOW_ENDPOINT)
     def get_duplications(self, key, branch=None, pull_request_id=None):
         """
         Get duplications. Require Browse permission on file's project
@@ -25,13 +29,3 @@ class SonarQubeDuplications(RestClient):
         :param pull_request_id: Pull request id
         :return:
         """
-        params = {'key': key}
-
-        if branch:
-            params.update({'branch': branch})
-
-        if pull_request_id:
-            params.update({'pullRequest': pull_request_id})
-
-        resp = self.get(API_DUPLICATIONS_SHOW_ENDPOINT, params=params)
-        return resp.json()

@@ -6,6 +6,7 @@ from sonarqube.utils.config import (
     API_METRICS_SEARCH_ENDPOINT,
     API_METRICS_TYPES_ENDPOINT
 )
+from sonarqube.utils.common import GET
 
 
 class SonarQubeMetrics(RestClient):
@@ -45,12 +46,10 @@ class SonarQubeMetrics(RestClient):
             for metric in response['metrics']:
                 yield metric
 
+    @GET(API_METRICS_TYPES_ENDPOINT)
     def get_metrics_types(self):
         """
         List all available metric types.
 
         :return:
         """
-        resp = self.get(API_METRICS_TYPES_ENDPOINT)
-        response = resp.json()
-        return response['types']

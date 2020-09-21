@@ -7,12 +7,20 @@ from sonarqube.utils.config import (
     API_SOURCES_SHOW_ENDPOINT,
     API_SOURCES_RAW_ENDPOINT
 )
+from sonarqube.utils.common import GET
 
 
 class SonarQubeSources(RestClient):
     """
     SonarQube sources Operations
     """
+    special_attributes_map = {
+        'file_key': 'key',
+        'from_line': 'from',
+        'to_line': 'to',
+        'pull_request_id': 'pullRequest'
+    }
+
     def __init__(self, **kwargs):
         """
 
@@ -20,6 +28,7 @@ class SonarQubeSources(RestClient):
         """
         super(SonarQubeSources, self).__init__(**kwargs)
 
+    @GET(API_SOURCES_SCM_ENDPOINT)
     def get_source_file_scm(self, file_key, from_line=1, to_line=None, commits_by_line='false'):
         """
         Get SCM information of source files. Require See Source Code permission on file's project.
@@ -37,19 +46,8 @@ class SonarQubeSources(RestClient):
           is false.
         :return:
         """
-        params = {
-            'key': file_key,
-            'from': from_line,
-            'commits_by_line': commits_by_line
-        }
 
-        if to_line:
-            params.update({"to": to_line})
-
-        resp = self.get(API_SOURCES_SCM_ENDPOINT, params=params)
-        response = resp.json()
-        return response['scm']
-
+    @GET(API_SOURCES_SHOW_ENDPOINT)
     def get_source_code(self, file_key, from_line=1, to_line=None):
         """
         Get source code. Requires See Source Code permission on file's project.
@@ -59,18 +57,8 @@ class SonarQubeSources(RestClient):
         :param to_line: Last line to return (inclusive)
         :return:
         """
-        params = {
-            'key': file_key,
-            'from': from_line
-        }
 
-        if to_line:
-            params.update({"to": to_line})
-
-        resp = self.get(API_SOURCES_SHOW_ENDPOINT, params=params)
-        response = resp.json()
-        return response['sources']
-
+    @GET(API_SOURCES_RAW_ENDPOINT)
     def get_sources_raw(self, file_key, branch=None, pull_request_id=None):
         """
         Get source code as raw text. Require 'See Source Code' permission on file.
@@ -80,15 +68,3 @@ class SonarQubeSources(RestClient):
         :param pull_request_id: Pull request id
         :return:
         """
-        params = {
-            'key': file_key
-        }
-
-        if branch:
-            params.update({'branch': branch})
-
-        if pull_request_id:
-            params.update({'pullRequest': pull_request_id})
-
-        resp = self.get(API_SOURCES_RAW_ENDPOINT, params=params)
-        return resp.text

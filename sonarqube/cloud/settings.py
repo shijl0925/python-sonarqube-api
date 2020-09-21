@@ -8,6 +8,7 @@ from sonarqube.utils.config import (
     API_SETTINGS_VALUES_ENDPOINT,
     API_SETTINGS_LIST_DEFINITIONS_ENDPOINT
 )
+from sonarqube.utils.common import GET, POST
 
 
 class SonarCloudSettings(RestClient):
@@ -21,7 +22,9 @@ class SonarCloudSettings(RestClient):
         """
         super(SonarCloudSettings, self).__init__(**kwargs)
 
-    def update_setting_value(self, setting_key, setting_value, component_key=None, branch=None, pull_request_id=None, field_values=None):
+    @POST(API_SETTINGS_SET_ENDPOINT)
+    def update_setting_value(self, setting_key, setting_value, component_key=None, branch=None, pull_request_id=None,
+                             field_values=None):
         """
         Update a setting value.
         The settings defined in conf/sonar.properties are read-only and can't be changed.
@@ -35,24 +38,8 @@ class SonarCloudSettings(RestClient):
           each value.
         :return:
         """
-        params = {
-            'key': setting_key,
-            'value': setting_value
-        }
-        if component_key:
-            params.update({"component": component_key})
 
-        if branch:
-            params.update({'branch': branch})
-
-        if pull_request_id:
-            params.update({'pull_request_id': pull_request_id})
-
-        if field_values:
-            params.update({"fieldValues": field_values})
-
-        self.post(API_SETTINGS_SET_ENDPOINT, params=params)
-
+    @POST(API_SETTINGS_RESET_ENDPOINT)
     def remove_setting_value(self, setting_keys, component_key=None, branch=None, pull_request_id=None):
         """
         Remove a setting value.
@@ -65,21 +52,8 @@ class SonarCloudSettings(RestClient):
 
         :return:
         """
-        params = {
-            'keys': setting_keys
-        }
 
-        if component_key:
-            params.update({"component": component_key})
-
-        if branch:
-            params.update({'branch': branch})
-
-        if pull_request_id:
-            params.update({'pull_request_id': pull_request_id})
-
-        self.post(API_SETTINGS_RESET_ENDPOINT, params=params)
-
+    @GET(API_SETTINGS_VALUES_ENDPOINT)
     def get_settings_values(self, component_key=None, branch=None, pull_request_id=None, setting_keys=None):
         """
         List settings values.
@@ -92,23 +66,8 @@ class SonarCloudSettings(RestClient):
         :param setting_keys: List of setting keys
         :return:
         """
-        params = {}
-        if component_key:
-            params.update({"component": component_key})
 
-        if branch:
-            params.update({'branch': branch})
-
-        if pull_request_id:
-            params.update({'pull_request_id': pull_request_id})
-
-        if setting_keys:
-            params.update({"keys": setting_keys})
-
-        resp = self.get(API_SETTINGS_VALUES_ENDPOINT, params=params)
-        response = resp.json()
-        return response['settings']
-
+    @GET(API_SETTINGS_LIST_DEFINITIONS_ENDPOINT)
     def get_settings_definitions(self, component_key=None, branch=None, pull_request_id=None):
         """
         List settings definitions.
@@ -119,17 +78,3 @@ class SonarCloudSettings(RestClient):
 
         :return:
         """
-        params = {}
-
-        if component_key:
-            params.update({"component": component_key})
-
-        if branch:
-            params.update({'branch': branch})
-
-        if pull_request_id:
-            params.update({'pull_request_id': pull_request_id})
-
-        resp = self.get(API_SETTINGS_LIST_DEFINITIONS_ENDPOINT, params=params)
-        response = resp.json()
-        return response['definitions']

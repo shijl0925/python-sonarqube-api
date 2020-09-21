@@ -10,12 +10,18 @@ from sonarqube.utils.config import (
     API_WEBHOOKS_LIST_ENDPOINT,
     API_WEBHOOKS_UPDATE_ENDPOINT
 )
+from sonarqube.utils.common import GET, POST
 
 
 class SonarQubeWebhooks(RestClient):
     """
     SonarQube webhooks Operations
     """
+    special_attributes_map = {
+        'webhook_key': 'webhook',
+        'delivery_id': 'deliveryId'
+    }
+
     def __init__(self, **kwargs):
         """
 
@@ -23,34 +29,22 @@ class SonarQubeWebhooks(RestClient):
         """
         super(SonarQubeWebhooks, self).__init__(**kwargs)
 
-    def create_webhook(self, name, project=None, secret=None, url=None):
+    @POST(API_WEBHOOKS_CREATE_ENDPOINT)
+    def create_webhook(self, name, url, project=None, secret=None):
         """
         Create a Webhook.
 
         :param name: Name displayed in the administration console of webhooks
-        :param project: The key of the project that will own the webhook
-        :param secret: If provided, secret will be used as the key to generate the HMAC hex (lowercase) digest value
-          in the 'X-Sonar-Webhook-HMAC-SHA256' header
         :param url: Server endpoint that will receive the webhook payload, for example 'http://my_server/foo'. If HTTP
           Basic authentication is used, HTTPS is recommended to avoid man in the middle attacks.
           Example: 'https://myLogin:myPassword@my_server/foo'
+        :param project: The key of the project that will own the webhook
+        :param secret: If provided, secret will be used as the key to generate the HMAC hex (lowercase) digest value
+          in the 'X-Sonar-Webhook-HMAC-SHA256' header
         :return: request response
         """
-        params = {
-            'name': name,
-        }
 
-        if project:
-            params.update({'project': project})
-
-        if secret:
-            params.update({'secret': secret})
-
-        if url:
-            params.update({'url': url})
-
-        return self.post(API_WEBHOOKS_CREATE_ENDPOINT, params=params)
-
+    @POST(API_WEBHOOKS_DELETE_ENDPOINT)
     def delete_webhook(self, webhook_key):
         """
         Delete a Webhook.
@@ -59,11 +53,6 @@ class SonarQubeWebhooks(RestClient):
           api/webhooks/create or api/webhooks/list
         :return:
         """
-        params = {
-            'webhook': webhook_key,
-        }
-
-        self.post(API_WEBHOOKS_DELETE_ENDPOINT, params=params)
 
     def get_webhook_deliveries(self, webhook_key=None, component_key=None, task_id=None):
         """
@@ -102,6 +91,7 @@ class SonarQubeWebhooks(RestClient):
             for delivery in response['deliveries']:
                 yield delivery
 
+    @GET(API_WEBHOOKS_DELIVERY_ENDPOINT)
     def get_webhook_delivery(self, delivery_id):
         """
         Get a webhook delivery by its id.
@@ -109,12 +99,8 @@ class SonarQubeWebhooks(RestClient):
         :param delivery_id: Id of delivery
         :return:
         """
-        params = {'deliveryId': delivery_id}
 
-        resp = self.get(API_WEBHOOKS_DELIVERY_ENDPOINT, params=params)
-        response = resp.json()
-        return response['delivery']
-
+    @GET(API_WEBHOOKS_LIST_ENDPOINT)
     def search_webhooks(self, project=None):
         """
         Search for global webhooks or project webhooks. Webhooks are ordered by name.
@@ -122,32 +108,16 @@ class SonarQubeWebhooks(RestClient):
         :param project: Project key
         :return:
         """
-        params = {}
-        if project:
-            params.update({'project': project})
 
-        resp = self.get(API_WEBHOOKS_LIST_ENDPOINT, params=params)
-        response = resp.json()
-        return response['webhooks']
-
-    def update_webhook(self, webhook_key, new_name, new_url, secret=None):
+    @POST(API_WEBHOOKS_UPDATE_ENDPOINT)
+    def update_webhook(self, webhook_key, name, url, secret=None):
         """
         Update a Webhook.
 
         :param webhook_key: The key of the webhook to be updated
-        :param new_name: new name of the webhook
-        :param new_url: new url to be called by the webhook
+        :param name: new name of the webhook
+        :param url: new url to be called by the webhook
         :param secret: If provided, secret will be used as the key to generate the HMAC hex (lowercase) digest value
           in the 'X-Sonar-Webhook-HMAC-SHA256' header
         :return:
         """
-        params = {
-            'webhook': webhook_key,
-            'name': new_name,
-            'url': new_url
-        }
-
-        if secret:
-            params.update({'secret': secret})
-
-        self.post(API_WEBHOOKS_UPDATE_ENDPOINT, params=params)

@@ -37,7 +37,7 @@ Search for global webhooks or project webhooks. Webhooks are ordered by name.::
 Update a Webhook.::
 
     sonar.webhooks.update_webhook(webhook_key="AXQojxbgjOKlq86mQnzS",
-                                  new_name="My Webhook",
-                                  new_url="https://www.my-webhook-listener.com/sonar",
+                                  name="My Webhook",
+                                  url="https://www.my-webhook-listener.com/sonar",
                                   secret="your_secret")
 
