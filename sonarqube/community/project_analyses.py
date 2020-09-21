@@ -11,6 +11,7 @@ from sonarqube.utils.config import (
     API_PROJECT_ANALYSES_UNSET_BASELINE_ENDPOINT,
     API_PROJECT_ANALYSES_UPDATE_EVENT_ENDPOINT
 )
+from sonarqube.utils.common import POST
 
 
 class SonarQubeProjectAnalyses(RestClient):
@@ -24,6 +25,7 @@ class SonarQubeProjectAnalyses(RestClient):
         """
         super(SonarQubeProjectAnalyses, self).__init__(**kwargs)
 
+    @POST(API_PROJECT_ANALYSES_CREATE_EVENT_ENDPOINT)
     def create_project_analysis_event(self, analysis, name, category="OTHER"):
         """
         Create a project analysis event.Only event of category 'VERSION' and 'OTHER' can be created.
@@ -37,14 +39,8 @@ class SonarQubeProjectAnalyses(RestClient):
           default value is OTHER.
         :return: request response
         """
-        params = {
-            'analysis': analysis,
-            'name': name,
-            'category': category
-        }
 
-        return self.post(API_PROJECT_ANALYSES_CREATE_EVENT_ENDPOINT, params=params)
-
+    @POST(API_PROJECT_ANALYSES_DELETE_ENDPOINT)
     def delete_project_analysis(self, analysis):
         """
         Delete a project analysis.
@@ -52,12 +48,8 @@ class SonarQubeProjectAnalyses(RestClient):
         :param analysis: Analysis key
         :return:
         """
-        params = {
-            'analysis': analysis
-        }
 
-        self.post(API_PROJECT_ANALYSES_DELETE_ENDPOINT, params=params)
-
+    @POST(API_PROJECT_ANALYSES_DELETE_EVENT_ENDPOINT)
     def delete_project_analysis_event(self, event):
         """
         Delete a project analysis event.Only event of category 'VERSION' and 'OTHER' can be deleted.
@@ -65,11 +57,6 @@ class SonarQubeProjectAnalyses(RestClient):
         :param event: Event key
         :return:
         """
-        params = {
-            'event': event
-        }
-
-        self.post(API_PROJECT_ANALYSES_DELETE_EVENT_ENDPOINT, params=params)
 
     def search_project_analyses_and_events(self, project, branch=None, category=None, from_date=None, to_date=None):
         """
@@ -123,6 +110,7 @@ class SonarQubeProjectAnalyses(RestClient):
             for analysis in response['analyses']:
                 yield analysis
 
+    @POST(API_PROJECT_ANALYSES_SET_BASELINE_ENDPOINT)
     def set_analysis_as_baseline_on_project(self, project, analysis, branch=None):
         """
         Set an analysis as the baseline of the New Code Period on a project or a long-lived branch.
@@ -133,15 +121,8 @@ class SonarQubeProjectAnalyses(RestClient):
         :param branch: Branch key
         :return:
         """
-        params = {
-            'analysis': analysis,
-            'project': project,
-        }
-        if branch:
-            params.update({'branch': branch})
 
-        self.post(API_PROJECT_ANALYSES_SET_BASELINE_ENDPOINT, params=params)
-
+    @POST(API_PROJECT_ANALYSES_UNSET_BASELINE_ENDPOINT)
     def unset_baseline_on_project(self, project, branch=None):
         """
         Unset any manually-set New Code Period baseline on a project or a long-lived branch.
@@ -151,14 +132,8 @@ class SonarQubeProjectAnalyses(RestClient):
         :param branch: Branch key
         :return:
         """
-        params = {
-            'project': project,
-        }
-        if branch:
-            params.update({'branch': branch})
 
-        self.post(API_PROJECT_ANALYSES_UNSET_BASELINE_ENDPOINT, params=params)
-
+    @POST(API_PROJECT_ANALYSES_UPDATE_EVENT_ENDPOINT)
     def update_project_analysis_event(self, event, name):
         """
         Update a project analysis event.
@@ -168,9 +143,3 @@ class SonarQubeProjectAnalyses(RestClient):
         :param name: New name
         :return: request response
         """
-        params = {
-            'event': event,
-            'name': name,
-        }
-
-        return self.post(API_PROJECT_ANALYSES_UPDATE_EVENT_ENDPOINT, params=params)

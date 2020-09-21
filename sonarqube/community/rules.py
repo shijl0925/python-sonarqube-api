@@ -11,19 +11,21 @@ from sonarqube.utils.config import (
     API_RULES_TAGS_ENDPOINT,
     API_RULES_REPOSITORIES_ENDPOINT
 )
+from sonarqube.utils.common import GET, POST
 
 
 class SonarQubeRules(RestClient):
     """
     SonarQube rules Operations
     """
+    aa = {
+        'rule_type': 'type'
+    }
+
     OPTIONS_SEARCH = ['activation', 'qprofile', 'languages', 'active_severities', 'asc', 'available_since', 'cwe', 'f',
                       'facets', 'include_external', 'inheritance', 'is_template', 'owaspTop10', 'q', 'repositories',
                       'rule_key', 's', 'sansTop25', 'severities', 'sonarsourceSecurity', 'statuses', 'tags',
                       'template_key', 'types']
-
-    OPTIONS_UPDATE = ['name', 'markdown_description', 'markdown_note', 'remediation_fn_base_effort', 'remediation_fn_type',
-                      'remediation_fy_gap_multiplier', 'severity', 'status', 'tags']
 
     def __init__(self, **kwargs):
         """
@@ -217,13 +219,15 @@ class SonarQubeRules(RestClient):
             for rule in response['rules']:
                 yield rule
 
-    def create_rule(self, key, name, description, template_key, severity, status=None, rule_type=None, **params):
+    @POST(API_RULES_CREATE_ENDPOINT)
+    def create_rule(self, custom_key, name, markdown_description, template_key, severity, status=None, rule_type=None,
+                    params=None):
         """
         Create a a custom rule.
 
-        :param key: Key of the custom rule
+        :param custom_key: Key of the custom rule
         :param name: Rule name
-        :param description: Rule description
+        :param markdown_description: Rule description
         :param template_key: Key of the template rule in order to create a custom rule (mandatory for custom rule)
         :param severity: Rule severity.
           Possible values are for:
@@ -246,97 +250,66 @@ class SonarQubeRules(RestClient):
             * SECURITY_HOTSPOT
         :return: request response
         """
-        data = {
-            'custom_key': key,
-            'name': name,
-            'markdown_description': description,
-            "template_key": template_key,
-            "severity": severity.upper()
-        }
 
-        if status:
-            data.update({"status": status.upper()})
-
-        if rule_type:
-            data.update({"type": rule_type.upper()})
-
-        params = ';'.join('{}={}'.format(k, v) for k, v in sorted(params.items()) if v)
-        if params:
-            data.update({"params": params})
-
-        return self.post(API_RULES_CREATE_ENDPOINT, params=data)
-
-    def update_rule(self, key, **kwargs):
+    @POST(API_RULES_UPDATE_ENDPOINT)
+    def update_rule(self, key, name=None, markdown_description=None, markdown_note=None,
+                    remediation_fn_base_effort=None, remediation_fn_type=None, remediation_fy_gap_multiplier=None,
+                    severity=None, status=None, tags=None):
         """
         Update an existing rule.
 
         :param key: Key of the rule to update
 
-        optional parameters:
-          * name: Rule name (mandatory for custom rule)
-          * description: Rule description (mandatory for custom rule and manual rule)
-          * markdown_note: Optional note in markdown format. Use empty value to remove current note.
-            Note is not changed if the parameter is not set.
-          * params: Parameters as semi-colon list of =, for example 'params=key1=v1;key2=v2'
-            (Only when updating a custom rule)
-          * remediation_fn_base_effort: Base effort of the remediation function of the rule
-          * remediation_fn_type: Type of the remediation function of the rule
-          * remediation_fy_gap_multiplier: Gap multiplier of the remediation function of the rule
-          * severity: Rule severity (Only when updating a custom rule).Possible values are for:
+        :param name: Rule name (mandatory for custom rule)
+        :param markdown_description: Rule description (mandatory for custom rule and manual rule)
+        :param markdown_note: Optional note in markdown format. Use empty value to remove current note.
+          Note is not changed if the parameter is not set.
+        :param params: Parameters as semi-colon list of =, for example 'params=key1=v1;key2=v2'
+          (Only when updating a custom rule)
+        :param remediation_fn_base_effort: Base effort of the remediation function of the rule
+        :param remediation_fn_type: Type of the remediation function of the rule
+        :param remediation_fy_gap_multiplier: Gap multiplier of the remediation function of the rule
+        :param severity: Rule severity (Only when updating a custom rule).Possible values are for:
 
-            * INFO
-            * MINOR
-            * MAJOR
-            * CRITICAL
-            * BLOCKER
+          * INFO
+          * MINOR
+          * MAJOR
+          * CRITICAL
+          * BLOCKER
 
-          * status: Rule status (Only when updating a custom rule). Possible values are for:
+        :param status: Rule status (Only when updating a custom rule). Possible values are for:
 
-            * BETA
-            * DEPRECATED
-            * READY
-            * REMOVED
+          * BETA
+          * DEPRECATED
+          * READY
+          * REMOVED
 
-          * tags: Optional comma-separated list of tags to set. Use blank value to remove current tags.
-            Tags are not changed if the parameter is not set.
+        :param tags: Optional comma-separated list of tags to set. Use blank value to remove current tags.
+          Tags are not changed if the parameter is not set.
 
         :return: request response
         """
-        data = {'key': key}
-        if kwargs:
-            self.api.copy_dict(data, kwargs, self.OPTIONS_UPDATE)
 
-        return self.post(API_RULES_UPDATE_ENDPOINT, params=data)
-
-    def delete_rule(self, rule_key):
+    @POST(API_RULES_DELETE_ENDPOINT)
+    def delete_rule(self, key):
         """
         Delete custom rule.
-        :param rule_key:
+        :param key:
         :return:
         """
-        params = {
-            'key': rule_key
-        }
 
-        self.post(API_RULES_DELETE_ENDPOINT, params=params)
-
-    def get_rule(self, rule_key, actives=False):
+    @GET(API_RULES_SHOW_ENDPOINT)
+    def get_rule(self, key, actives='false'):
         """
         Get detailed information about a rule.
 
-        :param rule_key: Rule key
+        :param key: Rule key
         :param actives: Show rule's activations for all profiles ("active rules").
-          Possible values are for: True or False. default value is False.
+          Possible values are for: true or false. default value is false.
         :return:
         """
-        params = {
-            'key': rule_key,
-            'actives': actives and 'true' or 'false'
-        }
 
-        res = self.get(API_RULES_SHOW_ENDPOINT, params=params)
-        return res.json()
-
+    @GET(API_RULES_REPOSITORIES_ENDPOINT)
     def get_rule_repositories(self, language=None, q=None):
         """
         List available rule repositories
@@ -345,18 +318,8 @@ class SonarQubeRules(RestClient):
         :param q: A pattern to match repository keys/names against
         :return:
         """
-        params = {}
 
-        if language:
-            params.update({"language": language})
-
-        if q:
-            params.update({"q": q})
-
-        resp = self.get(API_RULES_REPOSITORIES_ENDPOINT, params=params)
-        response = resp.json()
-        return response['repositories']
-
+    @GET(API_RULES_TAGS_ENDPOINT)
     def get_rule_tags(self, ps=10, q=None):
         """
         List rule tags
@@ -365,11 +328,3 @@ class SonarQubeRules(RestClient):
         :param q: Limit search to tags that contain the supplied string.
         :return:
         """
-        params = {'ps': ps}
-
-        if q:
-            params.update({"q": q})
-
-        resp = self.get(API_RULES_TAGS_ENDPOINT, params=params)
-        response = resp.json()
-        return response['tags']

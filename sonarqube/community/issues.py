@@ -17,21 +17,20 @@ from sonarqube.utils.config import (
     API_ISSUES_SET_TAGS_ENDPOINT,
     API_ISSUES_TAGS_ENDPOINT
 )
+from sonarqube.utils.common import GET, POST
 
 
 class SonarQubeIssues(RestClient):
     """
     SonarQube issues Operations
     """
+    special_attributes_map = {'issue_type': 'type'}
     MAX_SEARCH_NUM = 100
     OPTIONS_SEARCH = ['additionalFields', 'asc', 'assigned', 'assignees', 'author', 'componentKeys', 'branch',
                       'pullRequest', 'createdAfter', 'createdAt', 'createdBefore', 'createdInLast', 'cwe', 'facets',
                       'issues', 'languages', 'onComponentOnly', 'owaspTop10', 'ps', 'resolutions', 'resolved', 'rules',
                       's', 'sansTop25', 'severities', 'sinceLeakPeriod', 'sonarsourceSecurity', 'statuses', 'tags',
                       'types']
-
-    OPTIONS_BULK = ['add_tags', 'assign', 'comment', 'do_transition', 'remove_tags',
-                    'sendNotifications', 'set_severity', 'set_type']
 
     def __init__(self, **kwargs):
         """
@@ -217,6 +216,7 @@ class SonarQubeIssues(RestClient):
             if page_num >= self.MAX_SEARCH_NUM:
                 break
 
+    @POST(API_ISSUES_ASSIGN_ENDPOINT)
     def issue_assign(self, issue, assignee=None):
         """
         Assign/Unassign an issue
@@ -226,14 +226,8 @@ class SonarQubeIssues(RestClient):
           assign to current user
         :return: request response
         """
-        params = {
-            'issue': issue
-        }
-        if assignee:
-            params.update({'assignee': assignee})
 
-        return self.post(API_ISSUES_ASSIGN_ENDPOINT, params=params)
-
+    @POST(API_ISSUES_SET_SEVERITY_ENDPOINT)
     def issue_change_severity(self, issue, severity):
         """
         Change severity.
@@ -249,13 +243,8 @@ class SonarQubeIssues(RestClient):
 
         :return: request response
         """
-        params = {
-            'issue': issue,
-            'severity': severity.upper()
-        }
 
-        return self.post(API_ISSUES_SET_SEVERITY_ENDPOINT, params=params)
-
+    @POST(API_ISSUES_SET_TYPE_ENDPOINT)
     def issue_set_type(self, issue, issue_type):
         """
         Change type of issue, for instance from 'code smell' to 'bug'.
@@ -270,13 +259,8 @@ class SonarQubeIssues(RestClient):
 
         :return: request response
         """
-        params = {
-            'issue': issue,
-            'type': issue_type
-        }
 
-        return self.post(API_ISSUES_SET_TYPE_ENDPOINT, params=params)
-
+    @POST(API_ISSUES_ADD_COMMENT_ENDPOINT)
     def issue_add_comment(self, issue, text):
         """
         Add a comment.
@@ -285,13 +269,8 @@ class SonarQubeIssues(RestClient):
         :param text: Comment text
         :return: request response
         """
-        params = {
-            'issue': issue,
-            'text': text
-        }
 
-        return self.post(API_ISSUES_ADD_COMMENT_ENDPOINT, params=params)
-
+    @POST(API_ISSUES_DELETE_COMMENT_ENDPOINT)
     def issue_delete_comment(self, comment):
         """
         Delete a comment.
@@ -299,12 +278,8 @@ class SonarQubeIssues(RestClient):
         :param comment: Comment key
         :return: request response
         """
-        params = {
-            'comment': comment
-        }
 
-        return self.post(API_ISSUES_DELETE_COMMENT_ENDPOINT, params=params)
-
+    @POST(API_ISSUES_EDIT_COMMENT_ENDPOINT)
     def issue_edit_comment(self, comment, text):
         """
         Edit a comment.
@@ -313,13 +288,8 @@ class SonarQubeIssues(RestClient):
         :param text: Comment text
         :return: request response
         """
-        params = {
-            'comment': comment,
-            'text': text
-        }
 
-        return self.post(API_ISSUES_EDIT_COMMENT_ENDPOINT, params=params)
-
+    @POST(API_ISSUES_DO_TRANSITION_ENDPOINT)
     def issue_do_transition(self, issue, transition):
         """
         Do workflow transition on an issue. Requires authentication and Browse permission on project.
@@ -343,13 +313,8 @@ class SonarQubeIssues(RestClient):
 
         :return: request response
         """
-        params = {
-            'issue': issue,
-            'transition': transition
-        }
 
-        return self.post(API_ISSUES_DO_TRANSITION_ENDPOINT, params=params)
-
+    @GET(API_ISSUES_AUTHORS_ENDPOINT)
     def search_scm_accounts(self, project, q=None):
         """
         Search SCM accounts which match a given query
@@ -358,67 +323,54 @@ class SonarQubeIssues(RestClient):
         :param q: Limit search to authors that contain the supplied string.
         :return:
         """
-        params = {
-            'project': project,
-        }
-        if q:
-            params.update({'q': q})
 
-        resp = self.get(API_ISSUES_AUTHORS_ENDPOINT, params=params)
-        response = resp.json()
-        return response['authors']
-
-    def issues_bulk_change(self, issues, **kwargs):
+    @POST(API_ISSUES_BULK_CHANGE_ENDPOINT)
+    def issues_bulk_change(self, issues, add_tags=None, assign=None, comment=None, do_transition=None, remove_tags=None,
+                           sendNotifications=None, set_severity=None, set_type=None):
         """
         Bulk change on issues.
 
         :param issues: Comma-separated list of issue keys
 
         optional parameters:
-          * add_tags: Add tags.such as: security,java8
-          * assign: To assign the list of issues to a specific user (login), or un-assign all the issues
-          * comment: To add a comment to a list of issues
-          * do_transition: Transition, Possible values are for:
+        :param add_tags: Add tags.such as: security,java8
+        :param assign: To assign the list of issues to a specific user (login), or un-assign all the issues
+        :param comment: To add a comment to a list of issues
+        :param do_transition: Transition, Possible values are for:
 
-            * confirm
-            * unconfirm
-            * reopen
-            * resolve
-            * falsepositive
-            * wontfix
-            * close
-            * setinreview
-            * resolveasreviewed
-            * openasvulnerability
-            * resetastoreview
+          * confirm
+          * unconfirm
+          * reopen
+          * resolve
+          * falsepositive
+          * wontfix
+          * close
+          * setinreview
+          * resolveasreviewed
+          * openasvulnerability
+          * resetastoreview
 
-          * remove_tags: Remove tags.such as: security,java8
-          * sendNotifications: Possible values are for: true, false, yes, no. default value is false.
-          * issue_severity: To change the severity of the list of issues. Possible values are for:
+        :param remove_tags: Remove tags.such as: security,java8
+        :param sendNotifications: Possible values are for: true, false, yes, no. default value is false.
+        :param set_severity: To change the severity of the list of issues. Possible values are for:
 
-            * INFO
-            * MINOR
-            * MAJOR
-            * CRITICAL
-            * BLOCKER
+          * INFO
+          * MINOR
+          * MAJOR
+          * CRITICAL
+          * BLOCKER
 
-          * issue_type: To change the type of the list of issues. Possible values are for:
+        :param set_type: To change the type of the list of issues. Possible values are for:
 
-            * CODE_SMELL
-            * BUG
-            * VULNERABILITY
-            * SECURITY_HOTSPOT
+          * CODE_SMELL
+          * BUG
+          * VULNERABILITY
+          * SECURITY_HOTSPOT
 
         :return: request response
         """
-        params = {
-            'issues': issues
-        }
-        if kwargs:
-            self.api.copy_dict(params, kwargs, self.OPTIONS_BULK)
 
-        return self.post(API_ISSUES_BULK_CHANGE_ENDPOINT, params=params)
-
+    @GET(API_ISSUES_CHANGELOG_ENDPOINT)
     def get_issue_changelog(self, issue):
         """
         Display changelog of an issue.
@@ -426,10 +378,8 @@ class SonarQubeIssues(RestClient):
         :param issue: Issue key
         :return:
         """
-        params = {'issue': issue}
-        resp = self.get(API_ISSUES_CHANGELOG_ENDPOINT, params=params)
-        return resp.json()
 
+    @POST(API_ISSUES_SET_TAGS_ENDPOINT)
     def issue_set_tags(self, issue, tags=None):
         """
         Set tags on an issue.
@@ -439,14 +389,8 @@ class SonarQubeIssues(RestClient):
           such as: security,cwe,misra-c
         :return: request response
         """
-        params = {
-            'issue': issue
-        }
-        if tags:
-            params.update({'tags': tags})
 
-        return self.post(API_ISSUES_SET_TAGS_ENDPOINT, params=params)
-
+    @GET(API_ISSUES_TAGS_ENDPOINT)
     def get_issues_tags(self, project, q=None):
         """
         List tags
@@ -455,9 +399,3 @@ class SonarQubeIssues(RestClient):
         :param q: Limit search to tags that contain the supplied string.
         :return:
         """
-        params = {'project': project}
-        if q:
-            params.update({'q': q})
-
-        resp = self.get(API_ISSUES_TAGS_ENDPOINT, params=params)
-        return resp.json()

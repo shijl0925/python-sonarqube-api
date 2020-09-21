@@ -10,6 +10,7 @@ from sonarqube.utils.config import (
     API_USER_GROUPS_ADD_USER_ENDPOINT,
     API_USER_GROUPS_REMOVE_USER_ENDPOINT
 )
+from sonarqube.utils.common import POST
 
 
 class SonarCloudUserGroups(SonarQubeUserGroups):
@@ -57,6 +58,7 @@ class SonarCloudUserGroups(SonarQubeUserGroups):
             for group in response['groups']:
                 yield group
 
+    @POST(API_USER_GROUPS_CREATE_ENDPOINT)
     def create_group(self, group_name, organization, description=None):
         """
         Create a group.
@@ -67,15 +69,8 @@ class SonarCloudUserGroups(SonarQubeUserGroups):
         :param description: Description for the new group. A group description cannot be larger than 200 characters.
         :return: request response
         """
-        params = {
-            'name': group_name,
-            'organization': organization
-        }
-        if description:
-            params.update({'description': description})
 
-        return self.post(API_USER_GROUPS_CREATE_ENDPOINT, params=params)
-
+    @POST(API_USER_GROUPS_DELETE_ENDPOINT)
     def delete_group(self, group_name, organization):
         """
         Delete a group. The default groups cannot be deleted.
@@ -84,13 +79,8 @@ class SonarCloudUserGroups(SonarQubeUserGroups):
         :param organization: organization key.
         :return:
         """
-        params = {
-            'name': group_name,
-            'organization': organization
-        }
 
-        self.post(API_USER_GROUPS_DELETE_ENDPOINT, params=params)
-
+    @POST(API_USER_GROUPS_ADD_USER_ENDPOINT)
     def add_user_to_group(self, group_name, user_login, organization):
         """
         Add a user to a group.
@@ -100,14 +90,8 @@ class SonarCloudUserGroups(SonarQubeUserGroups):
         :param organization: organization key.
         :return:
         """
-        params = {
-            'login': user_login,
-            'name': group_name,
-            'organization': organization
-        }
 
-        self.post(API_USER_GROUPS_ADD_USER_ENDPOINT, params=params)
-
+    @POST(API_USER_GROUPS_REMOVE_USER_ENDPOINT)
     def remove_user_from_group(self, group_name, user_login, organization):
         """
         Remove a user from a group.
@@ -117,13 +101,6 @@ class SonarCloudUserGroups(SonarQubeUserGroups):
         :param organization: organization key.
         :return:
         """
-        params = {
-            'login': user_login,
-            'name': group_name,
-            'organization': organization
-        }
-
-        self.post(API_USER_GROUPS_REMOVE_USER_ENDPOINT, params=params)
 
     def search_users_belong_to_group(self, group_name, organization, q=None, selected="selected"):
         """

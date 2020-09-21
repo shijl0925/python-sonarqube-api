@@ -6,6 +6,7 @@ from sonarqube.utils.config import (
     API_PROJECT_BADGES_MEASURE_ENDPOINT,
     API_PROJECT_BADGES_QUALITY_GATE_ENDPOINT
 )
+from sonarqube.utils.common import GET
 
 
 class SonarCloudProjectBadges(SonarQubeProjectBadges):
@@ -13,6 +14,7 @@ class SonarCloudProjectBadges(SonarQubeProjectBadges):
     SonarCloud project badges Operations
     """
 
+    @GET(API_PROJECT_BADGES_MEASURE_ENDPOINT)
     def generate_badge_for_project_measures(self, project, metric, branch=None, token=None):
         """
         Generate badge for project's measure as an SVG.
@@ -36,19 +38,8 @@ class SonarCloudProjectBadges(SonarQubeProjectBadges):
         :param token: Security token
         :return:
         """
-        params = {
-            'project': project,
-            'metric': metric
-        }
-        if branch:
-            params.update({'branch': branch})
 
-        if token:
-            params.update({'token': token})
-
-        resp = self.get(API_PROJECT_BADGES_MEASURE_ENDPOINT, params=params)
-        return resp.text
-
+    @GET(API_PROJECT_BADGES_QUALITY_GATE_ENDPOINT)
     def generate_badge_for_project_quality_gate(self, project, branch=None, token=None):
         """
         Generate badge for project's quality gate as an SVG.
@@ -58,14 +49,3 @@ class SonarCloudProjectBadges(SonarQubeProjectBadges):
         :param token: Security token
         :return:
         """
-        params = {
-            'project': project,
-        }
-        if branch:
-            params.update({'branch': branch})
-
-        if token:
-            params.update({'token': token})
-
-        resp = self.get(API_PROJECT_BADGES_QUALITY_GATE_ENDPOINT, params=params)
-        return resp.text

@@ -3,6 +3,7 @@
 # @Author: Jialiang Shi
 from sonarqube.utils.rest_client import RestClient
 from sonarqube.utils.config import API_LANGUAGES_LIST_ENDPOINT
+from sonarqube.utils.common import GET
 
 
 class SonarQubeLanguages(RestClient):
@@ -16,6 +17,7 @@ class SonarQubeLanguages(RestClient):
         """
         super(SonarQubeLanguages, self).__init__(**kwargs)
 
+    @GET(API_LANGUAGES_LIST_ENDPOINT)
     def get_supported_programming_languages(self, q=None):
         """
         List supported programming languages
@@ -23,9 +25,3 @@ class SonarQubeLanguages(RestClient):
         :param q: A pattern to match language keys/names against
         :return:
         """
-        params = {}
-        if q:
-            params.update({'q': q})
-
-        resp = self.get(API_LANGUAGES_LIST_ENDPOINT, params=params)
-        return resp.json()

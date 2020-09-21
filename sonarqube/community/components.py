@@ -7,12 +7,14 @@ from sonarqube.utils.config import (
     API_COMPONTENTS_SEARCH_ENDPOINT,
     API_COMPONTENTS_TREE_ENDPOINT
 )
+from sonarqube.utils.common import GET
 
 
 class SonarQubeComponents(RestClient):
     """
     SonarQube components Operations
     """
+    special_attributes_map = {'pull_request_id': 'pullRequest'}
     OPTIONS_TREE = ['asc', 'ps', 'q', 'qualifiers', 's', 'strategy', 'branch', 'pullRequest']
 
     def __init__(self, **kwargs):
@@ -22,6 +24,7 @@ class SonarQubeComponents(RestClient):
         """
         super(SonarQubeComponents, self).__init__(**kwargs)
 
+    @GET(API_COMPONTENTS_SHOW_ENDPOINT)
     def get_project_component_and_ancestors(self, component, branch=None, pull_request_id=None):
         """
         Returns a component (file, directory, project, view…) and its ancestors. The ancestors are ordered from the
@@ -32,18 +35,6 @@ class SonarQubeComponents(RestClient):
         :param pull_request_id: Pull request id
         :return:
         """
-        params = {
-            'component': component
-        }
-
-        if branch:
-            params.update({'branch': branch})
-
-        if pull_request_id:
-            params.update({'pullRequest': pull_request_id})
-
-        resp = self.get(API_COMPONTENTS_SHOW_ENDPOINT, params=params)
-        return resp.json()
 
     def search_components(self, qualifiers, language=None, q=None):
         """

@@ -23,13 +23,22 @@ from sonarqube.utils.config import (
     API_QUALITYPROFILES_RENAME_ENDPOINT,
     API_QUALITYPROFILES_RESTORE_ENDPOINT
 )
+from sonarqube.utils.common import GET, POST
 
 
 class SonarQubeQualityProfiles(RestClient):
     """
     SonarQube quality profiles Operations
     """
-    OPTIONS_CREATE = ['backup_sonarlint-vs-cs-fake', 'backup_sonarlint-vs-vbnet-fake']
+    special_attributes_map = {
+        'profile_name': 'qualityProfile',
+        'parent_profile_name': 'parentQualityProfile',
+        'previous_profile_key': 'fromKey',
+        'new_profile_name': 'toName',
+        'profile_key': 'key',
+        'rule_key': 'rule',
+        'exporter_key': 'exporterKey'
+    }
 
     def __init__(self, **kwargs):
         """
@@ -75,34 +84,20 @@ class SonarQubeQualityProfiles(RestClient):
 
         self.post(API_QUALITYPROFILES_ACTIVATE_RULE_ENDPOINT, params=data)
 
-    def search_quality_profiles(self, defaults=False, language=None, project_key=None, profile_name=None):
+    @GET(API_QUALITYPROFILES_SEARCH_ENDPOINT)
+    def search_quality_profiles(self, defaults='false', language=None, project_key=None, profile_name=None):
         """
         Search quality profiles
 
         :param defaults: If set to true, return only the quality profiles marked as default for each language.
-          Possible values are for: True or False. default value is False.
+          Possible values are for: true or false. default value is false.
         :param language: Language key. If provided, only profiles for the given language are returned.
         :param project_key: Project key
         :param profile_name: Quality profile name
         :return:
         """
-        params = {
-            'defaults': defaults and 'true' or 'false'
-        }
 
-        if language:
-            params.update({'language': language})
-
-        if project_key:
-            params.update({'project': project_key})
-
-        if profile_name:
-            params.update({'qualityProfile': profile_name})
-
-        res = self.get(API_QUALITYPROFILES_SEARCH_ENDPOINT, params=params)
-        response = res.json()
-        return response['profiles']
-
+    @POST(API_QUALITYPROFILES_SET_DEFAULT_ENDPOINT)
     def set_default_quality_profile(self, language, profile_name):
         """
         Select the default profile for a given language.
@@ -111,13 +106,7 @@ class SonarQubeQualityProfiles(RestClient):
         :param profile_name: Quality profile name.
         :return:
         """
-        params = {
-            'language': language,
-            'qualityProfile': profile_name
-        }
-
-        self.post(API_QUALITYPROFILES_SET_DEFAULT_ENDPOINT, params=params)
-
+    @POST(API_QUALITYPROFILES_ADD_PROJECT_ENDPOINT)
     def associate_project_with_quality_profile(self, project, language, profile_name):
         """
         Associate a project with a quality profile.
@@ -127,14 +116,8 @@ class SonarQubeQualityProfiles(RestClient):
         :param profile_name: Quality profile name.
         :return:
         """
-        params = {
-            'project': project,
-            'language': language,
-            'qualityProfile': profile_name
-        }
 
-        self.post(API_QUALITYPROFILES_ADD_PROJECT_ENDPOINT, params=params)
-
+    @POST(API_QUALITYPROFILES_REMOVE_PROJECT_ENDPOINT)
     def remove_project_associate_with_quality_profile(self, project, language, profile_name):
         """
         Remove a project's association with a quality profile.
@@ -144,14 +127,8 @@ class SonarQubeQualityProfiles(RestClient):
         :param profile_name: Quality profile name.
         :return:
         """
-        params = {
-            'project': project,
-            'language': language,
-            'qualityProfile': profile_name
-        }
 
-        self.post(API_QUALITYPROFILES_REMOVE_PROJECT_ENDPOINT, params=params)
-
+    @GET(API_QUALITYPROFILES_BACKUP_ENDPOINT)
     def backup_quality_profile(self, language, profile_name):
         """
         Backup a quality profile in XML form. The exported profile can be restored through api/qualityprofiles/restore.
@@ -160,14 +137,8 @@ class SonarQubeQualityProfiles(RestClient):
         :param profile_name: Quality profile name.
         :return:
         """
-        params = {
-            'language': language,
-            'qualityProfile': profile_name
-        }
 
-        resp = self.get(API_QUALITYPROFILES_BACKUP_ENDPOINT, params=params)
-        return resp.text
-
+    @POST(API_QUALITYPROFILES_CHANGE_PARENT_ENDPOINT)
     def change_parent_of_quality_profile(self, parent_profile_name, language, profile_name):
         """
         Change a quality profile's parent.
@@ -177,13 +148,6 @@ class SonarQubeQualityProfiles(RestClient):
         :param profile_name: Quality profile name.
         :return:
         """
-        params = {
-            'parentQualityProfile': parent_profile_name,
-            'language': language,
-            'qualityProfile': profile_name
-        }
-
-        self.post(API_QUALITYPROFILES_CHANGE_PARENT_ENDPOINT, params=params)
 
     def get_history_of_changes_on_quality_profile(self, language, profile_name, since_data=None, to_data=None):
         """
@@ -224,38 +188,28 @@ class SonarQubeQualityProfiles(RestClient):
             for event in response['events']:
                 yield event
 
-    def copy_quality_profile(self, profile_key, new_profile_name):
+    @POST(API_QUALITYPROFILES_COPY_ENDPOINT)
+    def copy_quality_profile(self, previous_profile_key, new_profile_name):
         """
         Copy a quality profile.
 
-        :param profile_key: Quality profile key
+        :param previous_profile_key: Quality profile key
         :param new_profile_name: Name for the new quality profile.
         :return: request response
         """
-        params = {
-            'fromKey': profile_key,
-            'toName': new_profile_name
-        }
-        return self.post(API_QUALITYPROFILES_COPY_ENDPOINT, params=params)
 
-    def create_quality_profile(self, language, profile_name, **kwargs):
+    @POST(API_QUALITYPROFILES_CREATE_ENDPOINT)
+    def create_quality_profile(self, language, name, **kwargs):
         """
         Create a quality profile.
 
         :param language: Quality profile language
-        :param profile_name: Quality profile name
+        :param name: Quality profile name
         :param kwargs:
         :return: request response
         """
-        params = {
-            'language': language,
-            'name': profile_name
-        }
-        if kwargs:
-            self.api.copy_dict(params, kwargs, self.OPTIONS_CREATE)
 
-        return self.post(API_QUALITYPROFILES_CREATE_ENDPOINT, params=params)
-
+    @POST(API_QUALITYPROFILES_DEACTIVATE_RULE_ENDPOINT)
     def deactivate_rule_on_quality_profile(self, profile_key, rule_key):
         """
         Deactivate a rule on a quality profile.
@@ -264,13 +218,8 @@ class SonarQubeQualityProfiles(RestClient):
         :param rule_key: Rule key
         :return:
         """
-        params = {
-            'key': profile_key,
-            'rule': rule_key
-        }
 
-        self.post(API_QUALITYPROFILES_DEACTIVATE_RULE_ENDPOINT, params=params)
-
+    @POST(API_QUALITYPROFILES_DELETE_ENDPOINT)
     def delete_quality_profile(self, language, profile_name):
         """
         Delete a quality profile and all its descendants.
@@ -280,13 +229,8 @@ class SonarQubeQualityProfiles(RestClient):
         :param profile_name: Quality profile name.
         :return:
         """
-        params = {
-            'language': language,
-            'qualityProfile': profile_name
-        }
 
-        self.post(API_QUALITYPROFILES_DELETE_ENDPOINT, params=params)
-
+    @GET(API_QUALITYPROFILES_EXPORT_ENDPOINT)
     def export_quality_profile(self, exporter_key=None, language=None, profile_name=None):
         """
         Export a quality profile.
@@ -305,40 +249,24 @@ class SonarQubeQualityProfiles(RestClient):
         is exported.
         :return:
         """
-        params = {}
 
-        if exporter_key:
-            params.update({'exporterKey': exporter_key})
-
-        if language:
-            params.update({'language': language})
-
-        if profile_name:
-            params.update({'qualityProfile': profile_name})
-
-        res = self.get(API_QUALITYPROFILES_EXPORT_ENDPOINT, params=params)
-        return res.text
-
+    @GET(API_QUALITYPROFILES_EXPORTERS_ENDPOINT)
     def get_supported_exporters(self):
         """
         Lists available profile export formats.
 
         :return:
         """
-        res = self.get(API_QUALITYPROFILES_EXPORTERS_ENDPOINT)
-        response = res.json()
-        return response['exporters']
 
+    @GET(API_QUALITYPROFILES_IMPORTERS_ENDPOINT)
     def get_supported_importers(self):
         """
         List supported importers.
 
         :return:
         """
-        res = self.get(API_QUALITYPROFILES_IMPORTERS_ENDPOINT)
-        response = res.json()
-        return response['importers']
 
+    @GET(API_QUALITYPROFILES_INHERITANCE_ENDPOINT)
     def show_quality_profile(self, language, profile_name):
         """
         Show a quality profile's ancestors and children.
@@ -347,13 +275,6 @@ class SonarQubeQualityProfiles(RestClient):
         :param profile_name: Quality profile name.
         :return:
         """
-        params = {
-            'language': language,
-            'qualityProfile': profile_name
-        }
-
-        res = self.get(API_QUALITYPROFILES_INHERITANCE_ENDPOINT, params=params)
-        return res.json()
 
     def get_projects_associate_with_quality_profile(self, profile_key, q=None, selected="selected"):
         """
@@ -395,21 +316,17 @@ class SonarQubeQualityProfiles(RestClient):
             for result in response['results']:
                 yield result
 
-    def rename_quality_profile(self, profile_key, profile_name):
+    @POST(API_QUALITYPROFILES_RENAME_ENDPOINT)
+    def rename_quality_profile(self, key, name):
         """
         Rename a quality profile.
 
-        :param profile_key: Quality profile key
-        :param profile_name: New quality profile name
+        :param key: Quality profile key
+        :param name: New quality profile name
         :return:
         """
-        params = {
-            'key': profile_key,
-            'name': profile_name
-        }
 
-        self.post(API_QUALITYPROFILES_RENAME_ENDPOINT, params=params)
-
+    @POST(API_QUALITYPROFILES_RESTORE_ENDPOINT)
     def restore_quality_profile(self, backup):
         """
         Restore a quality profile using an XML file. The restored profile name is taken from the backup file,
@@ -419,6 +336,3 @@ class SonarQubeQualityProfiles(RestClient):
           or the former api/profiles/backup.
         :return:
         """
-        params = {'backup': backup}
-
-        self.post(API_QUALITYPROFILES_RESTORE_ENDPOINT, params=params)

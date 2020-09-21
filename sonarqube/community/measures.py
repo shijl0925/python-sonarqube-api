@@ -7,12 +7,19 @@ from sonarqube.utils.config import (
     API_MEASURES_COMPONENT_TREE_ENDPOINT,
     API_MEASURES_SEARCH_HISTORY_ENDPOINT
 )
+from sonarqube.utils.common import GET
 
 
 class SonarQubeMeasures(RestClient):
     """
     SonarQube measures Operations
     """
+    special_attributes_map = {
+        'pull_request_id': 'pullRequest',
+        'fields': 'additionalFields',
+        'metric_keys': 'metricKeys'
+    }
+
     default_metric_keys = 'code_smells,bugs,vulnerabilities,new_bugs,new_vulnerabilities,\
 new_code_smells,coverage,new_coverage'
 
@@ -26,6 +33,7 @@ new_code_smells,coverage,new_coverage'
         """
         super(SonarQubeMeasures, self).__init__(**kwargs)
 
+    @GET(API_MEASURES_COMPONENT_ENDPOINT)
     def get_component_with_specified_measures(self, component, branch=None, pull_request_id=None,
                                               fields=None, metric_keys=None):
         """
@@ -39,22 +47,6 @@ new_code_smells,coverage,new_coverage'
         :param metric_keys: Comma-separated list of metric keys. Possible values are for: ncloc,complexity,violations
         :return:
         """
-        params = {
-            'metricKeys': metric_keys or self.default_metric_keys,
-            'component': component
-        }
-
-        if branch:
-            params.update({'branch': branch})
-
-        if pull_request_id:
-            params.update({'pullRequest': pull_request_id})
-
-        if fields:
-            params.update({'additionalFields': fields})
-
-        resp = self.get(API_MEASURES_COMPONENT_ENDPOINT, params=params)
-        return resp.json()
 
     def get_component_tree_with_specified_measures(self, component_key, **kwargs):
         """

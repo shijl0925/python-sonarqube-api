@@ -19,12 +19,23 @@ from sonarqube.utils.config import (
     API_QUALITYGATES_SEARCH_ENDPOINT,
     API_QUALITYGATES_SET_AS_DEFAULT_ENDPOINT
 )
+from sonarqube.utils.common import GET, POST
 
 
 class SonarQubeQualityGates(RestClient):
     """
     SonarQube quality gates Operations
     """
+    special_attributes_map = {
+        'source_id': 'id',
+        'gate_name': 'name',
+        'gate_id': 'gateId',
+        'condition_id': 'id',
+        'project_key': 'projectKey',
+        'analysis_id': 'analysisId',
+        'pull_request_id': 'pullRequest'
+    }
+
     def __init__(self, **kwargs):
         """
 
@@ -32,6 +43,7 @@ class SonarQubeQualityGates(RestClient):
         """
         super(SonarQubeQualityGates, self).__init__(**kwargs)
 
+    @POST(API_QUALITYGATES_COPY_ENDPOINT)
     def copy_quality_gate(self, source_id, gate_name, organization=None):
         """
         Copy a Quality Gate.
@@ -41,13 +53,8 @@ class SonarQubeQualityGates(RestClient):
         :param organization: Organization key. If no organization is provided, the default organization is used.
         :return:
         """
-        params = {'id': source_id, 'name': gate_name}
 
-        if organization:
-            params.update({"organization": organization})
-
-        self.post(API_QUALITYGATES_COPY_ENDPOINT, params=params)
-
+    @POST(API_QUALITYGATES_CREATE_ENDPOINT)
     def create_quality_gate(self, gate_name, organization=None):
         """
         Create a Quality Gate.
@@ -56,41 +63,29 @@ class SonarQubeQualityGates(RestClient):
         :param organization: Organization key. If no organization is provided, the default organization is used.
         :return: request response
         """
-        params = {'name': gate_name}
-        if organization:
-            params.update({"organization": organization})
 
-        return self.post(API_QUALITYGATES_CREATE_ENDPOINT, params=params)
-
-    def delete_quality_gate(self, gate_id, organization=None):
+    @POST(API_QUALITYGATES_DESTROY_ENDPOINT)
+    def delete_quality_gate(self, id, organization=None):
         """
         Delete a Quality Gate.
 
-        :param gate_id: ID of the quality gate to delete
+        :param id: ID of the quality gate to delete
         :param organization: Organization key. If no organization is provided, the default organization is used.
         :return:
         """
-        params = {'id': gate_id}
-        if organization:
-            params.update({"organization": organization})
 
-        self.post(API_QUALITYGATES_DESTROY_ENDPOINT, params=params)
-
-    def rename_quality_gate(self, gate_id, gate_name, organization=None):
+    @POST(API_QUALITYGATES_RENAME_ENDPOINT)
+    def rename_quality_gate(self, id, name, organization=None):
         """
         Rename a Quality Gate.
 
-        :param gate_id: ID of the quality gate to rename
-        :param gate_name: New name of the quality gate
+        :param id: ID of the quality gate to rename
+        :param name: New name of the quality gate
         :param organization: Organization key. If no organization is provided, the default organization is used.
         :return:
         """
-        params = {'id': gate_id, 'name': gate_name}
-        if organization:
-            params.update({"organization": organization})
 
-        self.post(API_QUALITYGATES_RENAME_ENDPOINT, params=params)
-
+    @POST(API_QUALITYGATES_CREATE_CONDITION_ENDPOINT)
     def create_condition_to_quality_gate(self, gate_id, metric, error, op=None, organization=None):
         """
         Add a new condition to a quality gate.
@@ -113,20 +108,8 @@ class SonarQubeQualityGates(RestClient):
         :param organization: Organization key. If no organization is provided, the default organization is used.
         :return: request response
         """
-        params = {
-            'gateId': gate_id,
-            'metric': metric.upper(),
-            'error': error
-        }
 
-        if op:
-            params.update({'op': op.upper()})
-
-        if organization:
-            params.update({"organization": organization})
-
-        return self.post(API_QUALITYGATES_CREATE_CONDITION_ENDPOINT, params=params)
-
+    @POST(API_QUALITYGATES_DELETE_CONDITION_ENDPOINT)
     def delete_condition_from_quality_gate(self, condition_id, organization=None):
         """
         Delete a condition from a quality gate.
@@ -135,12 +118,8 @@ class SonarQubeQualityGates(RestClient):
         :param organization: Organization key. If no organization is provided, the default organization is used.
         :return:
         """
-        params = {'id': condition_id}
-        if organization:
-            params.update({"organization": organization})
 
-        self.post(API_QUALITYGATES_DELETE_CONDITION_ENDPOINT, params=params)
-
+    @POST(API_QUALITYGATES_UPDATE_CONDITION_ENDPOINT)
     def update_condition_to_quality_gate(self, condition_id, metric, error, op=None, organization=None):
         """
         Update a condition attached to a quality gate.
@@ -163,19 +142,6 @@ class SonarQubeQualityGates(RestClient):
         :param organization: Organization key. If no organization is provided, the default organization is used.
         :return:
         """
-        params = {
-            'id': condition_id,
-            'metric': metric.upper(),
-            'error': error
-        }
-
-        if op:
-            params.update({'op': op.upper()})
-
-        if organization:
-            params.update({"organization": organization})
-
-        self.post(API_QUALITYGATES_UPDATE_CONDITION_ENDPOINT, params=params)
 
     def get_qualitygate_projects(self, gate_id, selected="selected", query=None, organization=None):
         """
@@ -221,7 +187,8 @@ class SonarQubeQualityGates(RestClient):
             for result in response['results']:
                 yield result
 
-    def set_default_qualitygate(self, gate_id, organization=None):
+    @POST(API_QUALITYGATES_SET_AS_DEFAULT_ENDPOINT)
+    def set_default_qualitygate(self, id, organization=None):
         """
         Set a quality gate as the default quality gate.
 
@@ -229,12 +196,8 @@ class SonarQubeQualityGates(RestClient):
         :param organization: Organization key. If no organization is provided, the default organization is used.
         :return:
         """
-        params = {'id': gate_id}
-        if organization:
-            params.update({"organization": organization})
 
-        self.post(API_QUALITYGATES_SET_AS_DEFAULT_ENDPOINT, params=params)
-
+    @POST(API_QUALITYGATES_PROJECT_STATUS_ENDPOINT)
     def get_project_qualitygates_status(self, project_key=None, analysis_id=None, branch=None, pull_request_id=None):
         """
         Get the quality gate status of a project or a Compute Engine task. return 'ok','WARN','ERROR'
@@ -247,23 +210,8 @@ class SonarQubeQualityGates(RestClient):
         :param pull_request_id:
         :return:
         """
-        params = {}
-        if project_key:
-            params.update({'projectKey': project_key})
 
-            if branch:
-                params.update({'branch': branch})
-
-            if pull_request_id:
-                params.update({'pullRequest': pull_request_id})
-
-        elif analysis_id:
-            params.update({'analysisId': analysis_id})
-
-        resp = self.get(API_QUALITYGATES_PROJECT_STATUS_ENDPOINT, params=params)
-        response = resp.json()
-        return response['projectStatus']
-
+    @GET(API_QUALITYGATES_LIST_ENDPOINT)
     def get_quality_gates(self, organization=None):
         """
         Get a list of quality gates
@@ -271,14 +219,8 @@ class SonarQubeQualityGates(RestClient):
         :param organization: Organization key. If no organization is provided, the default organization is used.
         :return:
         """
-        params = {}
-        if organization:
-            params.update({"organization": organization})
 
-        resp = self.get(API_QUALITYGATES_LIST_ENDPOINT, params=params)
-        response = resp.json()
-        return response['qualitygates']
-
+    @POST(API_QUALITYGATES_SELECT_ENDPOINT)
     def select_quality_gate_for_project(self, project_key, gate_id, organization=None):
         """
         Associate a project to a quality gate.
@@ -288,12 +230,8 @@ class SonarQubeQualityGates(RestClient):
         :param organization: Organization key. If no organization is provided, the default organization is used.
         :return:
         """
-        params = {'gateId': gate_id, 'projectKey': project_key}
-        if organization:
-            params.update({"organization": organization})
 
-        self.post(API_QUALITYGATES_SELECT_ENDPOINT, params=params)
-
+    @POST(API_QUALITYGATES_DESELECT_ENDPOINT)
     def remove_project_from_quality_gate(self, project_key, organization=None):
         """
         Remove the association of a project from a quality gate.
@@ -302,12 +240,8 @@ class SonarQubeQualityGates(RestClient):
         :param organization: Organization key. If no organization is provided, the default organization is used.
         :return:
         """
-        params = {'projectKey': project_key}
-        if organization:
-            params.update({"organization": organization})
 
-        self.post(API_QUALITYGATES_DESELECT_ENDPOINT, params=params)
-
+    @GET(API_QUALITYGATES_SHOW_ENDPOINT)
     def show_quality_gate(self, gate_name, organization=None):
         """
         Display the details of a quality gate.
@@ -316,27 +250,13 @@ class SonarQubeQualityGates(RestClient):
         :param organization: Organization key. If no organization is provided, the default organization is used.
         :return:
         """
-        params = {'name': gate_name}
 
-        if organization:
-            params.update({"organization": organization})
-
-        resp = self.get(API_QUALITYGATES_SHOW_ENDPOINT, params=params)
-        response = resp.json()
-        return response
-
-    def get_quality_gate_of_project(self, project_key, organization=None):
+    @GET(API_QUALITYGATES_GET_BY_PROJECT_ENDPOINT)
+    def get_quality_gate_of_project(self, project, organization=None):
         """
         Get the quality gate of a project.
 
-        :param project_key: Project key
+        :param project: Project key
         :param organization: Organization key. If no organization is provided, the default organization is used.
         :return:
         """
-        params = {'project': project_key}
-        if organization:
-            params.update({"organization": organization})
-
-        resp = self.get(API_QUALITYGATES_GET_BY_PROJECT_ENDPOINT, params=params)
-        response = resp.json()
-        return response['qualityGate']

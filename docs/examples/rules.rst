@@ -26,11 +26,11 @@ Update an existing rule.::
 
 Delete custom rule.::
 
-    sonar.rules.delete_rule(rule_key="squid:Todo_should_not_be_used")
+    sonar.rules.delete_rule(key="squid:Todo_should_not_be_used")
 
 Get detailed information about a rule.::
 
-    rule = sonar.rules.get_rule(rule_key="squid:S2204")
+    rule = sonar.rules.get_rule(key="squid:S2204")
 
 List available rule repositories::
 

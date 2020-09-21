@@ -68,11 +68,11 @@ Remove a project creator from a permission template.::
 
 Add a user to a permission template.::
 
-    sonar.permissions.add_user_to_template(user_login="kevin", template_name="test-template", permission="codeviewer")
+    sonar.permissions.add_user_to_template(login="kevin", template_name="test-template", permission="codeviewer")
 
 Remove a user from a permission template.::
 
-    sonar.permissions.remove_user_from_template(user_login="kevin",
+    sonar.permissions.remove_user_from_template(login="kevin",
                                                 template_name="test-template",
                                                 permission="codeviewer"
                                                 )

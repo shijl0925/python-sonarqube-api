@@ -7,12 +7,18 @@ from sonarqube.utils.config import (
     API_ISSUES_AUTHORS_ENDPOINT,
     API_ISSUES_TAGS_ENDPOINT
 )
+from sonarqube.utils.common import GET, POST
 
 
 class SonarCloudIssues(SonarQubeIssues):
     """
     SonarCloud issues Operations
     """
+    special_attributes_map = {
+        'issue_type': 'type',
+        'feedback': 'isFeedback'
+    }
+
     OPTIONS_SEARCH = ['additionalFields', 'asc', 'assigned', 'assignees', 'author', 'componentKeys', 'branch',
                       'pullRequest', 'createdAfter', 'createdAt', 'createdBefore', 'createdInLast', 'cwe', 'facets',
                       'issues', 'languages', 'onComponentOnly', 'owaspTop10', 'ps', 'resolutions', 'resolved', 'rules',
@@ -170,7 +176,8 @@ class SonarCloudIssues(SonarQubeIssues):
         """
         return super().search_issues(**kwargs)
 
-    def issue_add_comment(self, issue, text, feedback=False):
+    @POST(API_ISSUES_ADD_COMMENT_ENDPOINT)
+    def issue_add_comment(self, issue, text, feedback='false'):
         """
         Add a comment.
 
@@ -179,16 +186,8 @@ class SonarCloudIssues(SonarQubeIssues):
         :param feedback: Define is the given comment is a feedback
         :return: request response
         """
-        params = {
-            'issue': issue,
-            'text': text
-        }
 
-        if feedback:
-            params.update({"isFeedback": feedback and 'true' or 'false'})
-
-        return self.post(API_ISSUES_ADD_COMMENT_ENDPOINT, params=params)
-
+    @GET(API_ISSUES_AUTHORS_ENDPOINT)
     def search_scm_accounts(self, organization, project, q=None):
         """
         Search SCM accounts which match a given query
@@ -198,17 +197,8 @@ class SonarCloudIssues(SonarQubeIssues):
         :param q: Limit search to authors that contain the supplied string.
         :return:
         """
-        params = {
-            'organization': organization,
-            'project': project,
-        }
-        if q:
-            params.update({'q': q})
 
-        resp = self.get(API_ISSUES_AUTHORS_ENDPOINT, params=params)
-        response = resp.json()
-        return response['authors']
-
+    @GET(API_ISSUES_TAGS_ENDPOINT)
     def get_issues_tags(self, organization, project, q=None):
         """
         List tags
@@ -218,9 +208,3 @@ class SonarCloudIssues(SonarQubeIssues):
         :param q: Limit search to tags that contain the supplied string.
         :return:
         """
-        params = {'organization': organization, 'project': project}
-        if q:
-            params.update({'q': q})
-
-        resp = self.get(API_ISSUES_TAGS_ENDPOINT, params=params)
-        return resp.json()

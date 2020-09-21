@@ -22,7 +22,7 @@ Create a Quality Gate.::
 
 Rename a Quality Gate.::
 
-    sonar.qualitygates.rename_quality_gate(gate_id=6, gate_name="Sonar Way (for Test)")
+    sonar.qualitygates.rename_quality_gate(id=6, name="Sonar Way (for Test)")
 
 Add a new condition to a quality gate.::
 
@@ -70,5 +70,5 @@ or::
 
 Get the quality gate of a project.::
 
-    quality_gate = sonar.qualitygates.get_quality_gate_of_project(project_key="my_project")
+    quality_gate = sonar.qualitygates.get_quality_gate_of_project(project="my_project")
 

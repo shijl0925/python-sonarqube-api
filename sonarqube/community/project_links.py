@@ -7,12 +7,18 @@ from sonarqube.utils.config import (
     API_PROJECT_LINKS_DELETE_ENDPOINT,
     API_PROJECT_LINKS_SEARCH_ENDPOINT
 )
+from sonarqube.utils.common import GET, POST
 
 
 class SonarQubeProjectLinks(RestClient):
     """
     SonarQube project links Operations
     """
+    special_attributes_map = {
+        'project_key': 'projectKey',
+        'link_id': 'id'
+    }
+
     def __init__(self, **kwargs):
         """
 
@@ -20,6 +26,7 @@ class SonarQubeProjectLinks(RestClient):
         """
         super(SonarQubeProjectLinks, self).__init__(**kwargs)
 
+    @POST(API_PROJECT_LINKS_CREATE_ENDPOINT)
     def create_project_link(self, project_key, name, url):
         """
         Create a new project link.
@@ -29,14 +36,8 @@ class SonarQubeProjectLinks(RestClient):
         :param url: Link url
         :return: request response
         """
-        params = {
-            'projectKey': project_key,
-            'name': name,
-            'url': url
-        }
 
-        return self.post(API_PROJECT_LINKS_CREATE_ENDPOINT, params=params)
-
+    @POST(API_PROJECT_LINKS_DELETE_ENDPOINT)
     def delete_project_link(self, link_id):
         """
         Delete existing project link.
@@ -44,12 +45,8 @@ class SonarQubeProjectLinks(RestClient):
         :param link_id: Link id
         :return:
         """
-        params = {
-            'id': link_id
-        }
 
-        self.post(API_PROJECT_LINKS_DELETE_ENDPOINT, params=params)
-
+    @GET(API_PROJECT_LINKS_SEARCH_ENDPOINT)
     def search_project_links(self, project_key):
         """
         List links of a project.
@@ -57,10 +54,3 @@ class SonarQubeProjectLinks(RestClient):
         :param project_key: Project Key
         :return:
         """
-        params = {
-            'projectKey': project_key
-        }
-
-        resp = self.get(API_PROJECT_LINKS_SEARCH_ENDPOINT, params=params)
-        response = resp.json()
-        return response["links"]

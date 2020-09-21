@@ -19,6 +19,7 @@ from sonarqube.utils.config import (
     API_QUALITYGATES_SEARCH_ENDPOINT,
     API_QUALITYGATES_SET_AS_DEFAULT_ENDPOINT
 )
+from sonarqube.utils.common import GET, POST
 
 
 class SonarCloudQualityGates(SonarQubeQualityGates):
@@ -26,6 +27,7 @@ class SonarCloudQualityGates(SonarQubeQualityGates):
     SonarCloud quality gates Operations
     """
 
+    @POST(API_QUALITYGATES_COPY_ENDPOINT)
     def copy_quality_gate(self, source_id, gate_name, organization):
         """
         Copy a Quality Gate.
@@ -35,14 +37,8 @@ class SonarCloudQualityGates(SonarQubeQualityGates):
         :param organization: Organization key.
         :return:
         """
-        params = {
-            'id': source_id,
-            'name': gate_name,
-            'organization': organization
-        }
 
-        self.post(API_QUALITYGATES_COPY_ENDPOINT, params=params)
-
+    @POST(API_QUALITYGATES_CREATE_ENDPOINT)
     def create_quality_gate(self, gate_name, organization):
         """
         Create a Quality Gate.
@@ -51,44 +47,29 @@ class SonarCloudQualityGates(SonarQubeQualityGates):
         :param organization: Organization key.
         :return: request response
         """
-        params = {
-            'name': gate_name,
-            'organization': organization
-        }
 
-        return self.post(API_QUALITYGATES_CREATE_ENDPOINT, params=params)
-
-    def delete_quality_gate(self, gate_id, organization):
+    @POST(API_QUALITYGATES_DESTROY_ENDPOINT)
+    def delete_quality_gate(self, id, organization):
         """
         Delete a Quality Gate.
 
-        :param gate_id: ID of the quality gate to delete
+        :param id: ID of the quality gate to delete
         :param organization: Organization key.
         :return:
         """
-        params = {'id': gate_id}
-        if organization:
-            params.update({"organization": organization})
 
-        self.post(API_QUALITYGATES_DESTROY_ENDPOINT, params=params)
-
-    def rename_quality_gate(self, gate_id, gate_name, organization):
+    @POST(API_QUALITYGATES_RENAME_ENDPOINT)
+    def rename_quality_gate(self, id, name, organization):
         """
         Rename a Quality Gate.
 
-        :param gate_id: ID of the quality gate to rename
-        :param gate_name: New name of the quality gate
+        :param id: ID of the quality gate to rename
+        :param name: New name of the quality gate
         :param organization: Organization key.
         :return:
         """
-        params = {
-            'id': gate_id,
-            'name': gate_name,
-            'organization': organization
-        }
 
-        self.post(API_QUALITYGATES_RENAME_ENDPOINT, params=params)
-
+    @POST(API_QUALITYGATES_CREATE_CONDITION_ENDPOINT)
     def create_condition_to_quality_gate(self, gate_id, organization, metric, error, op=None):
         """
         Add a new condition to a quality gate.
@@ -112,18 +93,8 @@ class SonarCloudQualityGates(SonarQubeQualityGates):
 
         :return: request response
         """
-        params = {
-            'gateId': gate_id,
-            'metric': metric.upper(),
-            'organization': organization,
-            'error': error
-        }
 
-        if op:
-            params.update({'op': op.upper()})
-
-        return self.post(API_QUALITYGATES_CREATE_CONDITION_ENDPOINT, params=params)
-
+    @POST(API_QUALITYGATES_DELETE_CONDITION_ENDPOINT)
     def delete_condition_from_quality_gate(self, condition_id, organization):
         """
         Delete a condition from a quality gate.
@@ -132,13 +103,8 @@ class SonarCloudQualityGates(SonarQubeQualityGates):
         :param organization: Organization key.
         :return:
         """
-        params = {
-            'id': condition_id,
-            'organization': organization
-        }
 
-        self.post(API_QUALITYGATES_DELETE_CONDITION_ENDPOINT, params=params)
-
+    @POST(API_QUALITYGATES_UPDATE_CONDITION_ENDPOINT)
     def update_condition_to_quality_gate(self, condition_id, organization, metric, error, op=None):
         """
         Update a condition attached to a quality gate.
@@ -162,17 +128,6 @@ class SonarCloudQualityGates(SonarQubeQualityGates):
 
         :return:
         """
-        params = {
-            'id': condition_id,
-            'organization': organization,
-            'metric': metric.upper(),
-            'error': error
-        }
-
-        if op:
-            params.update({'op': op.upper()})
-
-        self.post(API_QUALITYGATES_UPDATE_CONDITION_ENDPOINT, params=params)
 
     def get_qualitygate_projects(self, gate_id, organization, selected="selected", query=None):
         """
@@ -217,21 +172,17 @@ class SonarCloudQualityGates(SonarQubeQualityGates):
             for result in response['results']:
                 yield result
 
-    def set_default_qualitygate(self, gate_id, organization):
+    @POST(API_QUALITYGATES_SET_AS_DEFAULT_ENDPOINT)
+    def set_default_qualitygate(self, id, organization):
         """
         Set a quality gate as the default quality gate.
 
-        :param gate_id: ID of the quality gate to set as default
+        :param id: ID of the quality gate to set as default
         :param organization: Organization key.
         :return:
         """
-        params = {
-            'id': gate_id,
-            'organization': organization
-        }
 
-        self.post(API_QUALITYGATES_SET_AS_DEFAULT_ENDPOINT, params=params)
-
+    @GET(API_QUALITYGATES_LIST_ENDPOINT)
     def get_quality_gates(self, organization):
         """
         Get a list of quality gates
@@ -239,12 +190,8 @@ class SonarCloudQualityGates(SonarQubeQualityGates):
         :param organization: Organization key. If no organization is provided, the default organization is used.
         :return:
         """
-        params = {"organization": organization}
 
-        resp = self.get(API_QUALITYGATES_LIST_ENDPOINT, params=params)
-        response = resp.json()
-        return response['qualitygates']
-
+    @POST(API_QUALITYGATES_SELECT_ENDPOINT)
     def select_quality_gate_for_project(self, project_key, gate_id, organization):
         """
         Associate a project to a quality gate.
@@ -254,14 +201,8 @@ class SonarCloudQualityGates(SonarQubeQualityGates):
         :param organization: Organization key.
         :return:
         """
-        params = {
-            'gateId': gate_id,
-            'projectKey': project_key,
-            'organization': organization
-        }
 
-        self.post(API_QUALITYGATES_SELECT_ENDPOINT, params=params)
-
+    @POST(API_QUALITYGATES_DESELECT_ENDPOINT)
     def remove_project_from_quality_gate(self, project_key, organization):
         """
         Remove the association of a project from a quality gate.
@@ -270,13 +211,8 @@ class SonarCloudQualityGates(SonarQubeQualityGates):
         :param organization: Organization key.
         :return:
         """
-        params = {
-            'projectKey': project_key,
-            'organization': organization
-        }
 
-        self.post(API_QUALITYGATES_DESELECT_ENDPOINT, params=params)
-
+    @GET(API_QUALITYGATES_SHOW_ENDPOINT)
     def show_quality_gate(self, gate_name, organization):
         """
         Display the details of a quality gate.
@@ -285,28 +221,13 @@ class SonarCloudQualityGates(SonarQubeQualityGates):
         :param organization: Organization key.
         :return:
         """
-        params = {
-            'name': gate_name,
-            'organization': organization
-        }
 
-        resp = self.get(API_QUALITYGATES_SHOW_ENDPOINT, params=params)
-        response = resp.json()
-        return response
-
-    def get_quality_gate_of_project(self, project_key, organization):
+    @GET(API_QUALITYGATES_GET_BY_PROJECT_ENDPOINT)
+    def get_quality_gate_of_project(self, project, organization):
         """
         Get the quality gate of a project.
 
-        :param project_key: Project key
+        :param project: Project key
         :param organization: Organization key.
         :return:
         """
-        params = {
-            'project': project_key,
-            'organization': organization
-        }
-
-        resp = self.get(API_QUALITYGATES_GET_BY_PROJECT_ENDPOINT, params=params)
-        response = resp.json()
-        return response['qualityGate']

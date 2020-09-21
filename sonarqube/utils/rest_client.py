@@ -6,6 +6,7 @@ from sonarqube.utils.exceptions import ClientError, AuthError, ValidationError, 
 
 class RestClient:
     default_headers = {'Content-Type': 'application/json', 'Accept': 'application/json'}
+    special_attributes_map = {}
 
     def __init__(self, api):
         self.api = api
