@@ -11,13 +11,18 @@ from sonarqube.utils.config import (
     API_PROJECT_ANALYSES_UNSET_BASELINE_ENDPOINT,
     API_PROJECT_ANALYSES_UPDATE_EVENT_ENDPOINT
 )
-from sonarqube.utils.common import POST
+from sonarqube.utils.common import POST, PAGE_GET
 
 
 class SonarQubeProjectAnalyses(RestClient):
     """
     SonarQube project analyses Operations
     """
+    special_attributes_map = {
+        'from_date': 'from',
+        'to_date': 'to'
+    }
+
     def __init__(self, **kwargs):
         """
 
@@ -58,6 +63,7 @@ class SonarQubeProjectAnalyses(RestClient):
         :return:
         """
 
+    @PAGE_GET(API_PROJECT_ANALYSES_SEARCH_ENDPOINT, item='analyses')
     def search_project_analyses_and_events(self, project, branch=None, category=None, from_date=None, to_date=None):
         """
         Search a project analyses and attached events.
@@ -77,38 +83,6 @@ class SonarQubeProjectAnalyses(RestClient):
           Either a date (server timezone) or datetime can be provided
         :return:
         """
-        params = {
-            'project': project,
-        }
-
-        if branch:
-            params.update({'branch': branch})
-
-        if category:
-            params.update({'category': category})
-
-        if from_date:
-            params.update({'from': from_date})
-
-        if to_date:
-            params.update({'to': to_date})
-
-        page_num = 1
-        page_size = 1
-        total = 2
-
-        while page_num * page_size < total:
-            resp = self.get(API_PROJECT_ANALYSES_SEARCH_ENDPOINT, params=params)
-            response = resp.json()
-
-            page_num = response['paging']['pageIndex']
-            page_size = response['paging']['pageSize']
-            total = response['paging']['total']
-
-            params['p'] = page_num + 1
-
-            for analysis in response['analyses']:
-                yield analysis
 
     @POST(API_PROJECT_ANALYSES_SET_BASELINE_ENDPOINT)
     def set_analysis_as_baseline_on_project(self, project, analysis, branch=None):

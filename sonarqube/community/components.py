@@ -7,7 +7,7 @@ from sonarqube.utils.config import (
     API_COMPONTENTS_SEARCH_ENDPOINT,
     API_COMPONTENTS_TREE_ENDPOINT
 )
-from sonarqube.utils.common import GET
+from sonarqube.utils.common import GET, PAGE_GET
 
 
 class SonarQubeComponents(RestClient):
@@ -15,7 +15,6 @@ class SonarQubeComponents(RestClient):
     SonarQube components Operations
     """
     special_attributes_map = {'pull_request_id': 'pullRequest'}
-    OPTIONS_TREE = ['asc', 'ps', 'q', 'qualifiers', 's', 'strategy', 'branch', 'pullRequest']
 
     def __init__(self, **kwargs):
         """
@@ -36,6 +35,7 @@ class SonarQubeComponents(RestClient):
         :return:
         """
 
+    @PAGE_GET(API_COMPONTENTS_SEARCH_ENDPOINT, item='components')
     def search_components(self, qualifiers, language=None, q=None):
         """
         Search for components
@@ -57,47 +57,25 @@ class SonarQubeComponents(RestClient):
 
         :return:
         """
-        params = {'qualifiers': qualifiers}
-        if language:
-            params.update({'language': language})
 
-        if q:
-            params.update({'q': q})
-
-        page_num = 1
-        page_size = 1
-        total = 2
-
-        while page_num * page_size < total:
-            resp = self.get(API_COMPONTENTS_SEARCH_ENDPOINT, params=params)
-            response = resp.json()
-
-            page_num = response['paging']['pageIndex']
-            page_size = response['paging']['pageSize']
-            total = response['paging']['total']
-
-            params['p'] = page_num + 1
-
-            for component in response['components']:
-                yield component
-
-    def get_components_tree(self, component, **kwargs):
+    @PAGE_GET(API_COMPONTENTS_TREE_ENDPOINT, item='components')
+    def get_components_tree(self, component, branch=None, pullRequest=None, asc='true', ps=None, q=None,
+                            qualifiers=None, s='name', strategy='all'):
         """
         Navigate through components based on the chosen strategy.
         When limiting search with the q parameter, directories are not returned.
 
         :param component: Base component key. The search is based on this component.
-
-        optional parameters:
-          * asc: Ascending sort. default value is true.
-          * branch: Branch key.
-          * pullRequest: Pull request id.
-          * q: Limit search to:
+        :param asc: Ascending sort. default value is true.
+        :param ps: Page size. Must be greater than 0 and less or equal than 500
+        :param branch: Branch key.
+        :param pullRequest: Pull request id.
+        :param q: Limit search to:
 
             * component names that contain the supplied string
             * component keys that are exactly the same as the supplied string
 
-          * qualifiers:Comma-separated list of component qualifiers. Filter the results with
+        :param qualifiers:Comma-separated list of component qualifiers. Filter the results with
             the specified qualifiers. Possible values are:
 
               * BRC - Sub-projects
@@ -106,9 +84,9 @@ class SonarQubeComponents(RestClient):
               * TRK - Projects
               * UTS - Test Files
 
-          * s: Comma-separated list of sort fields,Possible values are for: name, path, qualifier,
+        :param s: Comma-separated list of sort fields,Possible values are for: name, path, qualifier,
             and default value is name
-          * strategy: Strategy to search for base component descendants:
+        :param strategy: Strategy to search for base component descendants:
 
             * children: return the children components of the base component. Grandchildren components are not returned
             * all: return all the descendants components of the base component. Grandchildren are returned.
@@ -119,26 +97,3 @@ class SonarQubeComponents(RestClient):
 
         :return:
         """
-        params = {
-            'component': component,
-        }
-
-        if kwargs:
-            self.api.copy_dict(params, kwargs, self.OPTIONS_TREE)
-
-        page_num = 1
-        page_size = 1
-        total = 2
-
-        while page_num * page_size < total:
-            resp = self.get(API_COMPONTENTS_TREE_ENDPOINT, params=params)
-            response = resp.json()
-
-            page_num = response['paging']['pageIndex']
-            page_size = response['paging']['pageSize']
-            total = response['paging']['total']
-
-            params['p'] = page_num + 1
-
-            for item in response['components']:
-                yield item

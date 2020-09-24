@@ -16,6 +16,9 @@ from sonarqube.utils.common import GET, POST
 
 
 class SonarQubePlugins(RestClient):
+    """
+    SonarQube Plugins Operations
+    """
     special_attributes_map = {
         'plugin_key': 'key',
         'fields': 'f'

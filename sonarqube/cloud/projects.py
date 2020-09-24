@@ -7,7 +7,7 @@ from sonarqube.utils.config import (
     API_PROJECTS_SEARCH_ENDPOINT,
     API_PROJECTS_CREATE_ENDPOINT
 )
-from sonarqube.utils.common import GET, POST
+from sonarqube.utils.common import PAGE_GET, POST
 
 
 class SonarCloudProjects(SonarQubeProjects):
@@ -17,7 +17,8 @@ class SonarCloudProjects(SonarQubeProjects):
     def __getitem__(self, key):
         raise AttributeError("%s does not support this method" % self.__class__.__name__)
 
-    def search_projects(self, organization, analyzedBefore=None, onProvisionedOnly=False, projects=None, q=None):
+    @PAGE_GET(API_PROJECTS_SEARCH_ENDPOINT, item='components')
+    def search_projects(self, organization, analyzedBefore=None, onProvisionedOnly='false', projects=None, q=None):
         """
         Search for projects or views to administrate them.
 
@@ -25,7 +26,7 @@ class SonarCloudProjects(SonarQubeProjects):
         :param analyzedBefore: Filter the projects for which last analysis is older than the given date (exclusive).
           Either a date (server timezone) or datetime can be provided.
         :param onProvisionedOnly: Filter the projects that are provisioned.
-          Possible values are for: True or False. default value is False.
+          Possible values are for: true or false. default value is false.
         :param projects: Comma-separated list of project keys
         :param q:
           Limit search to:
@@ -34,35 +35,6 @@ class SonarCloudProjects(SonarQubeProjects):
 
         :return:
         """
-        params = {
-            'onProvisionedOnly': onProvisionedOnly and 'true' or 'false',
-            'organization': organization
-        }
-        page_num = 1
-        page_size = 1
-        total = 2
-
-        if analyzedBefore:
-            params.update({'analyzedBefore': analyzedBefore})
-
-        if projects:
-            params.update({'projects': projects})
-
-        if q:
-            params.update({'q': q})
-
-        while page_num * page_size < total:
-            resp = self.get(API_PROJECTS_SEARCH_ENDPOINT, params=params)
-            response = resp.json()
-
-            page_num = response['paging']['pageIndex']
-            page_size = response['paging']['pageSize']
-            total = response['paging']['total']
-
-            params['p'] = page_num + 1
-
-            for component in response['components']:
-                yield component
 
     @POST(API_PROJECTS_CREATE_ENDPOINT)
     def create_project(self, project, name, organization, visibility=None):
@@ -90,7 +62,7 @@ class SonarCloudProjects(SonarQubeProjects):
         :param analyzedBefore: Filter the projects for which last analysis is older than the given date (exclusive).
           Either a date (server timezone) or datetime can be provided.
         :param onProvisionedOnly: Filter the projects that are provisioned.
-          Possible values are for: True or False. default value is False.
+          Possible values are for: true or false. default value is false.
         :param projects: Comma-separated list of project keys
         :param q:
           Limit to:

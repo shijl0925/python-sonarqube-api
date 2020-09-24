@@ -11,20 +11,20 @@ from sonarqube.utils.config import (
     API_USERS_DEACTIVATE_ENDPOINT,
     API_USERS_UPDATE_LOGIN_ENDPOINT
 )
-from sonarqube.utils.common import GET, POST
+from sonarqube.utils.common import PAGE_GET, POST
 
 
 class SonarQubeUsers(RestClient):
+    """
+    SonarQube users Operations
+    """
+
     special_attributes_map = {
         'scm': 'scmAccount',
         'previous_password': 'previousPassword',
         'new_password': 'password',
         'new_login': 'newLogin'
     }
-
-    """
-    SonarQube users Operations
-    """
     MAX_SEARCH_NUM = 200
 
     def __init__(self, **kwargs):
@@ -40,6 +40,7 @@ class SonarQubeUsers(RestClient):
             if user['login'] == login:
                 return user
 
+    @PAGE_GET(API_USERS_SEARCH_ENDPOINT, item='users')
     def search_users(self, q=None):
         """
         Get a list of active users.
@@ -47,29 +48,6 @@ class SonarQubeUsers(RestClient):
         :param q: Filter on login, name and email
         :return:
         """
-        params = {}
-        page_num = 1
-        page_size = 1
-        total = 2
-
-        if q:
-            params.update({'q': q})
-
-        while page_num * page_size < total:
-            resp = self.get(API_USERS_SEARCH_ENDPOINT, params=params)
-            response = resp.json()
-
-            page_num = response['paging']['pageIndex']
-            page_size = response['paging']['pageSize']
-            total = response['paging']['total']
-
-            params['p'] = page_num + 1
-
-            for user in response['users']:
-                yield user
-
-            if page_num >= self.MAX_SEARCH_NUM:
-                break
 
     def create_user(self, login, name, email=None, password=None, local='true', scm=None):
         """
@@ -135,6 +113,7 @@ class SonarQubeUsers(RestClient):
         :return: request response
         """
 
+    @PAGE_GET(API_USERS_GROUPS_ENDPOINT, item='groups')
     def search_groups_user_belongs_to(self, login, q=None, selected="selected"):
         """
         Lists the groups a user belongs to.
@@ -149,33 +128,6 @@ class SonarQubeUsers(RestClient):
           default value is selected.
         :return:
         """
-        params = {
-            'login': login,
-            'selected': selected
-        }
-
-        if q:
-            params.update({'q': q})
-
-        page_num = 1
-        page_size = 1
-        total = 2
-
-        if q:
-            params.update({'q': q})
-
-        while page_num * page_size < total:
-            resp = self.get(API_USERS_GROUPS_ENDPOINT, params=params)
-            response = resp.json()
-
-            page_num = response['paging']['pageIndex']
-            page_size = response['paging']['pageSize']
-            total = response['paging']['total']
-
-            params['p'] = page_num + 1
-
-            for group in response['groups']:
-                yield group
 
     @POST(API_USERS_UPDATE_LOGIN_ENDPOINT)
     def update_user_login(self, login, new_login):

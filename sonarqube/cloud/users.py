@@ -6,6 +6,7 @@ from sonarqube.utils.config import (
     API_USERS_SEARCH_ENDPOINT,
     API_USERS_GROUPS_ENDPOINT
 )
+from sonarqube.utils.common import PAGE_GET
 
 
 class SonarCloudUsers(RestClient):
@@ -27,6 +28,7 @@ class SonarCloudUsers(RestClient):
             if user['login'] == login:
                 return user
 
+    @PAGE_GET(API_USERS_SEARCH_ENDPOINT, item='users')
     def search_users(self, q=None):
         """
         Get a list of active users.
@@ -34,30 +36,8 @@ class SonarCloudUsers(RestClient):
         :param q: Filter on login, name and email
         :return:
         """
-        params = {}
-        page_num = 1
-        page_size = 1
-        total = 2
 
-        if q:
-            params.update({'q': q})
-
-        while page_num * page_size < total:
-            resp = self.get(API_USERS_SEARCH_ENDPOINT, params=params)
-            response = resp.json()
-
-            page_num = response['paging']['pageIndex']
-            page_size = response['paging']['pageSize']
-            total = response['paging']['total']
-
-            params['p'] = page_num + 1
-
-            for user in response['users']:
-                yield user
-
-            if page_num >= self.MAX_SEARCH_NUM:
-                break
-
+    @PAGE_GET(API_USERS_GROUPS_ENDPOINT, item='groups')
     def search_groups_user_belongs_to(self, login, organization, q=None, selected="selected"):
         """
         Lists the groups a user belongs to.
@@ -73,31 +53,3 @@ class SonarCloudUsers(RestClient):
           default value is selected.
         :return:
         """
-        params = {
-            'login': login,
-            'organization': organization,
-            'selected': selected
-        }
-
-        if q:
-            params.update({'q': q})
-
-        page_num = 1
-        page_size = 1
-        total = 2
-
-        if q:
-            params.update({'q': q})
-
-        while page_num * page_size < total:
-            resp = self.get(API_USERS_GROUPS_ENDPOINT, params=params)
-            response = resp.json()
-
-            page_num = response['paging']['pageIndex']
-            page_size = response['paging']['pageSize']
-            total = response['paging']['total']
-
-            params['p'] = page_num + 1
-
-            for group in response['groups']:
-                yield group

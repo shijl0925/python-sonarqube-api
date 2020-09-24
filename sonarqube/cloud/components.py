@@ -3,12 +3,14 @@
 # @Author: Jialiang Shi
 from sonarqube.community.components import SonarQubeComponents
 from sonarqube.utils.config import API_COMPONTENTS_SEARCH_ENDPOINT
+from sonarqube.utils.common import PAGE_GET
 
 
 class SonarCloudComponents(SonarQubeComponents):
     """
     SonarCloud components Operations
     """
+    @PAGE_GET(API_COMPONTENTS_SEARCH_ENDPOINT, item='components')
     def search_components(self, organization, qualifiers, language=None, q=None):
         """
         Search for components
@@ -31,26 +33,3 @@ class SonarCloudComponents(SonarQubeComponents):
 
         :return:
         """
-        params = {'organization': organization, 'qualifiers': qualifiers}
-        if language:
-            params.update({'language': language})
-
-        if q:
-            params.update({'q': q})
-
-        page_num = 1
-        page_size = 1
-        total = 2
-
-        while page_num * page_size < total:
-            resp = self.get(API_COMPONTENTS_SEARCH_ENDPOINT, params=params)
-            response = resp.json()
-
-            page_num = response['paging']['pageIndex']
-            page_size = response['paging']['pageSize']
-            total = response['paging']['total']
-
-            params['p'] = page_num + 1
-
-            for component in response['components']:
-                yield component

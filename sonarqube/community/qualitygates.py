@@ -19,7 +19,7 @@ from sonarqube.utils.config import (
     API_QUALITYGATES_SEARCH_ENDPOINT,
     API_QUALITYGATES_SET_AS_DEFAULT_ENDPOINT
 )
-from sonarqube.utils.common import GET, POST
+from sonarqube.utils.common import GET, POST, PAGE_GET
 
 
 class SonarQubeQualityGates(RestClient):
@@ -143,6 +143,7 @@ class SonarQubeQualityGates(RestClient):
         :return:
         """
 
+    @PAGE_GET(API_QUALITYGATES_SEARCH_ENDPOINT, item='results')
     def get_qualitygate_projects(self, gate_id, selected="selected", query=None, organization=None):
         """
         Search for projects associated (or not) to a quality gate.
@@ -160,32 +161,6 @@ class SonarQubeQualityGates(RestClient):
         :param organization: Organization key. If no organization is provided, the default organization is used.
         :return:
         """
-        params = {
-            'gateId': gate_id,
-            'selected': selected
-        }
-        if query:
-            params.update({"query": query})
-
-        if organization:
-            params.update({"organization": organization})
-
-        page_num = 1
-        page_size = 1
-        total = 2
-
-        while page_num * page_size < total:
-            resp = self.get(API_QUALITYGATES_SEARCH_ENDPOINT, params=params)
-            response = resp.json()
-
-            page_num = response['paging']['pageIndex']
-            page_size = response['paging']['pageSize']
-            total = response['paging']['total']
-
-            params['p'] = page_num + 1
-
-            for result in response['results']:
-                yield result
 
     @POST(API_QUALITYGATES_SET_AS_DEFAULT_ENDPOINT)
     def set_default_qualitygate(self, id, organization=None):
