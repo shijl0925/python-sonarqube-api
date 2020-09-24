@@ -11,7 +11,7 @@ from sonarqube.utils.config import (
     API_USER_GROUPS_ADD_USER_ENDPOINT,
     API_USER_GROUPS_REMOVE_USER_ENDPOINT
 )
-from sonarqube.utils.common import POST
+from sonarqube.utils.common import POST, PAGE_GET
 
 
 class SonarQubeUserGroups(RestClient):
@@ -21,7 +21,8 @@ class SonarQubeUserGroups(RestClient):
     special_attributes_map = {
         'group_name': 'name',
         'group_id': 'id',
-        'user_login': 'login'
+        'user_login': 'login',
+        'fields': 'f'
     }
 
     def __init__(self, **kwargs):
@@ -37,6 +38,7 @@ class SonarQubeUserGroups(RestClient):
             if group['name'] == name:
                 return group
 
+    @PAGE_GET(API_USER_GROUPS_SEARCH_ENDPOINT, item='groups')
     def search_user_groups(self, fields=None, q=None):
         """
         Search for user groups.
@@ -49,30 +51,6 @@ class SonarQubeUserGroups(RestClient):
         :param q: Limit search to names that contain the supplied string.
         :return:
         """
-        params = {}
-
-        if fields:
-            params.update({"f": fields})
-
-        page_num = 1
-        page_size = 1
-        total = 2
-
-        if q:
-            params['q'] = q
-
-        while page_num * page_size < total:
-            resp = self.get(API_USER_GROUPS_SEARCH_ENDPOINT, params=params)
-            response = resp.json()
-
-            page_num = response['paging']['pageIndex']
-            page_size = response['paging']['pageSize']
-            total = response['paging']['total']
-
-            params['p'] = page_num + 1
-
-            for group in response['groups']:
-                yield group
 
     @POST(API_USER_GROUPS_CREATE_ENDPOINT)
     def create_group(self, group_name, description=None):
@@ -128,6 +106,7 @@ class SonarQubeUserGroups(RestClient):
         :return:
         """
 
+    @PAGE_GET(API_USER_GROUPS_USERS_ENDPOINT, item='users')
     def search_users_belong_to_group(self, group_name, q=None, selected="selected"):
         """
         Search for users with membership information with respect to a group.
@@ -142,26 +121,3 @@ class SonarQubeUserGroups(RestClient):
           default value is selected.
         :return:
         """
-        params = {
-            'name': group_name,
-            'selected': selected
-        }
-        page_num = 1
-        page_size = 1
-        total = 2
-
-        if q:
-            params.update({'q': q})
-
-        while page_num * page_size < total:
-            resp = self.get(API_USER_GROUPS_USERS_ENDPOINT, params=params)
-            response = resp.json()
-
-            page_num = response['p']
-            page_size = response['ps']
-            total = response['total']
-
-            params['p'] = page_num + 1
-
-            for user in response['users']:
-                yield user

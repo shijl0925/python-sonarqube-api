@@ -11,21 +11,16 @@ from sonarqube.utils.config import (
     API_RULES_TAGS_ENDPOINT,
     API_RULES_REPOSITORIES_ENDPOINT
 )
-from sonarqube.utils.common import GET, POST
+from sonarqube.utils.common import GET, POST, PAGE_GET
 
 
 class SonarQubeRules(RestClient):
     """
     SonarQube rules Operations
     """
-    aa = {
+    special_attributes_map = {
         'rule_type': 'type'
     }
-
-    OPTIONS_SEARCH = ['activation', 'qprofile', 'languages', 'active_severities', 'asc', 'available_since', 'cwe', 'f',
-                      'facets', 'include_external', 'inheritance', 'is_template', 'owaspTop10', 'q', 'repositories',
-                      'rule_key', 's', 'sansTop25', 'severities', 'sonarsourceSecurity', 'statuses', 'tags',
-                      'template_key', 'types']
 
     def __init__(self, **kwargs):
         """
@@ -40,15 +35,19 @@ class SonarQubeRules(RestClient):
             if rule['key'] == key:
                 return rule
 
-    def search_rules(self, **kwargs):
+    @PAGE_GET(API_RULES_SEARCH_ENDPOINT, item='rules')
+    def search_rules(self, activation=None, qprofile=None, languages=None, active_severities=None, asc='true',
+                     available_since=None, cwe=None, f=None, facets=None, include_external='false', inheritance=None,
+                     is_template=None, owaspTop10=None, q=None, repositories=None, rule_key=None, s=None,
+                     sansTop25=None, severities=None, sonarsourceSecurity=None, statuses=None, tags=None,
+                     template_key=None, types=None):
         """
         Search for a collection of relevant rules matching a specified query.
 
-          optional parameters:
-          * activation: Filter rules that are activated or deactivated on the selected Quality profile. Ignored if the parameter 'qprofile' is not set.
-          * qprofile: Quality profile key to filter on. Used only if the parameter 'activation' is set.
-          * languages: Comma-separated list of languages
-          * active_severities: Comma-separated list of activation severities,
+        :param activation: Filter rules that are activated or deactivated on the selected Quality profile. Ignored if the parameter 'qprofile' is not set.
+        :param qprofile: Quality profile key to filter on. Used only if the parameter 'activation' is set.
+        :param languages: Comma-separated list of languages
+        :param active_severities: Comma-separated list of activation severities,
             i.e the severity of rules in Quality profiles. Possible values are for:
 
             * INFO
@@ -57,10 +56,10 @@ class SonarQubeRules(RestClient):
             * CRITICAL
             * BLOCKER
 
-          * asc: Ascending sort.Possible values are for: true, false, yes, no. default value is true
-          * available_since: Filters rules added since date. Format is yyyy-MM-dd
-          * cwe: Comma-separated list of CWE identifiers. Use 'unknown' to select rules not associated to any CWE.
-          * f: Comma-separated list of the fields to be returned in response. All the fields are returned by default,
+        :param asc: Ascending sort.Possible values are for: true, false, yes, no. default value is true
+        :param available_since: Filters rules added since date. Format is yyyy-MM-dd
+        :param cwe: Comma-separated list of CWE identifiers. Use 'unknown' to select rules not associated to any CWE.
+        :param f: Comma-separated list of the fields to be returned in response. All the fields are returned by default,
             except actives.Since 5.5, following fields have been deprecated :
 
             * "defaultDebtRemFn" becomes "defaultRemFn"
@@ -101,7 +100,7 @@ class SonarQubeRules(RestClient):
             * templateKey
             * updatedAt
 
-          * facets: Comma-separated list of the facets to be computed. No facet is computed by default.
+        :param facets: Comma-separated list of the facets to be computed. No facet is computed by default.
             Possible values are for:
 
             * languages
@@ -117,34 +116,34 @@ class SonarQubeRules(RestClient):
             * sansTop25
             * sonarsourceSecurity
 
-          * include_external: Include external engine rules in the results.
+        :param include_external: Include external engine rules in the results.
             Possible values are for: true, false, yes, no. default value is false.
-          * inheritance: Comma-separated list of values of inheritance for a rule within a quality profile.
+        :param inheritance: Comma-separated list of values of inheritance for a rule within a quality profile.
             Used only if the parameter 'activation' is set. Possible values are for:
 
             * NONE
             * INHERITED
             * OVERRIDES
 
-          * is_template: Filter template rules.Possible values are for: true, false, yes, no.
-          * owaspTop10: Comma-separated list of OWASP Top 10 lowercase categories.
-          * q: UTF-8 search query
-          * repositories: Comma-separated list of repositories
-          * rule_key: Key of rule to search for
-          * s: Sort field. Possible values are for:
+        :param is_template: Filter template rules.Possible values are for: true, false, yes, no.
+        :param owaspTop10: Comma-separated list of OWASP Top 10 lowercase categories.
+        :param q: UTF-8 search query
+        :param repositories: Comma-separated list of repositories
+        :param rule_key: Key of rule to search for
+        :param s: Sort field. Possible values are for:
 
             * name
             * updatedAt
             * createdAt
             * key
 
-          * sansTop25: Comma-separated list of SANS Top 25 categories. Possible values are for:
+        :param sansTop25: Comma-separated list of SANS Top 25 categories. Possible values are for:
 
             * insecure-interaction
             * risky-resource
             * porous-defenses
 
-          * severities: Comma-separated list of default severities.
+        :param severities: Comma-separated list of default severities.
             Not the same than severity of rules in Quality profiles.Possible values are for:
 
               * INFO
@@ -153,7 +152,7 @@ class SonarQubeRules(RestClient):
               * CRITICAL
               * BLOCKER
 
-          * sonarsourceSecurity: Comma-separated list of SonarSource security categories.
+        :param sonarsourceSecurity: Comma-separated list of SonarSource security categories.
             Use 'others' to select rules not associated with any category. Possible values are for:
 
             * sql-injection
@@ -177,18 +176,18 @@ class SonarQubeRules(RestClient):
             * file-manipulation
             * others
 
-          * statuses: Comma-separated list of status codes. Possible values are for:
+        :param statuses: Comma-separated list of status codes. Possible values are for:
 
             * BETA
             * DEPRECATED
             * READY
             * REMOVED
 
-          * tags: Comma-separated list of tags. Returned rules match any of the tags (OR operator).
+        :param tags: Comma-separated list of tags. Returned rules match any of the tags (OR operator).
             Possible values are for: security,java8
-          * template_key: Key of the template rule to filter on. Used to search for the custom rules based
+        :param template_key: Key of the template rule to filter on. Used to search for the custom rules based
             on this template.
-          * types: Comma-separated list of types. Returned rules match any of the tags (OR operator).such as;
+        :param types: Comma-separated list of types. Returned rules match any of the tags (OR operator).such as;
 
             * CODE_SMELL
             * BUG
@@ -197,27 +196,6 @@ class SonarQubeRules(RestClient):
 
         :return:
         """
-        params = {}
-        if kwargs:
-            self.api.copy_dict(params, kwargs, self.OPTIONS_SEARCH)
-
-        page_num = 1
-        page_size = 1
-        n_rules = 2
-
-        while page_num * page_size < n_rules:
-            resp = self.get(API_RULES_SEARCH_ENDPOINT, params=params)
-            response = resp.json()
-
-            page_num = response['p']
-            page_size = response['ps']
-            n_rules = response['total']
-
-            params['p'] = page_num + 1
-
-            # Yield rules
-            for rule in response['rules']:
-                yield rule
 
     @POST(API_RULES_CREATE_ENDPOINT)
     def create_rule(self, custom_key, name, markdown_description, template_key, severity, status=None, rule_type=None,
@@ -248,6 +226,8 @@ class SonarQubeRules(RestClient):
             * BUG
             * VULNERABILITY
             * SECURITY_HOTSPOT
+        :param params: Parameters as semi-colon list of =, for example 'params=key1=v1;key2=v2' (Only for custom rule)
+
         :return: request response
         """
 

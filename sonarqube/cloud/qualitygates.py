@@ -4,7 +4,6 @@
 from sonarqube.community.qualitygates import SonarQubeQualityGates
 from sonarqube.utils.config import (
     API_QUALITYGATES_LIST_ENDPOINT,
-    API_QUALITYGATES_PROJECT_STATUS_ENDPOINT,
     API_QUALITYGATES_SELECT_ENDPOINT,
     API_QUALITYGATES_DESELECT_ENDPOINT,
     API_QUALITYGATES_SHOW_ENDPOINT,
@@ -19,7 +18,7 @@ from sonarqube.utils.config import (
     API_QUALITYGATES_SEARCH_ENDPOINT,
     API_QUALITYGATES_SET_AS_DEFAULT_ENDPOINT
 )
-from sonarqube.utils.common import GET, POST
+from sonarqube.utils.common import GET, POST, PAGE_GET
 
 
 class SonarCloudQualityGates(SonarQubeQualityGates):
@@ -129,6 +128,7 @@ class SonarCloudQualityGates(SonarQubeQualityGates):
         :return:
         """
 
+    @PAGE_GET(API_QUALITYGATES_SEARCH_ENDPOINT, item='results')
     def get_qualitygate_projects(self, gate_id, organization, selected="selected", query=None):
         """
         Search for projects associated (or not) to a quality gate.
@@ -147,30 +147,6 @@ class SonarCloudQualityGates(SonarQubeQualityGates):
 
         :return:
         """
-        params = {
-            'gateId': gate_id,
-            'organization': organization,
-            'selected': selected
-        }
-        if query:
-            params.update({"query": query})
-
-        page_num = 1
-        page_size = 1
-        total = 2
-
-        while page_num * page_size < total:
-            resp = self.get(API_QUALITYGATES_SEARCH_ENDPOINT, params=params)
-            response = resp.json()
-
-            page_num = response['paging']['pageIndex']
-            page_size = response['paging']['pageSize']
-            total = response['paging']['total']
-
-            params['p'] = page_num + 1
-
-            for result in response['results']:
-                yield result
 
     @POST(API_QUALITYGATES_SET_AS_DEFAULT_ENDPOINT)
     def set_default_qualitygate(self, id, organization):

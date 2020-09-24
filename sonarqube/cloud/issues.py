@@ -19,12 +19,6 @@ class SonarCloudIssues(SonarQubeIssues):
         'feedback': 'isFeedback'
     }
 
-    OPTIONS_SEARCH = ['additionalFields', 'asc', 'assigned', 'assignees', 'author', 'componentKeys', 'branch',
-                      'pullRequest', 'createdAfter', 'createdAt', 'createdBefore', 'createdInLast', 'cwe', 'facets',
-                      'issues', 'languages', 'onComponentOnly', 'owaspTop10', 'ps', 'resolutions', 'resolved', 'rules',
-                      's', 'sansTop25', 'severities', 'sinceLeakPeriod', 'sonarsourceSecurity', 'statuses', 'tags',
-                      'types', 'organization']
-
     def search_issues(self, **kwargs):
         """
         Search for issues.

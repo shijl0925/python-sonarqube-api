@@ -23,7 +23,7 @@ from sonarqube.utils.config import (
     API_QUALITYPROFILES_RENAME_ENDPOINT,
     API_QUALITYPROFILES_RESTORE_ENDPOINT
 )
-from sonarqube.utils.common import GET, POST
+from sonarqube.utils.common import GET, POST, PAGE_GET
 
 
 class SonarQubeQualityProfiles(RestClient):
@@ -37,7 +37,9 @@ class SonarQubeQualityProfiles(RestClient):
         'new_profile_name': 'toName',
         'profile_key': 'key',
         'rule_key': 'rule',
-        'exporter_key': 'exporterKey'
+        'exporter_key': 'exporterKey',
+        'since_data': 'since',
+        'to_date': 'to'
     }
 
     def __init__(self, **kwargs):
@@ -149,6 +151,7 @@ class SonarQubeQualityProfiles(RestClient):
         :return:
         """
 
+    @PAGE_GET(API_QUALITYPROFILES_CHANGELOG_ENDPOINT, item='events')
     def get_history_of_changes_on_quality_profile(self, language, profile_name, since_data=None, to_data=None):
         """
         Get the history of changes on a quality profile: rule activation/deactivation, change in parameters/severity.
@@ -160,33 +163,6 @@ class SonarQubeQualityProfiles(RestClient):
         :param to_data: End date for the changelog. Either a date (server timezone) or datetime can be provided.
         :return:
         """
-        params = {
-            'language': language,
-            'qualityProfile': profile_name
-        }
-
-        if since_data:
-            params.update({'since': since_data})
-
-        if to_data:
-            params.update({'to': to_data})
-
-        page_num = 1
-        page_size = 1
-        total = 2
-
-        while page_num * page_size < total:
-            resp = self.get(API_QUALITYPROFILES_CHANGELOG_ENDPOINT, params=params)
-            response = resp.json()
-
-            page_num = response['p']
-            page_size = response['ps']
-            total = response['total']
-
-            params['p'] = page_num + 1
-
-            for event in response['events']:
-                yield event
 
     @POST(API_QUALITYPROFILES_COPY_ENDPOINT)
     def copy_quality_profile(self, previous_profile_key, new_profile_name):
@@ -276,6 +252,7 @@ class SonarQubeQualityProfiles(RestClient):
         :return:
         """
 
+    @PAGE_GET(API_QUALITYPROFILES_PROJECTS_ENDPOINT, item='results')
     def get_projects_associate_with_quality_profile(self, profile_key, q=None, selected="selected"):
         """
         List projects with their association status regarding a quality profile
@@ -291,30 +268,6 @@ class SonarQubeQualityProfiles(RestClient):
           default value is selected.
         :return:
         """
-        params = {
-            'key': profile_key,
-            'selected': selected
-        }
-
-        if q:
-            params.update({'q': q})
-
-        page_num = 1
-        page_size = 1
-        total = 2
-
-        while page_num * page_size < total:
-            resp = self.get(API_QUALITYPROFILES_PROJECTS_ENDPOINT, params=params)
-            response = resp.json()
-
-            page_num = response['paging']['pageIndex']
-            page_size = response['paging']['pageSize']
-            total = response['paging']['total']
-
-            params['p'] = page_num + 1
-
-            for result in response['results']:
-                yield result
 
     @POST(API_QUALITYPROFILES_RENAME_ENDPOINT)
     def rename_quality_profile(self, key, name):

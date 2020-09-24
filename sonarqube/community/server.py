@@ -3,7 +3,8 @@
 # @Author: Jialiang Shi
 from sonarqube.utils.rest_client import RestClient
 from sonarqube.utils.config import API_SERVER_VERSION_ENDPOINT
-from sonarqube.utils.common import GET, POST
+from sonarqube.utils.common import GET
+
 
 class SonarQubeServer(RestClient):
     """
