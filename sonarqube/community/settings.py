@@ -8,7 +8,7 @@ from sonarqube.utils.config import (
     API_SETTINGS_VALUES_ENDPOINT,
     API_SETTINGS_LIST_DEFINITIONS_ENDPOINT
 )
-from sonarqube.utils.common import GET,POST
+from sonarqube.utils.common import GET, POST
 
 
 class SonarQubeSettings(RestClient):

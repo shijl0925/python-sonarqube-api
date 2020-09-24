@@ -10,7 +10,7 @@ from sonarqube.utils.config import (
     API_WEBHOOKS_LIST_ENDPOINT,
     API_WEBHOOKS_UPDATE_ENDPOINT
 )
-from sonarqube.utils.common import GET, POST
+from sonarqube.utils.common import GET, POST, PAGE_GET
 
 
 class SonarQubeWebhooks(RestClient):
@@ -19,7 +19,9 @@ class SonarQubeWebhooks(RestClient):
     """
     special_attributes_map = {
         'webhook_key': 'webhook',
-        'delivery_id': 'deliveryId'
+        'delivery_id': 'deliveryId',
+        'component_key': 'componentKey',
+        'task_id': 'ceTaskId'
     }
 
     def __init__(self, **kwargs):
@@ -54,6 +56,7 @@ class SonarQubeWebhooks(RestClient):
         :return:
         """
 
+    @PAGE_GET(API_WEBHOOKS_DELIVERIES_ENDPOINT, item='deliveries')
     def get_webhook_deliveries(self, webhook_key=None, component_key=None, task_id=None):
         """
         Get the recent deliveries for a specified project or Compute Engine task.
@@ -63,33 +66,6 @@ class SonarQubeWebhooks(RestClient):
         :param task_id: Id of the Compute Engine task
         :return:
         """
-        params = {}
-
-        if webhook_key:
-            params.update({'webhook': webhook_key})
-
-        if component_key:
-            params.update({'componentKey': component_key})
-
-        if task_id:
-            params.update({'ceTaskId': task_id})
-
-        page_num = 1
-        page_size = 1
-        total = 2
-
-        while page_num * page_size < total:
-            resp = self.get(API_WEBHOOKS_DELIVERIES_ENDPOINT, params=params)
-            response = resp.json()
-
-            page_num = response['paging']['pageIndex']
-            page_size = response['paging']['pageSize']
-            total = response['paging']['total']
-
-            params['p'] = page_num + 1
-
-            for delivery in response['deliveries']:
-                yield delivery
 
     @GET(API_WEBHOOKS_DELIVERY_ENDPOINT)
     def get_webhook_delivery(self, delivery_id):

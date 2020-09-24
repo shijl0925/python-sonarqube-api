@@ -7,7 +7,7 @@ from sonarqube.utils.config import (
     API_FAVORITES_REMOVE_ENDPOINT,
     API_FAVORITES_SEARCH_ENDPOINT
 )
-from sonarqube.utils.common import POST
+from sonarqube.utils.common import POST, PAGE_GET
 
 
 class SonarQubeFavorites(RestClient):
@@ -21,29 +21,13 @@ class SonarQubeFavorites(RestClient):
         """
         super(SonarQubeFavorites, self).__init__(**kwargs)
 
+    @PAGE_GET(API_FAVORITES_SEARCH_ENDPOINT, item='favorites')
     def search_favorites(self):
         """
         Search for the authenticated user favorites.
 
         :return:
         """
-        params = {}
-        page_num = 1
-        page_size = 1
-        total = 2
-
-        while page_num * page_size < total:
-            resp = self.get(API_FAVORITES_SEARCH_ENDPOINT, params=params)
-            response = resp.json()
-
-            page_num = response['paging']['pageIndex']
-            page_size = response['paging']['pageSize']
-            total = response['paging']['total']
-
-            params['p'] = page_num + 1
-
-            for favorite in response['favorites']:
-                yield favorite
 
     @POST(API_FAVORITES_ADD_ENDPOINT)
     def add_component_to_favorites(self, component):
