@@ -24,7 +24,6 @@ class SonarQubeIssues(RestClient):
     """
     SonarQube issues Operations
     """
-    special_attributes_map = {'issue_type': 'type'}
     MAX_SEARCH_NUM = 100
 
     def __init__(self, **kwargs):
@@ -34,7 +33,7 @@ class SonarQubeIssues(RestClient):
         """
         super(SonarQubeIssues, self).__init__(**kwargs)
 
-    def __getitem__(self, key):
+    def get(self, key):
         result = list(self.search_issues(issues=key))
         for issue in result:
             if issue['key'] == key:
@@ -224,12 +223,12 @@ class SonarQubeIssues(RestClient):
         """
 
     @POST(API_ISSUES_SET_TYPE_ENDPOINT)
-    def issue_set_type(self, issue, issue_type):
+    def issue_set_type(self, issue, type):
         """
         Change type of issue, for instance from 'code smell' to 'bug'.
 
         :param issue: Issue key
-        :param issue_type: New type.Possible values are for:
+        :param type: New type.Possible values are for:
 
           * CODE_SMELL
           * BUG

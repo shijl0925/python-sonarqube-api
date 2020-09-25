@@ -25,7 +25,7 @@ Change severity::
 
 Change type of issue, for instance from 'code smell' to 'bug'::
 
-    sonar.issues.issue_set_type(issue="AXQp_hOWOhAXidGT7-d7", issue_type="CODE_SMELL")
+    sonar.issues.issue_set_type(issue="AXQp_hOWOhAXidGT7-d7", type="CODE_SMELL")
 
 Add a comment::
 
@@ -58,7 +58,7 @@ or::
 
 or::
 
-    sonar.issues.issues_bulk_change(issues="AXQp_hOWOhAXidGT7-d7", issue_type="VULNERABILITY")
+    sonar.issues.issues_bulk_change(issues="AXQp_hOWOhAXidGT7-d7", type="VULNERABILITY")
 
 Display changelog of an issue::
 

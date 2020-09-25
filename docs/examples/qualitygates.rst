@@ -10,7 +10,7 @@ Examples
 
 Copy a Quality Gate.::
 
-    sonar.qualitygates.copy_quality_gate(source_id=2, gate_name="Sonar Way (for test)")
+    sonar.qualitygates.copy_quality_gate(id=2, name="Sonar Way (for test)")
 
 Delete a Quality Gate.::
 
@@ -18,7 +18,7 @@ Delete a Quality Gate.::
 
 Create a Quality Gate.::
 
-    sonar.qualitygates.create_quality_gate(gate_name="Sonar Way (for test)")
+    sonar.qualitygates.create_quality_gate(name="Sonar Way (for test)")
 
 Rename a Quality Gate.::
 
@@ -26,19 +26,19 @@ Rename a Quality Gate.::
 
 Add a new condition to a quality gate.::
 
-    sonar.qualitygates.create_condition_to_quality_gate(gate_id=6, metric="new_coverage", error="80", op="LT")
+    sonar.qualitygates.create_condition_to_quality_gate(gateId=6, metric="new_coverage", error="80", op="LT")
 
 Delete a condition from a quality gate.::
 
-    sonar.qualitygates.delete_condition_from_quality_gate(condition_id=33)
+    sonar.qualitygates.delete_condition_from_quality_gate(id=33)
 
 Update a condition attached to a quality gate.::
 
-    sonar.qualitygates.update_condition_to_quality_gate(condition_id=35, metric="new_coverage", error="60", op="LT")
+    sonar.qualitygates.update_condition_to_quality_gate(id=35, metric="new_coverage", error="60", op="LT")
 
 Search for projects associated (or not) to a quality gate.::
 
-    projects = list(sonar.qualitygates.get_qualitygate_projects(gate_id=2))
+    projects = list(sonar.qualitygates.get_qualitygate_projects(gateId=2))
 
 Set a quality gate as the default quality gate.::
 
@@ -46,7 +46,7 @@ Set a quality gate as the default quality gate.::
 
 Get the quality gate status of a project::
 
-    qualitygates_status = sonar.qualitygates.get_project_qualitygates_status(project_key="my_project", branch="master")
+    qualitygates_status = sonar.qualitygates.get_project_qualitygates_status(projectKey="my_project", branch="master")
 
 Get a list of quality gates::
 
@@ -54,19 +54,19 @@ Get a list of quality gates::
 
 Associate a project to a quality gate.::
 
-    sonar.qualitygates.select_quality_gate_for_project(project_key="my_project", gate_id=2)
+    sonar.qualitygates.select_quality_gate_for_project(projectKey="my_project", gateId=2)
 
 Remove the association of a project from a quality gate.::
 
-    sonar.qualitygates.remove_project_from_quality_gate(project_key="my_project")
+    sonar.qualitygates.remove_project_from_quality_gate(projectKey="my_project")
 
 Display the details of a quality gate.::
 
-    qualitygate1 = sonar.qualitygates.show_quality_gate(gate_id=6)
+    qualitygate1 = sonar.qualitygates.show_quality_gate(name='Sonar Way (for Test)')
 
 or::
 
-    qualitygate2 = sonar.qualitygates.show_quality_gate(gate_name="Sonar Way (for Test)")
+    qualitygate2 = sonar.qualitygates.show_quality_gate(name="Sonar Way (for Test)")
 
 Get the quality gate of a project.::
 

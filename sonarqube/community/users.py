@@ -18,13 +18,6 @@ class SonarQubeUsers(RestClient):
     """
     SonarQube users Operations
     """
-
-    special_attributes_map = {
-        'scm': 'scmAccount',
-        'previous_password': 'previousPassword',
-        'new_password': 'password',
-        'new_login': 'newLogin'
-    }
     MAX_SEARCH_NUM = 200
 
     def __init__(self, **kwargs):
@@ -34,7 +27,7 @@ class SonarQubeUsers(RestClient):
         """
         super(SonarQubeUsers, self).__init__(**kwargs)
 
-    def __getitem__(self, login):
+    def get(self, login):
         result = list(self.search_users(q=login))
         for user in result:
             if user['login'] == login:
@@ -49,7 +42,7 @@ class SonarQubeUsers(RestClient):
         :return:
         """
 
-    def create_user(self, login, name, email=None, password=None, local='true', scm=None):
+    def create_user(self, login, name, email=None, password=None, local='true', scmAccount=None):
         """
         Create a user.
 
@@ -60,7 +53,7 @@ class SonarQubeUsers(RestClient):
         :param local: Specify if the user should be authenticated from SonarQube server or from an external
           authentication system. Password should not be set when local is set to false.
           Possible values are for: true, false, yes, no. default value is true.
-        :param scm: List of SCM accounts. To set several values, the parameter must be called once for each value.
+        :param scmAccount: List of SCM accounts. To set several values, the parameter must be called once for each value.
         :return: request response
         """
         params = {
@@ -74,33 +67,33 @@ class SonarQubeUsers(RestClient):
         if local == 'true' and password:
             params.update({'password': password})
 
-        if scm:
-            params.update({'scmAccount': scm})
+        if scmAccount:
+            params.update({'scmAccount': scmAccount})
 
-        return self.post(API_USERS_CREATE_ENDPOINT, params=params)
+        return self._post(API_USERS_CREATE_ENDPOINT, params=params)
 
     @POST(API_USERS_UPDATE_ENDPOINT)
-    def update_user(self, login, name=None, email=None, scm=None):
+    def update_user(self, login, name=None, email=None, scmAccount=None):
         """
         Update a user.
 
         :param login: User login
         :param name: User name
         :param email: User email
-        :param scm: SCM accounts.
+        :param scmAccount: SCM accounts.
         :return: request response
         """
 
     @POST(API_USERS_CHANGE_PASSWORD_ENDPOINT)
-    def change_user_password(self, login, new_password, previous_password=None):
+    def change_user_password(self, login, password, previousPassword=None):
         """
         Update a user's password. Authenticated users can change their own password,
         provided that the account is not linked to an external authentication system.
         Administer System permission is required to change another user's password.
 
         :param login: User login
-        :param new_password: New password
-        :param previous_password: Previous password. Required when changing one's own password.
+        :param password: New password
+        :param previousPassword: Previous password. Required when changing one's own password.
         :return:
         """
 
@@ -130,11 +123,11 @@ class SonarQubeUsers(RestClient):
         """
 
     @POST(API_USERS_UPDATE_LOGIN_ENDPOINT)
-    def update_user_login(self, login, new_login):
+    def update_user_login(self, login, newLogin):
         """
         Update a user login. A login can be updated many times.
 
         :param login: The current login (case-sensitive)
-        :param new_login: The new login. It must not already exist.
+        :param newLogin: The new login. It must not already exist.
         :return:
         """

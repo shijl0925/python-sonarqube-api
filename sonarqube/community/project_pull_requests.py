@@ -13,9 +13,6 @@ class SonarQubeProjectPullRequests(RestClient):
     """
     SonarQube project pull requests Operations
     """
-    special_attributes_map = {
-        'pull_request_id': 'pullRequest'
-    }
 
     def __init__(self, **kwargs):
         """
@@ -34,11 +31,11 @@ class SonarQubeProjectPullRequests(RestClient):
         """
 
     @POST(API_PROJECT_PULL_REQUESTS_DELETE_ENDPOINT)
-    def delete_project_pull_requests(self, project, pull_request_id):
+    def delete_project_pull_requests(self, project, pullRequest):
         """
         Delete a pull request.
 
         :param project: Project key
-        :param pull_request_id: Pull request id
+        :param pullRequest: Pull request id
         :return:
         """

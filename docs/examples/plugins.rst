@@ -18,7 +18,7 @@ Cancels any operation pending on any plugin (install, update or uninstall).::
 
 Installs the latest version of a plugin specified by its key.::
 
-    sonar.plugins.install_plugin(plugin_key="typescript")
+    sonar.plugins.install_plugin(key="typescript")
 
 Get the list of all the plugins installed on the SonarQube instance, sorted by plugin name.::
 
@@ -30,11 +30,11 @@ Get the list of plugins which will either be installed or removed at the next st
 
 Uninstalls the plugin specified by its key.::
 
-    sonar.plugins.install_plugin(plugin_key="typescript")
+    sonar.plugins.install_plugin(key="typescript")
 
 Updates a plugin specified by its key to the latest version compatible with the SonarQube instance. Plugin information is retrieved from Update Center.::
 
-    sonar.plugins.install_plugin(plugin_key="typescript")
+    sonar.plugins.install_plugin(key="typescript")
 
 
 Lists plugins installed on the SonarQube instance for which at least one newer version is available, sorted by plugin name.::

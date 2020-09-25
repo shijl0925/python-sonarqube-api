@@ -18,12 +18,6 @@ class SonarQubeUserGroups(RestClient):
     """
     SonarQube user_groups Operations
     """
-    special_attributes_map = {
-        'group_name': 'name',
-        'group_id': 'id',
-        'user_login': 'login',
-        'fields': 'f'
-    }
 
     def __init__(self, **kwargs):
         """
@@ -32,18 +26,18 @@ class SonarQubeUserGroups(RestClient):
         """
         super(SonarQubeUserGroups, self).__init__(**kwargs)
 
-    def __getitem__(self, name):
+    def get(self, name):
         result = list(self.search_user_groups(q=name))
         for group in result:
             if group['name'] == name:
                 return group
 
     @PAGE_GET(API_USER_GROUPS_SEARCH_ENDPOINT, item='groups')
-    def search_user_groups(self, fields=None, q=None):
+    def search_user_groups(self, f=None, q=None):
         """
         Search for user groups.
 
-        :param fields: Comma-separated list of the fields to be returned in response.
+        :param f: Comma-separated list of the fields to be returned in response.
           All the fields are returned by default. Possible values are for:
             * name
             * description
@@ -53,32 +47,32 @@ class SonarQubeUserGroups(RestClient):
         """
 
     @POST(API_USER_GROUPS_CREATE_ENDPOINT)
-    def create_group(self, group_name, description=None):
+    def create_group(self, name, description=None):
         """
         Create a group.
 
-        :param group_name: Name for the new group. A group name cannot be larger than 255 characters and must be unique.
+        :param name: Name for the new group. A group name cannot be larger than 255 characters and must be unique.
           The value 'anyone' (whatever the case) is reserved and cannot be used.
         :param description: Description for the new group. A group description cannot be larger than 200 characters.
         :return: request response
         """
 
     @POST(API_USER_GROUPS_DELETE_ENDPOINT)
-    def delete_group(self, group_name):
+    def delete_group(self, name):
         """
         Delete a group. The default groups cannot be deleted.
 
-        :param group_name: group name
+        :param name: group name
         :return:
         """
 
     @POST(API_USER_GROUPS_UPDATE_ENDPOINT)
-    def update_group(self, group_id, group_name=None, description=None):
+    def update_group(self, id, name=None, description=None):
         """
         Update a group.
 
-        :param group_id: Identifier of the group.
-        :param group_name: New optional name for the group. A group name cannot be larger than 255 characters and must
+        :param id: Identifier of the group.
+        :param name: New optional name for the group. A group name cannot be larger than 255 characters and must
           be unique. Value 'anyone' (whatever the case) is reserved and cannot be used. If value is empty or not
           defined, then name is not changed.
         :param description: New optional description for the group. A group description cannot be larger than
@@ -87,31 +81,31 @@ class SonarQubeUserGroups(RestClient):
         """
 
     @POST(API_USER_GROUPS_ADD_USER_ENDPOINT)
-    def add_user_to_group(self, group_name, user_login):
+    def add_user_to_group(self, name, login):
         """
         Add a user to a group.
 
-        :param group_name: Group name
-        :param user_login: User login
+        :param name: Group name
+        :param login: User login
         :return:
         """
 
     @POST(API_USER_GROUPS_REMOVE_USER_ENDPOINT)
-    def remove_user_from_group(self, group_name, user_login):
+    def remove_user_from_group(self, name, login):
         """
         Remove a user from a group.
 
-        :param group_name: Group name
-        :param user_login: User login
+        :param name: Group name
+        :param login: User login
         :return:
         """
 
     @PAGE_GET(API_USER_GROUPS_USERS_ENDPOINT, item='users')
-    def search_users_belong_to_group(self, group_name, q=None, selected="selected"):
+    def search_users_belong_to_group(self, name, q=None, selected="selected"):
         """
         Search for users with membership information with respect to a group.
 
-        :param group_name: Group name
+        :param name: Group name
         :param q: Limit search to names or logins that contain the supplied string.
         :param selected: Depending on the value, show only selected items (selected=selected), deselected items
           (selected=deselected), or all items with their selection status (selected=all).Possible values are for:

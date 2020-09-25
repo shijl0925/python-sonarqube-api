@@ -19,13 +19,7 @@ class SonarQubePlugins(RestClient):
     """
     SonarQube Plugins Operations
     """
-    special_attributes_map = {
-        'plugin_key': 'key',
-        'fields': 'f'
-    }
-    """
-    SonarQube plugins Operations
-    """
+
     def __init__(self, **kwargs):
         """
 
@@ -58,21 +52,21 @@ class SonarQubePlugins(RestClient):
         """
 
     @POST(API_PLUGINS_INSTALL_ENDPOINT)
-    def install_plugin(self, plugin_key):
+    def install_plugin(self, key):
         """
         Installs the latest version of a plugin specified by its key.
         Plugin information is retrieved from Update Center.
 
-        :param plugin_key: The key identifying the plugin to install
+        :param key: The key identifying the plugin to install
         :return:
         """
 
     @GET(API_PLUGINS_INSTALLED_ENDPOINT)
-    def get_installed_plugins(self, fields=None):
+    def get_installed_plugins(self, f=None):
         """
         Get the list of all the plugins installed on the SonarQube instance, sorted by plugin name.
 
-        :param fields: Comma-separated list of the additional fields to be returned in response.
+        :param f: Comma-separated list of the additional fields to be returned in response.
           No additional field is returned by default. Possible values are:
             * category - category as defined in the Update Center. A connection to the Update Center is needed
         :return:
@@ -88,21 +82,21 @@ class SonarQubePlugins(RestClient):
         """
 
     @POST(API_PLUGINS_UNINSTALL_ENDPOINT)
-    def uninstall_plugin(self, plugin_key):
+    def uninstall_plugin(self, key):
         """
         Uninstalls the plugin specified by its key.
 
-        :param plugin_key: The key identifying the plugin to uninstall
+        :param key: The key identifying the plugin to uninstall
         :return:
         """
 
     @POST(API_PLUGINS_UPDATE_ENDPOINT)
-    def update_plugin(self, plugin_key):
+    def update_plugin(self, key):
         """
         Updates a plugin specified by its key to the latest version compatible with the SonarQube instance.
         Plugin information is retrieved from Update Center.
 
-        :param plugin_key: The key identifying the plugin to update
+        :param key: The key identifying the plugin to update
         :return:
         """
 

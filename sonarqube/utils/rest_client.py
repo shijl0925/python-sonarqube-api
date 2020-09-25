@@ -100,7 +100,7 @@ class RestClient:
         url_link = '/'.join(s.strip('/') for s in [url, path])
         return url_link
 
-    def get(self, path, data=None, params=None, headers=None):
+    def _get(self, path, data=None, params=None, headers=None):
         """
         Get request based on the python-requests module.
 
@@ -112,7 +112,7 @@ class RestClient:
         """
         return self.request('GET', path=path, params=params, data=data, headers=headers)
 
-    def post(self, path, data=None, json=None, headers=None, files=None, params=None):
+    def _post(self, path, data=None, json=None, headers=None, files=None, params=None):
         """
         Post request based on the python-requests module.
 
@@ -126,7 +126,7 @@ class RestClient:
         """
         return self.request('POST', path=path, data=data, json=json, headers=headers, files=files, params=params)
 
-    def put(self, path, data=None, headers=None, files=None, params=None):
+    def _put(self, path, data=None, headers=None, files=None, params=None):
         """
         Post request based on the python-requests module.
 
@@ -139,7 +139,7 @@ class RestClient:
         """
         return self.request('PUT', path=path, data=data, headers=headers, files=files, params=params)
 
-    def delete(self, path, data=None, headers=None, params=None):
+    def _delete(self, path, data=None, headers=None, params=None):
         """
         Delete request based on the python-requests module.
 

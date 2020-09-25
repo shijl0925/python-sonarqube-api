@@ -14,7 +14,6 @@ class SonarQubeComponents(RestClient):
     """
     SonarQube components Operations
     """
-    special_attributes_map = {'pull_request_id': 'pullRequest'}
 
     def __init__(self, **kwargs):
         """
@@ -24,14 +23,14 @@ class SonarQubeComponents(RestClient):
         super(SonarQubeComponents, self).__init__(**kwargs)
 
     @GET(API_COMPONTENTS_SHOW_ENDPOINT)
-    def get_project_component_and_ancestors(self, component, branch=None, pull_request_id=None):
+    def get_project_component_and_ancestors(self, component, branch=None, pullRequest=None):
         """
         Returns a component (file, directory, project, view…) and its ancestors. The ancestors are ordered from the
         parent to the root project.
 
         :param component: Component key
         :param branch: Branch key.
-        :param pull_request_id: Pull request id
+        :param pullRequest: Pull request id
         :return:
         """
 

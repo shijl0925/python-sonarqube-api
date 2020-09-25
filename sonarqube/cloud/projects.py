@@ -14,7 +14,7 @@ class SonarCloudProjects(SonarQubeProjects):
     """
     SonarCloud projects Operations
     """
-    def __getitem__(self, key):
+    def get(self, key):
         raise AttributeError("%s does not support this method" % self.__class__.__name__)
 
     @PAGE_GET(API_PROJECTS_SEARCH_ENDPOINT, item='components')

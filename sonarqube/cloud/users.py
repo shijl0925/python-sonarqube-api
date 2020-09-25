@@ -22,7 +22,7 @@ class SonarCloudUsers(RestClient):
         """
         super(SonarCloudUsers, self).__init__(**kwargs)
 
-    def __getitem__(self, login):
+    def get(self, login):
         result = list(self.search_users(q=login))
         for user in result:
             if user['login'] == login:

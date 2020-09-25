@@ -14,6 +14,7 @@ class SonarQubeUserTokens(RestClient):
     """
     SonarQube user tokens Operations
     """
+
     def __init__(self, **kwargs):
         """
 
