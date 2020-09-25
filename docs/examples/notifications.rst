@@ -14,17 +14,17 @@ List notifications of the authenticated user.::
 
 Add a notification for the authenticated user.::
 
-    sonar.notifications.add_notification_for_user(login="kevin", notification_type="CeReportTaskFailure")
+    sonar.notifications.add_notification_for_user(login="kevin", type="CeReportTaskFailure")
 
 or::
 
-    sonar.notifications.add_notification_for_user(login="kevin", notification_type="ChangesOnMyIssue", project="my_project")
+    sonar.notifications.add_notification_for_user(login="kevin", type="ChangesOnMyIssue", project="my_project")
 
 Remove a notification for the authenticated user.::
 
-    sonar.notifications.remove_notification_for_user(login="kevin", notification_type="CeReportTaskFailure")
+    sonar.notifications.remove_notification_for_user(login="kevin", type="CeReportTaskFailure")
 
 or::
 
-    sonar.notifications.remove_notification_for_user(login="kevin", notification_type="ChangesOnMyIssue", project="my_project")
+    sonar.notifications.remove_notification_for_user(login="kevin", type="ChangesOnMyIssue", project="my_project")
 

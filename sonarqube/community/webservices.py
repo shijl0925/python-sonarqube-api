@@ -13,6 +13,7 @@ class SonarQubeWebservices(RestClient):
     """
     SonarQube webservices Operations
     """
+
     def __init__(self, **kwargs):
         """
 
