@@ -14,10 +14,6 @@ class SonarCloudIssues(SonarQubeIssues):
     """
     SonarCloud issues Operations
     """
-    special_attributes_map = {
-        'issue_type': 'type',
-        'feedback': 'isFeedback'
-    }
 
     def search_issues(self, **kwargs):
         """
@@ -171,13 +167,13 @@ class SonarCloudIssues(SonarQubeIssues):
         return super().search_issues(**kwargs)
 
     @POST(API_ISSUES_ADD_COMMENT_ENDPOINT)
-    def issue_add_comment(self, issue, text, feedback='false'):
+    def issue_add_comment(self, issue, text, isFeedback='false'):
         """
         Add a comment.
 
         :param issue: Issue key
         :param text: Comment text
-        :param feedback: Define is the given comment is a feedback
+        :param isFeedback: Define is the given comment is a feedback
         :return: request response
         """
 

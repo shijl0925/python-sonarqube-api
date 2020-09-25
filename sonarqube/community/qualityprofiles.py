@@ -30,17 +30,6 @@ class SonarQubeQualityProfiles(RestClient):
     """
     SonarQube quality profiles Operations
     """
-    special_attributes_map = {
-        'profile_name': 'qualityProfile',
-        'parent_profile_name': 'parentQualityProfile',
-        'previous_profile_key': 'fromKey',
-        'new_profile_name': 'toName',
-        'profile_key': 'key',
-        'rule_key': 'rule',
-        'exporter_key': 'exporterKey',
-        'since_data': 'since',
-        'to_date': 'to'
-    }
 
     def __init__(self, **kwargs):
         """
@@ -49,12 +38,12 @@ class SonarQubeQualityProfiles(RestClient):
         """
         super(SonarQubeQualityProfiles, self).__init__(**kwargs)
 
-    def activate_rule_for_quality_profile(self, profile_key, rule_key, reset=False, severity=None, **params):
+    def activate_rule_for_quality_profile(self, key, rule, reset=False, severity=None, **params):
         """
         Activate a rule for a given quality profile.
 
-        :param profile_key: Quality Profile key.
-        :param rule_key: Rule key
+        :param key: Quality Profile key.
+        :param rule: Rule key
         :param reset: Reset severity and parameters of activated rule.
           Set the values defined on parent profile or from rule default values.
         :param severity: Severity. Ignored if parameter reset is true.
@@ -68,8 +57,8 @@ class SonarQubeQualityProfiles(RestClient):
         :return:
         """
         data = {
-            'rule': rule_key,
-            'key': profile_key,
+            'rule': rule,
+            'key': key,
             'reset': reset and 'true' or 'false'
         }
 
@@ -84,134 +73,133 @@ class SonarQubeQualityProfiles(RestClient):
             if params:
                 data['params'] = params
 
-        self.post(API_QUALITYPROFILES_ACTIVATE_RULE_ENDPOINT, params=data)
+        self._post(API_QUALITYPROFILES_ACTIVATE_RULE_ENDPOINT, params=data)
 
     @GET(API_QUALITYPROFILES_SEARCH_ENDPOINT)
-    def search_quality_profiles(self, defaults='false', language=None, project_key=None, profile_name=None):
+    def search_quality_profiles(self, defaults='false', language=None, project=None, qualityProfile=None):
         """
         Search quality profiles
 
         :param defaults: If set to true, return only the quality profiles marked as default for each language.
           Possible values are for: true or false. default value is false.
         :param language: Language key. If provided, only profiles for the given language are returned.
-        :param project_key: Project key
-        :param profile_name: Quality profile name
+        :param project: Project key
+        :param qualityProfile: Quality profile name
         :return:
         """
 
     @POST(API_QUALITYPROFILES_SET_DEFAULT_ENDPOINT)
-    def set_default_quality_profile(self, language, profile_name):
+    def set_default_quality_profile(self, language, qualityProfile):
         """
         Select the default profile for a given language.
 
         :param language: Quality profile language.
-        :param profile_name: Quality profile name.
+        :param qualityProfile: Quality profile name.
         :return:
         """
     @POST(API_QUALITYPROFILES_ADD_PROJECT_ENDPOINT)
-    def associate_project_with_quality_profile(self, project, language, profile_name):
+    def associate_project_with_quality_profile(self, project, language, qualityProfile):
         """
         Associate a project with a quality profile.
 
         :param project: Project key.
         :param language: Quality profile language.
-        :param profile_name: Quality profile name.
+        :param qualityProfile: Quality profile name.
         :return:
         """
 
     @POST(API_QUALITYPROFILES_REMOVE_PROJECT_ENDPOINT)
-    def remove_project_associate_with_quality_profile(self, project, language, profile_name):
+    def remove_project_associate_with_quality_profile(self, project, language, qualityProfile):
         """
         Remove a project's association with a quality profile.
 
         :param project: Project key
         :param language: Quality profile language.
-        :param profile_name: Quality profile name.
+        :param qualityProfile: Quality profile name.
         :return:
         """
 
     @GET(API_QUALITYPROFILES_BACKUP_ENDPOINT)
-    def backup_quality_profile(self, language, profile_name):
+    def backup_quality_profile(self, language, qualityProfile):
         """
         Backup a quality profile in XML form. The exported profile can be restored through api/qualityprofiles/restore.
 
         :param language: Quality profile language.
-        :param profile_name: Quality profile name.
+        :param qualityProfile: Quality profile name.
         :return:
         """
 
     @POST(API_QUALITYPROFILES_CHANGE_PARENT_ENDPOINT)
-    def change_parent_of_quality_profile(self, parent_profile_name, language, profile_name):
+    def change_parent_of_quality_profile(self, parentQualityProfile, language, qualityProfile):
         """
         Change a quality profile's parent.
 
-        :param parent_profile_name: Parent quality profile name.
+        :param parentQualityProfile: Parent quality profile name.
         :param language: Quality profile language.
-        :param profile_name: Quality profile name.
+        :param qualityProfile: Quality profile name.
         :return:
         """
 
     @PAGE_GET(API_QUALITYPROFILES_CHANGELOG_ENDPOINT, item='events')
-    def get_history_of_changes_on_quality_profile(self, language, profile_name, since_data=None, to_data=None):
+    def get_history_of_changes_on_quality_profile(self, language, qualityProfile, since=None, to=None):
         """
         Get the history of changes on a quality profile: rule activation/deactivation, change in parameters/severity.
         Events are ordered by date in descending order (most recent first).
 
         :param language: Quality profile language.
-        :param profile_name: Quality profile language.
-        :param since_data: Start date for the changelog. Either a date (server timezone) or datetime can be provided.
-        :param to_data: End date for the changelog. Either a date (server timezone) or datetime can be provided.
+        :param qualityProfile: Quality profile language.
+        :param since: Start date for the changelog. Either a date (server timezone) or datetime can be provided.
+        :param to: End date for the changelog. Either a date (server timezone) or datetime can be provided.
         :return:
         """
 
     @POST(API_QUALITYPROFILES_COPY_ENDPOINT)
-    def copy_quality_profile(self, previous_profile_key, new_profile_name):
+    def copy_quality_profile(self, fromKey, toName):
         """
         Copy a quality profile.
 
-        :param previous_profile_key: Quality profile key
-        :param new_profile_name: Name for the new quality profile.
+        :param fromKey: Quality profile key
+        :param toName: Name for the new quality profile.
         :return: request response
         """
 
     @POST(API_QUALITYPROFILES_CREATE_ENDPOINT)
-    def create_quality_profile(self, language, name, **kwargs):
+    def create_quality_profile(self, language, name):
         """
         Create a quality profile.
 
         :param language: Quality profile language
         :param name: Quality profile name
-        :param kwargs:
         :return: request response
         """
 
     @POST(API_QUALITYPROFILES_DEACTIVATE_RULE_ENDPOINT)
-    def deactivate_rule_on_quality_profile(self, profile_key, rule_key):
+    def deactivate_rule_on_quality_profile(self, key, rule):
         """
         Deactivate a rule on a quality profile.
 
-        :param profile_key: Quality Profile key. Can be obtained through api/qualityprofiles/search
-        :param rule_key: Rule key
+        :param key: Quality Profile key. Can be obtained through api/qualityprofiles/search
+        :param rule: Rule key
         :return:
         """
 
     @POST(API_QUALITYPROFILES_DELETE_ENDPOINT)
-    def delete_quality_profile(self, language, profile_name):
+    def delete_quality_profile(self, language, qualityProfile):
         """
         Delete a quality profile and all its descendants.
         The default quality profile cannot be deleted.
 
         :param language: Quality profile language.
-        :param profile_name: Quality profile name.
+        :param qualityProfile: Quality profile name.
         :return:
         """
 
     @GET(API_QUALITYPROFILES_EXPORT_ENDPOINT)
-    def export_quality_profile(self, exporter_key=None, language=None, profile_name=None):
+    def export_quality_profile(self, exporterKey=None, language=None, qualityProfile=None):
         """
         Export a quality profile.
 
-        :param exporter_key: Output format. If left empty, the same format as api/qualityprofiles/backup is used.
+        :param exporterKey: Output format. If left empty, the same format as api/qualityprofiles/backup is used.
           Possible values are described by api/qualityprofiles/exporters.
           Possible values are for:
             * sonarlint-vs-vbnet
@@ -221,7 +209,7 @@ class SonarQubeQualityProfiles(RestClient):
             * roslyn-vbnet
             * roslyn-cs
         :param language: Quality profile language
-        :param profile_name: Quality profile name to export. If left empty, the default profile for the language
+        :param qualityProfile: Quality profile name to export. If left empty, the default profile for the language
         is exported.
         :return:
         """
@@ -243,21 +231,21 @@ class SonarQubeQualityProfiles(RestClient):
         """
 
     @GET(API_QUALITYPROFILES_INHERITANCE_ENDPOINT)
-    def show_quality_profile(self, language, profile_name):
+    def show_quality_profile(self, language, qualityProfile):
         """
         Show a quality profile's ancestors and children.
 
         :param language: Quality profile language.
-        :param profile_name: Quality profile name.
+        :param qualityProfile: Quality profile name.
         :return:
         """
 
     @PAGE_GET(API_QUALITYPROFILES_PROJECTS_ENDPOINT, item='results')
-    def get_projects_associate_with_quality_profile(self, profile_key, q=None, selected="selected"):
+    def get_projects_associate_with_quality_profile(self, key, q=None, selected="selected"):
         """
         List projects with their association status regarding a quality profile
 
-        :param profile_key: Quality profile key
+        :param key: Quality profile key
         :param q: Limit search to projects that contain the supplied string.
         :param selected: Depending on the value, show only selected items (selected=selected),
           deselected items (selected=deselected), or all items with their selection status (selected=all).

@@ -14,10 +14,6 @@ class SonarQubeProjectLinks(RestClient):
     """
     SonarQube project links Operations
     """
-    special_attributes_map = {
-        'project_key': 'projectKey',
-        'link_id': 'id'
-    }
 
     def __init__(self, **kwargs):
         """
@@ -27,30 +23,30 @@ class SonarQubeProjectLinks(RestClient):
         super(SonarQubeProjectLinks, self).__init__(**kwargs)
 
     @POST(API_PROJECT_LINKS_CREATE_ENDPOINT)
-    def create_project_link(self, project_key, name, url):
+    def create_project_link(self, projectKey, name, url):
         """
         Create a new project link.
 
-        :param project_key: Project key
+        :param projectKey: Project key
         :param name: Link name
         :param url: Link url
         :return: request response
         """
 
     @POST(API_PROJECT_LINKS_DELETE_ENDPOINT)
-    def delete_project_link(self, link_id):
+    def delete_project_link(self, id):
         """
         Delete existing project link.
 
-        :param link_id: Link id
+        :param id: Link id
         :return:
         """
 
     @GET(API_PROJECT_LINKS_SEARCH_ENDPOINT)
-    def search_project_links(self, project_key):
+    def search_project_links(self, projectKey):
         """
         List links of a project.
 
-        :param project_key: Project Key
+        :param projectKey: Project Key
         :return:
         """

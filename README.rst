@@ -74,7 +74,6 @@ Example::
 API example
 -----------
 
-The API example supported by the SonarQubeClient are:
-The example documentation for API is available on `API examples
+The example documentation for SonarQubeClient APIs is available on `API examples
 <https://python-sonarqube-api.readthedocs.io/en/1.1.5/examples.html>`_.
 

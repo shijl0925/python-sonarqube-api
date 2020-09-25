@@ -333,20 +333,3 @@ class SonarQubeClient:
         """
         return SonarQubePlugins(api=self)
 
-    @staticmethod
-    def copy_dict(dest, src, option):
-        """
-        copy a dictionary to anther dictionary
-
-        :param dest:
-        :param src:
-        :param option:
-        :return:
-        """
-        for k, v in src.items():
-            if k in option:
-                if isinstance(v, dict):
-                    for dict_k, dict_v in v.items():
-                        dest['%s[%s]' % (k, dict_k)] = dict_v
-                else:
-                    dest[k] = v

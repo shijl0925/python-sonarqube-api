@@ -20,15 +20,15 @@ or::
 
 Delete a Webhook.::
 
-    sonar.webhooks.delete_webhook(webhook_key="AXQoj7QajOKlq86mQnzT")
+    sonar.webhooks.delete_webhook(webhook="AXQoj7QajOKlq86mQnzT")
 
 Get the recent deliveries for a specified project::
 
-    deliveries = list(sonar.webhooks.get_webhook_deliveries(component_key="my-project"))
+    deliveries = list(sonar.webhooks.get_webhook_deliveries(componentKey="my-project"))
 
 Get a webhook delivery by its id.::
 
-    delivery = sonar.webhooks.get_webhook_delivery(delivery_id="AXHAfha9dxfTzNWG9hAN")
+    delivery = sonar.webhooks.get_webhook_delivery(deliveryId="AXHAfha9dxfTzNWG9hAN")
 
 Search for global webhooks or project webhooks. Webhooks are ordered by name.::
 
@@ -36,7 +36,7 @@ Search for global webhooks or project webhooks. Webhooks are ordered by name.::
 
 Update a Webhook.::
 
-    sonar.webhooks.update_webhook(webhook_key="AXQojxbgjOKlq86mQnzS",
+    sonar.webhooks.update_webhook(webhook="AXQojxbgjOKlq86mQnzS",
                                   name="My Webhook",
                                   url="https://www.my-webhook-listener.com/sonar",
                                   secret="your_secret")

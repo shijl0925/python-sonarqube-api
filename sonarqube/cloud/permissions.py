@@ -29,41 +29,41 @@ class SonarCloudPermissions(SonarQubePermissions):
     """
 
     @POST(API_PERMISSIONS_ADD_GROUP_ENDPOINT)
-    def add_permission_to_group(self, group_name, organization, permission, project_key=None):
+    def add_permission_to_group(self, groupName, organization, permission, projectKey=None):
         """
         Add permission to a group.
         This service defaults to global permissions, but can be limited to project permissions by providing project key.
         The group name must be provided.
 
-        :param group_name: Group name or 'anyone' (case insensitive)
+        :param groupName: Group name or 'anyone' (case insensitive)
         :param organization: Key of organization
         :param permission: Permission.
           Possible values are for:
             * Possible values for global permissions: admin, profileadmin, gateadmin, scan, provisioning
             * Possible values for project permissions admin, codeviewer, issueadmin, securityhotspotadmin, scan, user
-        :param project_key: Project key
+        :param projectKey: Project key
         :return:
         """
 
     @POST(API_PERMISSIONS_REMOVE_GROUP_ENDPOINT)
-    def remove_permission_from_group(self, group_name, organization, permission, project_key=None):
+    def remove_permission_from_group(self, groupName, organization, permission, projectKey=None):
         """
         Remove a permission from a group.
         This service defaults to global permissions, but can be limited to project permissions by providing project key.
         The group name must be provided.
 
-        :param group_name: Group name or 'anyone' (case insensitive)
+        :param groupName: Group name or 'anyone' (case insensitive)
         :param organization: Key of organization
         :param permission: Permission
           Possible values are for:
             * Possible values for global permissions: admin, profileadmin, gateadmin, scan, provisioning
             * Possible values for project permissions admin, codeviewer, issueadmin, securityhotspotadmin, scan, user
-        :param project_key: Project key
+        :param projectKey: Project key
         :return:
         """
 
     @POST(API_PERMISSIONS_ADD_USER_ENDPOINT)
-    def add_permission_to_user(self, login, organization, permission, project_key=None):
+    def add_permission_to_user(self, login, organization, permission, projectKey=None):
         """
         Add permission to a user.
         This service defaults to global permissions, but can be limited to project permissions by providing project key.
@@ -74,12 +74,12 @@ class SonarCloudPermissions(SonarQubePermissions):
           Possible values are for:
             * Possible values for global permissions: admin, profileadmin, gateadmin, scan, provisioning
             * Possible values for project permissions admin, codeviewer, issueadmin, securityhotspotadmin, scan, user
-        :param project_key: Project key
+        :param projectKey: Project key
         :return:
         """
 
     @POST(API_PERMISSIONS_REMOVE_USER_ENDPOINT)
-    def remove_permission_from_user(self, login, organization, permission, project_key=None):
+    def remove_permission_from_user(self, login, organization, permission, projectKey=None):
         """
         Remove permission from a user.
         This service defaults to global permissions, but can be limited to project permissions by providing project key.
@@ -90,28 +90,28 @@ class SonarCloudPermissions(SonarQubePermissions):
           Possible values are for:
             * Possible values for global permissions: admin, profileadmin, gateadmin, scan, provisioning
             * Possible values for project permissions admin, codeviewer, issueadmin, securityhotspotadmin, scan, user
-        :param project_key: Project key
+        :param projectKey: Project key
         :return:
         """
 
     @POST(API_PERMISSIONS_APPLY_TEMPLATE_ENDPOINT)
-    def apply_template_to_project(self, template_name, organization, project_key):
+    def apply_template_to_project(self, template_name, organization, projectKey):
         """
         Apply a permission template to one project.
 
         :param template_name: Template name
         :param organization: Key of organization
-        :param project_key: Project key
+        :param projectKey: Project key
         :return:
         """
 
     @POST(API_PERMISSIONS_BULK_APPLY_TEMPLATE_ENDPOINT)
-    def apply_template_to_projects(self, template_name, organization, projects=None, analyzedBefore=None, onProvisionedOnly='false',
+    def apply_template_to_projects(self, templateName, organization, projects=None, analyzedBefore=None, onProvisionedOnly='false',
                                    q=None, qualifiers="TRK"):
         """
         Apply a permission template to several projects.
 
-        :param template_name: Template name
+        :param templateName: Template name
         :param organization: Key of organization
         :param projects: Comma-separated list of project keys
         :param analyzedBefore: Filter the projects for which last analysis is older than the given date (exclusive).
@@ -129,13 +129,13 @@ class SonarCloudPermissions(SonarQubePermissions):
         """
 
     @POST(API_PERMISSIONS_ADD_GROUP_TO_TEMPLATE_ENDPOINT)
-    def add_group_to_template(self, group_name, organization, template_name, permission):
+    def add_group_to_template(self, groupName, organization, templateName, permission):
         """
         Add a group to a permission template.
 
-        :param group_name: Group name or 'anyone' (case insensitive)
+        :param groupName: Group name or 'anyone' (case insensitive)
         :param organization: Key of organization
-        :param template_name: Template name
+        :param templateName: Template name
         :param permission: Permission
           Possible values are for:
             * Possible values for project permissions admin, codeviewer, issueadmin, securityhotspotadmin, scan, user
@@ -143,13 +143,13 @@ class SonarCloudPermissions(SonarQubePermissions):
         """
 
     @POST(API_PERMISSIONS_REMOVE_GROUP_FROM_TEMPLATE_ENDPOINT)
-    def remove_group_from_template(self, group_name, organization, template_name, permission):
+    def remove_group_from_template(self, groupName, organization, templateName, permission):
         """
         Remove a group from a permission template.
 
-        :param group_name: Group name or 'anyone' (case insensitive)
+        :param groupName: Group name or 'anyone' (case insensitive)
         :param organization: Key of organization
-        :param template_name: Template name
+        :param templateName: Template name
         :param permission: Permission
           Possible values are for:
             * Possible values for project permissions admin, codeviewer, issueadmin, securityhotspotadmin, scan, user
@@ -157,11 +157,11 @@ class SonarCloudPermissions(SonarQubePermissions):
         """
 
     @POST(API_PERMISSIONS_ADD_PROJECT_CREATOR_TO_TEMPLATE_ENDPOINT)
-    def add_project_creator_to_template(self, template_name, organization, permission):
+    def add_project_creator_to_template(self, templateName, organization, permission):
         """
         Add a project creator to a permission template.
 
-        :param template_name: Template name
+        :param templateName: Template name
         :param organization: Key of organizatio
         :param permission: Permission
           Possible values are for:
@@ -170,11 +170,11 @@ class SonarCloudPermissions(SonarQubePermissions):
         """
 
     @POST(API_PERMISSIONS_REMOVE_PROJECT_CREATOR_FROM_TEMPLATE_ENDPOINT)
-    def remove_project_creator_from_template(self, template_name, organization, permission):
+    def remove_project_creator_from_template(self, templateName, organization, permission):
         """
         Remove a project creator from a permission template.
 
-        :param template_name: Template name
+        :param templateName: Template name
         :param organization: Key of organization
         :param permission: Permission
           Possible values are for:
@@ -183,13 +183,13 @@ class SonarCloudPermissions(SonarQubePermissions):
         """
 
     @POST(API_PERMISSIONS_ADD_USER_TO_TEMPLATE_ENDPOINT)
-    def add_user_to_template(self, login, organization, template_name, permission):
+    def add_user_to_template(self, login, organization, templateName, permission):
         """
         Add a user to a permission template.
 
         :param login: User login
         :param organization: Key of organization
-        :param template_name: Template name
+        :param templateName: Template name
         :param permission: Permission
           Possible values are for:
             * Possible values for project permissions admin, codeviewer, issueadmin, securityhotspotadmin, scan, user
@@ -197,13 +197,13 @@ class SonarCloudPermissions(SonarQubePermissions):
         """
 
     @POST(API_PERMISSIONS_REMOVE_USER_FROM_TEMPLATE_ENDPOINT)
-    def remove_user_from_template(self, login, organization, template_name, permission):
+    def remove_user_from_template(self, login, organization, templateName, permission):
         """
         Remove a user from a permission template.
 
         :param login: User login
         :param organization: Key of organization
-        :param template_name: Template name
+        :param templateName: Template name
         :param permission: Permission
           Possible values are for:
             * Possible values for project permissions admin, codeviewer, issueadmin, securityhotspotadmin, scan, user
@@ -211,23 +211,23 @@ class SonarCloudPermissions(SonarQubePermissions):
         """
 
     @POST(API_PERMISSIONS_CREATE_TEMPLATE_ENDPOINT)
-    def create_template(self, name, organization, description=None, pattern=None):
+    def create_template(self, name, organization, description=None, projectKeyPattern=None):
         """
         Create a permission template.
 
         :param name: Template name
         :param organization: Key of organization
         :param description: Template description
-        :param pattern: Project key pattern. Must be a valid Java regular expression
+        :param projectKeyPattern: Project key pattern. Must be a valid Java regular expression
         :return: request response.
         """
 
     @POST(API_PERMISSIONS_DELETE_TEMPLATE_ENDPOINT)
-    def delete_template(self, template_name, organization):
+    def delete_template(self, templateName, organization):
         """
         Delete a permission template.
 
-        :param template_name: Template name
+        :param templateName: Template name
         :param organization: Key of organization
         :return:
         """
@@ -243,11 +243,11 @@ class SonarCloudPermissions(SonarQubePermissions):
         """
 
     @POST(API_PERMISSIONS_SET_DEFAULT_TEMPLATE_ENDPOINT)
-    def set_default_template(self, template_name, organization, qualifier="TRK"):
+    def set_default_template(self, templateName, organization, qualifier="TRK"):
         """
         Set a permission template as default.
 
-        :param template_name: Template name
+        :param templateName: Template name
         :param organization: Key of organization
         :param qualifier: Project qualifier. Filter the results with the specified qualifier.
           Possible values are:

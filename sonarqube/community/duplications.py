@@ -10,7 +10,6 @@ class SonarQubeDuplications(RestClient):
     """
     SonarQube duplications Operations
     """
-    special_attributes_map = {'pull_request_id': 'pullRequest'}
 
     def __init__(self, **kwargs):
         """
@@ -20,12 +19,12 @@ class SonarQubeDuplications(RestClient):
         super(SonarQubeDuplications, self).__init__(**kwargs)
 
     @GET(API_DUPLICATIONS_SHOW_ENDPOINT)
-    def get_duplications(self, key, branch=None, pull_request_id=None):
+    def get_duplications(self, key, branch=None, pullRequest=None):
         """
         Get duplications. Require Browse permission on file's project
 
         :param key: File key
         :param branch: Branch key
-        :param pull_request_id: Pull request id
+        :param pullRequest: Pull request id
         :return:
         """

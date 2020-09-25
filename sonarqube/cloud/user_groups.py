@@ -17,16 +17,16 @@ class SonarCloudUserGroups(SonarQubeUserGroups):
     """
     SonarCloud user_groups Operations
     """
-    def __getitem__(self, key):
+    def get(self, key):
         raise AttributeError("%s does not support this method" % self.__class__.__name__)
 
     @PAGE_GET(API_USER_GROUPS_SEARCH_ENDPOINT, item='groups')
-    def search_user_groups(self, organization, fields=None, q=None):
+    def search_user_groups(self, organization, f=None, q=None):
         """
         Search for user groups.
 
         :param organization: organization key.
-        :param fields: Comma-separated list of the fields to be returned in response.
+        :param f: Comma-separated list of the fields to be returned in response.
           All the fields are returned by default. Possible values are for:
             * name
             * description
@@ -36,11 +36,11 @@ class SonarCloudUserGroups(SonarQubeUserGroups):
         """
 
     @POST(API_USER_GROUPS_CREATE_ENDPOINT)
-    def create_group(self, group_name, organization, description=None):
+    def create_group(self, name, organization, description=None):
         """
         Create a group.
 
-        :param group_name: Name for the new group. A group name cannot be larger than 255 characters and must be unique.
+        :param name: Name for the new group. A group name cannot be larger than 255 characters and must be unique.
           The value 'anyone' (whatever the case) is reserved and cannot be used.
         :param organization: organization key.
         :param description: Description for the new group. A group description cannot be larger than 200 characters.
@@ -48,43 +48,43 @@ class SonarCloudUserGroups(SonarQubeUserGroups):
         """
 
     @POST(API_USER_GROUPS_DELETE_ENDPOINT)
-    def delete_group(self, group_name, organization):
+    def delete_group(self, name, organization):
         """
         Delete a group. The default groups cannot be deleted.
 
-        :param group_name: group name
+        :param name: group name
         :param organization: organization key.
         :return:
         """
 
     @POST(API_USER_GROUPS_ADD_USER_ENDPOINT)
-    def add_user_to_group(self, group_name, user_login, organization):
+    def add_user_to_group(self, name, login, organization):
         """
         Add a user to a group.
 
-        :param group_name: Group name
-        :param user_login: User login
+        :param name: Group name
+        :param login: User login
         :param organization: organization key.
         :return:
         """
 
     @POST(API_USER_GROUPS_REMOVE_USER_ENDPOINT)
-    def remove_user_from_group(self, group_name, user_login, organization):
+    def remove_user_from_group(self, name, login, organization):
         """
         Remove a user from a group.
 
-        :param group_name: Group name
-        :param user_login: User login
+        :param name: Group name
+        :param login: User login
         :param organization: organization key.
         :return:
         """
 
     @PAGE_GET(API_USER_GROUPS_USERS_ENDPOINT, item='users')
-    def search_users_belong_to_group(self, group_name, organization, q=None, selected="selected"):
+    def search_users_belong_to_group(self, name, organization, q=None, selected="selected"):
         """
         Search for users with membership information with respect to a group.
 
-        :param group_name: Group name
+        :param name: Group name
         :param organization: organization key.
         :param q: Limit search to names or logins that contain the supplied string.
         :param selected: Depending on the value, show only selected items (selected=selected), deselected items

@@ -26,5 +26,5 @@ Get the pending tasks, in-progress tasks and the last executed task of a given c
 
 Give Compute Engine task details such as type, status, duration and associated component::
 
-    task = sonar.ce.get_task(task_id="AXQJiIU3jOKlq86mQnLe", fields="stacktrace,scannerContext,warnings")
+    task = sonar.ce.get_task(id="AXQJiIU3jOKlq86mQnLe", additionalFields="stacktrace,scannerContext,warnings")
 

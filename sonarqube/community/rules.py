@@ -18,9 +18,6 @@ class SonarQubeRules(RestClient):
     """
     SonarQube rules Operations
     """
-    special_attributes_map = {
-        'rule_type': 'type'
-    }
 
     def __init__(self, **kwargs):
         """
@@ -29,7 +26,7 @@ class SonarQubeRules(RestClient):
         """
         super(SonarQubeRules, self).__init__(**kwargs)
 
-    def __getitem__(self, key):
+    def get(self, key):
         result = list(self.search_rules(rule_key=key))
         for rule in result:
             if rule['key'] == key:
@@ -198,7 +195,7 @@ class SonarQubeRules(RestClient):
         """
 
     @POST(API_RULES_CREATE_ENDPOINT)
-    def create_rule(self, custom_key, name, markdown_description, template_key, severity, status=None, rule_type=None,
+    def create_rule(self, custom_key, name, markdown_description, template_key, severity, status=None, type=None,
                     params=None):
         """
         Create a a custom rule.
@@ -220,7 +217,7 @@ class SonarQubeRules(RestClient):
             * DEPRECATED
             * READY
             * REMOVED
-        :param rule_type: Rule type.
+        :param type: Rule type.
           Possible values are for:
             * CODE_SMELL
             * BUG

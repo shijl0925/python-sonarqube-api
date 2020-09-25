@@ -14,9 +14,6 @@ class SonarQubeNotifications(RestClient):
     """
     SonarQube notifications Operations
     """
-    special_attributes_map = {
-        'notification_type': 'type'
-    }
 
     def __init__(self, **kwargs):
         """
@@ -35,12 +32,12 @@ class SonarQubeNotifications(RestClient):
         """
 
     @POST(API_NOTIFICATIONS_ADD_ENDPOINT)
-    def add_notification_for_user(self, login, notification_type, channel="EmailNotificationChannel", project=None):
+    def add_notification_for_user(self, login, type, channel="EmailNotificationChannel", project=None):
         """
         Add a notification for the authenticated user.
 
         :param login: User login
-        :param notification_type: Notification type.
+        :param type: Notification type.
           Possible values are for:
             * Global notifications: CeReportTaskFailure, ChangesOnMyIssue, NewAlerts, SQ-MyNewIssues
             * Per project notifications: CeReportTaskFailure, ChangesOnMyIssue, NewAlerts, NewFalsePositiveIssue,
@@ -52,12 +49,12 @@ class SonarQubeNotifications(RestClient):
         """
 
     @POST(API_NOTIFICATIONS_REMOVE_ENDPOINT)
-    def remove_notification_for_user(self, login, notification_type, channel="EmailNotificationChannel", project=None):
+    def remove_notification_for_user(self, login, type, channel="EmailNotificationChannel", project=None):
         """
         Remove a notification for the authenticated user.
 
         :param login: User login
-        :param notification_type: Notification type.
+        :param type: Notification type.
           Possible values are for:
             * Global notifications: CeReportTaskFailure, ChangesOnMyIssue, NewAlerts, SQ-MyNewIssues
             * Per project notifications: CeReportTaskFailure, ChangesOnMyIssue, NewAlerts, NewFalsePositiveIssue,

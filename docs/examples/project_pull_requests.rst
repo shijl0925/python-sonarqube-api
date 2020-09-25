@@ -14,5 +14,5 @@ List the pull requests of a project.::
 
 Delete a pull request.::
 
-    sonar.project_pull_requests.delete_project_pull_requests(project="my_project", pull_request_id=1543)
+    sonar.project_pull_requests.delete_project_pull_requests(project="my_project", pullRequest=1543)
 

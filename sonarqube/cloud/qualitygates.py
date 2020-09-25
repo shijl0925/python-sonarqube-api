@@ -27,22 +27,22 @@ class SonarCloudQualityGates(SonarQubeQualityGates):
     """
 
     @POST(API_QUALITYGATES_COPY_ENDPOINT)
-    def copy_quality_gate(self, source_id, gate_name, organization):
+    def copy_quality_gate(self, id, name, organization):
         """
         Copy a Quality Gate.
 
-        :param source_id: The ID of the source quality gate
-        :param gate_name: The name of the quality gate to create
+        :param id: The ID of the source quality gate
+        :param name: The name of the quality gate to create
         :param organization: Organization key.
         :return:
         """
 
     @POST(API_QUALITYGATES_CREATE_ENDPOINT)
-    def create_quality_gate(self, gate_name, organization):
+    def create_quality_gate(self, name, organization):
         """
         Create a Quality Gate.
 
-        :param gate_name: The name of the quality gate to create
+        :param name: The name of the quality gate to create
         :param organization: Organization key.
         :return: request response
         """
@@ -69,11 +69,11 @@ class SonarCloudQualityGates(SonarQubeQualityGates):
         """
 
     @POST(API_QUALITYGATES_CREATE_CONDITION_ENDPOINT)
-    def create_condition_to_quality_gate(self, gate_id, organization, metric, error, op=None):
+    def create_condition_to_quality_gate(self, gateId, organization, metric, error, op=None):
         """
         Add a new condition to a quality gate.
 
-        :param gate_id: ID of the quality gate
+        :param gateId: ID of the quality gate
         :param organization: Organization key.
         :param metric: Condition metric.
           Only metric of the following types are allowed:
@@ -94,21 +94,21 @@ class SonarCloudQualityGates(SonarQubeQualityGates):
         """
 
     @POST(API_QUALITYGATES_DELETE_CONDITION_ENDPOINT)
-    def delete_condition_from_quality_gate(self, condition_id, organization):
+    def delete_condition_from_quality_gate(self, id, organization):
         """
         Delete a condition from a quality gate.
 
-        :param condition_id: Condition ID
+        :param id: Condition ID
         :param organization: Organization key.
         :return:
         """
 
     @POST(API_QUALITYGATES_UPDATE_CONDITION_ENDPOINT)
-    def update_condition_to_quality_gate(self, condition_id, organization, metric, error, op=None):
+    def update_condition_to_quality_gate(self, id, organization, metric, error, op=None):
         """
         Update a condition attached to a quality gate.
 
-        :param condition_id: Condition ID
+        :param id: Condition ID
         :param organization: Organization key.
         :param metric: Condition metric.
           Only metric of the following types are allowed:
@@ -129,11 +129,11 @@ class SonarCloudQualityGates(SonarQubeQualityGates):
         """
 
     @PAGE_GET(API_QUALITYGATES_SEARCH_ENDPOINT, item='results')
-    def get_qualitygate_projects(self, gate_id, organization, selected="selected", query=None):
+    def get_qualitygate_projects(self, gateId, organization, selected="selected", query=None):
         """
         Search for projects associated (or not) to a quality gate.
 
-        :param gate_id: Quality Gate ID
+        :param gateId: Quality Gate ID
         :param organization: Organization key.
         :param selected: Depending on the value, show only selected items (selected=selected),
           deselected items (selected=deselected), or all items with their selection status (selected=all).
@@ -168,32 +168,32 @@ class SonarCloudQualityGates(SonarQubeQualityGates):
         """
 
     @POST(API_QUALITYGATES_SELECT_ENDPOINT)
-    def select_quality_gate_for_project(self, project_key, gate_id, organization):
+    def select_quality_gate_for_project(self, projectKey, gateId, organization):
         """
         Associate a project to a quality gate.
 
-        :param project_key: Project key
-        :param gate_id: Quality gate id
+        :param projectKey: Project key
+        :param gateId: Quality gate id
         :param organization: Organization key.
         :return:
         """
 
     @POST(API_QUALITYGATES_DESELECT_ENDPOINT)
-    def remove_project_from_quality_gate(self, project_key, organization):
+    def remove_project_from_quality_gate(self, projectKey, organization):
         """
         Remove the association of a project from a quality gate.
 
-        :param project_key: Project key
+        :param projectKey: Project key
         :param organization: Organization key.
         :return:
         """
 
     @GET(API_QUALITYGATES_SHOW_ENDPOINT)
-    def show_quality_gate(self, gate_name, organization):
+    def show_quality_gate(self, name, organization):
         """
         Display the details of a quality gate.
 
-        :param gate_name: Name of the quality gate.
+        :param name: Name of the quality gate.
         :param organization: Organization key.
         :return:
         """

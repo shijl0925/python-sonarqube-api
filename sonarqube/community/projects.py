@@ -29,7 +29,7 @@ class SonarQubeProjects(RestClient):
         """
         super(SonarQubeProjects, self).__init__(**kwargs)
 
-    def __getitem__(self, key):
+    def get(self, key):
         result = list(self.search_projects(projects=key))
         for project in result:
             if project['key'] == key:

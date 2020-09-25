@@ -15,7 +15,6 @@ class SonarQubeCe(RestClient):
     """
     SonarQube ce Operations
     """
-    special_attributes_map = {'task_id': 'id', 'fields': 'additionalFields'}
 
     def __init__(self, **kwargs):
         """
@@ -76,12 +75,12 @@ class SonarQubeCe(RestClient):
         """
 
     @GET(API_CE_TASK_ENDPOINT)
-    def get_task(self, task_id, fields=None):
+    def get_task(self, id, additionalFields=None):
         """
         Give Compute Engine task details such as type, status, duration and associated component.
 
-        :param task_id: Id of task
-        :param fields: Comma-separated list of the optional fields to be returned in response.
+        :param id: Id of task
+        :param additionalFields: Comma-separated list of the optional fields to be returned in response.
           Possible values are for: stacktrace,scannerContext,warnings
         :return:
         """

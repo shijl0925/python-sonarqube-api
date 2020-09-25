@@ -93,9 +93,9 @@ def endpoint(url_pattern, method='GET', item=None):
 
             response = None
             if method == 'GET':
-                response = self.get(url_pattern, params=params)
+                response = self._get(url_pattern, params=params)
             elif method == 'POST':
-                response = self.post(url_pattern, params=params)
+                response = self._post(url_pattern, params=params)
 
             if response:
                 try:
@@ -112,7 +112,7 @@ def endpoint(url_pattern, method='GET', item=None):
                 total = 2
 
                 while page_num * page_size < total:
-                    response = self.get(url_pattern, params=params).json()
+                    response = self._get(url_pattern, params=params).json()
                     if 'paging' in response:
                         page_num = response['paging']['pageIndex']
                         page_size = response['paging']['pageSize']

@@ -16,7 +16,7 @@ class SonarCloudRules(SonarQubeRules):
     SonarCloud rules Operations
     """
 
-    def __getitem__(self, key):
+    def get(self, key):
         raise AttributeError("%s does not support this method" % self.__class__.__name__)
 
     @PAGE_GET(API_RULES_SEARCH_ENDPOINT, item='rules')
@@ -182,7 +182,7 @@ class SonarCloudRules(SonarQubeRules):
         :return:
         """
 
-    def create_rule(self, custom_key, name, markdown_description, template_key, severity, status=None, rule_type=None,
+    def create_rule(self, custom_key, name, markdown_description, template_key, severity, status=None, type=None,
                     params=None):
         """
 
@@ -192,7 +192,7 @@ class SonarCloudRules(SonarQubeRules):
         :param template_key:
         :param severity:
         :param status:
-        :param rule_type:
+        :param type:
         :param params:
         :return:
         """
