@@ -5,7 +5,7 @@ from sonarqube.utils.rest_client import RestClient
 from sonarqube.utils.config import (
     API_PROJECT_BRANCHES_LIST_ENDPOINT,
     API_PROJECT_BRANCHES_DELETE_ENDPOINT,
-    API_PROJECT_BRANCHES_RENAME_ENDPOINT
+    API_PROJECT_BRANCHES_RENAME_ENDPOINT,
 )
 from sonarqube.utils.common import GET, POST
 
@@ -14,6 +14,7 @@ class SonarQubeProjectBranches(RestClient):
     """
     SonarQube project branches Operations
     """
+
     def __init__(self, **kwargs):
         """
 

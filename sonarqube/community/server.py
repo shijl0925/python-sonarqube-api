@@ -10,6 +10,7 @@ class SonarQubeServer(RestClient):
     """
     SonarQube server Operations
     """
+
     def __init__(self, **kwargs):
         """
 

@@ -9,7 +9,7 @@ from sonarqube.utils.config import (
     API_RULES_DELETE_ENDPOINT,
     API_RULES_SHOW_ENDPOINT,
     API_RULES_TAGS_ENDPOINT,
-    API_RULES_REPOSITORIES_ENDPOINT
+    API_RULES_REPOSITORIES_ENDPOINT,
 )
 from sonarqube.utils.common import GET, POST, PAGE_GET
 
@@ -29,15 +29,37 @@ class SonarQubeRules(RestClient):
     def get(self, key):
         result = list(self.search_rules(rule_key=key))
         for rule in result:
-            if rule['key'] == key:
+            if rule["key"] == key:
                 return rule
 
-    @PAGE_GET(API_RULES_SEARCH_ENDPOINT, item='rules')
-    def search_rules(self, activation=None, qprofile=None, languages=None, active_severities=None, asc='true',
-                     available_since=None, cwe=None, f=None, facets=None, include_external='false', inheritance=None,
-                     is_template=None, owaspTop10=None, q=None, repositories=None, rule_key=None, s=None,
-                     sansTop25=None, severities=None, sonarsourceSecurity=None, statuses=None, tags=None,
-                     template_key=None, types=None):
+    @PAGE_GET(API_RULES_SEARCH_ENDPOINT, item="rules")
+    def search_rules(
+        self,
+        activation=None,
+        qprofile=None,
+        languages=None,
+        active_severities=None,
+        asc="true",
+        available_since=None,
+        cwe=None,
+        f=None,
+        facets=None,
+        include_external="false",
+        inheritance=None,
+        is_template=None,
+        owaspTop10=None,
+        q=None,
+        repositories=None,
+        rule_key=None,
+        s=None,
+        sansTop25=None,
+        severities=None,
+        sonarsourceSecurity=None,
+        statuses=None,
+        tags=None,
+        template_key=None,
+        types=None,
+    ):
         """
         Search for a collection of relevant rules matching a specified query.
 
@@ -195,8 +217,17 @@ class SonarQubeRules(RestClient):
         """
 
     @POST(API_RULES_CREATE_ENDPOINT)
-    def create_rule(self, custom_key, name, markdown_description, template_key, severity, status=None, type=None,
-                    params=None):
+    def create_rule(
+        self,
+        custom_key,
+        name,
+        markdown_description,
+        template_key,
+        severity,
+        status=None,
+        type=None,
+        params=None,
+    ):
         """
         Create a a custom rule.
 
@@ -229,9 +260,19 @@ class SonarQubeRules(RestClient):
         """
 
     @POST(API_RULES_UPDATE_ENDPOINT)
-    def update_rule(self, key, name=None, markdown_description=None, markdown_note=None,
-                    remediation_fn_base_effort=None, remediation_fn_type=None, remediation_fy_gap_multiplier=None,
-                    severity=None, status=None, tags=None):
+    def update_rule(
+        self,
+        key,
+        name=None,
+        markdown_description=None,
+        markdown_note=None,
+        remediation_fn_base_effort=None,
+        remediation_fn_type=None,
+        remediation_fy_gap_multiplier=None,
+        severity=None,
+        status=None,
+        tags=None,
+    ):
         """
         Update an existing rule.
 
@@ -276,7 +317,7 @@ class SonarQubeRules(RestClient):
         """
 
     @GET(API_RULES_SHOW_ENDPOINT)
-    def get_rule(self, key, actives='false'):
+    def get_rule(self, key, actives="false"):
         """
         Get detailed information about a rule.
 

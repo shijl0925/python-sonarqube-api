@@ -19,7 +19,7 @@ from sonarqube.utils.config import (
     API_PERMISSIONS_DELETE_TEMPLATE_ENDPOINT,
     API_PERMISSIONS_SEARCH_TEMPLATES_ENDPOINT,
     API_PERMISSIONS_SET_DEFAULT_TEMPLATE_ENDPOINT,
-    API_PERMISSIONS_UPDATE_TEMPLATE_ENDPOINT
+    API_PERMISSIONS_UPDATE_TEMPLATE_ENDPOINT,
 )
 from sonarqube.utils.common import GET, POST
 
@@ -109,8 +109,15 @@ class SonarQubePermissions(RestClient):
         """
 
     @POST(API_PERMISSIONS_BULK_APPLY_TEMPLATE_ENDPOINT)
-    def apply_template_to_projects(self, templateName, projects=None, analyzedBefore=None, onProvisionedOnly='false',
-                                   q=None, qualifiers="TRK"):
+    def apply_template_to_projects(
+        self,
+        templateName,
+        projects=None,
+        analyzedBefore=None,
+        onProvisionedOnly="false",
+        q=None,
+        qualifiers="TRK",
+    ):
         """
         Apply a permission template to several projects.
 

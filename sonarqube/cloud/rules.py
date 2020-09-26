@@ -6,7 +6,7 @@ from sonarqube.utils.config import (
     API_RULES_SEARCH_ENDPOINT,
     API_RULES_UPDATE_ENDPOINT,
     API_RULES_SHOW_ENDPOINT,
-    API_RULES_TAGS_ENDPOINT
+    API_RULES_TAGS_ENDPOINT,
 )
 from sonarqube.utils.common import GET, POST, PAGE_GET
 
@@ -17,14 +17,39 @@ class SonarCloudRules(SonarQubeRules):
     """
 
     def get(self, key):
-        raise AttributeError("%s does not support this method" % self.__class__.__name__)
+        raise AttributeError(
+            "%s does not support this method" % self.__class__.__name__
+        )
 
-    @PAGE_GET(API_RULES_SEARCH_ENDPOINT, item='rules')
-    def search_rules(self, organization, activation=None, qprofile=None, languages=None, active_severities=None,
-                     asc='true', available_since=None, cwe=None, f=None, facets=None, include_external='false',
-                     inheritance=None, is_template=None, owaspTop10=None, q=None, repositories=None, rule_key=None,
-                     s=None, sansTop25=None, severities=None, sonarsourceSecurity=None, statuses=None, tags=None,
-                     template_key=None, types=None):
+    @PAGE_GET(API_RULES_SEARCH_ENDPOINT, item="rules")
+    def search_rules(
+        self,
+        organization,
+        activation=None,
+        qprofile=None,
+        languages=None,
+        active_severities=None,
+        asc="true",
+        available_since=None,
+        cwe=None,
+        f=None,
+        facets=None,
+        include_external="false",
+        inheritance=None,
+        is_template=None,
+        owaspTop10=None,
+        q=None,
+        repositories=None,
+        rule_key=None,
+        s=None,
+        sansTop25=None,
+        severities=None,
+        sonarsourceSecurity=None,
+        statuses=None,
+        tags=None,
+        template_key=None,
+        types=None,
+    ):
         """
         Search for a collection of relevant rules matching a specified query.
 
@@ -182,8 +207,17 @@ class SonarCloudRules(SonarQubeRules):
         :return:
         """
 
-    def create_rule(self, custom_key, name, markdown_description, template_key, severity, status=None, type=None,
-                    params=None):
+    def create_rule(
+        self,
+        custom_key,
+        name,
+        markdown_description,
+        template_key,
+        severity,
+        status=None,
+        type=None,
+        params=None,
+    ):
         """
 
         :param custom_key:
@@ -196,7 +230,9 @@ class SonarCloudRules(SonarQubeRules):
         :param params:
         :return:
         """
-        raise AttributeError("%s does not support this method" % self.__class__.__name__)
+        raise AttributeError(
+            "%s does not support this method" % self.__class__.__name__
+        )
 
     @POST(API_RULES_UPDATE_ENDPOINT)
     def update_rule(self, key, organization, **kwargs):
@@ -243,10 +279,12 @@ class SonarCloudRules(SonarQubeRules):
         :param key:
         :return:
         """
-        raise AttributeError("%s does not support this method" % self.__class__.__name__)
+        raise AttributeError(
+            "%s does not support this method" % self.__class__.__name__
+        )
 
     @GET(API_RULES_SHOW_ENDPOINT)
-    def get_rule(self, key, organization, actives='false'):
+    def get_rule(self, key, organization, actives="false"):
         """
         Get detailed information about a rule.
 

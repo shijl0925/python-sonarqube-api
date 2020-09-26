@@ -5,7 +5,7 @@ from sonarqube.utils.rest_client import RestClient
 from sonarqube.utils.config import (
     API_AUTH_LOGIN_ENDPOINT,
     API_AUTH_LOGOUT_ENDPOINT,
-    API_AUTH_VALIDATE_ENDPOINT
+    API_AUTH_VALIDATE_ENDPOINT,
 )
 from sonarqube.utils.common import GET, POST
 
@@ -14,6 +14,7 @@ class SonarQubeAuth(RestClient):
     """
     SonarQube authentication Operations
     """
+
     def __init__(self, **kwargs):
         """
 

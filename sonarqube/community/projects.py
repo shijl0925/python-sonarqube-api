@@ -8,7 +8,7 @@ from sonarqube.utils.config import (
     API_PROJECTS_CREATE_ENDPOINT,
     API_PROJECTS_DELETE_ENDPOINT,
     API_PROJECTS_UPDATE_VISIBILITY_ENDPOINT,
-    API_PROJECTS_UPDATE_KEY_ENDPOINT
+    API_PROJECTS_UPDATE_KEY_ENDPOINT,
 )
 from sonarqube.utils.common import PAGE_GET, POST
 
@@ -17,10 +17,8 @@ class SonarQubeProjects(RestClient):
     """
     SonarQube projects Operations
     """
-    special_attributes_map = {
-        'previous_project_key': 'from',
-        'new_project_key': 'to'
-    }
+
+    special_attributes_map = {"previous_project_key": "from", "new_project_key": "to"}
 
     def __init__(self, **kwargs):
         """
@@ -32,11 +30,18 @@ class SonarQubeProjects(RestClient):
     def get(self, key):
         result = list(self.search_projects(projects=key))
         for project in result:
-            if project['key'] == key:
+            if project["key"] == key:
                 return project
 
-    @PAGE_GET(API_PROJECTS_SEARCH_ENDPOINT, item='components')
-    def search_projects(self, analyzedBefore=None, onProvisionedOnly='false', projects=None, q=None, qualifiers="TRK"):
+    @PAGE_GET(API_PROJECTS_SEARCH_ENDPOINT, item="components")
+    def search_projects(
+        self,
+        analyzedBefore=None,
+        onProvisionedOnly="false",
+        projects=None,
+        q=None,
+        qualifiers="TRK",
+    ):
         """
         Search for projects or views to administrate them.
 
@@ -84,8 +89,14 @@ class SonarQubeProjects(RestClient):
         """
 
     @POST(API_PROJECTS_BULK_DELETE_ENDPOINT)
-    def bulk_delete_projects(self, analyzedBefore=None, onProvisionedOnly='false', projects=None,
-                             q=None, qualifiers="TRK"):
+    def bulk_delete_projects(
+        self,
+        analyzedBefore=None,
+        onProvisionedOnly="false",
+        projects=None,
+        q=None,
+        qualifiers="TRK",
+    ):
         """
         Delete one or several projects.
         At least one parameter is required among analyzedBefore, projects, projectIds (deprecated since 6.4) and q

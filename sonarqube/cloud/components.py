@@ -10,7 +10,8 @@ class SonarCloudComponents(SonarQubeComponents):
     """
     SonarCloud components Operations
     """
-    @PAGE_GET(API_COMPONTENTS_SEARCH_ENDPOINT, item='components')
+
+    @PAGE_GET(API_COMPONTENTS_SEARCH_ENDPOINT, item="components")
     def search_components(self, organization, qualifiers, language=None, q=None):
         """
         Search for components

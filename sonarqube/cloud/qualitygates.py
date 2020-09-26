@@ -16,7 +16,7 @@ from sonarqube.utils.config import (
     API_QUALITYGATES_DELETE_CONDITION_ENDPOINT,
     API_QUALITYGATES_UPDATE_CONDITION_ENDPOINT,
     API_QUALITYGATES_SEARCH_ENDPOINT,
-    API_QUALITYGATES_SET_AS_DEFAULT_ENDPOINT
+    API_QUALITYGATES_SET_AS_DEFAULT_ENDPOINT,
 )
 from sonarqube.utils.common import GET, POST, PAGE_GET
 
@@ -69,7 +69,9 @@ class SonarCloudQualityGates(SonarQubeQualityGates):
         """
 
     @POST(API_QUALITYGATES_CREATE_CONDITION_ENDPOINT)
-    def create_condition_to_quality_gate(self, gateId, organization, metric, error, op=None):
+    def create_condition_to_quality_gate(
+        self, gateId, organization, metric, error, op=None
+    ):
         """
         Add a new condition to a quality gate.
 
@@ -104,7 +106,9 @@ class SonarCloudQualityGates(SonarQubeQualityGates):
         """
 
     @POST(API_QUALITYGATES_UPDATE_CONDITION_ENDPOINT)
-    def update_condition_to_quality_gate(self, id, organization, metric, error, op=None):
+    def update_condition_to_quality_gate(
+        self, id, organization, metric, error, op=None
+    ):
         """
         Update a condition attached to a quality gate.
 
@@ -128,8 +132,10 @@ class SonarCloudQualityGates(SonarQubeQualityGates):
         :return:
         """
 
-    @PAGE_GET(API_QUALITYGATES_SEARCH_ENDPOINT, item='results')
-    def get_qualitygate_projects(self, gateId, organization, selected="selected", query=None):
+    @PAGE_GET(API_QUALITYGATES_SEARCH_ENDPOINT, item="results")
+    def get_qualitygate_projects(
+        self, gateId, organization, selected="selected", query=None
+    ):
         """
         Search for projects associated (or not) to a quality gate.
 

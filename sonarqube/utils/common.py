@@ -12,7 +12,7 @@ def strip_trailing_slash(url):
     :param url:
     :return:
     """
-    if url.endswith('/'):
+    if url.endswith("/"):
         url = url[:-1]
     return url
 
@@ -28,7 +28,7 @@ def get_args(func):
     if not argspec.defaults:
         args = argspec.args[1:]
     else:
-        args = argspec.args[1:-len(argspec.defaults)]
+        args = argspec.args[1 : -len(argspec.defaults)]
 
     return args
 
@@ -45,7 +45,7 @@ def get_default_kwargs(func):
     if not argspec.defaults:
         return []
 
-    return zip(argspec.args[-len(argspec.defaults):], argspec.defaults)
+    return zip(argspec.args[-len(argspec.defaults) :], argspec.defaults)
 
 
 def translate_params(f, *args, **kwargs):
@@ -59,9 +59,11 @@ def translate_params(f, *args, **kwargs):
     all_params = dict(get_default_kwargs(f))
 
     if len(get_args(f)) < len(args):
-        additional_values = args[len(get_args(f)):]
+        additional_values = args[len(get_args(f)) :]
         func_parameters = inspect.getargspec(f).args[1:]
-        additional_args = func_parameters[len(get_args(f)):len(get_args(f)) + len(additional_values)]
+        additional_args = func_parameters[
+            len(get_args(f)) : len(get_args(f)) + len(additional_values)
+        ]
         all_params.update(dict(zip(additional_args, additional_values)))
 
     all_params.update(dict(zip(get_args(f), args)))
@@ -92,7 +94,7 @@ def translate_special_params(func_params, attributes_map):
     return params
 
 
-def endpoint(url_pattern, method='GET'):
+def endpoint(url_pattern, method="GET"):
     """
 
     :param url_pattern:
@@ -100,6 +102,7 @@ def endpoint(url_pattern, method='GET'):
     :param item:
     :return:
     """
+
     def wrapped_func(f):
         @wraps(f)
         def inner_func(self, *args, **kwargs):
@@ -114,14 +117,14 @@ def endpoint(url_pattern, method='GET'):
             params = translate_special_params(func_params, self.special_attributes_map)
 
             response = None
-            if method == 'GET':
+            if method == "GET":
                 response = self._get(url_pattern, params=params)
-            elif method == 'POST':
+            elif method == "POST":
                 response = self._post(url_pattern, params=params)
 
             if response:
                 try:
-                    if response.headers['Content-Type'] == 'application/json':
+                    if response.headers["Content-Type"] == "application/json":
                         return response.json()
                     else:
                         return response.text
@@ -129,6 +132,7 @@ def endpoint(url_pattern, method='GET'):
                     return response.content
 
         return inner_func
+
     return wrapped_func
 
 
@@ -139,6 +143,7 @@ def page_endpoint(url_pattern, item=None):
     :param item:
     :return:
     """
+
     def wrapped_func(f):
         @wraps(f)
         def inner_func(self, *args, **kwargs):
@@ -158,16 +163,16 @@ def page_endpoint(url_pattern, item=None):
 
             while page_num * page_size < total:
                 response = self._get(url_pattern, params=params).json()
-                if 'paging' in response:
-                    page_num = response['paging']['pageIndex']
-                    page_size = response['paging']['pageSize']
-                    total = response['paging']['total']
+                if "paging" in response:
+                    page_num = response["paging"]["pageIndex"]
+                    page_size = response["paging"]["pageSize"]
+                    total = response["paging"]["total"]
                 else:
-                    page_num = response['p']
-                    page_size = response['ps']
-                    total = response['total']
+                    page_num = response["p"]
+                    page_size = response["ps"]
+                    total = response["total"]
 
-                params['p'] = page_num + 1
+                params["p"] = page_num + 1
 
                 for i in response[item]:
                     yield i
@@ -176,6 +181,7 @@ def page_endpoint(url_pattern, item=None):
                     break
 
         return inner_func
+
     return wrapped_func
 
 
@@ -185,7 +191,7 @@ def GET(url_pattern):
     :param url_pattern:
     :return:
     """
-    return endpoint(url_pattern, method='GET')
+    return endpoint(url_pattern, method="GET")
 
 
 def POST(url_pattern):
@@ -194,7 +200,7 @@ def POST(url_pattern):
     :param url_pattern:
     :return:
     """
-    return endpoint(url_pattern, method='POST')
+    return endpoint(url_pattern, method="POST")
 
 
 def PAGE_GET(url_pattern, item):

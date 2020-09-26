@@ -5,7 +5,7 @@ from sonarqube.utils.rest_client import RestClient
 from sonarqube.utils.config import (
     API_MEASURES_COMPONENT_ENDPOINT,
     API_MEASURES_COMPONENT_TREE_ENDPOINT,
-    API_MEASURES_SEARCH_HISTORY_ENDPOINT
+    API_MEASURES_SEARCH_HISTORY_ENDPOINT,
 )
 from sonarqube.utils.common import GET, PAGE_GET
 
@@ -14,10 +14,8 @@ class SonarQubeMeasures(RestClient):
     """
     SonarQube measures Operations
     """
-    special_attributes_map = {
-        'from_date': 'from',
-        'to_date': 'to'
-    }
+
+    special_attributes_map = {"from_date": "from", "to_date": "to"}
 
     def __init__(self, **kwargs):
         """
@@ -27,8 +25,14 @@ class SonarQubeMeasures(RestClient):
         super(SonarQubeMeasures, self).__init__(**kwargs)
 
     @GET(API_MEASURES_COMPONENT_ENDPOINT)
-    def get_component_with_specified_measures(self, component, metricKeys, branch=None, pullRequest=None,
-                                              additionalFields=None):
+    def get_component_with_specified_measures(
+        self,
+        component,
+        metricKeys,
+        branch=None,
+        pullRequest=None,
+        additionalFields=None,
+    ):
         """
         Return component with specified measures.
 
@@ -41,11 +45,24 @@ class SonarQubeMeasures(RestClient):
         :return:
         """
 
-    @PAGE_GET(API_MEASURES_COMPONENT_TREE_ENDPOINT, item='components')
-    def get_component_tree_with_specified_measures(self, component, metricKeys, branch=None, pullRequest=None,
-                                                   asc='true', additionalFields=None, metricPeriodSort=None,
-                                                   metricSort=None, metricSortFilter='all', ps=None, q=None, s='name',
-                                                   qualifiers=None, strategy='all'):
+    @PAGE_GET(API_MEASURES_COMPONENT_TREE_ENDPOINT, item="components")
+    def get_component_tree_with_specified_measures(
+        self,
+        component,
+        metricKeys,
+        branch=None,
+        pullRequest=None,
+        asc="true",
+        additionalFields=None,
+        metricPeriodSort=None,
+        metricSort=None,
+        metricSortFilter="all",
+        ps=None,
+        q=None,
+        s="name",
+        qualifiers=None,
+        strategy="all",
+    ):
         """
         Navigate through components based on the chosen strategy with specified measures. The baseComponentId or
         the component parameter must be provided.
@@ -96,9 +113,16 @@ class SonarQubeMeasures(RestClient):
         :return:
         """
 
-    @PAGE_GET(API_MEASURES_SEARCH_HISTORY_ENDPOINT, item='measures')
-    def search_measures_history(self, component, metrics, branch=None, pullRequest=None,
-                                from_date=None, to_date=None):
+    @PAGE_GET(API_MEASURES_SEARCH_HISTORY_ENDPOINT, item="measures")
+    def search_measures_history(
+        self,
+        component,
+        metrics,
+        branch=None,
+        pullRequest=None,
+        from_date=None,
+        to_date=None,
+    ):
         """
         Search measures history of a component
 

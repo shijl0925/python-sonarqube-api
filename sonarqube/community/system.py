@@ -11,7 +11,7 @@ from sonarqube.utils.config import (
     API_SYSTEM_PING_ENDPOINT,
     API_SYSTEM_RESTART_ENDPOINT,
     API_SYSTEM_STATUS_ENDPOINT,
-    API_SYSTEM_UPGRADES_ENDPOINT
+    API_SYSTEM_UPGRADES_ENDPOINT,
 )
 from sonarqube.utils.common import GET, POST
 
@@ -20,6 +20,7 @@ class SonarQubeSystem(RestClient):
     """
     SonarQube system Operations
     """
+
     def __init__(self, **kwargs):
         """
 
@@ -66,7 +67,7 @@ class SonarQubeSystem(RestClient):
         """
 
     @GET(API_SYSTEM_LOGS_ENDPOINT)
-    def get_logs(self, process='app'):
+    def get_logs(self, process="app"):
         """
         Get system logs in plain-text format.
 

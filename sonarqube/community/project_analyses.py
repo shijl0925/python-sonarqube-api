@@ -9,7 +9,7 @@ from sonarqube.utils.config import (
     API_PROJECT_ANALYSES_SEARCH_ENDPOINT,
     API_PROJECT_ANALYSES_SET_BASELINE_ENDPOINT,
     API_PROJECT_ANALYSES_UNSET_BASELINE_ENDPOINT,
-    API_PROJECT_ANALYSES_UPDATE_EVENT_ENDPOINT
+    API_PROJECT_ANALYSES_UPDATE_EVENT_ENDPOINT,
 )
 from sonarqube.utils.common import POST, PAGE_GET
 
@@ -18,10 +18,8 @@ class SonarQubeProjectAnalyses(RestClient):
     """
     SonarQube project analyses Operations
     """
-    special_attributes_map = {
-        'from_date': 'from',
-        'to_date': 'to'
-    }
+
+    special_attributes_map = {"from_date": "from", "to_date": "to"}
 
     def __init__(self, **kwargs):
         """
@@ -63,8 +61,10 @@ class SonarQubeProjectAnalyses(RestClient):
         :return:
         """
 
-    @PAGE_GET(API_PROJECT_ANALYSES_SEARCH_ENDPOINT, item='analyses')
-    def search_project_analyses_and_events(self, project, branch=None, category=None, from_date=None, to_date=None):
+    @PAGE_GET(API_PROJECT_ANALYSES_SEARCH_ENDPOINT, item="analyses")
+    def search_project_analyses_and_events(
+        self, project, branch=None, category=None, from_date=None, to_date=None
+    ):
         """
         Search a project analyses and attached events.
 

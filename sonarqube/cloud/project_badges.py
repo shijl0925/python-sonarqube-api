@@ -4,7 +4,7 @@
 from sonarqube.community.project_badges import SonarQubeProjectBadges
 from sonarqube.utils.config import (
     API_PROJECT_BADGES_MEASURE_ENDPOINT,
-    API_PROJECT_BADGES_QUALITY_GATE_ENDPOINT
+    API_PROJECT_BADGES_QUALITY_GATE_ENDPOINT,
 )
 from sonarqube.utils.common import GET
 
@@ -15,7 +15,9 @@ class SonarCloudProjectBadges(SonarQubeProjectBadges):
     """
 
     @GET(API_PROJECT_BADGES_MEASURE_ENDPOINT)
-    def generate_badge_for_project_measures(self, project, metric, branch=None, token=None):
+    def generate_badge_for_project_measures(
+        self, project, metric, branch=None, token=None
+    ):
         """
         Generate badge for project's measure as an SVG.
 

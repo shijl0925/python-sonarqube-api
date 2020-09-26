@@ -9,7 +9,7 @@ from sonarqube.utils.config import (
     API_USER_GROUPS_UPDATE_ENDPOINT,
     API_USER_GROUPS_USERS_ENDPOINT,
     API_USER_GROUPS_ADD_USER_ENDPOINT,
-    API_USER_GROUPS_REMOVE_USER_ENDPOINT
+    API_USER_GROUPS_REMOVE_USER_ENDPOINT,
 )
 from sonarqube.utils.common import POST, PAGE_GET
 
@@ -29,10 +29,10 @@ class SonarQubeUserGroups(RestClient):
     def get(self, name):
         result = list(self.search_user_groups(q=name))
         for group in result:
-            if group['name'] == name:
+            if group["name"] == name:
                 return group
 
-    @PAGE_GET(API_USER_GROUPS_SEARCH_ENDPOINT, item='groups')
+    @PAGE_GET(API_USER_GROUPS_SEARCH_ENDPOINT, item="groups")
     def search_user_groups(self, f=None, q=None):
         """
         Search for user groups.
@@ -100,7 +100,7 @@ class SonarQubeUserGroups(RestClient):
         :return:
         """
 
-    @PAGE_GET(API_USER_GROUPS_USERS_ENDPOINT, item='users')
+    @PAGE_GET(API_USER_GROUPS_USERS_ENDPOINT, item="users")
     def search_users_belong_to_group(self, name, q=None, selected="selected"):
         """
         Search for users with membership information with respect to a group.

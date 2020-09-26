@@ -12,8 +12,17 @@ class SonarCloudCe(SonarQubeCe):
     """
 
     @GET(API_CE_ACTIVITY_ENDPOINT)
-    def search_tasks(self, component=None, maxExecutedAt=None, minSubmittedAt=None, onlyCurrents=None, ps=None,
-                     q=None, status=None, type=None):
+    def search_tasks(
+        self,
+        component=None,
+        maxExecutedAt=None,
+        minSubmittedAt=None,
+        onlyCurrents=None,
+        ps=None,
+        q=None,
+        status=None,
+        type=None,
+    ):
         """
         Search for tasks.
 

@@ -18,7 +18,7 @@ from sonarqube.utils.config import (
     API_PERMISSIONS_CREATE_TEMPLATE_ENDPOINT,
     API_PERMISSIONS_DELETE_TEMPLATE_ENDPOINT,
     API_PERMISSIONS_SEARCH_TEMPLATES_ENDPOINT,
-    API_PERMISSIONS_SET_DEFAULT_TEMPLATE_ENDPOINT
+    API_PERMISSIONS_SET_DEFAULT_TEMPLATE_ENDPOINT,
 )
 from sonarqube.utils.common import GET, POST
 
@@ -29,7 +29,9 @@ class SonarCloudPermissions(SonarQubePermissions):
     """
 
     @POST(API_PERMISSIONS_ADD_GROUP_ENDPOINT)
-    def add_permission_to_group(self, groupName, organization, permission, projectKey=None):
+    def add_permission_to_group(
+        self, groupName, organization, permission, projectKey=None
+    ):
         """
         Add permission to a group.
         This service defaults to global permissions, but can be limited to project permissions by providing project key.
@@ -46,7 +48,9 @@ class SonarCloudPermissions(SonarQubePermissions):
         """
 
     @POST(API_PERMISSIONS_REMOVE_GROUP_ENDPOINT)
-    def remove_permission_from_group(self, groupName, organization, permission, projectKey=None):
+    def remove_permission_from_group(
+        self, groupName, organization, permission, projectKey=None
+    ):
         """
         Remove a permission from a group.
         This service defaults to global permissions, but can be limited to project permissions by providing project key.
@@ -79,7 +83,9 @@ class SonarCloudPermissions(SonarQubePermissions):
         """
 
     @POST(API_PERMISSIONS_REMOVE_USER_ENDPOINT)
-    def remove_permission_from_user(self, login, organization, permission, projectKey=None):
+    def remove_permission_from_user(
+        self, login, organization, permission, projectKey=None
+    ):
         """
         Remove permission from a user.
         This service defaults to global permissions, but can be limited to project permissions by providing project key.
@@ -106,8 +112,16 @@ class SonarCloudPermissions(SonarQubePermissions):
         """
 
     @POST(API_PERMISSIONS_BULK_APPLY_TEMPLATE_ENDPOINT)
-    def apply_template_to_projects(self, templateName, organization, projects=None, analyzedBefore=None, onProvisionedOnly='false',
-                                   q=None, qualifiers="TRK"):
+    def apply_template_to_projects(
+        self,
+        templateName,
+        organization,
+        projects=None,
+        analyzedBefore=None,
+        onProvisionedOnly="false",
+        q=None,
+        qualifiers="TRK",
+    ):
         """
         Apply a permission template to several projects.
 
@@ -143,7 +157,9 @@ class SonarCloudPermissions(SonarQubePermissions):
         """
 
     @POST(API_PERMISSIONS_REMOVE_GROUP_FROM_TEMPLATE_ENDPOINT)
-    def remove_group_from_template(self, groupName, organization, templateName, permission):
+    def remove_group_from_template(
+        self, groupName, organization, templateName, permission
+    ):
         """
         Remove a group from a permission template.
 
@@ -170,7 +186,9 @@ class SonarCloudPermissions(SonarQubePermissions):
         """
 
     @POST(API_PERMISSIONS_REMOVE_PROJECT_CREATOR_FROM_TEMPLATE_ENDPOINT)
-    def remove_project_creator_from_template(self, templateName, organization, permission):
+    def remove_project_creator_from_template(
+        self, templateName, organization, permission
+    ):
         """
         Remove a project creator from a permission template.
 
@@ -211,7 +229,9 @@ class SonarCloudPermissions(SonarQubePermissions):
         """
 
     @POST(API_PERMISSIONS_CREATE_TEMPLATE_ENDPOINT)
-    def create_template(self, name, organization, description=None, projectKeyPattern=None):
+    def create_template(
+        self, name, organization, description=None, projectKeyPattern=None
+    ):
         """
         Create a permission template.
 
