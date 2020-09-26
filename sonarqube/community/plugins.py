@@ -10,7 +10,7 @@ from sonarqube.utils.config import (
     API_PLUGINS_PENDING_ENDPOINT,
     API_PLUGINS_UNINSTALL_ENDPOINT,
     API_PLUGINS_UPDATE_ENDPOINT,
-    API_PLUGINS_UPDATES_ENDPOINT
+    API_PLUGINS_UPDATES_ENDPOINT,
 )
 from sonarqube.utils.common import GET, POST
 

@@ -5,7 +5,7 @@ from sonarqube.utils.rest_client import RestClient
 from sonarqube.utils.config import (
     API_SOURCES_SCM_ENDPOINT,
     API_SOURCES_SHOW_ENDPOINT,
-    API_SOURCES_RAW_ENDPOINT
+    API_SOURCES_RAW_ENDPOINT,
 )
 from sonarqube.utils.common import GET
 
@@ -14,10 +14,8 @@ class SonarQubeSources(RestClient):
     """
     SonarQube sources Operations
     """
-    special_attributes_map = {
-        'from_line': 'from',
-        'to_line': 'to'
-    }
+
+    special_attributes_map = {"from_line": "from", "to_line": "to"}
 
     def __init__(self, **kwargs):
         """
@@ -27,7 +25,9 @@ class SonarQubeSources(RestClient):
         super(SonarQubeSources, self).__init__(**kwargs)
 
     @GET(API_SOURCES_SCM_ENDPOINT)
-    def get_source_file_scm(self, key, from_line=1, to_line=None, commits_by_line='false'):
+    def get_source_file_scm(
+        self, key, from_line=1, to_line=None, commits_by_line="false"
+    ):
         """
         Get SCM information of source files. Require See Source Code permission on file's project.
         Each element of the result array is composed of:

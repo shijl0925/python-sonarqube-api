@@ -4,7 +4,7 @@
 from sonarqube.utils.rest_client import RestClient
 from sonarqube.utils.config import (
     API_PROJECT_TAGS_SEARCH_ENDPOINT,
-    API_PROJECT_TAGS_SET_ENDPOINT
+    API_PROJECT_TAGS_SET_ENDPOINT,
 )
 from sonarqube.utils.common import GET, POST
 
@@ -13,6 +13,7 @@ class SonarQubeProjectTags(RestClient):
     """
     SonarQube project tags Operations
     """
+
     def __init__(self, **kwargs):
         """
 

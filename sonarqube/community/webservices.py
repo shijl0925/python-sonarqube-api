@@ -4,7 +4,7 @@
 from sonarqube.utils.rest_client import RestClient
 from sonarqube.utils.config import (
     API_WEBSERVICES_LIST_ENDPOINT,
-    API_WEBSERVICES_RESPONSE_EXAMPLE_ENDPOINT
+    API_WEBSERVICES_RESPONSE_EXAMPLE_ENDPOINT,
 )
 from sonarqube.utils.common import GET, POST
 
@@ -22,7 +22,7 @@ class SonarQubeWebservices(RestClient):
         super(SonarQubeWebservices, self).__init__(**kwargs)
 
     @GET(API_WEBSERVICES_LIST_ENDPOINT)
-    def list_web_services(self, include_internals='false'):
+    def list_web_services(self, include_internals="false"):
         """
         List web services
 

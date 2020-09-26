@@ -5,7 +5,7 @@ from sonarqube.utils.rest_client import RestClient
 from sonarqube.utils.config import (
     API_USER_TOKENS_GENERATE_ENDPOINT,
     API_USER_TOKENS_REVOKE_ENDPOINT,
-    API_USER_TOKENS_SEARCH_ENDPOINT
+    API_USER_TOKENS_SEARCH_ENDPOINT,
 )
 from sonarqube.utils.common import GET, POST
 

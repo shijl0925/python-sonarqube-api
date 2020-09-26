@@ -9,6 +9,9 @@
     :target: https://sonarcloud.io/dashboard?id=shijl0925_python-sonarqube-api
 .. image:: https://img.shields.io/github/license/shijl0925/python-sonarqube-api.svg
     :target: LICENSE
+.. image:: https://img.shields.io/badge/code%20style-black-000000.svg
+    :target: https://github.com/psf/black
+
 
 ====================================================
 Python wrapper for the SonarQube and SonarCloud API.
@@ -32,7 +35,7 @@ Documentation
 =============
 
 The full documentation for API is available on `readthedocs
-<https://python-sonarqube-api.readthedocs.io/en/1.1.5/>`_.
+<https://python-sonarqube-api.readthedocs.io/en/1.1.6/>`_.
 
 
 Compatibility
@@ -75,5 +78,5 @@ API example
 -----------
 
 The example documentation for SonarQubeClient APIs is available on `API examples
-<https://python-sonarqube-api.readthedocs.io/en/1.1.5/examples.html>`_.
+<https://python-sonarqube-api.readthedocs.io/en/1.1.6/examples.html>`_.
 
