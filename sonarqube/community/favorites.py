@@ -5,7 +5,7 @@ from sonarqube.utils.rest_client import RestClient
 from sonarqube.utils.config import (
     API_FAVORITES_ADD_ENDPOINT,
     API_FAVORITES_REMOVE_ENDPOINT,
-    API_FAVORITES_SEARCH_ENDPOINT
+    API_FAVORITES_SEARCH_ENDPOINT,
 )
 from sonarqube.utils.common import POST, PAGE_GET
 
@@ -14,6 +14,7 @@ class SonarQubeFavorites(RestClient):
     """
     SonarQube favorites Operations
     """
+
     def __init__(self, **kwargs):
         """
 
@@ -21,7 +22,7 @@ class SonarQubeFavorites(RestClient):
         """
         super(SonarQubeFavorites, self).__init__(**kwargs)
 
-    @PAGE_GET(API_FAVORITES_SEARCH_ENDPOINT, item='favorites')
+    @PAGE_GET(API_FAVORITES_SEARCH_ENDPOINT, item="favorites")
     def search_favorites(self):
         """
         Search for the authenticated user favorites.

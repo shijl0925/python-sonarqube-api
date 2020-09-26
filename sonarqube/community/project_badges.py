@@ -4,7 +4,7 @@
 from sonarqube.utils.rest_client import RestClient
 from sonarqube.utils.config import (
     API_PROJECT_BADGES_MEASURE_ENDPOINT,
-    API_PROJECT_BADGES_QUALITY_GATE_ENDPOINT
+    API_PROJECT_BADGES_QUALITY_GATE_ENDPOINT,
 )
 from sonarqube.utils.common import GET
 
@@ -13,6 +13,7 @@ class SonarQubeProjectBadges(RestClient):
     """
     SonarQube project badges Operations
     """
+
     def __init__(self, **kwargs):
         """
 

@@ -9,7 +9,7 @@ from sonarqube.utils.config import (
     API_USERS_CHANGE_PASSWORD_ENDPOINT,
     API_USERS_GROUPS_ENDPOINT,
     API_USERS_DEACTIVATE_ENDPOINT,
-    API_USERS_UPDATE_LOGIN_ENDPOINT
+    API_USERS_UPDATE_LOGIN_ENDPOINT,
 )
 from sonarqube.utils.common import PAGE_GET, POST
 
@@ -18,6 +18,7 @@ class SonarQubeUsers(RestClient):
     """
     SonarQube users Operations
     """
+
     MAX_SEARCH_NUM = 200
 
     def __init__(self, **kwargs):
@@ -30,10 +31,10 @@ class SonarQubeUsers(RestClient):
     def get(self, login):
         result = list(self.search_users(q=login))
         for user in result:
-            if user['login'] == login:
+            if user["login"] == login:
                 return user
 
-    @PAGE_GET(API_USERS_SEARCH_ENDPOINT, item='users')
+    @PAGE_GET(API_USERS_SEARCH_ENDPOINT, item="users")
     def search_users(self, q=None):
         """
         Get a list of active users.
@@ -42,7 +43,9 @@ class SonarQubeUsers(RestClient):
         :return:
         """
 
-    def create_user(self, login, name, email=None, password=None, local='true', scmAccount=None):
+    def create_user(
+        self, login, name, email=None, password=None, local="true", scmAccount=None
+    ):
         """
         Create a user.
 
@@ -56,19 +59,15 @@ class SonarQubeUsers(RestClient):
         :param scmAccount: List of SCM accounts. To set several values, the parameter must be called once for each value.
         :return: request response
         """
-        params = {
-            'login': login,
-            'name': name,
-            'local': local
-        }
+        params = {"login": login, "name": name, "local": local}
         if email:
-            params.update({'email': email})
+            params.update({"email": email})
 
-        if local == 'true' and password:
-            params.update({'password': password})
+        if local == "true" and password:
+            params.update({"password": password})
 
         if scmAccount:
-            params.update({'scmAccount': scmAccount})
+            params.update({"scmAccount": scmAccount})
 
         return self._post(API_USERS_CREATE_ENDPOINT, params=params)
 
@@ -106,7 +105,7 @@ class SonarQubeUsers(RestClient):
         :return: request response
         """
 
-    @PAGE_GET(API_USERS_GROUPS_ENDPOINT, item='groups')
+    @PAGE_GET(API_USERS_GROUPS_ENDPOINT, item="groups")
     def search_groups_user_belongs_to(self, login, q=None, selected="selected"):
         """
         Lists the groups a user belongs to.

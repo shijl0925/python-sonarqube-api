@@ -6,7 +6,7 @@ from sonarqube.utils.config import (
     API_CE_ACTIVITY_ENDPOINT,
     API_CE_ACTIVITY_STATUS_ENDPOINT,
     API_CE_COMPONENT_ENDPOINT,
-    API_CE_TASK_ENDPOINT
+    API_CE_TASK_ENDPOINT,
 )
 from sonarqube.utils.common import GET
 
@@ -24,8 +24,17 @@ class SonarQubeCe(RestClient):
         super(SonarQubeCe, self).__init__(**kwargs)
 
     @GET(API_CE_ACTIVITY_ENDPOINT)
-    def search_tasks(self, componentId=None, maxExecutedAt=None, minSubmittedAt=None, onlyCurrents=None, ps=None,
-                     q=None, status=None, type=None):
+    def search_tasks(
+        self,
+        componentId=None,
+        maxExecutedAt=None,
+        minSubmittedAt=None,
+        onlyCurrents=None,
+        ps=None,
+        q=None,
+        status=None,
+        type=None,
+    ):
         """
         Search for tasks.
 

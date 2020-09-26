@@ -17,4 +17,6 @@ class SonarCloudAuth(SonarQubeAuth):
         :param password: Password of the user
         :return:
         """
-        raise AttributeError("%s does not support this method" % self.__class__.__name__)
+        raise AttributeError(
+            "%s does not support this method" % self.__class__.__name__
+        )

@@ -15,7 +15,7 @@ from sonarqube.utils.config import (
     API_ISSUES_BULK_CHANGE_ENDPOINT,
     API_ISSUES_CHANGELOG_ENDPOINT,
     API_ISSUES_SET_TAGS_ENDPOINT,
-    API_ISSUES_TAGS_ENDPOINT
+    API_ISSUES_TAGS_ENDPOINT,
 )
 from sonarqube.utils.common import GET, POST, PAGE_GET
 
@@ -24,6 +24,7 @@ class SonarQubeIssues(RestClient):
     """
     SonarQube issues Operations
     """
+
     MAX_SEARCH_NUM = 100
 
     def __init__(self, **kwargs):
@@ -36,16 +37,43 @@ class SonarQubeIssues(RestClient):
     def get(self, key):
         result = list(self.search_issues(issues=key))
         for issue in result:
-            if issue['key'] == key:
+            if issue["key"] == key:
                 return issue
 
-    @PAGE_GET(API_ISSUES_SEARCH_ENDPOINT, item='issues')
-    def search_issues(self, componentKeys=None, branch=None, pullRequest=None, additionalFields=None, asc='true',
-                      assigned=None, assignees=None, author=None, createdAfter=None, createdAt=None, createdBefore=None,
-                      createdInLast=None, cwe=None, facets=None, issues=None, languages=None, onComponentOnly='false',
-                      owaspTop10=None, ps=None, resolutions=None, resolved=None, rules=None, s=None, sansTop25=None,
-                      severities=None, sinceLeakPeriod='false', sonarsourceSecurity=None, statuses=None, tags=None,
-                      types=None):
+    @PAGE_GET(API_ISSUES_SEARCH_ENDPOINT, item="issues")
+    def search_issues(
+        self,
+        componentKeys=None,
+        branch=None,
+        pullRequest=None,
+        additionalFields=None,
+        asc="true",
+        assigned=None,
+        assignees=None,
+        author=None,
+        createdAfter=None,
+        createdAt=None,
+        createdBefore=None,
+        createdInLast=None,
+        cwe=None,
+        facets=None,
+        issues=None,
+        languages=None,
+        onComponentOnly="false",
+        owaspTop10=None,
+        ps=None,
+        resolutions=None,
+        resolved=None,
+        rules=None,
+        s=None,
+        sansTop25=None,
+        severities=None,
+        sinceLeakPeriod="false",
+        sonarsourceSecurity=None,
+        statuses=None,
+        tags=None,
+        types=None,
+    ):
         """
         Search for issues.
 
@@ -303,8 +331,18 @@ class SonarQubeIssues(RestClient):
         """
 
     @POST(API_ISSUES_BULK_CHANGE_ENDPOINT)
-    def issues_bulk_change(self, issues, add_tags=None, assign=None, comment=None, do_transition=None, remove_tags=None,
-                           sendNotifications=None, set_severity=None, set_type=None):
+    def issues_bulk_change(
+        self,
+        issues,
+        add_tags=None,
+        assign=None,
+        comment=None,
+        do_transition=None,
+        remove_tags=None,
+        sendNotifications=None,
+        set_severity=None,
+        set_type=None,
+    ):
         """
         Bulk change on issues.
 

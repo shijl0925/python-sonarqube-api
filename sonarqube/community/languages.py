@@ -10,6 +10,7 @@ class SonarQubeLanguages(RestClient):
     """
     SonarQube languages Operations
     """
+
     def __init__(self, **kwargs):
         """
 

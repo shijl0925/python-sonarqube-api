@@ -40,6 +40,7 @@ class SonarQubeClient:
     """
     A Python Client for SonarQube Server APIs.
     """
+
     DEFAULT_URL = "http://localhost:9000"
 
     def __init__(self, sonarqube_url=None, username=None, password=None, token=None):
@@ -48,7 +49,7 @@ class SonarQubeClient:
 
         _session = requests.Session()
         if token:
-            _session.auth = (token, '')
+            _session.auth = (token, "")
         elif username and password:
             _session.auth = (username, password)
 
@@ -332,4 +333,3 @@ class SonarQubeClient:
         :return:
         """
         return SonarQubePlugins(api=self)
-

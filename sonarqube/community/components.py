@@ -5,7 +5,7 @@ from sonarqube.utils.rest_client import RestClient
 from sonarqube.utils.config import (
     API_COMPONTENTS_SHOW_ENDPOINT,
     API_COMPONTENTS_SEARCH_ENDPOINT,
-    API_COMPONTENTS_TREE_ENDPOINT
+    API_COMPONTENTS_TREE_ENDPOINT,
 )
 from sonarqube.utils.common import GET, PAGE_GET
 
@@ -23,7 +23,9 @@ class SonarQubeComponents(RestClient):
         super(SonarQubeComponents, self).__init__(**kwargs)
 
     @GET(API_COMPONTENTS_SHOW_ENDPOINT)
-    def get_project_component_and_ancestors(self, component, branch=None, pullRequest=None):
+    def get_project_component_and_ancestors(
+        self, component, branch=None, pullRequest=None
+    ):
         """
         Returns a component (file, directory, project, view…) and its ancestors. The ancestors are ordered from the
         parent to the root project.
@@ -34,7 +36,7 @@ class SonarQubeComponents(RestClient):
         :return:
         """
 
-    @PAGE_GET(API_COMPONTENTS_SEARCH_ENDPOINT, item='components')
+    @PAGE_GET(API_COMPONTENTS_SEARCH_ENDPOINT, item="components")
     def search_components(self, qualifiers, language=None, q=None):
         """
         Search for components
@@ -57,9 +59,19 @@ class SonarQubeComponents(RestClient):
         :return:
         """
 
-    @PAGE_GET(API_COMPONTENTS_TREE_ENDPOINT, item='components')
-    def get_components_tree(self, component, branch=None, pullRequest=None, asc='true', ps=None, q=None,
-                            qualifiers=None, s='name', strategy='all'):
+    @PAGE_GET(API_COMPONTENTS_TREE_ENDPOINT, item="components")
+    def get_components_tree(
+        self,
+        component,
+        branch=None,
+        pullRequest=None,
+        asc="true",
+        ps=None,
+        q=None,
+        qualifiers=None,
+        s="name",
+        strategy="all",
+    ):
         """
         Navigate through components based on the chosen strategy.
         When limiting search with the q parameter, directories are not returned.

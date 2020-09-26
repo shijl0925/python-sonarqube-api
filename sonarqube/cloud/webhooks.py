@@ -4,7 +4,7 @@
 from sonarqube.community.webservices import SonarQubeWebservices
 from sonarqube.utils.config import (
     API_WEBHOOKS_CREATE_ENDPOINT,
-    API_WEBHOOKS_LIST_ENDPOINT
+    API_WEBHOOKS_LIST_ENDPOINT,
 )
 from sonarqube.utils.common import GET, POST
 
@@ -13,6 +13,7 @@ class SonarCloudWebhooks(SonarQubeWebservices):
     """
     SonarCloud webhooks Operations
     """
+
     @POST(API_WEBHOOKS_CREATE_ENDPOINT)
     def create_webhook(self, name, url, organization, project=None, secret=None):
         """

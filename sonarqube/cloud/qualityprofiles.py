@@ -14,7 +14,7 @@ from sonarqube.utils.config import (
     API_QUALITYPROFILES_EXPORT_ENDPOINT,
     API_QUALITYPROFILES_INHERITANCE_ENDPOINT,
     API_QUALITYPROFILES_REMOVE_PROJECT_ENDPOINT,
-    API_QUALITYPROFILES_RESTORE_ENDPOINT
+    API_QUALITYPROFILES_RESTORE_ENDPOINT,
 )
 from sonarqube.utils.common import GET, POST, PAGE_GET
 
@@ -25,7 +25,14 @@ class SonarCloudQualityProfiles(SonarQubeQualityProfiles):
     """
 
     @GET(API_QUALITYPROFILES_SEARCH_ENDPOINT)
-    def search_quality_profiles(self, organization, defaults='false', language=None, project=None, qualityProfile=None):
+    def search_quality_profiles(
+        self,
+        organization,
+        defaults="false",
+        language=None,
+        project=None,
+        qualityProfile=None,
+    ):
         """
         Search quality profiles
 
@@ -50,7 +57,9 @@ class SonarCloudQualityProfiles(SonarQubeQualityProfiles):
         """
 
     @POST(API_QUALITYPROFILES_ADD_PROJECT_ENDPOINT)
-    def associate_project_with_quality_profile(self, project, language, qualityProfile, organization):
+    def associate_project_with_quality_profile(
+        self, project, language, qualityProfile, organization
+    ):
         """
         Associate a project with a quality profile.
 
@@ -63,7 +72,9 @@ class SonarCloudQualityProfiles(SonarQubeQualityProfiles):
         """
 
     @POST(API_QUALITYPROFILES_REMOVE_PROJECT_ENDPOINT)
-    def remove_project_associate_with_quality_profile(self, project, language, qualityProfile, organization):
+    def remove_project_associate_with_quality_profile(
+        self, project, language, qualityProfile, organization
+    ):
         """
         Remove a project's association with a quality profile.
 
@@ -86,7 +97,9 @@ class SonarCloudQualityProfiles(SonarQubeQualityProfiles):
         """
 
     @POST(API_QUALITYPROFILES_CHANGE_PARENT_ENDPOINT)
-    def change_parent_of_quality_profile(self, parentQualityProfile, language, qualityProfile, organization):
+    def change_parent_of_quality_profile(
+        self, parentQualityProfile, language, qualityProfile, organization
+    ):
         """
         Change a quality profile's parent.
 
@@ -97,8 +110,10 @@ class SonarCloudQualityProfiles(SonarQubeQualityProfiles):
         :return:
         """
 
-    @PAGE_GET(API_QUALITYPROFILES_CHANGELOG_ENDPOINT, item='events')
-    def get_history_of_changes_on_quality_profile(self, language, qualityProfile, organization, since=None, to=None):
+    @PAGE_GET(API_QUALITYPROFILES_CHANGELOG_ENDPOINT, item="events")
+    def get_history_of_changes_on_quality_profile(
+        self, language, qualityProfile, organization, since=None, to=None
+    ):
         """
         Get the history of changes on a quality profile: rule activation/deactivation, change in parameters/severity.
         Events are ordered by date in descending order (most recent first).
@@ -136,7 +151,9 @@ class SonarCloudQualityProfiles(SonarQubeQualityProfiles):
         """
 
     @GET(API_QUALITYPROFILES_EXPORT_ENDPOINT)
-    def export_quality_profile(self, organization, exporterKey=None, language=None, qualityProfile=None):
+    def export_quality_profile(
+        self, organization, exporterKey=None, language=None, qualityProfile=None
+    ):
         """
         Export a quality profile.
 

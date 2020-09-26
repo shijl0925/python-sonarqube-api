@@ -5,7 +5,7 @@ from sonarqube.utils.rest_client import RestClient
 from sonarqube.utils.config import (
     API_PROJECT_LINKS_CREATE_ENDPOINT,
     API_PROJECT_LINKS_DELETE_ENDPOINT,
-    API_PROJECT_LINKS_SEARCH_ENDPOINT
+    API_PROJECT_LINKS_SEARCH_ENDPOINT,
 )
 from sonarqube.utils.common import GET, POST
 

@@ -1,7 +1,12 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 # @Author: Jialiang Shi
-from sonarqube.utils.exceptions import ClientError, AuthError, ValidationError, ServerError
+from sonarqube.utils.exceptions import (
+    ClientError,
+    AuthError,
+    ValidationError,
+    ServerError,
+)
 
 
 class RestClient:
@@ -9,14 +14,24 @@ class RestClient:
     rest request
 
     """
-    default_headers = {'Content-Type': 'application/json', 'Accept': 'application/json'}
+
+    default_headers = {"Content-Type": "application/json", "Accept": "application/json"}
     special_attributes_map = {}
     MAX_SEARCH_NUM = 10000
 
     def __init__(self, api):
         self.api = api
 
-    def request(self, method='GET', path='/', data=None, json=None, params=None, headers=None, files=None):
+    def request(
+        self,
+        method="GET",
+        path="/",
+        data=None,
+        json=None,
+        params=None,
+        headers=None,
+        files=None,
+    ):
         """
         http request
 
@@ -44,9 +59,9 @@ class RestClient:
             data=data,
             json=json,
             files=files,
-            timeout=60
+            timeout=60,
         )
-        res.encoding = 'utf-8'
+        res.encoding = "utf-8"
 
         error_message = "Error in request. "
         if res.status_code < 300:
@@ -56,35 +71,39 @@ class RestClient:
         # raise error. res.raise_for_status()
         elif res.status_code == 400:
             # Validation error
-            msg = error_message + \
-                  'Possibly validation error [%s]: %s' % (
-                      res.status_code, ', '.join(e['msg'] for e in res.json()['errors']))
+            msg = error_message + "Possibly validation error [%s]: %s" % (
+                res.status_code,
+                ", ".join(e["msg"] for e in res.json()["errors"]),
+            )
 
             raise ValidationError(msg)
 
         elif res.status_code in (401, 403):
             # Auth error
-            msg = error_message + \
-                  'Possibly authentication failed [%s]: %s' % (
-                      res.status_code, res.reason)
+            msg = error_message + "Possibly authentication failed [%s]: %s" % (
+                res.status_code,
+                res.reason,
+            )
             if res.text:
-                msg += '\n' + res.text
+                msg += "\n" + res.text
 
             raise AuthError(msg)
 
         elif res.status_code < 500:
             # Other 4xx, generic client error
-            msg = error_message + \
-                  'Possibly client error [%s]: %s' % (
-                      res.status_code, ', '.join(e['msg'] for e in res.json()['errors']))
+            msg = error_message + "Possibly client error [%s]: %s" % (
+                res.status_code,
+                ", ".join(e["msg"] for e in res.json()["errors"]),
+            )
 
             raise ClientError(msg)
 
         else:
             # 5xx is server error
-            msg = error_message + \
-                  'Possibly server error [%s]: %s' % (
-                      res.status_code, res.reason)
+            msg = error_message + "Possibly server error [%s]: %s" % (
+                res.status_code,
+                res.reason,
+            )
 
             raise ServerError(msg)
 
@@ -97,7 +116,7 @@ class RestClient:
         :param path:
         :return:
         """
-        url_link = '/'.join(s.strip('/') for s in [url, path])
+        url_link = "/".join(s.strip("/") for s in [url, path])
         return url_link
 
     def _get(self, path, data=None, params=None, headers=None):
@@ -110,7 +129,7 @@ class RestClient:
         :param headers:
         :return:
         """
-        return self.request('GET', path=path, params=params, data=data, headers=headers)
+        return self.request("GET", path=path, params=params, data=data, headers=headers)
 
     def _post(self, path, data=None, json=None, headers=None, files=None, params=None):
         """
@@ -124,7 +143,15 @@ class RestClient:
         :param params:
         :return:
         """
-        return self.request('POST', path=path, data=data, json=json, headers=headers, files=files, params=params)
+        return self.request(
+            "POST",
+            path=path,
+            data=data,
+            json=json,
+            headers=headers,
+            files=files,
+            params=params,
+        )
 
     def _put(self, path, data=None, headers=None, files=None, params=None):
         """
@@ -137,7 +164,9 @@ class RestClient:
         :param params:
         :return:
         """
-        return self.request('PUT', path=path, data=data, headers=headers, files=files, params=params)
+        return self.request(
+            "PUT", path=path, data=data, headers=headers, files=files, params=params
+        )
 
     def _delete(self, path, data=None, headers=None, params=None):
         """
@@ -149,4 +178,6 @@ class RestClient:
         :param params:
         :return:
         """
-        return self.request('DELETE', path=path, data=data, headers=headers, params=params)
+        return self.request(
+            "DELETE", path=path, data=data, headers=headers, params=params
+        )

@@ -21,7 +21,7 @@ from sonarqube.utils.config import (
     API_QUALITYPROFILES_REMOVE_PROJECT_ENDPOINT,
     API_QUALITYPROFILES_PROJECTS_ENDPOINT,
     API_QUALITYPROFILES_RENAME_ENDPOINT,
-    API_QUALITYPROFILES_RESTORE_ENDPOINT
+    API_QUALITYPROFILES_RESTORE_ENDPOINT,
 )
 from sonarqube.utils.common import GET, POST, PAGE_GET
 
@@ -38,7 +38,9 @@ class SonarQubeQualityProfiles(RestClient):
         """
         super(SonarQubeQualityProfiles, self).__init__(**kwargs)
 
-    def activate_rule_for_quality_profile(self, key, rule, reset=False, severity=None, **params):
+    def activate_rule_for_quality_profile(
+        self, key, rule, reset=False, severity=None, **params
+    ):
         """
         Activate a rule for a given quality profile.
 
@@ -56,27 +58,27 @@ class SonarQubeQualityProfiles(RestClient):
         :param params: customized parameters for the rule.Ignored if parameter reset is true.
         :return:
         """
-        data = {
-            'rule': rule,
-            'key': key,
-            'reset': reset and 'true' or 'false'
-        }
+        data = {"rule": rule, "key": key, "reset": reset and "true" or "false"}
 
         if not reset:
             # No reset, Add severity if given (if not default will be used?)
             if severity:
-                data['severity'] = severity.upper()
+                data["severity"] = severity.upper()
 
             # Add params if we have any
             # Note: sort by key to allow checking easily
-            params = ';'.join('{}={}'.format(k, v) for k, v in sorted(params.items()) if v)
+            params = ";".join(
+                "{}={}".format(k, v) for k, v in sorted(params.items()) if v
+            )
             if params:
-                data['params'] = params
+                data["params"] = params
 
         self._post(API_QUALITYPROFILES_ACTIVATE_RULE_ENDPOINT, params=data)
 
     @GET(API_QUALITYPROFILES_SEARCH_ENDPOINT)
-    def search_quality_profiles(self, defaults='false', language=None, project=None, qualityProfile=None):
+    def search_quality_profiles(
+        self, defaults="false", language=None, project=None, qualityProfile=None
+    ):
         """
         Search quality profiles
 
@@ -97,6 +99,7 @@ class SonarQubeQualityProfiles(RestClient):
         :param qualityProfile: Quality profile name.
         :return:
         """
+
     @POST(API_QUALITYPROFILES_ADD_PROJECT_ENDPOINT)
     def associate_project_with_quality_profile(self, project, language, qualityProfile):
         """
@@ -109,7 +112,9 @@ class SonarQubeQualityProfiles(RestClient):
         """
 
     @POST(API_QUALITYPROFILES_REMOVE_PROJECT_ENDPOINT)
-    def remove_project_associate_with_quality_profile(self, project, language, qualityProfile):
+    def remove_project_associate_with_quality_profile(
+        self, project, language, qualityProfile
+    ):
         """
         Remove a project's association with a quality profile.
 
@@ -130,7 +135,9 @@ class SonarQubeQualityProfiles(RestClient):
         """
 
     @POST(API_QUALITYPROFILES_CHANGE_PARENT_ENDPOINT)
-    def change_parent_of_quality_profile(self, parentQualityProfile, language, qualityProfile):
+    def change_parent_of_quality_profile(
+        self, parentQualityProfile, language, qualityProfile
+    ):
         """
         Change a quality profile's parent.
 
@@ -140,8 +147,10 @@ class SonarQubeQualityProfiles(RestClient):
         :return:
         """
 
-    @PAGE_GET(API_QUALITYPROFILES_CHANGELOG_ENDPOINT, item='events')
-    def get_history_of_changes_on_quality_profile(self, language, qualityProfile, since=None, to=None):
+    @PAGE_GET(API_QUALITYPROFILES_CHANGELOG_ENDPOINT, item="events")
+    def get_history_of_changes_on_quality_profile(
+        self, language, qualityProfile, since=None, to=None
+    ):
         """
         Get the history of changes on a quality profile: rule activation/deactivation, change in parameters/severity.
         Events are ordered by date in descending order (most recent first).
@@ -195,7 +204,9 @@ class SonarQubeQualityProfiles(RestClient):
         """
 
     @GET(API_QUALITYPROFILES_EXPORT_ENDPOINT)
-    def export_quality_profile(self, exporterKey=None, language=None, qualityProfile=None):
+    def export_quality_profile(
+        self, exporterKey=None, language=None, qualityProfile=None
+    ):
         """
         Export a quality profile.
 
@@ -240,8 +251,10 @@ class SonarQubeQualityProfiles(RestClient):
         :return:
         """
 
-    @PAGE_GET(API_QUALITYPROFILES_PROJECTS_ENDPOINT, item='results')
-    def get_projects_associate_with_quality_profile(self, key, q=None, selected="selected"):
+    @PAGE_GET(API_QUALITYPROFILES_PROJECTS_ENDPOINT, item="results")
+    def get_projects_associate_with_quality_profile(
+        self, key, q=None, selected="selected"
+    ):
         """
         List projects with their association status regarding a quality profile
 

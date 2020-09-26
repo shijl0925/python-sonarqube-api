@@ -6,7 +6,7 @@ from sonarqube.utils.config import (
     API_SETTINGS_SET_ENDPOINT,
     API_SETTINGS_RESET_ENDPOINT,
     API_SETTINGS_VALUES_ENDPOINT,
-    API_SETTINGS_LIST_DEFINITIONS_ENDPOINT
+    API_SETTINGS_LIST_DEFINITIONS_ENDPOINT,
 )
 from sonarqube.utils.common import GET, POST
 
@@ -15,6 +15,7 @@ class SonarCloudSettings(RestClient):
     """
     SonarCloud settings Operations
     """
+
     def __init__(self, **kwargs):
         """
 
@@ -23,8 +24,15 @@ class SonarCloudSettings(RestClient):
         super(SonarCloudSettings, self).__init__(**kwargs)
 
     @POST(API_SETTINGS_SET_ENDPOINT)
-    def update_setting_value(self, key, value, component=None, branch=None, pullRequest=None,
-                             fieldValues=None):
+    def update_setting_value(
+        self,
+        key,
+        value,
+        component=None,
+        branch=None,
+        pullRequest=None,
+        fieldValues=None,
+    ):
         """
         Update a setting value.
         The settings defined in conf/sonar.properties are read-only and can't be changed.
@@ -54,7 +62,9 @@ class SonarCloudSettings(RestClient):
         """
 
     @GET(API_SETTINGS_VALUES_ENDPOINT)
-    def get_settings_values(self, component=None, branch=None, pullRequest=None, keys=None):
+    def get_settings_values(
+        self, component=None, branch=None, pullRequest=None, keys=None
+    ):
         """
         List settings values.
         If no value has been set for a setting, then the default value is returned.

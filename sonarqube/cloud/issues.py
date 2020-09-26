@@ -5,7 +5,7 @@ from sonarqube.community.issues import SonarQubeIssues
 from sonarqube.utils.config import (
     API_ISSUES_ADD_COMMENT_ENDPOINT,
     API_ISSUES_AUTHORS_ENDPOINT,
-    API_ISSUES_TAGS_ENDPOINT
+    API_ISSUES_TAGS_ENDPOINT,
 )
 from sonarqube.utils.common import GET, POST
 
@@ -167,7 +167,7 @@ class SonarCloudIssues(SonarQubeIssues):
         return super().search_issues(**kwargs)
 
     @POST(API_ISSUES_ADD_COMMENT_ENDPOINT)
-    def issue_add_comment(self, issue, text, isFeedback='false'):
+    def issue_add_comment(self, issue, text, isFeedback="false"):
         """
         Add a comment.
 

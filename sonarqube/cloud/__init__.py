@@ -8,16 +8,24 @@ from sonarqube.cloud.projects import SonarCloudProjects
 from sonarqube.cloud.user_groups import SonarCloudUserGroups
 from sonarqube.cloud.issues import SonarCloudIssues
 from sonarqube.community.measures import SonarQubeMeasures as SonarCloudMeasures
-from sonarqube.community.notifications import SonarQubeNotifications as SonarCloudNotifications
-from sonarqube.community.project_links import SonarQubeProjectLinks as SonarCloudProjectLinks
+from sonarqube.community.notifications import (
+    SonarQubeNotifications as SonarCloudNotifications,
+)
+from sonarqube.community.project_links import (
+    SonarQubeProjectLinks as SonarCloudProjectLinks,
+)
 from sonarqube.cloud.permissions import SonarCloudPermissions
 from sonarqube.cloud.ce import SonarCloudCe
-from sonarqube.community.project_branches import SonarQubeProjectBranches as SonarCloudProjectBranches
+from sonarqube.community.project_branches import (
+    SonarQubeProjectBranches as SonarCloudProjectBranches,
+)
 from sonarqube.cloud.qualitygates import SonarCloudQualityGates
 from sonarqube.cloud.components import SonarCloudComponents
 from sonarqube.cloud.rules import SonarCloudRules
 from sonarqube.cloud.qualityprofiles import SonarCloudQualityProfiles
-from sonarqube.community.duplications import SonarQubeDuplications as SonarCloudDuplications
+from sonarqube.community.duplications import (
+    SonarQubeDuplications as SonarCloudDuplications,
+)
 from sonarqube.community.metrics import SonarQubeMetrics as SonarCloudMetrics
 from sonarqube.cloud.settings import SonarCloudSettings
 from sonarqube.community.sources import SonarQubeSources as SonarCloudSources
@@ -25,12 +33,20 @@ from sonarqube.cloud.auth import SonarCloudAuth
 from sonarqube.community.favorites import SonarQubeFavorites as SonarCloudFavorites
 from sonarqube.community.languages import SonarQubeLanguages as SonarCloudLanguages
 from sonarqube.cloud.project_badges import SonarCloudProjectBadges
-from sonarqube.community.project_tags import SonarQubeProjectTags as SonarCloudProjectTags
-from sonarqube.community.project_pull_requests import SonarQubeProjectPullRequests as SonarCloudProjectPullRequests
-from sonarqube.community.project_analyses import SonarQubeProjectAnalyses as SonarCloudProjectAnalyses
+from sonarqube.community.project_tags import (
+    SonarQubeProjectTags as SonarCloudProjectTags,
+)
+from sonarqube.community.project_pull_requests import (
+    SonarQubeProjectPullRequests as SonarCloudProjectPullRequests,
+)
+from sonarqube.community.project_analyses import (
+    SonarQubeProjectAnalyses as SonarCloudProjectAnalyses,
+)
 from sonarqube.community.user_tokens import SonarQubeUserTokens as SonarCloudUserTokens
 from sonarqube.cloud.webhooks import SonarCloudWebhooks
-from sonarqube.community.webservices import SonarQubeWebservices as SonarCloudWebservices
+from sonarqube.community.webservices import (
+    SonarQubeWebservices as SonarCloudWebservices,
+)
 
 
 class SonarCloudClient:
@@ -41,7 +57,7 @@ class SonarCloudClient:
     def __init__(self, sonarcloud_url, token):
         self.base_url = strip_trailing_slash(sonarcloud_url)
         _session = requests.Session()
-        _session.auth = (token, '')
+        _session.auth = (token, "")
         self.session = _session
 
     @property

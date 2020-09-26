@@ -5,7 +5,7 @@ from sonarqube.community.projects import SonarQubeProjects
 from sonarqube.utils.config import (
     API_PROJECTS_BULK_DELETE_ENDPOINT,
     API_PROJECTS_SEARCH_ENDPOINT,
-    API_PROJECTS_CREATE_ENDPOINT
+    API_PROJECTS_CREATE_ENDPOINT,
 )
 from sonarqube.utils.common import PAGE_GET, POST
 
@@ -14,11 +14,21 @@ class SonarCloudProjects(SonarQubeProjects):
     """
     SonarCloud projects Operations
     """
-    def get(self, key):
-        raise AttributeError("%s does not support this method" % self.__class__.__name__)
 
-    @PAGE_GET(API_PROJECTS_SEARCH_ENDPOINT, item='components')
-    def search_projects(self, organization, analyzedBefore=None, onProvisionedOnly='false', projects=None, q=None):
+    def get(self, key):
+        raise AttributeError(
+            "%s does not support this method" % self.__class__.__name__
+        )
+
+    @PAGE_GET(API_PROJECTS_SEARCH_ENDPOINT, item="components")
+    def search_projects(
+        self,
+        organization,
+        analyzedBefore=None,
+        onProvisionedOnly="false",
+        projects=None,
+        q=None,
+    ):
         """
         Search for projects or views to administrate them.
 
@@ -53,7 +63,14 @@ class SonarCloudProjects(SonarQubeProjects):
         """
 
     @POST(API_PROJECTS_BULK_DELETE_ENDPOINT)
-    def bulk_delete_projects(self, organization, analyzedBefore=None, onProvisionedOnly='false', projects=None, q=None):
+    def bulk_delete_projects(
+        self,
+        organization,
+        analyzedBefore=None,
+        onProvisionedOnly="false",
+        projects=None,
+        q=None,
+    ):
         """
         Delete one or several projects.
         At least one parameter is required among analyzedBefore, projects, projectIds (deprecated since 6.4) and q

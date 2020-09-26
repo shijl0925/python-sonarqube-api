@@ -2,10 +2,7 @@
 # -*- coding:utf-8 -*-
 # @Author: Jialiang Shi
 from sonarqube.utils.rest_client import RestClient
-from sonarqube.utils.config import (
-    API_USERS_SEARCH_ENDPOINT,
-    API_USERS_GROUPS_ENDPOINT
-)
+from sonarqube.utils.config import API_USERS_SEARCH_ENDPOINT, API_USERS_GROUPS_ENDPOINT
 from sonarqube.utils.common import PAGE_GET
 
 
@@ -13,6 +10,7 @@ class SonarCloudUsers(RestClient):
     """
     SonarCloud users Operations
     """
+
     MAX_SEARCH_NUM = 200
 
     def __init__(self, **kwargs):
@@ -25,10 +23,10 @@ class SonarCloudUsers(RestClient):
     def get(self, login):
         result = list(self.search_users(q=login))
         for user in result:
-            if user['login'] == login:
+            if user["login"] == login:
                 return user
 
-    @PAGE_GET(API_USERS_SEARCH_ENDPOINT, item='users')
+    @PAGE_GET(API_USERS_SEARCH_ENDPOINT, item="users")
     def search_users(self, q=None):
         """
         Get a list of active users.
@@ -37,8 +35,10 @@ class SonarCloudUsers(RestClient):
         :return:
         """
 
-    @PAGE_GET(API_USERS_GROUPS_ENDPOINT, item='groups')
-    def search_groups_user_belongs_to(self, login, organization, q=None, selected="selected"):
+    @PAGE_GET(API_USERS_GROUPS_ENDPOINT, item="groups")
+    def search_groups_user_belongs_to(
+        self, login, organization, q=None, selected="selected"
+    ):
         """
         Lists the groups a user belongs to.
 
