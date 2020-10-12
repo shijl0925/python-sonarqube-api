@@ -43,7 +43,7 @@ class SonarQubeClient:
 
     DEFAULT_URL = "http://localhost:9000"
 
-    def __init__(self, sonarqube_url=None, username=None, password=None, token=None):
+    def __init__(self, sonarqube_url=None, username=None, password=None, token=None, verify=None):
 
         self.base_url = strip_trailing_slash(sonarqube_url or self.DEFAULT_URL)
 
@@ -52,6 +52,8 @@ class SonarQubeClient:
             _session.auth = (token, "")
         elif username and password:
             _session.auth = (username, password)
+        if verify:
+            _session.verify = verify
 
         self.session = _session
 
