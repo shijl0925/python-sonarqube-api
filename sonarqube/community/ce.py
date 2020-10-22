@@ -5,6 +5,7 @@ from sonarqube.utils.rest_client import RestClient
 from sonarqube.utils.config import (
     API_CE_ACTIVITY_ENDPOINT,
     API_CE_ACTIVITY_STATUS_ENDPOINT,
+    API_CE_ANALYSIS_STATUS_ENDPOINT,
     API_CE_COMPONENT_ENDPOINT,
     API_CE_TASK_ENDPOINT,
 )
