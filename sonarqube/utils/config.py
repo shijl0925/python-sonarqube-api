@@ -53,6 +53,7 @@ API_PERMISSIONS_UPDATE_TEMPLATE_ENDPOINT = "/api/permissions/update_template"
 
 API_CE_ACTIVITY_ENDPOINT = "/api/ce/activity"
 API_CE_ACTIVITY_STATUS_ENDPOINT = "/api/ce/activity_status"
+API_CE_ANALYSIS_STATUS_ENDPOINT = "/api/ce/analysis_status"
 API_CE_COMPONENT_ENDPOINT = "/api/ce/component"
 API_CE_TASK_ENDPOINT = "/api/ce/task"
 
