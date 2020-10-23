@@ -52,7 +52,7 @@ class SonarQubeClient:
             _session.auth = (token, "")
         elif username and password:
             _session.auth = (username, password)
-        if verify:
+        if verify is not None:
             _session.verify = verify
 
         self.session = _session
