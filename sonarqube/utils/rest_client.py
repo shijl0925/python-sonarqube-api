@@ -16,6 +16,7 @@ class RestClient:
     """
 
     default_headers = {"Content-Type": "application/json", "Accept": "application/json"}
+    default_timeout = 60
     special_attributes_map = {}
     MAX_SEARCH_NUM = 10000
 
@@ -50,6 +51,7 @@ class RestClient:
             data = None if not data else json.dumps(data)
 
         headers = headers or self.default_headers
+        timeout = self.default_timeout
 
         res = self.api.session.request(
             method=method,
@@ -59,7 +61,7 @@ class RestClient:
             data=data,
             json=json,
             files=files,
-            timeout=60,
+            timeout=timeout,
         )
         res.encoding = "utf-8"
 
