@@ -76,12 +76,13 @@ class SonarQubeCe(RestClient):
         """
 
     @GET(API_CE_ANALYSIS_STATUS_ENDPOINT)
-    def get_ce_analysis_status(self, component, pullRequest):
+    def get_ce_analysis_status(self, branch, component, pullRequest):
         """
         Get last analysis status including warnings of a given component (usually a project).
 
+        :param branch: Branch key
         :param component: Component key
-        :param pullRequest: pull request id
+        :param pullRequest: Pull request id
         :return:
         """
 
