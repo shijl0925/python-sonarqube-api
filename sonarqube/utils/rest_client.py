@@ -9,7 +9,7 @@ from sonarqube.utils.exceptions import (
 )
 
 
-class RestClient:
+class RestClient(object):
     """
     rest request
 
