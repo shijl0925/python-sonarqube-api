@@ -20,7 +20,7 @@ setup(
     name='python-sonarqube-api',
 
     # https://packaging.python.org/en/latest/single_source_version.html
-    version='1.1.7',
+    version='1.1.8',
 
     description='Python wrapper for the SonarQube and SonarCloud API.',
     long_description=long_description,
@@ -42,6 +42,7 @@ setup(
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
         'Topic :: Software Development'
     ],
 
