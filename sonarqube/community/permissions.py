@@ -20,8 +20,10 @@ from sonarqube.utils.config import (
     API_PERMISSIONS_SEARCH_TEMPLATES_ENDPOINT,
     API_PERMISSIONS_SET_DEFAULT_TEMPLATE_ENDPOINT,
     API_PERMISSIONS_UPDATE_TEMPLATE_ENDPOINT,
+    API_PERMISSIONS_GET_TEMPLATE_USERS,
+    API_PERMISSIONS_GET_TEMPLATE_GROUPS,
 )
-from sonarqube.utils.common import GET, POST
+from sonarqube.utils.common import GET, POST, PAGE_GET
 
 
 class SonarQubePermissions(RestClient):
@@ -255,6 +257,24 @@ class SonarQubePermissions(RestClient):
 
         :param q: Limit search to permission template names that contain the supplied string.
         :return: defaultTemplates, permissionTemplates, permissions
+        """
+
+    @PAGE_GET(API_PERMISSIONS_GET_TEMPLATE_USERS, item="users")
+    def get_template_users(self, templateId):
+        """
+        List of users and their permissions for the specified template.
+
+        :param templateId: Id of permission template
+        return: users
+        """
+
+    @PAGE_GET(API_PERMISSIONS_GET_TEMPLATE_GROUPS, item="groups")
+    def get_template_groups(self, templateId):
+        """
+        List of groups and their permissions for the specified template.
+
+        :param templateId: Id of permission template
+        return: groups
         """
 
     @POST(API_PERMISSIONS_SET_DEFAULT_TEMPLATE_ENDPOINT)

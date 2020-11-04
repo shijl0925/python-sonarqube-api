@@ -37,7 +37,6 @@ class SonarQubeProjects(RestClient):
     def search_projects(
         self,
         analyzedBefore=None,
-        onProvisionedOnly="false",
         projects=None,
         q=None,
         qualifiers="TRK",
