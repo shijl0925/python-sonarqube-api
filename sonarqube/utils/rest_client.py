@@ -21,6 +21,13 @@ class RestClient(object):
     MAX_SEARCH_NUM = 10000
 
     def __init__(self, api):
+        """
+        Initialize the api.
+
+        Args:
+            self: (todo): write your description
+            api: (str): write your description
+        """
         self.api = api
 
     def request(

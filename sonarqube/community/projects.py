@@ -28,6 +28,13 @@ class SonarQubeProjects(RestClient):
         super(SonarQubeProjects, self).__init__(**kwargs)
 
     def get(self, key):
+        """
+        Get a project by name.
+
+        Args:
+            self: (todo): write your description
+            key: (todo): write your description
+        """
         result = list(self.search_projects(projects=key))
         for project in result:
             if project["key"] == key:

@@ -21,6 +21,13 @@ class SonarCloudUsers(RestClient):
         super(SonarCloudUsers, self).__init__(**kwargs)
 
     def get(self, login):
+        """
+        Return a list of a given username.
+
+        Args:
+            self: (todo): write your description
+            login: (int): write your description
+        """
         result = list(self.search_users(q=login))
         for user in result:
             if user["login"] == login:

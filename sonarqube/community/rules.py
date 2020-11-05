@@ -27,6 +27,13 @@ class SonarQubeRules(RestClient):
         super(SonarQubeRules, self).__init__(**kwargs)
 
     def get(self, key):
+        """
+        Returns a single key from the search.
+
+        Args:
+            self: (todo): write your description
+            key: (todo): write your description
+        """
         result = list(self.search_rules(rule_key=key))
         for rule in result:
             if rule["key"] == key:

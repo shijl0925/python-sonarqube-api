@@ -35,6 +35,13 @@ class SonarQubeIssues(RestClient):
         super(SonarQubeIssues, self).__init__(**kwargs)
 
     def get(self, key):
+        """
+        Get a list of issues matching key
+
+        Args:
+            self: (todo): write your description
+            key: (todo): write your description
+        """
         result = list(self.search_issues(issues=key))
         for issue in result:
             if issue["key"] == key:
