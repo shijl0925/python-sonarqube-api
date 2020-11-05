@@ -104,6 +104,12 @@ def endpoint(url_pattern, method="GET"):
     """
 
     def wrapped_func(f):
+        """
+        Decorator to make a method decorator.
+
+        Args:
+            f: (todo): write your description
+        """
         @wraps(f)
         def inner_func(self, *args, **kwargs):
             """
@@ -145,6 +151,12 @@ def page_endpoint(url_pattern, item=None):
     """
 
     def wrapped_func(f):
+        """
+        Decorator to make_func.
+
+        Args:
+            f: (todo): write your description
+        """
         @wraps(f)
         def inner_func(self, *args, **kwargs):
             """

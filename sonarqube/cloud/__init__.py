@@ -55,6 +55,14 @@ class SonarCloudClient:
     """
 
     def __init__(self, sonarcloud_url, token):
+        """
+        Initialize a session.
+
+        Args:
+            self: (todo): write your description
+            sonarcloud_url: (str): write your description
+            token: (str): write your description
+        """
         self.base_url = strip_trailing_slash(sonarcloud_url)
         _session = requests.Session()
         _session.auth = (token, "")

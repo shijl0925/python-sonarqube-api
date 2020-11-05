@@ -19,6 +19,13 @@ class SonarCloudUserGroups(SonarQubeUserGroups):
     """
 
     def get(self, key):
+        """
+        Returns the value of a given key.
+
+        Args:
+            self: (todo): write your description
+            key: (todo): write your description
+        """
         raise AttributeError(
             "%s does not support this method" % self.__class__.__name__
         )
