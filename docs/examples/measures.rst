@@ -13,7 +13,7 @@ Return component with specified measures::
     component = sonar.measures.get_component_with_specified_measures(component="my_project",
                                                                      branch="develop",
                                                                      fields="metrics,periods",
-                                                                     metric_keys="code_smells,bugs,vulnerabilities")
+                                                                     metricKeys="code_smells,bugs,vulnerabilities")
 
 
 Navigate through components based on the chosen strategy with specified measures. The baseComponentId or the component parameter must be provided::
