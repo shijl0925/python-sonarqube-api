@@ -2,6 +2,8 @@
 # -*- coding:utf-8 -*-
 # @Author: Jialiang Shi
 import requests
+
+from sonarqube.community.application import SonarQubeApplications
 from sonarqube.utils.common import strip_trailing_slash
 from sonarqube.community.users import SonarQubeUsers
 from sonarqube.community.projects import SonarQubeProjects
@@ -83,6 +85,16 @@ class SonarQubeClient:
         :return:
         """
         return SonarQubeProjects(api=self)
+
+    @property
+    def applications(self):
+        """
+        SonarQube applications Operations
+
+        :return:
+        """
+        return SonarQubeApplications(api=self)
+
 
     @property
     def measures(self):

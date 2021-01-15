@@ -23,7 +23,7 @@ def get_args(func):
     :param func:
     :return:
     """
-    argspec = inspect.getargspec(func)
+    argspec = inspect.getfullargspec(func)
 
     if not argspec.defaults:
         args = argspec.args[1:]
@@ -40,7 +40,7 @@ def get_default_kwargs(func):
     :param func:
     :return:
     """
-    argspec = inspect.getargspec(func)
+    argspec = inspect.getfullargspec(func)
 
     if not argspec.defaults:
         return []
