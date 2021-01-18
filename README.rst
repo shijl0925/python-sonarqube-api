@@ -74,6 +74,25 @@ Example::
     h = SonarCloudClient(sonarcloud_url="https://sonarcloud.io", token='*****************')
 
 
+For SonarQube Enterprise Edition
+-------------------------------
+
+The Client is easy to use, you just need to initialize it with the
+connection parameters (default sonarqube url is http://localhost:9000).
+
+Example::
+
+    from sonarqube import SonarEnterpriseClient
+
+    h = SonarEnterpriseClient(sonarqube_url="http://localhost:9000", username='admin', password='admin')
+
+
+Sonar authentication tokens can also be used in place of username and password::
+
+    h = SonarEnterpriseClient(sonarqube_url="http://localhost:9000", token='*****************')
+
+
+
 API example
 -----------
 
