@@ -14,6 +14,12 @@ class SonarViews(RestClient):
         """
         super(SonarViews, self).__init__(**kwargs)
 
+    def get(self, key):
+        result = self.list()
+        for view in result["views"]:
+            if view["key"] == key:
+                return view
+
     @POST("api/views/add_local_view")
     def add_local_view(self, key, ref_key):
         """

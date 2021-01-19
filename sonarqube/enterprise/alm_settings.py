@@ -11,6 +11,12 @@ class SonarAlmSettings(RestClient):
         """
         super(SonarAlmSettings, self).__init__(**kwargs)
 
+    def get(self, key):
+        result = self.list()
+        for alm_setting in result["almSettings"]:
+            if alm_setting["key"] == key:
+                return alm_setting
+
     @GET("api/alm_settings/count_binding")
     def count_binding(self, almSetting):
         """
