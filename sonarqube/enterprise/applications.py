@@ -1,6 +1,18 @@
 from sonarqube.utils.common import POST, GET
 from sonarqube.utils.rest_client import RestClient
 
+from sonarqube.utils.config import (
+    API_APPLICATIONS_UPDATE_BRANCH,
+    API_APPLICATIONS_UPDATE,
+    API_APPLICATIONS_SHOW,
+    API_APPLICATIONS_SET_TAGS,
+    API_APPLICATIONS_REMOVE_PROJECT,
+    API_APPLICATIONS_DELETE_BRANCH,
+    API_APPLICATIONS_DELETE,
+    API_APPLICATIONS_CREATE_BRANCH,
+    API_APPLICATIONS_CREATE
+)
+
 
 class SonarApplications(RestClient):
     """
@@ -14,7 +26,7 @@ class SonarApplications(RestClient):
         """
         super(SonarApplications, self).__init__(**kwargs)
 
-    @POST("api/applications/add_project")
+    @POST("/api/applications/add_project")
     def add_project(self, application, project):
         """
         POST api/applications/add_project
@@ -38,7 +50,7 @@ class SonarApplications(RestClient):
         my_project
         """
 
-    @POST("api/applications/create")
+    @POST(API_APPLICATIONS_CREATE)
     def create(self, name, visibility=None, description=None, key=None):
         """
         POST api/applications/create
@@ -83,7 +95,7 @@ class SonarApplications(RestClient):
             public
         """
 
-    @POST("api/applications/create_branch")
+    @POST(API_APPLICATIONS_CREATE_BRANCH)
     def create_branch(self, application, branch, project, projectBranch):
         """
         POST api/applications/create_branch
@@ -122,7 +134,7 @@ class SonarApplications(RestClient):
         projectBranch=&projectBranch=branch-2.0&projectBranch=branch-2.1
         """
 
-    @POST("api/applications/delete")
+    @POST(API_APPLICATIONS_DELETE)
     def delete(self, application):
         """
         POST api/applications/delete
@@ -138,7 +150,7 @@ class SonarApplications(RestClient):
         Application key
         """
 
-    @POST("api/applications/delete_branch")
+    @POST(API_APPLICATIONS_DELETE_BRANCH)
     def delete_branch(self, application, branch):
         """
         POST api/applications/delete_branch
@@ -159,7 +171,7 @@ class SonarApplications(RestClient):
         Branch name
         """
 
-    @POST("api/applications/remove_project")
+    @POST(API_APPLICATIONS_REMOVE_PROJECT)
     def remove_project(self, application, project):
         """
         POST api/applications/remove_project
@@ -183,7 +195,7 @@ class SonarApplications(RestClient):
         my_project
         """
 
-    @POST("api/applications/set_tags")
+    @POST(API_APPLICATIONS_SET_TAGS)
     def set_tags(self, application, tags):
         """
         POST api/applications/set_tags
@@ -207,7 +219,7 @@ class SonarApplications(RestClient):
         finance, offshore
         """
 
-    @GET("api/applications/show")
+    @GET(API_APPLICATIONS_SHOW)
     def show(self, application, branch):
         """
         GET api/applications/show
@@ -235,7 +247,7 @@ class SonarApplications(RestClient):
         branch-2.0
         """
 
-    @POST("api/applications/update")
+    @POST(API_APPLICATIONS_UPDATE)
     def update(self, application, name, description=None):
         """
         POST api/applications/update
@@ -266,7 +278,7 @@ class SonarApplications(RestClient):
         256
         """
 
-    @POST("api/applications/update_branch")
+    @POST(API_APPLICATIONS_UPDATE_BRANCH)
     def update_branch(self, application, branch, name, project, projectBranch):
         """
         POST api/applications/update_branch

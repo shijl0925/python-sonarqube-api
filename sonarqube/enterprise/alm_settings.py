@@ -1,6 +1,26 @@
 from sonarqube.utils.common import GET, POST
 from sonarqube.utils.rest_client import RestClient
 
+from sonarqube.utils.config import (
+    API_ALM_SETTINGS_VALIDATE,
+    API_ALM_SETTINGS_UPDATE_GITLAB,
+    API_ALM_SETTINGS_UPDATE_GITHUB,
+    API_ALM_SETTINGS_UPDATE_BITBUCKET,
+    API_ALM_SETTINGS_UPDATE_AZURE,
+    API_ALM_SETTINGS_SET_GITLAB_BINDING,
+    API_ALM_SETTINGS_SET_GITHUB_BINDING,
+    API_ALM_SETTINGS_SET_BITBUCKET_BINDING,
+    API_ALM_SETTINGS_SET_AZURE_BINDING,
+    API_ALM_SETTINGS_LIST_DEFINITIONS,
+    API_ALM_SETTINGS_LIST,
+    API_ALM_SETTINGS_DELETE_BINDING,
+    API_ALM_SETTINGS_CREATE_GITLAB,
+    API_ALM_SETTINGS_CREATE_GITHUB,
+    API_ALM_SETTINGS_CREATE_BITBUCKET,
+    API_ALM_SETTINGS_CREATE_AZURE,
+    API_ALM_SETTINGS_COUNT_BINDING
+)
+
 
 class SonarAlmSettings(RestClient):
 
@@ -17,7 +37,7 @@ class SonarAlmSettings(RestClient):
             if alm_setting["key"] == key:
                 return alm_setting
 
-    @GET("api/alm_settings/count_binding")
+    @GET(API_ALM_SETTINGS_COUNT_BINDING)
     def count_binding(self, almSetting):
         """
         GET api/alm_settings/count_binding
@@ -34,7 +54,7 @@ class SonarAlmSettings(RestClient):
         ALM setting key
         """
 
-    @POST("api/alm_settings/create_azure")
+    @POST(API_ALM_SETTINGS_CREATE_AZURE)
     def create_azure(self, key, personalAccessToken, url):
         """
         POST api/alm_settings/create_azure
@@ -68,7 +88,7 @@ class SonarAlmSettings(RestClient):
         2000
         """
 
-    @POST("api/alm_settings/create_bitbucket")
+    @POST(API_ALM_SETTINGS_CREATE_BITBUCKET)
     def create_bitbucket(self, key, personalAccessToken, url):
         """
         POST api/alm_settings/create_bitbucket
@@ -101,7 +121,7 @@ class SonarAlmSettings(RestClient):
         2000
         """
 
-    @POST("api/alm_settings/create_github")
+    @POST(API_ALM_SETTINGS_CREATE_GITHUB)
     def create_github(self, appId, clientId, clientSecret, key, privateKey, url):
         """
         POST api/alm_settings/create_github
@@ -155,7 +175,7 @@ class SonarAlmSettings(RestClient):
         2000
         """
 
-    @POST("api/alm_settings/create_gitlab")
+    @POST(API_ALM_SETTINGS_CREATE_GITLAB)
     def create_gitlab(self, key, personalAccessToken, url):
         """
         POST api/alm_settings/create_gitlab
@@ -201,7 +221,7 @@ class SonarAlmSettings(RestClient):
             
         """
 
-    @POST("api/alm_settings/delete_binding")
+    @POST(API_ALM_SETTINGS_DELETE_BINDING)
     def delete_binding(self, key):
         """
         POST api/alm_settings/delete_binding
@@ -232,7 +252,7 @@ class SonarAlmSettings(RestClient):
         
         """
 
-    @GET("api/alm_settings/list")
+    @GET(API_ALM_SETTINGS_LIST)
     def list(self, project=None):
         """	
         GET api/alm_settings/list
@@ -250,7 +270,7 @@ class SonarAlmSettings(RestClient):
         Project key
         """
 
-    @GET("api/alm_settings/list_definitions")
+    @GET(API_ALM_SETTINGS_LIST_DEFINITIONS)
     def list_definitions(self):
         """	
         GET api/alm_settings/list_definitions
@@ -294,7 +314,7 @@ class SonarAlmSettings(RestClient):
         }
         """
 
-    @POST("api/alm_settings/set_azure_binding")
+    @POST(API_ALM_SETTINGS_SET_AZURE_BINDING)
     def set_azure_binding(self, almSetting, project, projectName, repositoryName ):
         """
         POST api/alm_settings/set_azure_binding
@@ -327,7 +347,7 @@ class SonarAlmSettings(RestClient):
         Azure repository name
         """
 
-    @POST("api/alm_settings/set_bitbucket_binding")
+    @POST(API_ALM_SETTINGS_SET_BITBUCKET_BINDING)
     def set_bitbucket_binding(self, almSetting, project, repository, slug):
         """	
         POST api/alm_settings/set_bitbucket_binding
@@ -358,7 +378,7 @@ class SonarAlmSettings(RestClient):
         Bitbucket repository slug
         """
 
-    @POST("api/alm_settings/set_github_binding")
+    @POST(API_ALM_SETTINGS_SET_GITHUB_BINDING)
     def set_github_binding(self, almSetting, project, repository, summaryContentEnabled=True):
         """	
         POST api/alm_settings/set_github_binding
@@ -395,7 +415,7 @@ class SonarAlmSettings(RestClient):
         true
         """
 
-    @POST("api/alm_settings/set_gitlab_binding")
+    @POST(API_ALM_SETTINGS_SET_GITLAB_BINDING)
     def set_gitlab_binding(self, almSetting, project, repository):
 
         """
@@ -422,7 +442,7 @@ class SonarAlmSettings(RestClient):
             Changelog
         """
 
-    @POST("api/alm_settings/update_azure")
+    @POST(API_ALM_SETTINGS_UPDATE_AZURE)
     def update_azure(self, key, personalAccessToken, url, newKey=None):
         """
         POST api/alm_settings/update_azure
@@ -463,7 +483,7 @@ class SonarAlmSettings(RestClient):
         2000
         """
 
-    @POST("api/alm_settings/update_bitbucket")
+    @POST(API_ALM_SETTINGS_UPDATE_BITBUCKET)
     def update_bitbucket(self, key, personalAccessToken, url, newKey=None):
         """
         POST api/alm_settings/update_bitbucket
@@ -503,7 +523,7 @@ class SonarAlmSettings(RestClient):
         2000
         """
 
-    @POST("api/alm_settings/update_github")
+    @POST(API_ALM_SETTINGS_UPDATE_GITHUB)
     def update_github(self, appId, clientId, clientSecret, key, privateKey, url, newKey=None):
         """
         POST api/alm_settings/update_github
@@ -564,7 +584,7 @@ class SonarAlmSettings(RestClient):
         2000
         """
 
-    @POST("api/alm_settings/update_gitlab")
+    @POST(API_ALM_SETTINGS_UPDATE_GITLAB)
     def update_gitlab(self, key, personalAccessToken, url, newKey=None):
         """
         POST api/alm_settings/update_gitlab
@@ -606,7 +626,7 @@ class SonarAlmSettings(RestClient):
         
         """
 
-    @GET("api/alm_settings/validate")
+    @GET(API_ALM_SETTINGS_VALIDATE)
     def validate(self, key):
         """
         GET api/alm_settings/validate

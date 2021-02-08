@@ -1,6 +1,16 @@
 from sonarqube.utils.common import POST, GET
 from sonarqube.utils.rest_client import RestClient
 
+from sonarqube.utils.config import (
+    API_ALM_INTEGRATION_SET_PAT,
+    API_ALM_INTEGRATION_SEARCH_GITLAB_REPOS,
+    API_ALM_INTEGRATION_SEARCH_BITBUCKETSERVER_REPOS,
+    API_ALM_INTEGRATION_SEARCH_AZURE_REPOS,
+    API_ALM_INTEGRATION_SEARCH_BITBUCKETSERVER_PROJECTS,
+    API_ALM_INTEGRATION_LIST_AZURE_PROJECTS,
+    API_ALM_INTEGRATION_IMPORT_GITLAB_PROJECT
+)
+
 
 class SonarAlmIntegrations(RestClient):
 
@@ -11,7 +21,7 @@ class SonarAlmIntegrations(RestClient):
         """
         super(SonarAlmIntegrations, self).__init__(**kwargs)
 
-    @POST("api/alm_integrations/import_gitlab_project")
+    @POST(API_ALM_INTEGRATION_IMPORT_GITLAB_PROJECT)
     def import_gitlab_project(self, almSettings, gitlabProjectId):
         """
         api/alm_integrations
@@ -24,7 +34,7 @@ class SonarAlmIntegrations(RestClient):
             Parameters
         """
 
-    @GET("api/alm_integrations/list_azure_projects")
+    @GET(API_ALM_INTEGRATION_LIST_AZURE_PROJECTS)
     def list_azure_projects(self, almSetting):
         """
 
@@ -37,7 +47,7 @@ class SonarAlmIntegrations(RestClient):
 
         """
 
-    @GET("api/alm_integrations/list_bitbucketserver_projects")
+    @GET(API_ALM_INTEGRATION_SEARCH_BITBUCKETSERVER_PROJECTS)
     def list_bitbucketserver_projects(self, almSettings):
         """
 
@@ -49,7 +59,7 @@ class SonarAlmIntegrations(RestClient):
             Parameters
         """
 
-    @GET("api/alm_integrations/search_azure_repos")
+    @GET(API_ALM_INTEGRATION_SEARCH_AZURE_REPOS)
     def search_azure_repos(self, almSetting, projectName=None, searchQuery=None):
         """
 
@@ -61,7 +71,7 @@ class SonarAlmIntegrations(RestClient):
             Parameters
         """
 
-    @GET("api/alm_integrations/search_bitbucketserver_repos")
+    @GET(API_ALM_INTEGRATION_SEARCH_BITBUCKETSERVER_REPOS)
     def search_bitbucketserver_repos(self, almSetting, projectName=None, repositoryName=None):
         """
 
@@ -73,7 +83,7 @@ class SonarAlmIntegrations(RestClient):
             Parameters
         """
 
-    @GET("api/alm_integrations/search_gitlab_repos")
+    @GET(API_ALM_INTEGRATION_SEARCH_GITLAB_REPOS)
     def search_gitlab_repos(self, almSettings, p=None, projectName=None, ps=None):
         """
 
@@ -86,7 +96,7 @@ class SonarAlmIntegrations(RestClient):
             Response Example
         """
 
-    @POST("api/alm_integrations/set_pat")
+    @POST(API_ALM_INTEGRATION_SET_PAT)
     def set_pat(self, almSetting, pat):
         """
 

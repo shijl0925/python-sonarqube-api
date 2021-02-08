@@ -1,6 +1,26 @@
 from sonarqube.utils.common import POST, GET
 from sonarqube.utils.rest_client import RestClient
 
+from sonarqube.utils.config import (
+    API_VIEWS_UPDATE,
+    API_VIEWS_SHOW,
+    API_VIEWS_SET_TAGS_MODE,
+    API_VIEWS_SET_REMAINING_PROJECTS_MODE,
+    API_VIEWS_SET_REGEXP_MODE,
+    API_VIEWS_SET_MANUAL_MODE,
+    API_VIEWS_REMOVE_PROJECT,
+    API_VIEWS_MOVE_OPTIONS,
+    API_VIEWS_MOVE,
+    API_VIEWS_LOCAL_VIEWS,
+    API_VIEWS_LIST,
+    API_VIEWS_DEFINITION,
+    API_VIEWS_DEFINE,
+    API_VIEWS_CREATE,
+    API_VIEWS_ADD_SUB_VIEW,
+    API_VIEWS_ADD_PROJECT,
+    API_VIEWS_ADD_LOCAL_VIEW
+)
+
 
 class SonarViews(RestClient):
     """
@@ -20,7 +40,7 @@ class SonarViews(RestClient):
             if view["key"] == key:
                 return view
 
-    @POST("api/views/add_local_view")
+    @POST(API_VIEWS_ADD_LOCAL_VIEW)
     def add_local_view(self, key, ref_key):
         """
         POST api/views/add_local_view
@@ -41,7 +61,7 @@ class SonarViews(RestClient):
         Key of the referenced local portfolio
         """
 
-    @POST("api/views/add_project")
+    @POST(API_VIEWS_ADD_PROJECT)
     def add_project(self, key, project):
         """
         POST api/views/add_project
@@ -66,7 +86,7 @@ class SonarViews(RestClient):
         my_project
         """
 
-    @POST("api/views/add_sub_view")
+    @POST(API_VIEWS_ADD_SUB_VIEW)
     def add_sub_view(self, key, name, description=None, subKey=None):
         """
         POST api/views/add_sub_view
@@ -105,7 +125,7 @@ class SonarViews(RestClient):
         400
         """
 
-    @POST("api/views/create")
+    @POST(API_VIEWS_CREATE)
     def create(self, name, description=None, key=None, visibility=None):
         """
         POST api/views/create
@@ -150,7 +170,7 @@ class SonarViews(RestClient):
             public
         """
 
-    @POST("api/views/define")
+    @POST(API_VIEWS_DEFINE)
     def define(self, _def):
         """
         POST api/views/define
@@ -165,7 +185,7 @@ class SonarViews(RestClient):
         XML file to upload and validate
         """
 
-    @GET("api/views/definition")
+    @GET(API_VIEWS_DEFINITION)
     def definition(self):
         """
         GET api/views/definition
@@ -173,7 +193,7 @@ class SonarViews(RestClient):
         Return the definition of the structure of portfolios in XML format. Requires Create Projects permission.
         """
 
-    @POST("api/views/delete")
+    @POST("/api/views/delete")
     def delete(self, key):
         """
         POST api/views/delete
@@ -190,7 +210,7 @@ class SonarViews(RestClient):
         Portfolio key
         """
 
-    @GET("api/views/list")
+    @GET(API_VIEWS_LIST)
     def list(self):
         """
         GET api/views/list
@@ -225,7 +245,7 @@ class SonarViews(RestClient):
         }
         """
 
-    @GET("api/views/local_views")
+    @GET(API_VIEWS_LOCAL_VIEWS)
     def local_views(self, key):
         """
         GET api/views/local_views
@@ -242,7 +262,7 @@ class SonarViews(RestClient):
         Key of the would-be parent portfolio
         """
 
-    @POST("api/views/move")
+    @POST(API_VIEWS_MOVE)
     def move(self, destination, key):
         """
         POST api/views/move
@@ -263,7 +283,7 @@ class SonarViews(RestClient):
         Key of the portfolio to move
         """
 
-    @GET("api/views/move_options")
+    @GET(API_VIEWS_MOVE_OPTIONS)
     def move_options(self, key):
         """
         GET api/views/move_options
@@ -280,7 +300,7 @@ class SonarViews(RestClient):
         Key of the portfolio to move
         """
 
-    @POST("api/views/remove_project")
+    @POST(API_VIEWS_REMOVE_PROJECT)
     def remove_project(self, key, project):
         """
         POST api/views/remove_project
@@ -302,7 +322,7 @@ class SonarViews(RestClient):
         Key of the project
         """
 
-    @POST("api/views/set_manual_mode")
+    @POST(API_VIEWS_SET_MANUAL_MODE)
     def set_manual_mode(self, portfolio):
         """
         POST api/views/set_manual_mode
@@ -319,7 +339,7 @@ class SonarViews(RestClient):
         Key of the portfolio or sub-portfolio to update
         """
 
-    @POST("api/views/set_regexp_mode")
+    @POST(API_VIEWS_SET_REGEXP_MODE)
     def set_regexp_mode(self, portfolio, regexp):
         """
         POST api/views/set_regexp_mode
@@ -340,7 +360,7 @@ class SonarViews(RestClient):
         A valid regexp with respect to the JDK's ``java.util.regex.Pattern`` class
         """
 
-    @POST("api/views/set_remaining_projects_mode")
+    @POST(API_VIEWS_SET_REMAINING_PROJECTS_MODE)
     def set_remaining_projects_mode(self, portfolio):
         """
         POST api/views/set_remaining_projects_mode
@@ -356,7 +376,7 @@ class SonarViews(RestClient):
         Key of the portfolio or sub-portfolio to update
         """
 
-    @POST("api/views/set_tags_mode")
+    @POST(API_VIEWS_SET_TAGS_MODE)
     def set_tags_mode(self, portfolio, tags):
         """
         POST api/views/set_tags_mode
@@ -377,7 +397,7 @@ class SonarViews(RestClient):
         Comma-separated list of tags. It's not possible to set nothing.
         """
 
-    @GET("api/views/show")
+    @GET(API_VIEWS_SHOW)
     def show(self, key):
         """
         GET api/views/show
@@ -395,7 +415,7 @@ class SonarViews(RestClient):
         The key of the portfolio
         """
 
-    @POST("api/views/update")
+    @POST(API_VIEWS_UPDATE)
     def update(self, key, name, description=None):
         """
         POST api/views/update
