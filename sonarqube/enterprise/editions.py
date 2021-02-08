@@ -1,6 +1,8 @@
 from sonarqube.utils.common import POST
 from sonarqube.utils.rest_client import RestClient
 
+from sonarqube.utils.config import API_EDITIONS_SET_LICENSE
+
 
 class SonarEditions(RestClient):
     """
@@ -14,7 +16,7 @@ class SonarEditions(RestClient):
         """
         super(SonarEditions, self).__init__(**kwargs)
 
-    @POST("api/editions/set_license")
+    @POST(API_EDITIONS_SET_LICENSE)
     def set_license(self, license):
         """
         POST api/editions/set_license
