@@ -1,4 +1,5 @@
 from sonarqube import SonarQubeClient
+from sonarqube.enterprise.application import SonarQubeApplications
 from sonarqube.enterprise.alm_integrations import SonarAlmIntegrations
 from sonarqube.enterprise.alm_settings import SonarAlmSettings
 from sonarqube.enterprise.applications import SonarApplications
@@ -10,6 +11,14 @@ class SonarEnterpriseClient(SonarQubeClient):
     """
     A Python Client for SonarQube Enterprise Server APIs.
     """
+    @property
+    def applications(self):
+        """
+        SonarQube applications Operations
+
+        :return:
+        """
+        return SonarQubeApplications(api=self)
 
     @property
     def alm_integrations(self):

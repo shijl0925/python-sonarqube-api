@@ -36,12 +36,6 @@ class SonarQubePermissions(RestClient):
         """
         super(SonarQubePermissions, self).__init__(**kwargs)
 
-    def get_permission_template(self, name):
-        result = self.search_templates(name)
-        for permission_template in result["permissionTemplates"]:
-            if permission_template["name"] == name:
-                return permission_template
-
     @POST(API_PERMISSIONS_ADD_GROUP_ENDPOINT)
     def add_permission_to_group(self, groupName, permission, projectKey=None):
         """

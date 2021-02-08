@@ -35,7 +35,7 @@ Documentation
 =============
 
 The full documentation for API is available on `readthedocs
-<https://python-sonarqube-api.readthedocs.io/en/1.1.9/>`_.
+<https://python-sonarqube-api.readthedocs.io/en/1.2.1/>`_.
 
 
 Compatibility
@@ -97,5 +97,5 @@ API example
 -----------
 
 The example documentation for SonarQubeClient APIs is available on `API examples
-<https://python-sonarqube-api.readthedocs.io/en/1.1.9/examples.html>`_.
+<https://python-sonarqube-api.readthedocs.io/en/1.2.1/examples.html>`_.
 
