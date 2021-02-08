@@ -27,6 +27,8 @@ class SonarViews(RestClient):
     Manage Portfolios
     """
 
+    special_attributes_map = {"definition": "def"}
+
     def __init__(self, **kwargs):
         """
 
@@ -171,11 +173,14 @@ class SonarViews(RestClient):
         """
 
     @POST(API_VIEWS_DEFINE)
-    def define(self, _def):
+    def define(self, definition):
         """
         POST api/views/define
         since 1.0
-        Define the portfolio structure by uploading a XML definition file. The uploaded file is validated against the XML Schema available on the server and its structure is checked for inconsistencies (e.g loops in local references, duplicate project associations). If the file is deemed valid, the portfolio hierarchy is updated according to the contents of the file. Requires Provision Projects permission.
+        Define the portfolio structure by uploading a XML definition file. The uploaded file is validated against the
+        XML Schema available on the server and its structure is checked for inconsistencies (e.g loops in local
+        references, duplicate project associations). If the file is deemed valid, the portfolio hierarchy is updated
+        according to the contents of the file. Requires Provision Projects permission.
 
             Parameters
 
