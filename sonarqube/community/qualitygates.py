@@ -37,6 +37,7 @@ class SonarQubeQualityGates(RestClient):
     @POST(API_QUALITYGATES_COPY_ENDPOINT)
     def copy_quality_gate(self, id, name, organization=None):
         """
+        SINCE 4.3
         Copy a Quality Gate.
 
         :param id: The ID of the source quality gate
@@ -48,6 +49,7 @@ class SonarQubeQualityGates(RestClient):
     @POST(API_QUALITYGATES_CREATE_ENDPOINT)
     def create_quality_gate(self, name, organization=None):
         """
+        SINCE 4.3
         Create a Quality Gate.
 
         :param name: The name of the quality gate to create
@@ -58,6 +60,7 @@ class SonarQubeQualityGates(RestClient):
     @POST(API_QUALITYGATES_DESTROY_ENDPOINT)
     def delete_quality_gate(self, id, organization=None):
         """
+        SINCE 4.3
         Delete a Quality Gate.
 
         :param id: ID of the quality gate to delete
@@ -68,6 +71,7 @@ class SonarQubeQualityGates(RestClient):
     @POST(API_QUALITYGATES_RENAME_ENDPOINT)
     def rename_quality_gate(self, id, name, organization=None):
         """
+        SINCE 4.3
         Rename a Quality Gate.
 
         :param id: ID of the quality gate to rename
@@ -81,6 +85,7 @@ class SonarQubeQualityGates(RestClient):
         self, gateId, metric, error, op=None, organization=None
     ):
         """
+        SINCE 4.3
         Add a new condition to a quality gate.
 
         :param gateId: ID of the quality gate
@@ -105,6 +110,7 @@ class SonarQubeQualityGates(RestClient):
     @POST(API_QUALITYGATES_DELETE_CONDITION_ENDPOINT)
     def delete_condition_from_quality_gate(self, id, organization=None):
         """
+        SINCE 4.3
         Delete a condition from a quality gate.
 
         :param id: Condition ID
@@ -117,6 +123,7 @@ class SonarQubeQualityGates(RestClient):
         self, id, metric, error, op=None, organization=None
     ):
         """
+        SINCE 4.3
         Update a condition attached to a quality gate.
 
         :param id: Condition ID
@@ -143,6 +150,7 @@ class SonarQubeQualityGates(RestClient):
         self, gateId, selected="selected", query=None, organization=None
     ):
         """
+        SINCE 4.3
         Search for projects associated (or not) to a quality gate.
 
         :param gateId: Quality Gate ID
@@ -162,6 +170,7 @@ class SonarQubeQualityGates(RestClient):
     @POST(API_QUALITYGATES_SET_AS_DEFAULT_ENDPOINT)
     def set_default_qualitygate(self, id, organization=None):
         """
+        SINCE 4.3
         Set a quality gate as the default quality gate.
 
         :param id: ID of the quality gate to set as default
@@ -174,6 +183,7 @@ class SonarQubeQualityGates(RestClient):
         self, projectKey=None, analysisId=None, branch=None, pullRequest=None
     ):
         """
+        SINCE 5.3
         Get the quality gate status of a project or a Compute Engine task. return 'ok','WARN','ERROR'
         The NONE status is returned when there is no quality gate associated with the analysis.
         Returns an HTTP code 404 if the analysis associated with the task is not found or does not exist.
@@ -188,6 +198,7 @@ class SonarQubeQualityGates(RestClient):
     @GET(API_QUALITYGATES_LIST_ENDPOINT)
     def get_quality_gates(self, organization=None):
         """
+        SINCE 4.3
         Get a list of quality gates
 
         :param organization: Organization key. If no organization is provided, the default organization is used.
@@ -197,6 +208,7 @@ class SonarQubeQualityGates(RestClient):
     @POST(API_QUALITYGATES_SELECT_ENDPOINT)
     def select_quality_gate_for_project(self, projectKey, gateId, organization=None):
         """
+        SINCE 4.3
         Associate a project to a quality gate.
 
         :param projectKey: Project key
@@ -208,6 +220,7 @@ class SonarQubeQualityGates(RestClient):
     @POST(API_QUALITYGATES_DESELECT_ENDPOINT)
     def remove_project_from_quality_gate(self, projectKey, organization=None):
         """
+        SINCE 4.3
         Remove the association of a project from a quality gate.
 
         :param projectKey: Project key
@@ -218,6 +231,7 @@ class SonarQubeQualityGates(RestClient):
     @GET(API_QUALITYGATES_SHOW_ENDPOINT)
     def show_quality_gate(self, name, organization=None):
         """
+        SINCE 4.3
         Display the details of a quality gate.
 
         :param name: Name of the quality gate.
@@ -228,6 +242,7 @@ class SonarQubeQualityGates(RestClient):
     @GET(API_QUALITYGATES_GET_BY_PROJECT_ENDPOINT)
     def get_quality_gate_of_project(self, project, organization=None):
         """
+        SINCE 6.1
         Get the quality gate of a project.
 
         :param project: Project key

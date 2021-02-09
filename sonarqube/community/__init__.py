@@ -20,6 +20,8 @@ from sonarqube.community.rules import SonarQubeRules
 from sonarqube.community.qualityprofiles import SonarQubeQualityProfiles
 from sonarqube.community.duplications import SonarQubeDuplications
 from sonarqube.community.metrics import SonarQubeMetrics
+from sonarqube.community.hotspots import SonarQubeHotspots
+from sonarqube.community.new_code_periods import SonarQubeNewcodeperiods
 from sonarqube.community.settings import SonarQubeSettings
 from sonarqube.community.sources import SonarQubeSources
 from sonarqube.community.auth import SonarQubeAuth
@@ -201,6 +203,23 @@ class SonarQubeClient:
         :return:
         """
         return SonarQubeMetrics(api=self)
+
+    @property
+    def hotspots(self):
+        """
+
+        :return:
+        """
+        return SonarQubeHotspots(api=self)
+
+    @property
+    def new_code_periods(self):
+        """
+        SonarQube new code periods Operations
+
+        :return:
+        """
+        return SonarQubeNewcodeperiods(api=self)
 
     @property
     def settings(self):

@@ -35,6 +35,7 @@ class SonarQubeUserGroups(RestClient):
     @PAGE_GET(API_USER_GROUPS_SEARCH_ENDPOINT, item="groups")
     def search_user_groups(self, f=None, q=None):
         """
+        SINCE 5.2
         Search for user groups.
 
         :param f: Comma-separated list of the fields to be returned in response.
@@ -49,6 +50,7 @@ class SonarQubeUserGroups(RestClient):
     @POST(API_USER_GROUPS_CREATE_ENDPOINT)
     def create_group(self, name, description=None):
         """
+        SINCE 5.2
         Create a group.
 
         :param name: Name for the new group. A group name cannot be larger than 255 characters and must be unique.
@@ -60,6 +62,7 @@ class SonarQubeUserGroups(RestClient):
     @POST(API_USER_GROUPS_DELETE_ENDPOINT)
     def delete_group(self, name):
         """
+        SINCE 5.2
         Delete a group. The default groups cannot be deleted.
 
         :param name: group name
@@ -69,6 +72,7 @@ class SonarQubeUserGroups(RestClient):
     @POST(API_USER_GROUPS_UPDATE_ENDPOINT)
     def update_group(self, id, name=None, description=None):
         """
+        SINCE 5.2
         Update a group.
 
         :param id: Identifier of the group.
@@ -83,6 +87,7 @@ class SonarQubeUserGroups(RestClient):
     @POST(API_USER_GROUPS_ADD_USER_ENDPOINT)
     def add_user_to_group(self, name, login):
         """
+        SINCE 5.2
         Add a user to a group.
 
         :param name: Group name
@@ -93,6 +98,7 @@ class SonarQubeUserGroups(RestClient):
     @POST(API_USER_GROUPS_REMOVE_USER_ENDPOINT)
     def remove_user_from_group(self, name, login):
         """
+        SINCE 5.2
         Remove a user from a group.
 
         :param name: Group name
@@ -103,6 +109,7 @@ class SonarQubeUserGroups(RestClient):
     @PAGE_GET(API_USER_GROUPS_USERS_ENDPOINT, item="users")
     def search_users_belong_to_group(self, name, q=None, selected="selected"):
         """
+        SINCE 5.2
         Search for users with membership information with respect to a group.
 
         :param name: Group name

@@ -24,6 +24,7 @@ class SonarQubeWebservices(RestClient):
     @GET(API_WEBSERVICES_LIST_ENDPOINT)
     def list_web_services(self, include_internals="false"):
         """
+        SINCE 4.2
         List web services
 
         :param include_internals: Include web services that are implemented for internal use only.
@@ -34,6 +35,7 @@ class SonarQubeWebservices(RestClient):
     @POST(API_WEBSERVICES_RESPONSE_EXAMPLE_ENDPOINT)
     def web_service_response_example(self, action, controller):
         """
+        SINCE 4.4
         Display web service response example
 
         :param action: Action of the web service

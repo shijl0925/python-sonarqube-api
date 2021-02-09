@@ -21,6 +21,7 @@ class SonarQubeServer(RestClient):
     @GET(API_SERVER_VERSION_ENDPOINT)
     def get_server_version(self):
         """
+        SINCE 2.10
         Version of SonarQube in plain text
 
         :return:

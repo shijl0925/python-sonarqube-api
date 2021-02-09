@@ -75,6 +75,7 @@ class SonarQubeIssues(RestClient):
         types=None,
     ):
         """
+        SINCE 3.6
         Search for issues.
 
         :param componentKeys: Comma-separated list of component keys. Retrieve issues associated to a specific list of
@@ -223,6 +224,7 @@ class SonarQubeIssues(RestClient):
     @POST(API_ISSUES_ASSIGN_ENDPOINT)
     def issue_assign(self, issue, assignee=None):
         """
+        SINCE 3.6
         Assign/Unassign an issue
 
         :param issue: Issue key
@@ -234,6 +236,7 @@ class SonarQubeIssues(RestClient):
     @POST(API_ISSUES_SET_SEVERITY_ENDPOINT)
     def issue_change_severity(self, issue, severity):
         """
+        SINCE 3.6
         Change severity.
 
         :param issue: Issue key
@@ -251,6 +254,7 @@ class SonarQubeIssues(RestClient):
     @POST(API_ISSUES_SET_TYPE_ENDPOINT)
     def issue_set_type(self, issue, type):
         """
+        SINCE 5.5
         Change type of issue, for instance from 'code smell' to 'bug'.
 
         :param issue: Issue key
@@ -267,6 +271,7 @@ class SonarQubeIssues(RestClient):
     @POST(API_ISSUES_ADD_COMMENT_ENDPOINT)
     def issue_add_comment(self, issue, text):
         """
+        SINCE 3.6
         Add a comment.
 
         :param issue: Issue key
@@ -277,6 +282,7 @@ class SonarQubeIssues(RestClient):
     @POST(API_ISSUES_DELETE_COMMENT_ENDPOINT)
     def issue_delete_comment(self, comment):
         """
+        SINCE 3.6
         Delete a comment.
 
         :param comment: Comment key
@@ -286,6 +292,7 @@ class SonarQubeIssues(RestClient):
     @POST(API_ISSUES_EDIT_COMMENT_ENDPOINT)
     def issue_edit_comment(self, comment, text):
         """
+        SINCE 3.6
         Edit a comment.
 
         :param comment: Comment key
@@ -296,6 +303,7 @@ class SonarQubeIssues(RestClient):
     @POST(API_ISSUES_DO_TRANSITION_ENDPOINT)
     def issue_do_transition(self, issue, transition):
         """
+        SINCE 3.6
         Do workflow transition on an issue. Requires authentication and Browse permission on project.
         The transitions 'wontfix' and 'falsepositive' require the permission 'Administer Issues'.
         The transitions involving security hotspots require the permission 'Administer Security Hotspot'.
@@ -321,6 +329,7 @@ class SonarQubeIssues(RestClient):
     @GET(API_ISSUES_AUTHORS_ENDPOINT)
     def search_scm_accounts(self, project, q=None):
         """
+        SINCE 5.1
         Search SCM accounts which match a given query
 
         :param project: Project key
@@ -342,6 +351,7 @@ class SonarQubeIssues(RestClient):
         set_type=None,
     ):
         """
+        SINCE 3.7
         Bulk change on issues.
 
         :param issues: Comma-separated list of issue keys
@@ -387,6 +397,7 @@ class SonarQubeIssues(RestClient):
     @GET(API_ISSUES_CHANGELOG_ENDPOINT)
     def get_issue_changelog(self, issue):
         """
+        SINCE 4.1
         Display changelog of an issue.
 
         :param issue: Issue key
@@ -396,6 +407,7 @@ class SonarQubeIssues(RestClient):
     @POST(API_ISSUES_SET_TAGS_ENDPOINT)
     def issue_set_tags(self, issue, tags=None):
         """
+        SINCE 5.1
         Set tags on an issue.
 
         :param issue: Issue key
@@ -407,6 +419,7 @@ class SonarQubeIssues(RestClient):
     @GET(API_ISSUES_TAGS_ENDPOINT)
     def get_issues_tags(self, project, q=None):
         """
+        SINCE 5.1
         List tags
 
         :param project:

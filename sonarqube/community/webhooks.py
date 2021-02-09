@@ -28,6 +28,7 @@ class SonarQubeWebhooks(RestClient):
     @POST(API_WEBHOOKS_CREATE_ENDPOINT)
     def create_webhook(self, name, url, project=None, secret=None):
         """
+        SINCE 7.1
         Create a Webhook.
 
         :param name: Name displayed in the administration console of webhooks
@@ -43,6 +44,7 @@ class SonarQubeWebhooks(RestClient):
     @POST(API_WEBHOOKS_DELETE_ENDPOINT)
     def delete_webhook(self, webhook):
         """
+        SINCE 7.1
         Delete a Webhook.
 
         :param webhook: The key of the webhook to be deleted, auto-generated value can be obtained through
@@ -53,6 +55,7 @@ class SonarQubeWebhooks(RestClient):
     @PAGE_GET(API_WEBHOOKS_DELIVERIES_ENDPOINT, item="deliveries")
     def get_webhook_deliveries(self, webhook=None, componentKey=None, ceTaskId=None):
         """
+        SINCE 6.2
         Get the recent deliveries for a specified project or Compute Engine task.
 
         :param webhook: Key of the webhook that triggered those deliveries
@@ -64,6 +67,7 @@ class SonarQubeWebhooks(RestClient):
     @GET(API_WEBHOOKS_DELIVERY_ENDPOINT)
     def get_webhook_delivery(self, deliveryId):
         """
+        SINCE 6.2
         Get a webhook delivery by its id.
 
         :param deliveryId: Id of delivery
@@ -73,6 +77,7 @@ class SonarQubeWebhooks(RestClient):
     @GET(API_WEBHOOKS_LIST_ENDPOINT)
     def search_webhooks(self, project=None):
         """
+        SINCE 7.1
         Search for global webhooks or project webhooks. Webhooks are ordered by name.
 
         :param project: Project key
@@ -82,6 +87,7 @@ class SonarQubeWebhooks(RestClient):
     @POST(API_WEBHOOKS_UPDATE_ENDPOINT)
     def update_webhook(self, webhook, name, url, secret=None):
         """
+        SINCE 7.1
         Update a Webhook.
 
         :param webhook: The key of the webhook to be updated

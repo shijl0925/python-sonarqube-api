@@ -24,6 +24,7 @@ class SonarQubeMetrics(RestClient):
     @PAGE_GET(API_METRICS_SEARCH_ENDPOINT, item="metrics")
     def search_metrics(self):
         """
+        SINCE 5.2
         Search for metrics
 
         :return:
@@ -32,6 +33,7 @@ class SonarQubeMetrics(RestClient):
     @GET(API_METRICS_TYPES_ENDPOINT)
     def get_metrics_types(self):
         """
+        SINCE 5.2
         List all available metric types.
 
         :return:

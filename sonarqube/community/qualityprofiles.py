@@ -42,6 +42,7 @@ class SonarQubeQualityProfiles(RestClient):
         self, key, rule, reset=False, severity=None, **params
     ):
         """
+        SINCE 4.4
         Activate a rule for a given quality profile.
 
         :param key: Quality Profile key.
@@ -80,6 +81,7 @@ class SonarQubeQualityProfiles(RestClient):
         self, defaults="false", language=None, project=None, qualityProfile=None
     ):
         """
+        SINCE 5.2
         Search quality profiles
 
         :param defaults: If set to true, return only the quality profiles marked as default for each language.
@@ -93,6 +95,7 @@ class SonarQubeQualityProfiles(RestClient):
     @POST(API_QUALITYPROFILES_SET_DEFAULT_ENDPOINT)
     def set_default_quality_profile(self, language, qualityProfile):
         """
+        SINCE 5.2
         Select the default profile for a given language.
 
         :param language: Quality profile language.
@@ -103,6 +106,7 @@ class SonarQubeQualityProfiles(RestClient):
     @POST(API_QUALITYPROFILES_ADD_PROJECT_ENDPOINT)
     def associate_project_with_quality_profile(self, project, language, qualityProfile):
         """
+        SINCE 5.2
         Associate a project with a quality profile.
 
         :param project: Project key.
@@ -116,6 +120,7 @@ class SonarQubeQualityProfiles(RestClient):
         self, project, language, qualityProfile
     ):
         """
+        SINCE 5.2
         Remove a project's association with a quality profile.
 
         :param project: Project key
@@ -127,6 +132,7 @@ class SonarQubeQualityProfiles(RestClient):
     @GET(API_QUALITYPROFILES_BACKUP_ENDPOINT)
     def backup_quality_profile(self, language, qualityProfile):
         """
+        SINCE 5.2
         Backup a quality profile in XML form. The exported profile can be restored through api/qualityprofiles/restore.
 
         :param language: Quality profile language.
@@ -139,6 +145,7 @@ class SonarQubeQualityProfiles(RestClient):
         self, parentQualityProfile, language, qualityProfile
     ):
         """
+        SINCE 5.2
         Change a quality profile's parent.
 
         :param parentQualityProfile: Parent quality profile name.
@@ -152,6 +159,7 @@ class SonarQubeQualityProfiles(RestClient):
         self, language, qualityProfile, since=None, to=None
     ):
         """
+        SINCE 5.2
         Get the history of changes on a quality profile: rule activation/deactivation, change in parameters/severity.
         Events are ordered by date in descending order (most recent first).
 
@@ -165,6 +173,7 @@ class SonarQubeQualityProfiles(RestClient):
     @POST(API_QUALITYPROFILES_COPY_ENDPOINT)
     def copy_quality_profile(self, fromKey, toName):
         """
+        SINCE 5.2
         Copy a quality profile.
 
         :param fromKey: Quality profile key
@@ -175,6 +184,7 @@ class SonarQubeQualityProfiles(RestClient):
     @POST(API_QUALITYPROFILES_CREATE_ENDPOINT)
     def create_quality_profile(self, language, name):
         """
+        SINCE 5.2
         Create a quality profile.
 
         :param language: Quality profile language
@@ -185,6 +195,7 @@ class SonarQubeQualityProfiles(RestClient):
     @POST(API_QUALITYPROFILES_DEACTIVATE_RULE_ENDPOINT)
     def deactivate_rule_on_quality_profile(self, key, rule):
         """
+        SINCE 4.4
         Deactivate a rule on a quality profile.
 
         :param key: Quality Profile key. Can be obtained through api/qualityprofiles/search
@@ -195,6 +206,7 @@ class SonarQubeQualityProfiles(RestClient):
     @POST(API_QUALITYPROFILES_DELETE_ENDPOINT)
     def delete_quality_profile(self, language, qualityProfile):
         """
+        SINCE 5.2
         Delete a quality profile and all its descendants.
         The default quality profile cannot be deleted.
 
@@ -208,6 +220,7 @@ class SonarQubeQualityProfiles(RestClient):
         self, exporterKey=None, language=None, qualityProfile=None
     ):
         """
+        SINCE 5.2
         Export a quality profile.
 
         :param exporterKey: Output format. If left empty, the same format as api/qualityprofiles/backup is used.
@@ -228,6 +241,7 @@ class SonarQubeQualityProfiles(RestClient):
     @GET(API_QUALITYPROFILES_EXPORTERS_ENDPOINT)
     def get_supported_exporters(self):
         """
+        SINCE 5.2
         Lists available profile export formats.
 
         :return:
@@ -236,6 +250,7 @@ class SonarQubeQualityProfiles(RestClient):
     @GET(API_QUALITYPROFILES_IMPORTERS_ENDPOINT)
     def get_supported_importers(self):
         """
+        SINCE 5.2
         List supported importers.
 
         :return:
@@ -244,6 +259,7 @@ class SonarQubeQualityProfiles(RestClient):
     @GET(API_QUALITYPROFILES_INHERITANCE_ENDPOINT)
     def show_quality_profile(self, language, qualityProfile):
         """
+        SINCE 5.2
         Show a quality profile's ancestors and children.
 
         :param language: Quality profile language.
@@ -256,6 +272,7 @@ class SonarQubeQualityProfiles(RestClient):
         self, key, q=None, selected="selected"
     ):
         """
+        SINCE 5.2
         List projects with their association status regarding a quality profile
 
         :param key: Quality profile key
@@ -273,6 +290,7 @@ class SonarQubeQualityProfiles(RestClient):
     @POST(API_QUALITYPROFILES_RENAME_ENDPOINT)
     def rename_quality_profile(self, key, name):
         """
+        SINCE 5.2
         Rename a quality profile.
 
         :param key: Quality profile key
@@ -283,6 +301,7 @@ class SonarQubeQualityProfiles(RestClient):
     @POST(API_QUALITYPROFILES_RESTORE_ENDPOINT)
     def restore_quality_profile(self, backup):
         """
+        SINCE 5.2
         Restore a quality profile using an XML file. The restored profile name is taken from the backup file,
         so if a profile with the same name and language already exists, it will be overwritten.
 

@@ -43,6 +43,7 @@ class SonarQubeProjects(RestClient):
         qualifiers="TRK",
     ):
         """
+        SINCE 6.3
         Search for projects or views to administrate them.
 
         :param analyzedBefore: Filter the projects for which last analysis is older than the given date (exclusive).
@@ -67,6 +68,7 @@ class SonarQubeProjects(RestClient):
     @POST(API_PROJECTS_CREATE_ENDPOINT)
     def create_project(self, project, name, visibility=None):
         """
+        SINCE 4.0
         Create a project.
 
         :param project: Key of the project
@@ -82,6 +84,7 @@ class SonarQubeProjects(RestClient):
     @POST(API_PROJECTS_DELETE_ENDPOINT)
     def delete_project(self, project):
         """
+        SINCE 5.2
         Delete a project.
 
         :param project: Project key
@@ -98,6 +101,7 @@ class SonarQubeProjects(RestClient):
         qualifiers="TRK",
     ):
         """
+        SINCE 5.2
         Delete one or several projects.
         At least one parameter is required among analyzedBefore, projects, projectIds (deprecated since 6.4) and q
 
@@ -122,6 +126,7 @@ class SonarQubeProjects(RestClient):
     @POST(API_PROJECTS_UPDATE_KEY_ENDPOINT)
     def update_project_key(self, previous_project_key, new_project_key):
         """
+        SINCE 6.1
         Update a project or module key and all its sub-components keys.
 
         :param previous_project_key: Project or module key
@@ -132,6 +137,7 @@ class SonarQubeProjects(RestClient):
     @POST(API_PROJECTS_UPDATE_VISIBILITY_ENDPOINT)
     def update_project_visibility(self, project, visibility):
         """
+        SINCE 6.4
         Updates visibility of a project.
 
         :param project: Project key

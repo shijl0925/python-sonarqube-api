@@ -25,6 +25,7 @@ class SonarQubeAuth(RestClient):
     @POST(API_AUTH_LOGIN_ENDPOINT)
     def authenticate_user(self, login, password):
         """
+        SINCE 6.0
         Authenticate a user.
 
         :param login: Login of the user
@@ -35,6 +36,7 @@ class SonarQubeAuth(RestClient):
     @POST(API_AUTH_LOGOUT_ENDPOINT)
     def logout_user(self):
         """
+        SINCE 6.3
         Logout a user.
 
         :return:
@@ -43,6 +45,7 @@ class SonarQubeAuth(RestClient):
     @GET(API_AUTH_VALIDATE_ENDPOINT)
     def check_credentials(self):
         """
+        SINCE 3.3
         Check credentials.
 
         :return:

@@ -75,6 +75,7 @@ API_MEASURES_SEARCH_HISTORY_ENDPOINT = "/api/measures/search_history"
 API_PROJECT_BRANCHES_LIST_ENDPOINT = "/api/project_branches/list"
 API_PROJECT_BRANCHES_RENAME_ENDPOINT = "/api/project_branches/rename"
 API_PROJECT_BRANCHES_DELETE_ENDPOINT = "/api/project_branches/delete"
+API_PROJECT_BRANCHES_SET_PROTECTION_ENDPOINT = "/api/project_branches/set_automatic_deletion_protection"
 
 API_NOTIFICATIONS_ADD_ENDPOINT = "/api/notifications/add"
 API_NOTIFICATIONS_LIST_ENDPOINT = "/api/notifications/list"
@@ -155,6 +156,11 @@ API_PDFREPORT_GET_ENDPOINT = "/api/pdfreport/get"
 API_METRICS_SEARCH_ENDPOINT = "/api/metrics/search"
 API_METRICS_TYPES_ENDPOINT = "/api/metrics/types"
 
+API_NEW_CODE_PERIODS_LIST_ENDPOINT = "/api/new_code_periods/list"
+API_NEW_CODE_PERIODS_SET_ENDPOINT = "/api/new_code_periods/set"
+API_NEW_CODE_PERIODS_SHOW_ENDPOINT = "/api/new_code_periods/show"
+API_NEW_CODE_PERIODS_UNSET_ENDPOINT = "/api/new_code_periods/unset"
+
 API_SETTINGS_LIST_DEFINITIONS_ENDPOINT = "/api/settings/list_definitions"
 API_SETTINGS_RESET_ENDPOINT = "/api/settings/reset"
 API_SETTINGS_SET_ENDPOINT = "/api/settings/set"
@@ -171,6 +177,8 @@ API_AUTH_VALIDATE_ENDPOINT = "/api/authentication/validate"
 API_FAVORITES_ADD_ENDPOINT = "/api/favorites/add"
 API_FAVORITES_REMOVE_ENDPOINT = "/api/favorites/remove"
 API_FAVORITES_SEARCH_ENDPOINT = "/api/favorites/search"
+
+API_HOTSPOTS_SHOW_ENDPOINT = "/api/hotspots/show"
 
 API_LANGUAGES_LIST_ENDPOINT = "/api/languages/list"
 
@@ -216,6 +224,7 @@ API_SYSTEM_PING_ENDPOINT = "/api/system/ping"
 API_SYSTEM_RESTART_ENDPOINT = "/api/system/restart"
 API_SYSTEM_STATUS_ENDPOINT = "/api/system/status"
 API_SYSTEM_UPGRADES_ENDPOINT = "/api/system/upgrades"
+API_SYSTEM_INFO_ENDPOINT = "/api/system/info"
 
 API_PLUGINS_AVAILABLE_ENDPOINT = "/api/plugins/available"
 API_PLUGINS_CANCEL_ALL_ENDPOINT = "/api/plugins/cancel_all"
@@ -225,6 +234,9 @@ API_PLUGINS_PENDING_ENDPOINT = "/api/plugins/pending"
 API_PLUGINS_UNINSTALL_ENDPOINT = "/api/plugins/uninstall"
 API_PLUGINS_UPDATE_ENDPOINT = "/api/plugins/update"
 API_PLUGINS_UPDATES_ENDPOINT = "/api/plugins/updates"
+
+API_PROJECT_DUMP_EXPORT_ENDPOINT = "/api/project_dump/export"
+API_PROJECT_DUMP_IMPORT_ENDPOINT = "/api/project_dump/import"
 
 API_ALM_INTEGRATION_SET_PAT = "/api/alm_integrations/set_pat"
 API_ALM_INTEGRATION_SEARCH_GITLAB_REPOS = "/api/alm_integrations/search_gitlab_repos"

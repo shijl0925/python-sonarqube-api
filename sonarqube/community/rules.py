@@ -61,6 +61,7 @@ class SonarQubeRules(RestClient):
         types=None,
     ):
         """
+        SINCE 4.4
         Search for a collection of relevant rules matching a specified query.
 
         :param activation: Filter rules that are activated or deactivated on the selected Quality profile. Ignored if the parameter 'qprofile' is not set.
@@ -229,6 +230,7 @@ class SonarQubeRules(RestClient):
         params=None,
     ):
         """
+        SINCE 4.4
         Create a a custom rule.
 
         :param custom_key: Key of the custom rule
@@ -274,6 +276,7 @@ class SonarQubeRules(RestClient):
         tags=None,
     ):
         """
+        SINCE 4.4
         Update an existing rule.
 
         :param key: Key of the rule to update
@@ -311,6 +314,7 @@ class SonarQubeRules(RestClient):
     @POST(API_RULES_DELETE_ENDPOINT)
     def delete_rule(self, key):
         """
+        SINCE 4.4
         Delete custom rule.
         :param key:
         :return:
@@ -319,6 +323,7 @@ class SonarQubeRules(RestClient):
     @GET(API_RULES_SHOW_ENDPOINT)
     def get_rule(self, key, actives="false"):
         """
+        SINCE 4.2
         Get detailed information about a rule.
 
         :param key: Rule key
@@ -330,6 +335,7 @@ class SonarQubeRules(RestClient):
     @GET(API_RULES_REPOSITORIES_ENDPOINT)
     def get_rule_repositories(self, language=None, q=None):
         """
+        SINCE 4.5
         List available rule repositories
 
         :param language: A language key; if provided, only repositories for the given language will be returned
@@ -340,6 +346,7 @@ class SonarQubeRules(RestClient):
     @GET(API_RULES_TAGS_ENDPOINT)
     def get_rule_tags(self, ps=10, q=None):
         """
+        SINCE 4.4
         List rule tags
 
         :param ps: Page size. Must be greater than 0 and less or equal than 100.default value is 10.

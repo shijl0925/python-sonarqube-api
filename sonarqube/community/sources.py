@@ -29,6 +29,7 @@ class SonarQubeSources(RestClient):
         self, key, from_line=1, to_line=None, commits_by_line="false"
     ):
         """
+        SINCE 4.4
         Get SCM information of source files. Require See Source Code permission on file's project.
         Each element of the result array is composed of:
           * Line number
@@ -48,6 +49,7 @@ class SonarQubeSources(RestClient):
     @GET(API_SOURCES_SHOW_ENDPOINT)
     def get_source_code(self, key, from_line=1, to_line=None):
         """
+        SINCE 4.4
         Get source code. Requires See Source Code permission on file's project.
 
         :param key: File key
@@ -59,6 +61,7 @@ class SonarQubeSources(RestClient):
     @GET(API_SOURCES_RAW_ENDPOINT)
     def get_sources_raw(self, key, branch=None, pullRequest=None):
         """
+        SINCE 5.0
         Get source code as raw text. Require 'See Source Code' permission on file.
 
         :param key: File key

@@ -27,6 +27,7 @@ class SonarQubeComponents(RestClient):
         self, component, branch=None, pullRequest=None
     ):
         """
+        SINCE 5.4
         Returns a component (file, directory, project, view…) and its ancestors. The ancestors are ordered from the
         parent to the root project.
 
@@ -39,6 +40,7 @@ class SonarQubeComponents(RestClient):
     @PAGE_GET(API_COMPONTENTS_SEARCH_ENDPOINT, item="components")
     def search_components(self, qualifiers, language=None, q=None):
         """
+        SINCE 6.3
         Search for components
 
         :param qualifiers: Comma-separated list of component qualifiers. Filter the results with
@@ -73,6 +75,7 @@ class SonarQubeComponents(RestClient):
         strategy="all",
     ):
         """
+        SINCE 5.4
         Navigate through components based on the chosen strategy.
         When limiting search with the q parameter, directories are not returned.
 

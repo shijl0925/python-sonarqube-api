@@ -25,6 +25,7 @@ class SonarQubeUserTokens(RestClient):
     @POST(API_USER_TOKENS_GENERATE_ENDPOINT)
     def generate_user_token(self, name, login=None):
         """
+        SINCE 5.3
         Generate a user access token.
         Please keep your tokens secret. They enable to authenticate and analyze projects.
         It requires administration permissions to specify a 'login' and generate a token for another user. Otherwise,
@@ -38,6 +39,7 @@ class SonarQubeUserTokens(RestClient):
     @POST(API_USER_TOKENS_REVOKE_ENDPOINT)
     def revoke_user_token(self, name, login=None):
         """
+        SINCE 5.3
         Revoke a user access token.
         It requires administration permissions to specify a 'login' and revoke a token for another user.
         Otherwise, the token for the current user is revoked.
@@ -50,6 +52,7 @@ class SonarQubeUserTokens(RestClient):
     @GET(API_USER_TOKENS_SEARCH_ENDPOINT)
     def search_user_tokens(self, login=None):
         """
+        SINCE 5.3
         List the access tokens of a user.
         The login must exist and active.
         Field 'lastConnectionDate' is only updated every hour, so it may not be accurate,

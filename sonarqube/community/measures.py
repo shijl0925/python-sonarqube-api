@@ -34,6 +34,7 @@ class SonarQubeMeasures(RestClient):
         additionalFields=None,
     ):
         """
+        SINCE 5.4
         Return component with specified measures.
 
         :param component: Component key
@@ -64,6 +65,7 @@ class SonarQubeMeasures(RestClient):
         strategy="all",
     ):
         """
+        SINCE 5.4
         Navigate through components based on the chosen strategy with specified measures. The baseComponentId or
         the component parameter must be provided.
 
@@ -124,6 +126,7 @@ class SonarQubeMeasures(RestClient):
         to_date=None,
     ):
         """
+        SINCE 6.3
         Search measures history of a component
 
         :param component: Component key.

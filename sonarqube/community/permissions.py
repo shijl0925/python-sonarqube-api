@@ -39,6 +39,7 @@ class SonarQubePermissions(RestClient):
     @POST(API_PERMISSIONS_ADD_GROUP_ENDPOINT)
     def add_permission_to_group(self, groupName, permission, projectKey=None):
         """
+        SINCE 5.2
         Add permission to a group.
         This service defaults to global permissions, but can be limited to project permissions by providing project key.
         The group name must be provided.
@@ -55,6 +56,7 @@ class SonarQubePermissions(RestClient):
     @POST(API_PERMISSIONS_REMOVE_GROUP_ENDPOINT)
     def remove_permission_from_group(self, groupName, permission, projectKey=None):
         """
+        SINCE 5.2
         Remove a permission from a group.
         This service defaults to global permissions, but can be limited to project permissions by providing project key.
         The group name must be provided.
@@ -71,6 +73,7 @@ class SonarQubePermissions(RestClient):
     @POST(API_PERMISSIONS_ADD_USER_ENDPOINT)
     def add_permission_to_user(self, login, permission, projectKey=None):
         """
+        SINCE 5.2
         Add permission to a user.
         This service defaults to global permissions, but can be limited to project permissions by providing project key.
 
@@ -86,6 +89,7 @@ class SonarQubePermissions(RestClient):
     @POST(API_PERMISSIONS_REMOVE_USER_ENDPOINT)
     def remove_permission_from_user(self, login, permission, projectKey=None):
         """
+        SINCE 5.2
         Remove permission from a user.
         This service defaults to global permissions, but can be limited to project permissions by providing project key.
 
@@ -101,6 +105,7 @@ class SonarQubePermissions(RestClient):
     @POST(API_PERMISSIONS_APPLY_TEMPLATE_ENDPOINT)
     def apply_template_to_project(self, templateName, projectKey):
         """
+        SINCE 5.2
         Apply a permission template to one project.
 
         :param templateName: Template name
@@ -119,6 +124,7 @@ class SonarQubePermissions(RestClient):
         qualifiers="TRK",
     ):
         """
+        SINCE 5.5
         Apply a permission template to several projects.
 
         :param templateName: Template name
@@ -140,6 +146,7 @@ class SonarQubePermissions(RestClient):
     @POST(API_PERMISSIONS_ADD_GROUP_TO_TEMPLATE_ENDPOINT)
     def add_group_to_template(self, groupName, templateName, permission):
         """
+        SINCE 5.2
         Add a group to a permission template.
 
         :param groupName: Group name or 'anyone' (case insensitive)
@@ -153,6 +160,7 @@ class SonarQubePermissions(RestClient):
     @POST(API_PERMISSIONS_REMOVE_GROUP_FROM_TEMPLATE_ENDPOINT)
     def remove_group_from_template(self, groupName, templateName, permission):
         """
+        SINCE 5.2
         Remove a group from a permission template.
 
         :param groupName: Group name or 'anyone' (case insensitive)
@@ -166,6 +174,7 @@ class SonarQubePermissions(RestClient):
     @POST(API_PERMISSIONS_ADD_PROJECT_CREATOR_TO_TEMPLATE_ENDPOINT)
     def add_project_creator_to_template(self, templateName, permission):
         """
+        SINCE 6.0
         Add a project creator to a permission template.
 
         :param templateName: Template name
@@ -178,6 +187,7 @@ class SonarQubePermissions(RestClient):
     @POST(API_PERMISSIONS_REMOVE_PROJECT_CREATOR_FROM_TEMPLATE_ENDPOINT)
     def remove_project_creator_from_template(self, templateName, permission):
         """
+        SINCE 6.0
         Remove a project creator from a permission template.
 
         :param templateName: Template name
@@ -190,6 +200,7 @@ class SonarQubePermissions(RestClient):
     @POST(API_PERMISSIONS_ADD_USER_TO_TEMPLATE_ENDPOINT)
     def add_user_to_template(self, login, templateName, permission):
         """
+        SINCE 5.2
         Add a user to a permission template.
 
         :param login: User login
@@ -203,6 +214,7 @@ class SonarQubePermissions(RestClient):
     @POST(API_PERMISSIONS_REMOVE_USER_FROM_TEMPLATE_ENDPOINT)
     def remove_user_from_template(self, login, templateName, permission):
         """
+        SINCE 5.2
         Remove a user from a permission template.
 
         :param login: User login
@@ -216,6 +228,7 @@ class SonarQubePermissions(RestClient):
     @POST(API_PERMISSIONS_CREATE_TEMPLATE_ENDPOINT)
     def create_template(self, name, description=None, projectKeyPattern=None):
         """
+        SINCE 5.2
         Create a permission template.
 
         :param name: Template name
@@ -227,6 +240,7 @@ class SonarQubePermissions(RestClient):
     @POST(API_PERMISSIONS_DELETE_TEMPLATE_ENDPOINT)
     def delete_template(self, templateName):
         """
+        SINCE 5.2
         Delete a permission template.
 
         :param templateName: Template name
@@ -236,6 +250,7 @@ class SonarQubePermissions(RestClient):
     @GET(API_PERMISSIONS_SEARCH_TEMPLATES_ENDPOINT)
     def search_templates(self, q=None):
         """
+        SINCE 5.2
         List permission templates.
 
         :param q: Limit search to permission template names that contain the supplied string.
@@ -245,6 +260,7 @@ class SonarQubePermissions(RestClient):
     @POST(API_PERMISSIONS_SET_DEFAULT_TEMPLATE_ENDPOINT)
     def set_default_template(self, templateName, qualifier="TRK"):
         """
+        SINCE 5.2
         Set a permission template as default.
 
         :param templateName: Template name
@@ -258,6 +274,7 @@ class SonarQubePermissions(RestClient):
     @POST(API_PERMISSIONS_UPDATE_TEMPLATE_ENDPOINT)
     def update_template(self, id, name=None, description=None, projectKeyPattern=None):
         """
+        SINCE 5.2
         Update a permission template.
 
         :param id: Template id

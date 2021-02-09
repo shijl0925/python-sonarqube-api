@@ -24,6 +24,7 @@ class SonarQubeProjectPullRequests(RestClient):
     @GET(API_PROJECT_PULL_REQUESTS_LIST_ENDPOINT)
     def search_project_pull_requests(self, project):
         """
+        SINCE 7.1
         List the pull requests of a project.
 
         :param project: Project key
@@ -33,6 +34,7 @@ class SonarQubeProjectPullRequests(RestClient):
     @POST(API_PROJECT_PULL_REQUESTS_DELETE_ENDPOINT)
     def delete_project_pull_requests(self, project, pullRequest):
         """
+        SINCE 7.1
         Delete a pull request.
 
         :param project: Project key

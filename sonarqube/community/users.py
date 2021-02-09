@@ -37,6 +37,7 @@ class SonarQubeUsers(RestClient):
     @PAGE_GET(API_USERS_SEARCH_ENDPOINT, item="users")
     def search_users(self, q=None):
         """
+        SINCE 3.6
         Get a list of active users.
 
         :param q: Filter on login, name and email
@@ -47,6 +48,7 @@ class SonarQubeUsers(RestClient):
         self, login, name, email=None, password=None, local="true", scmAccount=None
     ):
         """
+        SINCE 3.7
         Create a user.
 
         :param login: User login
@@ -74,6 +76,7 @@ class SonarQubeUsers(RestClient):
     @POST(API_USERS_UPDATE_ENDPOINT)
     def update_user(self, login, name=None, email=None, scmAccount=None):
         """
+        SINCE 3.7
         Update a user.
 
         :param login: User login
@@ -86,6 +89,7 @@ class SonarQubeUsers(RestClient):
     @POST(API_USERS_CHANGE_PASSWORD_ENDPOINT)
     def change_user_password(self, login, password, previousPassword=None):
         """
+        SINCE 5.2
         Update a user's password. Authenticated users can change their own password,
         provided that the account is not linked to an external authentication system.
         Administer System permission is required to change another user's password.
@@ -99,6 +103,7 @@ class SonarQubeUsers(RestClient):
     @POST(API_USERS_DEACTIVATE_ENDPOINT)
     def deactivate_user(self, login):
         """
+        SINCE 3.7
         Deactivate a user.
 
         :param login: User login
@@ -108,6 +113,7 @@ class SonarQubeUsers(RestClient):
     @PAGE_GET(API_USERS_GROUPS_ENDPOINT, item="groups")
     def search_groups_user_belongs_to(self, login, q=None, selected="selected"):
         """
+        SINCE 5.2
         Lists the groups a user belongs to.
 
         :param login:
@@ -124,6 +130,7 @@ class SonarQubeUsers(RestClient):
     @POST(API_USERS_UPDATE_LOGIN_ENDPOINT)
     def update_user_login(self, login, newLogin):
         """
+        SINCE 7.6
         Update a user login. A login can be updated many times.
 
         :param login: The current login (case-sensitive)

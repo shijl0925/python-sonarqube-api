@@ -24,6 +24,7 @@ class SonarQubeProjectBadges(RestClient):
     @GET(API_PROJECT_BADGES_MEASURE_ENDPOINT)
     def generate_badge_for_project_measures(self, project, metric, branch=None):
         """
+        SINCE 7.1
         Generate badge for project's measure as an SVG.
 
         :param project: Project or application key
@@ -47,6 +48,7 @@ class SonarQubeProjectBadges(RestClient):
     @GET(API_PROJECT_BADGES_QUALITY_GATE_ENDPOINT)
     def generate_badge_for_project_quality_gate(self, project, branch=None):
         """
+        SINCE 7.1
         Generate badge for project's quality gate as an SVG.
 
         :param project: Project or application key
