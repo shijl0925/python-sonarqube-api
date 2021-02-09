@@ -25,6 +25,7 @@ class SonarQubeProjectLinks(RestClient):
     @POST(API_PROJECT_LINKS_CREATE_ENDPOINT)
     def create_project_link(self, projectKey, name, url):
         """
+        SINCE 6.1
         Create a new project link.
 
         :param projectKey: Project key
@@ -36,6 +37,7 @@ class SonarQubeProjectLinks(RestClient):
     @POST(API_PROJECT_LINKS_DELETE_ENDPOINT)
     def delete_project_link(self, id):
         """
+        SINCE 6.1
         Delete existing project link.
 
         :param id: Link id
@@ -45,6 +47,7 @@ class SonarQubeProjectLinks(RestClient):
     @GET(API_PROJECT_LINKS_SEARCH_ENDPOINT)
     def search_project_links(self, projectKey):
         """
+        SINCE 6.1
         List links of a project.
 
         :param projectKey: Project Key

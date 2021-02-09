@@ -37,6 +37,7 @@ class SonarQubeCe(RestClient):
         type=None,
     ):
         """
+        SINCE 5.2
         Search for tasks.
 
         :param componentId: Id of the component (project) to filter on
@@ -61,7 +62,13 @@ class SonarQubeCe(RestClient):
           * IN_PROGRESS
 
           default value is SUCCESS,FAILED,CANCELED
-        :param type: Task type
+        :param type: Task type. Possible values:
+          * REPORT
+          * ISSUE_SYNC
+          * APP_REFRESH
+          * PROJECT_EXPORT
+          * PROJECT_IMPORT
+          * VIEW_REFRESH
 
         :return:
         """
@@ -69,6 +76,7 @@ class SonarQubeCe(RestClient):
     @GET(API_CE_ACTIVITY_STATUS_ENDPOINT)
     def get_ce_activity_related_metrics(self, component_id=None):
         """
+        SINCE 5.5
         Returns CE activity related metrics.
 
         :param component_id: Id of the component (project) to filter on
@@ -89,6 +97,7 @@ class SonarQubeCe(RestClient):
     @GET(API_CE_COMPONENT_ENDPOINT)
     def get_component_queue_and_current_tasks(self, component):
         """
+        SINCE 5.2
         Get the pending tasks, in-progress tasks and the last executed task of a given component (usually a project).
 
         :param component: Component key
@@ -98,6 +107,7 @@ class SonarQubeCe(RestClient):
     @GET(API_CE_TASK_ENDPOINT)
     def get_task(self, id, additionalFields=None):
         """
+        SINCE 5.2
         Give Compute Engine task details such as type, status, duration and associated component.
 
         :param id: Id of task

@@ -31,6 +31,7 @@ class SonarQubeProjectAnalyses(RestClient):
     @POST(API_PROJECT_ANALYSES_CREATE_EVENT_ENDPOINT)
     def create_project_analysis_event(self, analysis, name, category="OTHER"):
         """
+        SINCE 6.3
         Create a project analysis event.Only event of category 'VERSION' and 'OTHER' can be created.
 
         :param analysis: Analysis key
@@ -46,6 +47,7 @@ class SonarQubeProjectAnalyses(RestClient):
     @POST(API_PROJECT_ANALYSES_DELETE_ENDPOINT)
     def delete_project_analysis(self, analysis):
         """
+        SINCE 6.3
         Delete a project analysis.
 
         :param analysis: Analysis key
@@ -55,6 +57,7 @@ class SonarQubeProjectAnalyses(RestClient):
     @POST(API_PROJECT_ANALYSES_DELETE_EVENT_ENDPOINT)
     def delete_project_analysis_event(self, event):
         """
+        SINCE 6.3
         Delete a project analysis event.Only event of category 'VERSION' and 'OTHER' can be deleted.
 
         :param event: Event key
@@ -66,6 +69,7 @@ class SonarQubeProjectAnalyses(RestClient):
         self, project, branch=None, category=None, from_date=None, to_date=None
     ):
         """
+        SINCE 6.3
         Search a project analyses and attached events.
 
         :param project: Project key
@@ -87,6 +91,8 @@ class SonarQubeProjectAnalyses(RestClient):
     @POST(API_PROJECT_ANALYSES_SET_BASELINE_ENDPOINT)
     def set_analysis_as_baseline_on_project(self, project, analysis, branch=None):
         """
+        SINCE 7.7
+        DEPRECATED SINCE 8.0
         Set an analysis as the baseline of the New Code Period on a project or a long-lived branch.
         This manually set baseline overrides the `sonar.leak.period` setting.
 
@@ -99,6 +105,8 @@ class SonarQubeProjectAnalyses(RestClient):
     @POST(API_PROJECT_ANALYSES_UNSET_BASELINE_ENDPOINT)
     def unset_baseline_on_project(self, project, branch=None):
         """
+        SINCE 7.7
+        DEPRECATED SINCE 8.0
         Unset any manually-set New Code Period baseline on a project or a long-lived branch.
         Unsetting a manual baseline restores the use of the `sonar.leak.period` setting.
 
@@ -110,6 +118,7 @@ class SonarQubeProjectAnalyses(RestClient):
     @POST(API_PROJECT_ANALYSES_UPDATE_EVENT_ENDPOINT)
     def update_project_analysis_event(self, event, name):
         """
+        SINCE 6.3
         Update a project analysis event.
         Only events of category 'VERSION' and 'OTHER' can be updated.
 

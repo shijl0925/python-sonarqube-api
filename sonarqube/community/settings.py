@@ -26,6 +26,7 @@ class SonarQubeSettings(RestClient):
     @POST(API_SETTINGS_SET_ENDPOINT)
     def update_setting_value(self, key, value, component=None, fieldValues=None):
         """
+        SINCE 6.1
         Update a setting value.
         The settings defined in conf/sonar.properties are read-only and can't be changed.
 
@@ -40,6 +41,7 @@ class SonarQubeSettings(RestClient):
     @POST(API_SETTINGS_RESET_ENDPOINT)
     def remove_setting_value(self, keys, component=None):
         """
+        SINCE 6.1
         Remove a setting value.
         The settings defined in conf/sonar.properties are read-only and can't be changed.
 
@@ -51,6 +53,7 @@ class SonarQubeSettings(RestClient):
     @GET(API_SETTINGS_VALUES_ENDPOINT)
     def get_settings_values(self, component=None, keys=None):
         """
+        SINCE 6.3
         List settings values.
         If no value has been set for a setting, then the default value is returned.
         The settings from conf/sonar.properties are excluded from results.
@@ -63,6 +66,7 @@ class SonarQubeSettings(RestClient):
     @GET(API_SETTINGS_LIST_DEFINITIONS_ENDPOINT)
     def get_settings_definitions(self, component=None):
         """
+        SINCE 6.3
         List settings definitions.
 
         :param component: Component key

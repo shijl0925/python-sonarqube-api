@@ -21,6 +21,7 @@ class SonarQubeDuplications(RestClient):
     @GET(API_DUPLICATIONS_SHOW_ENDPOINT)
     def get_duplications(self, key, branch=None, pullRequest=None):
         """
+        SINCE 4.4
         Get duplications. Require Browse permission on file's project
 
         :param key: File key

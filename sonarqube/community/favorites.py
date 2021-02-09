@@ -25,6 +25,7 @@ class SonarQubeFavorites(RestClient):
     @PAGE_GET(API_FAVORITES_SEARCH_ENDPOINT, item="favorites")
     def search_favorites(self):
         """
+        SINCE 6.3
         Search for the authenticated user favorites.
 
         :return:
@@ -33,6 +34,7 @@ class SonarQubeFavorites(RestClient):
     @POST(API_FAVORITES_ADD_ENDPOINT)
     def add_component_to_favorites(self, component):
         """
+        SINCE 6.3
         Add a component (project, file etc.) as favorite for the authenticated user.
 
         :param component: Component key. Only components with qualifiers TRK, VW, SVW, APP, FIL, UTS are supported
@@ -42,6 +44,7 @@ class SonarQubeFavorites(RestClient):
     @POST(API_FAVORITES_REMOVE_ENDPOINT)
     def remove_component_from_favorites(self, component):
         """
+        SINCE 6.3
         Remove a component (project, directory, file etc.) as favorite for the authenticated user.
 
         :param component: Component key

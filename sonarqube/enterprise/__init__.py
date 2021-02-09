@@ -4,6 +4,7 @@ from sonarqube.enterprise.alm_integrations import SonarQubeAlmIntegrations
 from sonarqube.enterprise.alm_settings import SonarQubeAlmSettings
 from sonarqube.enterprise.editions import SonarQubeEditions
 from sonarqube.enterprise.views import SonarQubeViews
+from sonarqube.enterprise.project_dump import SonarQubeProjectdump
 
 
 class SonarEnterpriseClient(SonarQubeClient):
@@ -23,6 +24,7 @@ class SonarEnterpriseClient(SonarQubeClient):
     def alm_integrations(self):
         """
         ALM Integrations
+
         """
         return SonarQubeAlmIntegrations(api=self)
 
@@ -30,6 +32,7 @@ class SonarEnterpriseClient(SonarQubeClient):
     def alm_settings(self):
         """
         ALM settings
+
         """
         return SonarQubeAlmSettings(api=self)
 
@@ -37,6 +40,7 @@ class SonarEnterpriseClient(SonarQubeClient):
     def editions(self):
         """
         Manage SonarSource commercial editions
+
         """
         return SonarQubeEditions(api=self)
 
@@ -44,5 +48,15 @@ class SonarEnterpriseClient(SonarQubeClient):
     def views(self):
         """
         Manage Portfolios
+
         """
         return SonarQubeViews(api=self)
+
+    @property
+    def project_dump(self):
+        """
+        Project export/import
+
+        :return:
+        """
+        return SonarQubeProjectdump(api=self)

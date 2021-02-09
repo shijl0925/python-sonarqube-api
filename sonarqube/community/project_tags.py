@@ -24,6 +24,7 @@ class SonarQubeProjectTags(RestClient):
     @GET(API_PROJECT_TAGS_SEARCH_ENDPOINT)
     def search_project_tags(self, q=None):
         """
+        SINCE 6.4
         Search tags
 
         :param q: Limit search to tags that contain the supplied string.
@@ -33,6 +34,7 @@ class SonarQubeProjectTags(RestClient):
     @POST(API_PROJECT_TAGS_SET_ENDPOINT)
     def set_project_tags(self, project, tags):
         """
+        SINCE 6.4
         Set tags on a project.
 
         :param project: Project key

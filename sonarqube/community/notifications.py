@@ -25,6 +25,7 @@ class SonarQubeNotifications(RestClient):
     @GET(API_NOTIFICATIONS_LIST_ENDPOINT)
     def get_user_notifications(self, login):
         """
+        SINCE 6.3
         List notifications of the authenticated user.
 
         :param login: User login
@@ -36,6 +37,7 @@ class SonarQubeNotifications(RestClient):
         self, login, type, channel="EmailNotificationChannel", project=None
     ):
         """
+        SINCE 6.3
         Add a notification for the authenticated user.
 
         :param login: User login
@@ -55,6 +57,7 @@ class SonarQubeNotifications(RestClient):
         self, login, type, channel="EmailNotificationChannel", project=None
     ):
         """
+        SINCE 6.3
         Remove a notification for the authenticated user.
 
         :param login: User login

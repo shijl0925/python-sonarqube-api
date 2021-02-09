@@ -21,6 +21,7 @@ class SonarQubeLanguages(RestClient):
     @GET(API_LANGUAGES_LIST_ENDPOINT)
     def get_supported_programming_languages(self, q=None):
         """
+        SINCE 5.1
         List supported programming languages
 
         :param q: A pattern to match language keys/names against
