@@ -1,4 +1,4 @@
-from sonarqube import SonarQubeClient
+from sonarqube.community import SonarQubeClient
 from sonarqube.enterprise.applications import SonarQubeApplications
 from sonarqube.enterprise.alm_integrations import SonarQubeAlmIntegrations
 from sonarqube.enterprise.alm_settings import SonarQubeAlmSettings
