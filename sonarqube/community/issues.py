@@ -216,8 +216,6 @@ class SonarQubeIssues(RestClient):
             * CODE_SMELL
             * BUG
             * VULNERABILITY
-            * SECURITY_HOTSPOT
-
 
         :return:
         """

@@ -1,10 +1,9 @@
 from sonarqube import SonarQubeClient
-from sonarqube.enterprise.application import SonarQubeApplications
-from sonarqube.enterprise.alm_integrations import SonarAlmIntegrations
-from sonarqube.enterprise.alm_settings import SonarAlmSettings
-from sonarqube.enterprise.applications import SonarApplications
-from sonarqube.enterprise.editions import SonarEditions
-from sonarqube.enterprise.views import SonarViews
+from sonarqube.enterprise.applications import SonarQubeApplications
+from sonarqube.enterprise.alm_integrations import SonarQubeAlmIntegrations
+from sonarqube.enterprise.alm_settings import SonarQubeAlmSettings
+from sonarqube.enterprise.editions import SonarQubeEditions
+from sonarqube.enterprise.views import SonarQubeViews
 
 
 class SonarEnterpriseClient(SonarQubeClient):
@@ -25,32 +24,25 @@ class SonarEnterpriseClient(SonarQubeClient):
         """
         ALM Integrations
         """
-        return SonarAlmIntegrations(api=self)
+        return SonarQubeAlmIntegrations(api=self)
 
     @property
     def alm_settings(self):
         """
         ALM settings
         """
-        return SonarAlmSettings(api=self)
-
-    @property
-    def applications(self):
-        """
-        Manage Applications
-        """
-        return SonarApplications(api=self)
+        return SonarQubeAlmSettings(api=self)
 
     @property
     def editions(self):
         """
         Manage SonarSource commercial editions
         """
-        return SonarEditions(api=self)
+        return SonarQubeEditions(api=self)
 
     @property
     def views(self):
         """
         Manage Portfolios
         """
-        return SonarViews(api=self)
+        return SonarQubeViews(api=self)
