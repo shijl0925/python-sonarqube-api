@@ -13,9 +13,9 @@
     :target: https://github.com/psf/black
 
 
-====================================================
-Python wrapper for the SonarQube and SonarCloud API.
-====================================================
+==============================================================================================
+Python wrapper for the SonarQube(Community Edition and Enterprise Edition) and SonarCloud API.
+==============================================================================================
 
 Installation
 ============
