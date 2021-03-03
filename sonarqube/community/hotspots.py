@@ -21,7 +21,7 @@ class SonarQubeHotspots(RestClient):
         """
         super(SonarQubeHotspots, self).__init__(**kwargs)
 
-    @PAGE_GET(API_HOTSPOTS_SEARCH_ENDPOINT)
+    @PAGE_GET(API_HOTSPOTS_SEARCH_ENDPOINT, item="hotspots")
     def search_hotspots(
         self,
         branch=None,
