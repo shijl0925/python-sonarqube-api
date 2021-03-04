@@ -51,7 +51,7 @@ class RestClient(object):
             data = None if not data else json.dumps(data)
 
         headers = headers or self.default_headers
-        timeout = self.default_timeout
+        timeout = self.api.timeout or self.default_timeout
 
         res = self.api.session.request(
             method=method,

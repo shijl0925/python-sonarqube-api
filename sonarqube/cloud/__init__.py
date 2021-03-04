@@ -54,11 +54,12 @@ class SonarCloudClient:
     A Python Client for SonarCloud Server APIs.
     """
 
-    def __init__(self, sonarcloud_url, token):
+    def __init__(self, sonarcloud_url, token, timeout=None):
         self.base_url = strip_trailing_slash(sonarcloud_url)
         _session = requests.Session()
         _session.auth = (token, "")
         self.session = _session
+        self.timeout = timeout
 
     @property
     def users(self):
