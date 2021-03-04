@@ -178,6 +178,7 @@ API_FAVORITES_ADD_ENDPOINT = "/api/favorites/add"
 API_FAVORITES_REMOVE_ENDPOINT = "/api/favorites/remove"
 API_FAVORITES_SEARCH_ENDPOINT = "/api/favorites/search"
 
+API_HOTSPOTS_SEARCH_ENDPOINT = "/api/hotspots/search"
 API_HOTSPOTS_SHOW_ENDPOINT = "/api/hotspots/show"
 
 API_LANGUAGES_LIST_ENDPOINT = "/api/languages/list"
