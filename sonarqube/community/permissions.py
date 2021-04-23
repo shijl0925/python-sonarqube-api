@@ -5,6 +5,7 @@ from sonarqube.utils.rest_client import RestClient
 from sonarqube.utils.config import (
     API_PERMISSIONS_ADD_GROUP_ENDPOINT,
     API_PERMISSIONS_REMOVE_GROUP_ENDPOINT,
+    API_PERMISSIONS_USERS_ENDPOINT,
     API_PERMISSIONS_ADD_USER_ENDPOINT,
     API_PERMISSIONS_REMOVE_USER_ENDPOINT,
     API_PERMISSIONS_APPLY_TEMPLATE_ENDPOINT,
@@ -21,7 +22,7 @@ from sonarqube.utils.config import (
     API_PERMISSIONS_SET_DEFAULT_TEMPLATE_ENDPOINT,
     API_PERMISSIONS_UPDATE_TEMPLATE_ENDPOINT,
 )
-from sonarqube.utils.common import GET, POST
+from sonarqube.utils.common import GET, PAGE_GET, POST
 
 
 class SonarQubePermissions(RestClient):
@@ -83,6 +84,23 @@ class SonarQubePermissions(RestClient):
             * Possible values for global permissions: admin, profileadmin, gateadmin, scan, provisioning
             * Possible values for project permissions admin, codeviewer, issueadmin, securityhotspotadmin, scan, user
         :param projectKey: Project key
+        :return:
+        """
+
+    @PAGE_GET(API_PERMISSIONS_USERS_ENDPOINT, item="users")
+    def get_users_permissions(self, permission=None, projectKey=None, q=None):
+        """
+        SINCE 5.2
+        Lists the users with their permissions as individual users rather than through group affiliation.
+        This service defaults to global permissions, but can be limited to project permissions by providing project id or project key.
+        This service defaults to all users, but can be limited to users with a specific permission by providing the desired permission.
+
+        :param permission: Permission
+          Possible values are for:
+            * Possible values for global permissions: admin, profileadmin, gateadmin, scan, provisioning
+            * Possible values for project permissions admin, codeviewer, issueadmin, securityhotspotadmin, scan, user
+        :param projectKey: Project key
+        :param q: Limit search to user names that contain the supplied string
         :return:
         """
 
