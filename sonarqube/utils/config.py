@@ -6,7 +6,7 @@ API_PROJECTS_CREATE_ENDPOINT = "/api/projects/create"
 API_PROJECTS_DELETE_ENDPOINT = "/api/projects/delete"
 API_PROJECTS_UPDATE_VISIBILITY_ENDPOINT = "/api/projects/update_visibility"
 API_PROJECTS_UPDATE_KEY_ENDPOINT = "/api/projects/update_key"
-API_PROJECTS_UPDATE_DEFAULT_VISIBILITY_ENDPOINT = 'api/projects/update_default_visibility'
+API_PROJECTS_UPDATE_DEFAULT_VISIBILITY_ENDPOINT = '/api/projects/update_default_visibility'
 
 API_APPLICATIONS_ADD_PROJECT_ENDPOINT = "/api/applications/add_project"
 API_APPLICATIONS_REMOVE_PROJECT_ENDPOINT = "/api/applications/remove_project"

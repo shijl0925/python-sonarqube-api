@@ -278,20 +278,22 @@ class SonarQubePermissions(RestClient):
         """
 
     @PAGE_GET(API_PERMISSIONS_GET_TEMPLATE_USERS, item="users")
-    def get_template_users(self, templateId):
+    def get_template_users(self, templateId, permission=None):
         """
         List of users and their permissions for the specified template.
 
         :param templateId: Id of permission template
+        :param permission: Possible values for project permissions admin, codeviewer, issueadmin, securityhotspotadmin, scan, user
         return: users
         """
 
     @PAGE_GET(API_PERMISSIONS_GET_TEMPLATE_GROUPS, item="groups")
-    def get_template_groups(self, templateId):
+    def get_template_groups(self, templateId, permission=None):
         """
         List of groups and their permissions for the specified template.
 
         :param templateId: Id of permission template
+        :param permission: Possible values for project permissions admin, codeviewer, issueadmin, securityhotspotadmin, scan, user
         return: groups
         """
 
