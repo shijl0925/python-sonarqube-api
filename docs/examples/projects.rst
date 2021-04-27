@@ -32,3 +32,6 @@ Updates visibility of a project.::
 
     sonar.projects.update_project_visibility(project="my_project", visibility="private")
 
+Update the default visibility for new projects.::
+
+    sonar.projects.update_project_default_visibility(projectVisibility="private")
