@@ -63,6 +63,8 @@ API_PERMISSIONS_REMOVE_USER_FROM_TEMPLATE_ENDPOINT = (
 API_PERMISSIONS_SEARCH_TEMPLATES_ENDPOINT = "/api/permissions/search_templates"
 API_PERMISSIONS_SET_DEFAULT_TEMPLATE_ENDPOINT = "/api/permissions/set_default_template"
 API_PERMISSIONS_UPDATE_TEMPLATE_ENDPOINT = "/api/permissions/update_template"
+API_PERMISSIONS_GET_TEMPLATE_USERS = "/api/permissions/template_users"
+API_PERMISSIONS_GET_TEMPLATE_GROUPS = "/api/permissions/template_groups"
 
 API_CE_ACTIVITY_ENDPOINT = "/api/ce/activity"
 API_CE_ACTIVITY_STATUS_ENDPOINT = "/api/ce/activity_status"
