@@ -9,6 +9,7 @@ from sonarqube.utils.config import (
     API_PROJECTS_DELETE_ENDPOINT,
     API_PROJECTS_UPDATE_VISIBILITY_ENDPOINT,
     API_PROJECTS_UPDATE_KEY_ENDPOINT,
+    API_PROJECTS_UPDATE_DEFAULT_VISIBILITY_ENDPOINT,
 )
 from sonarqube.utils.common import PAGE_GET, POST
 
@@ -143,3 +144,14 @@ class SonarQubeProjects(RestClient):
         :param visibility: New visibility
         :return:
         """
+
+    @POST(API_PROJECTS_UPDATE_DEFAULT_VISIBILITY_ENDPOINT)
+    def update_project_default_visibility(self, projectVisibility):
+        """
+        SINCE 6.4
+        Update the default visibility for new projects.
+
+        :param projectVisibility: Default visibility for projects
+        :return:
+        """
+
