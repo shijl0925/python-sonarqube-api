@@ -89,6 +89,14 @@ List permission templates.::
 
     templates = sonar.permissions.search_templates()
 
+Retrieve users for specified template id.::
+
+    templateUsers = sonar.permissions.get_template_users(templateId="AXQqe0yfjOKlq86mQn4t");
+
+Retrieve groups for specified template id.::
+
+    templateGroups = sonar.permissions.get_template_users(templateId="AXQqe0yfjOKlq86mQn4t");
+
 Set a permission template as default.::
 
     sonar.permissions.set_default_template(templateName="test-template")
