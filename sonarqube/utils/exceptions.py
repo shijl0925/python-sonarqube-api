@@ -27,8 +27,16 @@ class AuthError(ClientError):
 
 class ValidationError(ClientError):
     """
-    validation eoor
+    validation error
 
     """
 
+    pass
+
+
+class NotFoundError(ClientError):
+    """
+    not found error
+
+    """
     pass

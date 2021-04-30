@@ -4,6 +4,7 @@
 from sonarqube.utils.exceptions import (
     ClientError,
     AuthError,
+    NotFoundError,
     ValidationError,
     ServerError,
 )
@@ -90,6 +91,15 @@ class RestClient(object):
                 msg += "\n" + res.text
 
             raise AuthError(msg)
+
+        elif res.status_code == 404:
+            # Not Found error
+            msg = error_message + "Possibly Not Found error [%s]: %s" % (
+                res.status_code,
+                ", ".join(e["msg"] for e in res.json()["errors"]),
+            )
+
+            raise NotFoundError(msg)
 
         elif res.status_code < 500:
             # Other 4xx, generic client error

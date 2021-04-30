@@ -23,7 +23,10 @@ def get_args(func):
     :param func:
     :return:
     """
-    argspec = inspect.getfullargspec(func)
+    try:
+        argspec = inspect.getfullargspec(func)
+    except AttributeError:
+        argspec = inspect.getargspec(func)
 
     if not argspec.defaults:
         args = argspec.args[1:]
@@ -40,7 +43,10 @@ def get_default_kwargs(func):
     :param func:
     :return:
     """
-    argspec = inspect.getfullargspec(func)
+    try:
+        argspec = inspect.getfullargspec(func)
+    except AttributeError:
+        argspec = inspect.getargspec(func)
 
     if not argspec.defaults:
         return []
@@ -60,7 +66,12 @@ def translate_params(f, *args, **kwargs):
 
     if len(get_args(f)) < len(args):
         additional_values = args[len(get_args(f)) :]
-        func_parameters = inspect.getargspec(f).args[1:]
+        try:
+            argspec = inspect.getfullargspec(f)
+        except AttributeError:
+            argspec = inspect.getargspec(f)
+
+        func_parameters = argspec.args[1:]
         additional_args = func_parameters[
             len(get_args(f)) : len(get_args(f)) + len(additional_values)
         ]
