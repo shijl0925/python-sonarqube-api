@@ -178,7 +178,7 @@ class SonarQubeAlmSettings(RestClient):
         """
 
     @POST(API_ALM_SETTINGS_SET_BITBUCKET_BINDING)
-    def set_bitbucket_binding(self, almSetting, project, repository, slug, monorepo=False):
+    def set_bitbucket_binding(self, almSetting, project, repository, slug, monorepo="false"):
         """
         since 8.1
         Bind a Bitbucket ALM instance to a project.
@@ -194,7 +194,7 @@ class SonarQubeAlmSettings(RestClient):
         """
 
     @POST(API_ALM_SETTINGS_SET_BITBUCKETCLOUD_BINDING)
-    def set_bitbucketcloud_binding(self, almSetting, project, repository, monorepo=False):
+    def set_bitbucketcloud_binding(self, almSetting, project, repository, monorepo="false"):
         """
         since 8.7
         Bind a Bitbucket Cloud setting to a project.
@@ -209,7 +209,7 @@ class SonarQubeAlmSettings(RestClient):
         """
 
     @POST(API_ALM_SETTINGS_SET_GITHUB_BINDING)
-    def set_github_binding(self, almSetting, project, repository, summaryContentEnabled=True, monorepo=False):
+    def set_github_binding(self, almSetting, project, repository, summaryContentEnabled=True, monorepo="false"):
         """
         since 8.1
         Bind a GitHub ALM instance to a project.
@@ -225,7 +225,7 @@ class SonarQubeAlmSettings(RestClient):
         """
 
     @POST(API_ALM_SETTINGS_SET_GITLAB_BINDING)
-    def set_gitlab_binding(self, almSetting, project, repository, monorepo=False):
+    def set_gitlab_binding(self, almSetting, project, repository, monorepo="false"):
         """
         since 8.1
         Bind a GitLab instance to a project.
