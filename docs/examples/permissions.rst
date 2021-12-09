@@ -42,7 +42,7 @@ or::
 
 Apply a permission template to one project.::
 
-    sonar.permissions.apply_template_to_project(template_name="test-template", projectKey="my_project")
+    sonar.permissions.apply_template_to_project(templateName="test-template", projectKey="my_project")
 
 Apply a permission template to several projects.::
 
