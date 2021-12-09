@@ -101,11 +101,11 @@ class SonarCloudPermissions(SonarQubePermissions):
         """
 
     @POST(API_PERMISSIONS_APPLY_TEMPLATE_ENDPOINT)
-    def apply_template_to_project(self, template_name, organization, projectKey):
+    def apply_template_to_project(self, templateName, organization, projectKey):
         """
         Apply a permission template to one project.
 
-        :param template_name: Template name
+        :param templateName: Template name
         :param organization: Key of organization
         :param projectKey: Project key
         :return:
