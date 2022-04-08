@@ -10,6 +10,8 @@ from sonarqube.utils.config import (
     API_USERS_GROUPS_ENDPOINT,
     API_USERS_DEACTIVATE_ENDPOINT,
     API_USERS_UPDATE_LOGIN_ENDPOINT,
+    API_USERS_DISMISS_SONARLINT_AD_ENDPOINT,
+    API_USERS_UPDATE_IDENTITY_ENDPOINT
 )
 from sonarqube.utils.common import PAGE_GET, POST
 
@@ -135,5 +137,28 @@ class SonarQubeUsers(RestClient):
 
         :param login: The current login (case-sensitive)
         :param newLogin: The new login. It must not already exist.
+        :return:
+        """
+
+    @POST(API_USERS_DISMISS_SONARLINT_AD_ENDPOINT)
+    def dismiss_sonarlint_advertisement(self):
+        """
+        SINCE 9.2
+        Dismiss SonarLint advertisement.
+
+        :return:
+        """
+
+    @POST(API_USERS_UPDATE_IDENTITY_ENDPOINT)
+    def update_identity_provider(self, login, newExternalProvider, newExternalIdentity=None):
+        """
+        SINCE 8.7
+        Update identity provider information.
+
+        :param login: User login
+        :param newExternalProvider: New external identity, usually the login used in the authentication system.
+        If not provided previous identity will be used.
+        :param newExternalIdentity: New external provider. Only authentication system installed are available.
+        Use 'sonarqube' identity provider for LDAP.
         :return:
         """

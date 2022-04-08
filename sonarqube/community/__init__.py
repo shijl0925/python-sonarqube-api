@@ -37,6 +37,10 @@ from sonarqube.community.user_tokens import SonarQubeUserTokens
 from sonarqube.community.webhooks import SonarQubeWebhooks
 from sonarqube.community.webservices import SonarQubeWebservices
 from sonarqube.community.system import SonarQubeSystem
+from sonarqube.community.alm_integrations import SonarQubeAlmIntegrations
+from sonarqube.community.alm_settings import SonarQubeAlmSettings
+from sonarqube.community.monitoring import SonarQubeMonitoring
+from sonarqube.community.project_dump import SonarQubeProjectdump
 
 
 class SonarQubeClient:
@@ -356,3 +360,32 @@ class SonarQubeClient:
         :return:
         """
         return SonarQubePlugins(api=self)
+
+    @property
+    def alm_integrations(self):
+        """
+        ALM Integrations
+
+        """
+        return SonarQubeAlmIntegrations(api=self)
+
+    @property
+    def alm_settings(self):
+        """
+        ALM settings
+
+        """
+        return SonarQubeAlmSettings(api=self)
+
+    @property
+    def monitoring(self):
+        return SonarQubeMonitoring(api=self)
+
+    @property
+    def project_dump(self):
+        """
+        Project export/import
+
+        :return:
+        """
+        return SonarQubeProjectdump(api=self)
