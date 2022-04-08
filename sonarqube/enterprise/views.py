@@ -19,7 +19,18 @@ from sonarqube.utils.config import (
     API_VIEWS_DELETE,
     API_VIEWS_ADD_SUB_VIEW,
     API_VIEWS_ADD_PROJECT,
-    API_VIEWS_ADD_LOCAL_VIEW
+    API_VIEWS_ADD_LOCAL_VIEW,
+    API_VIEWS_SET_NONE_MODE_VIEW,
+    API_VIEWS_ADD_PROJECT_BRANCH_VIEW,
+    API_VIEWS_REMOVE_PROJECT_BRANCH_VIEW,
+    API_VIEWS_ADD_APPLICATION_BRANCH_VIEW,
+    API_VIEWS_REMOVE_APPLICATION_BRANCH_VIEW,
+    API_VIEWS_APPLICATIONS_VIEW,
+    API_VIEWS_ADD_APPLICATION_VIEW,
+    API_VIEWS_REMOVE_APPLICATION_VIEW,
+    API_VIEWS_PORTFOLIOS_VIEW,
+    API_VIEWS_ADD_PORTFOLIO_VIEW,
+    API_VIEWS_REMOVE_PORTFOLIO_VIEW
 )
 
 
@@ -257,5 +268,129 @@ class SonarQubeViews(RestClient):
         :param key: Key of the portfolio to update
         :param name: New name for the portfolio
         :param description: New description for the application
+        :return:
+        """
+
+    @POST(API_VIEWS_ADD_APPLICATION_VIEW)
+    def add_application(self, application, portfolio):
+        """
+        SINCE 9.3
+        Add an existing application to a portfolio.
+
+        :param application: Key of the application to be added
+        :param portfolio: Key of the portfolio where the application will be added
+        :return:
+        """
+
+    @POST(API_VIEWS_ADD_APPLICATION_BRANCH_VIEW)
+    def add_application_branch(self, application, branch, key):
+        """
+        SINCE 9.3
+        Add a branch of an application selected in a portfolio.
+
+        :param application: Key of the application
+        :param branch: Key of the branch
+        :param key: Key of the portfolio
+        :return:
+        """
+
+    @POST(API_VIEWS_ADD_PORTFOLIO_VIEW)
+    def add_portfolio(self, portfolio, reference):
+        """
+        SINCE 9.3
+        Add an existing portfolio to the structure of another portfolio.
+
+        :param portfolio: Key of the portfolio where a reference will be added
+        :param reference: Key of the portfolio to be added
+        :return:
+        """
+
+    @POST(API_VIEWS_ADD_PROJECT_BRANCH_VIEW)
+    def add_project_branch(self, project, branch, key):
+        """
+        SINCE 9.2
+        Add a branch of a project selected in a portfolio.
+
+        :param project: Key of the project
+        :param branch: Key of the branch
+        :param key: Key of the portfolio
+        :return:
+        """
+
+    @GET(API_VIEWS_APPLICATIONS_VIEW)
+    def list_applications(self, portfolio):
+        """
+        SINCE 9.3
+        List applications which the user has access to that can be added to a portfolio.
+
+        :param portfolio: Key of the would-be parent portfolio
+        :return:
+        """
+
+    @GET(API_VIEWS_PORTFOLIOS_VIEW)
+    def list_portfolios(self, portfolio):
+        """
+        SINCE 9.3
+        List portfolios that can be referenced.
+
+        :param portfolio: Key of the would-be parent portfolio
+        :return:
+        """
+
+    @POST(API_VIEWS_REMOVE_APPLICATION_VIEW)
+    def remove_application(self, application, portfolio):
+        """
+        SINCE 9.3
+        Remove an application from a portfolio.
+
+        :param application: Key of the application to be removed
+        :param portfolio: Portfolio key
+        :return:
+        """
+
+    @POST(API_VIEWS_REMOVE_APPLICATION_BRANCH_VIEW)
+    def remove_application_branch(self, application, branch, key):
+        """
+        SINCE 9.3
+        Remove a branch of an application selected in a portfolio.
+
+        :param application: Key of the project
+        :param branch: Key of the branch
+        :param key: Key of the portfolio
+        :return:
+        """
+
+    @POST(API_VIEWS_REMOVE_PORTFOLIO_VIEW)
+    def remove_portfolio(self, portfolio, reference):
+        """
+        SINCE 9.3
+        Remove a reference to a portfolio.
+
+        :param portfolio: Portfolio key
+        :param reference: Key of the referenced portfolio to be removed
+        :return:
+        """
+
+    @POST(API_VIEWS_REMOVE_PROJECT_BRANCH_VIEW)
+    def remove_project_branch(self, project, branch, key):
+        """
+        SINCE 9.2
+        Remove a branch of a project selected in a portfolio.
+
+        :param project: Key of the project
+        :param branch: Key of the branch
+        :param key: Key of the portfolio
+        :return:
+        """
+
+    @POST(API_VIEWS_SET_NONE_MODE_VIEW)
+    def set_none_mode(self, portfolio):
+        """
+        SINCE 9.1
+        Set the projects selection mode of a portfolio to none.
+        After setting this mode portfolio will not have any projects assigned.
+        Requires 'Administrator' permission on the portfolio.
+
+        :param portfolio: Key of the portfolio or sub-portfolio to update
         :return:
         """
