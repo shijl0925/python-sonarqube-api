@@ -298,7 +298,6 @@ class SonarQubeQualityProfiles(RestClient):
         :return:
         """
 
-    @POST(API_QUALITYPROFILES_RESTORE_ENDPOINT)
     def restore_quality_profile(self, backup):
         """
         SINCE 5.2
@@ -309,3 +308,5 @@ class SonarQubeQualityProfiles(RestClient):
           or the former api/profiles/backup.
         :return:
         """
+        files = {'backup': backup}
+        self._post(API_QUALITYPROFILES_RESTORE_ENDPOINT, files=files)

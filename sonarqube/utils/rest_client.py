@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 # @Author: Jialiang Shi
+import json as js
 from sonarqube.utils.exceptions import (
     ClientError,
     AuthError,
@@ -49,9 +50,9 @@ class RestClient(object):
         url = self.url_joiner(self.api.base_url, path)
 
         if files is None:
-            data = None if not data else json.dumps(data)
+            data = None if not data else js.dumps(data)
+            headers = headers or self.default_headers
 
-        headers = headers or self.default_headers
         timeout = self.api.timeout or self.default_timeout
 
         res = self.api.session.request(
