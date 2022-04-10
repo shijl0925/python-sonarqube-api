@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 # @Author: Jialiang Shi
+import json
 import requests
 
 from sonarqube.utils.common import strip_trailing_slash
@@ -389,3 +390,57 @@ class SonarQubeClient:
         :return:
         """
         return SonarQubeProjectdump(api=self)
+
+    @staticmethod
+    def decode_response(response):
+        """
+
+        :returns:
+            Decoded JSON content as a dict, or raw text if content could not be
+            decoded as JSON.
+        :raises:
+            requests.HTTPError if the response contains an HTTP error status code.
+        """
+        content_type = response.headers.get("content-type", "")
+
+        content = response.content.strip()
+        if response.encoding:
+            content = content.decode(response.encoding)
+        if not content:
+            return content
+        if content_type.split(";")[0] != "application/json":
+            return content
+        try:
+            return json.loads(content)
+        except ValueError:
+            raise ValueError("Invalid json content: {}".format(content))
+
+    def get_endpoint_url(self, endpoint):
+        """
+        Return the complete url including host and port for a given endpoint.
+        :param endpoint: service endpoint as str
+        :return: complete url (including host and port) as str
+        """
+        return "{}{}".format(self.base_url, endpoint)
+
+    def request_get(self, endpoint, **kwargs):
+        """
+        Send HTTP GET to the endpoint.
+
+        :param endpoint: The endpoint to send to.
+        :return:
+        """
+        response = self.session.get(self.get_endpoint_url(endpoint), **kwargs)
+        result = self.decode_response(response)
+        return result
+
+    def request_post(self, endpoint, **kwargs):
+        """
+        Send HTTP POST to the endpoint.
+
+        :param endpoint: The endpoint to send to.
+        :return:
+        """
+        response = self.session.post(self.get_endpoint_url(endpoint), **kwargs)
+        result = self.decode_response(response)
+        return result
