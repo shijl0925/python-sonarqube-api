@@ -6,7 +6,7 @@ from sonarqube.utils.config import (
     API_METRICS_SEARCH_ENDPOINT,
     API_METRICS_TYPES_ENDPOINT,
 )
-from sonarqube.utils.common import GET, PAGE_GET
+from sonarqube.utils.common import GET, PAGES_GET
 
 
 class SonarQubeMetrics(RestClient):
@@ -21,7 +21,7 @@ class SonarQubeMetrics(RestClient):
         """
         super(SonarQubeMetrics, self).__init__(**kwargs)
 
-    @PAGE_GET(API_METRICS_SEARCH_ENDPOINT, item="metrics")
+    @PAGES_GET(API_METRICS_SEARCH_ENDPOINT, item="metrics")
     def search_metrics(self):
         """
         SINCE 5.2

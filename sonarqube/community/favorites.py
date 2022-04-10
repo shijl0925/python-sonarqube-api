@@ -7,7 +7,7 @@ from sonarqube.utils.config import (
     API_FAVORITES_REMOVE_ENDPOINT,
     API_FAVORITES_SEARCH_ENDPOINT,
 )
-from sonarqube.utils.common import POST, PAGE_GET
+from sonarqube.utils.common import POST, PAGES_GET
 
 
 class SonarQubeFavorites(RestClient):
@@ -22,7 +22,7 @@ class SonarQubeFavorites(RestClient):
         """
         super(SonarQubeFavorites, self).__init__(**kwargs)
 
-    @PAGE_GET(API_FAVORITES_SEARCH_ENDPOINT, item="favorites")
+    @PAGES_GET(API_FAVORITES_SEARCH_ENDPOINT, item="favorites")
     def search_favorites(self):
         """
         SINCE 6.3
