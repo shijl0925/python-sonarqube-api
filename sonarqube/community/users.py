@@ -63,17 +63,17 @@ class SonarQubeUsers(RestClient):
         :param scmAccount: List of SCM accounts. To set several values, the parameter must be called once for each value.
         :return: request response
         """
-        params = {"login": login, "name": name, "local": local}
+        data = {"login": login, "name": name, "local": local}
         if email:
-            params.update({"email": email})
+            data.update({"email": email})
 
         if local == "true" and password:
-            params.update({"password": password})
+            data.update({"password": password})
 
         if scmAccount:
-            params.update({"scmAccount": scmAccount})
+            data.update({"scmAccount": scmAccount})
 
-        return self._post(API_USERS_CREATE_ENDPOINT, params=params)
+        return self._post(API_USERS_CREATE_ENDPOINT, data=data)
 
     @POST(API_USERS_UPDATE_ENDPOINT)
     def update_user(self, login, name=None, email=None, scmAccount=None):
@@ -88,7 +88,6 @@ class SonarQubeUsers(RestClient):
         :return: request response
         """
 
-    @POST(API_USERS_CHANGE_PASSWORD_ENDPOINT)
     def change_user_password(self, login, password, previousPassword=None):
         """
         SINCE 5.2
@@ -101,6 +100,11 @@ class SonarQubeUsers(RestClient):
         :param previousPassword: Previous password. Required when changing one's own password.
         :return:
         """
+        data = {"login": login, "password": password}
+        if previousPassword:
+            data.update({"previousPassword": previousPassword})
+
+        return self._post(API_USERS_CHANGE_PASSWORD_ENDPOINT, data=data)
 
     @POST(API_USERS_DEACTIVATE_ENDPOINT)
     def deactivate_user(self, login):

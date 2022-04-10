@@ -49,8 +49,7 @@ class RestClient(object):
         """
         url = self.url_joiner(self.api.base_url, path)
 
-        if files is None:
-            data = None if not data else js.dumps(data)
+        if files is None and data is None:
             headers = headers or self.default_headers
 
         timeout = self.api.timeout or self.default_timeout
