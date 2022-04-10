@@ -172,6 +172,8 @@ def page_endpoint(url_pattern, item=None):
             page_size = 1
             total = 2
 
+            flag = "p" in params.keys()
+
             while page_num * page_size < total:
                 response = self._get(url_pattern, params=params).json()
                 if "paging" in response:
@@ -187,6 +189,9 @@ def page_endpoint(url_pattern, item=None):
 
                 for i in response[item]:
                     yield i
+
+                if flag:
+                    break
 
                 if page_num >= self.MAX_SEARCH_NUM:
                     break
