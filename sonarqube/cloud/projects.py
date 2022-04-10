@@ -7,7 +7,7 @@ from sonarqube.utils.config import (
     API_PROJECTS_SEARCH_ENDPOINT,
     API_PROJECTS_CREATE_ENDPOINT,
 )
-from sonarqube.utils.common import PAGE_GET, POST
+from sonarqube.utils.common import PAGES_GET, POST
 
 
 class SonarCloudProjects(SonarQubeProjects):
@@ -20,7 +20,7 @@ class SonarCloudProjects(SonarQubeProjects):
             "%s does not support this method" % self.__class__.__name__
         )
 
-    @PAGE_GET(API_PROJECTS_SEARCH_ENDPOINT, item="components")
+    @PAGES_GET(API_PROJECTS_SEARCH_ENDPOINT, item="components")
     def search_projects(
         self,
         organization,

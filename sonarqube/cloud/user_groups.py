@@ -10,7 +10,7 @@ from sonarqube.utils.config import (
     API_USER_GROUPS_ADD_USER_ENDPOINT,
     API_USER_GROUPS_REMOVE_USER_ENDPOINT,
 )
-from sonarqube.utils.common import POST, PAGE_GET
+from sonarqube.utils.common import POST, PAGES_GET
 
 
 class SonarCloudUserGroups(SonarQubeUserGroups):
@@ -23,7 +23,7 @@ class SonarCloudUserGroups(SonarQubeUserGroups):
             "%s does not support this method" % self.__class__.__name__
         )
 
-    @PAGE_GET(API_USER_GROUPS_SEARCH_ENDPOINT, item="groups")
+    @PAGES_GET(API_USER_GROUPS_SEARCH_ENDPOINT, item="groups")
     def search_user_groups(self, organization, f=None, q=None):
         """
         Search for user groups.
@@ -82,7 +82,7 @@ class SonarCloudUserGroups(SonarQubeUserGroups):
         :return:
         """
 
-    @PAGE_GET(API_USER_GROUPS_USERS_ENDPOINT, item="users")
+    @PAGES_GET(API_USER_GROUPS_USERS_ENDPOINT, item="users")
     def search_users_belong_to_group(
         self, name, organization, q=None, selected="selected"
     ):

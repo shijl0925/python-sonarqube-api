@@ -11,7 +11,7 @@ from sonarqube.utils.config import (
     API_PROJECT_ANALYSES_UNSET_BASELINE_ENDPOINT,
     API_PROJECT_ANALYSES_UPDATE_EVENT_ENDPOINT,
 )
-from sonarqube.utils.common import POST, PAGE_GET
+from sonarqube.utils.common import POST, PAGES_GET
 
 
 class SonarQubeProjectAnalyses(RestClient):
@@ -64,7 +64,7 @@ class SonarQubeProjectAnalyses(RestClient):
         :return:
         """
 
-    @PAGE_GET(API_PROJECT_ANALYSES_SEARCH_ENDPOINT, item="analyses")
+    @PAGES_GET(API_PROJECT_ANALYSES_SEARCH_ENDPOINT, item="analyses")
     def search_project_analyses_and_events(
         self, project, branch=None, category=None, from_date=None, to_date=None
     ):

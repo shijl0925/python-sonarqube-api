@@ -23,7 +23,7 @@ from sonarqube.utils.config import (
     API_QUALITYPROFILES_RENAME_ENDPOINT,
     API_QUALITYPROFILES_RESTORE_ENDPOINT,
 )
-from sonarqube.utils.common import GET, POST, PAGE_GET
+from sonarqube.utils.common import GET, POST, PAGES_GET
 
 
 class SonarQubeQualityProfiles(RestClient):
@@ -154,7 +154,7 @@ class SonarQubeQualityProfiles(RestClient):
         :return:
         """
 
-    @PAGE_GET(API_QUALITYPROFILES_CHANGELOG_ENDPOINT, item="events")
+    @PAGES_GET(API_QUALITYPROFILES_CHANGELOG_ENDPOINT, item="events")
     def get_history_of_changes_on_quality_profile(
         self, language, qualityProfile, since=None, to=None
     ):
@@ -267,7 +267,7 @@ class SonarQubeQualityProfiles(RestClient):
         :return:
         """
 
-    @PAGE_GET(API_QUALITYPROFILES_PROJECTS_ENDPOINT, item="results")
+    @PAGES_GET(API_QUALITYPROFILES_PROJECTS_ENDPOINT, item="results")
     def get_projects_associate_with_quality_profile(
         self, key, q=None, selected="selected"
     ):

@@ -13,7 +13,7 @@ from sonarqube.utils.config import (
     API_PROJECTS_EXPORT_FINDINGS_ENDPOINT,
     API_PROJECTS_LICENSE_USAGE_ENDPOINT
 )
-from sonarqube.utils.common import PAGE_GET, GET, POST
+from sonarqube.utils.common import PAGES_GET, GET, POST
 
 
 class SonarQubeProjects(RestClient):
@@ -36,7 +36,7 @@ class SonarQubeProjects(RestClient):
             if project["key"] == key:
                 return project
 
-    @PAGE_GET(API_PROJECTS_SEARCH_ENDPOINT, item="components")
+    @PAGES_GET(API_PROJECTS_SEARCH_ENDPOINT, item="components")
     def search_projects(
         self,
         analyzedBefore=None,

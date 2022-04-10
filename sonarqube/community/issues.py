@@ -17,7 +17,7 @@ from sonarqube.utils.config import (
     API_ISSUES_SET_TAGS_ENDPOINT,
     API_ISSUES_TAGS_ENDPOINT,
 )
-from sonarqube.utils.common import GET, POST, PAGE_GET
+from sonarqube.utils.common import GET, POST, PAGES_GET
 
 
 class SonarQubeIssues(RestClient):
@@ -40,7 +40,7 @@ class SonarQubeIssues(RestClient):
             if issue["key"] == key:
                 return issue
 
-    @PAGE_GET(API_ISSUES_SEARCH_ENDPOINT, item="issues")
+    @PAGES_GET(API_ISSUES_SEARCH_ENDPOINT, item="issues")
     def search_issues(
         self,
         componentKeys=None,

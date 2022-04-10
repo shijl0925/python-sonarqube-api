@@ -11,7 +11,7 @@ from sonarqube.utils.config import (
     API_USER_GROUPS_ADD_USER_ENDPOINT,
     API_USER_GROUPS_REMOVE_USER_ENDPOINT,
 )
-from sonarqube.utils.common import POST, PAGE_GET
+from sonarqube.utils.common import POST, PAGES_GET
 
 
 class SonarQubeUserGroups(RestClient):
@@ -32,7 +32,7 @@ class SonarQubeUserGroups(RestClient):
             if group["name"] == name:
                 return group
 
-    @PAGE_GET(API_USER_GROUPS_SEARCH_ENDPOINT, item="groups")
+    @PAGES_GET(API_USER_GROUPS_SEARCH_ENDPOINT, item="groups")
     def search_user_groups(self, f=None, q=None):
         """
         SINCE 5.2
@@ -106,7 +106,7 @@ class SonarQubeUserGroups(RestClient):
         :return:
         """
 
-    @PAGE_GET(API_USER_GROUPS_USERS_ENDPOINT, item="users")
+    @PAGES_GET(API_USER_GROUPS_USERS_ENDPOINT, item="users")
     def search_users_belong_to_group(self, name, q=None, selected="selected"):
         """
         SINCE 5.2

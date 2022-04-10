@@ -8,7 +8,7 @@ from sonarqube.utils.config import (
     API_RULES_SHOW_ENDPOINT,
     API_RULES_TAGS_ENDPOINT,
 )
-from sonarqube.utils.common import GET, POST, PAGE_GET
+from sonarqube.utils.common import GET, POST, PAGES_GET
 
 
 class SonarCloudRules(SonarQubeRules):
@@ -21,7 +21,7 @@ class SonarCloudRules(SonarQubeRules):
             "%s does not support this method" % self.__class__.__name__
         )
 
-    @PAGE_GET(API_RULES_SEARCH_ENDPOINT, item="rules")
+    @PAGES_GET(API_RULES_SEARCH_ENDPOINT, item="rules")
     def search_rules(
         self,
         organization,

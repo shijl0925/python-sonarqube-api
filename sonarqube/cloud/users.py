@@ -3,7 +3,7 @@
 # @Author: Jialiang Shi
 from sonarqube.utils.rest_client import RestClient
 from sonarqube.utils.config import API_USERS_SEARCH_ENDPOINT, API_USERS_GROUPS_ENDPOINT
-from sonarqube.utils.common import PAGE_GET
+from sonarqube.utils.common import PAGES_GET
 
 
 class SonarCloudUsers(RestClient):
@@ -26,7 +26,7 @@ class SonarCloudUsers(RestClient):
             if user["login"] == login:
                 return user
 
-    @PAGE_GET(API_USERS_SEARCH_ENDPOINT, item="users")
+    @PAGES_GET(API_USERS_SEARCH_ENDPOINT, item="users")
     def search_users(self, q=None):
         """
         Get a list of active users.
@@ -35,7 +35,7 @@ class SonarCloudUsers(RestClient):
         :return:
         """
 
-    @PAGE_GET(API_USERS_GROUPS_ENDPOINT, item="groups")
+    @PAGES_GET(API_USERS_GROUPS_ENDPOINT, item="groups")
     def search_groups_user_belongs_to(
         self, login, organization, q=None, selected="selected"
     ):

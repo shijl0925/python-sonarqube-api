@@ -3,7 +3,7 @@
 # @Author: Jialiang Shi
 from sonarqube.community.components import SonarQubeComponents
 from sonarqube.utils.config import API_COMPONTENTS_SEARCH_ENDPOINT
-from sonarqube.utils.common import PAGE_GET
+from sonarqube.utils.common import PAGES_GET
 
 
 class SonarCloudComponents(SonarQubeComponents):
@@ -11,7 +11,7 @@ class SonarCloudComponents(SonarQubeComponents):
     SonarCloud components Operations
     """
 
-    @PAGE_GET(API_COMPONTENTS_SEARCH_ENDPOINT, item="components")
+    @PAGES_GET(API_COMPONTENTS_SEARCH_ENDPOINT, item="components")
     def search_components(self, organization, qualifiers, language=None, q=None):
         """
         Search for components

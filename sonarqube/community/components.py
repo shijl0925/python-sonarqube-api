@@ -7,7 +7,7 @@ from sonarqube.utils.config import (
     API_COMPONTENTS_SEARCH_ENDPOINT,
     API_COMPONTENTS_TREE_ENDPOINT,
 )
-from sonarqube.utils.common import GET, PAGE_GET
+from sonarqube.utils.common import GET, PAGES_GET
 
 
 class SonarQubeComponents(RestClient):
@@ -37,7 +37,7 @@ class SonarQubeComponents(RestClient):
         :return:
         """
 
-    @PAGE_GET(API_COMPONTENTS_SEARCH_ENDPOINT, item="components")
+    @PAGES_GET(API_COMPONTENTS_SEARCH_ENDPOINT, item="components")
     def search_components(self, qualifiers, language=None, q=None):
         """
         SINCE 6.3
@@ -61,7 +61,7 @@ class SonarQubeComponents(RestClient):
         :return:
         """
 
-    @PAGE_GET(API_COMPONTENTS_TREE_ENDPOINT, item="components")
+    @PAGES_GET(API_COMPONTENTS_TREE_ENDPOINT, item="components")
     def get_components_tree(
         self,
         component,

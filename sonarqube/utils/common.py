@@ -219,7 +219,7 @@ def POST(url_pattern):
     return endpoint(url_pattern, method="POST")
 
 
-def PAGE_GET(url_pattern, item):
+def PAGES_GET(url_pattern, item):
     """
 
     :param url_pattern:

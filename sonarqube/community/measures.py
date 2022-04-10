@@ -7,7 +7,7 @@ from sonarqube.utils.config import (
     API_MEASURES_COMPONENT_TREE_ENDPOINT,
     API_MEASURES_SEARCH_HISTORY_ENDPOINT,
 )
-from sonarqube.utils.common import GET, PAGE_GET
+from sonarqube.utils.common import GET, PAGES_GET
 
 
 class SonarQubeMeasures(RestClient):
@@ -46,7 +46,7 @@ class SonarQubeMeasures(RestClient):
         :return:
         """
 
-    @PAGE_GET(API_MEASURES_COMPONENT_TREE_ENDPOINT, item="components")
+    @PAGES_GET(API_MEASURES_COMPONENT_TREE_ENDPOINT, item="components")
     def get_component_tree_with_specified_measures(
         self,
         component,
@@ -115,7 +115,7 @@ class SonarQubeMeasures(RestClient):
         :return:
         """
 
-    @PAGE_GET(API_MEASURES_SEARCH_HISTORY_ENDPOINT, item="measures")
+    @PAGES_GET(API_MEASURES_SEARCH_HISTORY_ENDPOINT, item="measures")
     def search_measures_history(
         self,
         component,

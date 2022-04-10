@@ -18,7 +18,7 @@ from sonarqube.utils.config import (
     API_QUALITYGATES_SEARCH_ENDPOINT,
     API_QUALITYGATES_SET_AS_DEFAULT_ENDPOINT,
 )
-from sonarqube.utils.common import GET, POST, PAGE_GET
+from sonarqube.utils.common import GET, POST, PAGES_GET
 
 
 class SonarCloudQualityGates(SonarQubeQualityGates):
@@ -132,7 +132,7 @@ class SonarCloudQualityGates(SonarQubeQualityGates):
         :return:
         """
 
-    @PAGE_GET(API_QUALITYGATES_SEARCH_ENDPOINT, item="results")
+    @PAGES_GET(API_QUALITYGATES_SEARCH_ENDPOINT, item="results")
     def get_qualitygate_projects(
         self, gateId, organization, selected="selected", query=None
     ):

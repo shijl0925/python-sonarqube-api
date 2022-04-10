@@ -13,7 +13,7 @@ from sonarqube.utils.config import (
     API_USERS_DISMISS_SONARLINT_AD_ENDPOINT,
     API_USERS_UPDATE_IDENTITY_ENDPOINT
 )
-from sonarqube.utils.common import PAGE_GET, POST
+from sonarqube.utils.common import PAGES_GET, POST
 
 
 class SonarQubeUsers(RestClient):
@@ -36,7 +36,7 @@ class SonarQubeUsers(RestClient):
             if user["login"] == login:
                 return user
 
-    @PAGE_GET(API_USERS_SEARCH_ENDPOINT, item="users")
+    @PAGES_GET(API_USERS_SEARCH_ENDPOINT, item="users")
     def search_users(self, q=None):
         """
         SINCE 3.6
@@ -112,7 +112,7 @@ class SonarQubeUsers(RestClient):
         :return: request response
         """
 
-    @PAGE_GET(API_USERS_GROUPS_ENDPOINT, item="groups")
+    @PAGES_GET(API_USERS_GROUPS_ENDPOINT, item="groups")
     def search_groups_user_belongs_to(self, login, q=None, selected="selected"):
         """
         SINCE 5.2

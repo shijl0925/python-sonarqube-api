@@ -11,7 +11,7 @@ from sonarqube.utils.config import (
     API_RULES_TAGS_ENDPOINT,
     API_RULES_REPOSITORIES_ENDPOINT,
 )
-from sonarqube.utils.common import GET, POST, PAGE_GET
+from sonarqube.utils.common import GET, POST, PAGES_GET
 
 
 class SonarQubeRules(RestClient):
@@ -32,7 +32,7 @@ class SonarQubeRules(RestClient):
             if rule["key"] == key:
                 return rule
 
-    @PAGE_GET(API_RULES_SEARCH_ENDPOINT, item="rules")
+    @PAGES_GET(API_RULES_SEARCH_ENDPOINT, item="rules")
     def search_rules(
         self,
         activation=None,

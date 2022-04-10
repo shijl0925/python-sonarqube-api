@@ -6,7 +6,7 @@ from sonarqube.utils.config import (
     API_HOTSPOTS_SHOW_ENDPOINT,
     API_HOTSPOTS_SEARCH_ENDPOINT,
 )
-from sonarqube.utils.common import GET, PAGE_GET
+from sonarqube.utils.common import GET, PAGES_GET
 
 
 class SonarQubeHotspots(RestClient):
@@ -21,7 +21,7 @@ class SonarQubeHotspots(RestClient):
         """
         super(SonarQubeHotspots, self).__init__(**kwargs)
 
-    @PAGE_GET(API_HOTSPOTS_SEARCH_ENDPOINT, item="hotspots")
+    @PAGES_GET(API_HOTSPOTS_SEARCH_ENDPOINT, item="hotspots")
     def search_hotspots(
         self,
         branch=None,
