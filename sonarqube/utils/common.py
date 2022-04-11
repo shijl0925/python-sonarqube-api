@@ -131,7 +131,7 @@ def endpoint(url_pattern, method="GET"):
             if method == "GET":
                 response = self._get(url_pattern, params=params)
             elif method == "POST":
-                response = self._post(url_pattern, params=params)
+                response = self._post(url_pattern, data=params)
 
             if response:
                 try:

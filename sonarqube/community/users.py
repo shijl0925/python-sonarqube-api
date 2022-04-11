@@ -88,6 +88,7 @@ class SonarQubeUsers(RestClient):
         :return: request response
         """
 
+    @POST(API_USERS_CHANGE_PASSWORD_ENDPOINT)
     def change_user_password(self, login, password, previousPassword=None):
         """
         SINCE 5.2
@@ -100,11 +101,6 @@ class SonarQubeUsers(RestClient):
         :param previousPassword: Previous password. Required when changing one's own password.
         :return:
         """
-        data = {"login": login, "password": password}
-        if previousPassword:
-            data.update({"previousPassword": previousPassword})
-
-        return self._post(API_USERS_CHANGE_PASSWORD_ENDPOINT, data=data)
 
     @POST(API_USERS_DEACTIVATE_ENDPOINT)
     def deactivate_user(self, login):
