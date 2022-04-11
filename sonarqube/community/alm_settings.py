@@ -225,7 +225,7 @@ class SonarQubeAlmSettings(RestClient):
         """
 
     @POST(API_ALM_SETTINGS_SET_GITHUB_BINDING)
-    def set_github_binding(self, almSetting, project, repository, summaryCommentEnabled=True, monorepo="false"):
+    def set_github_binding(self, almSetting, project, repository, summaryCommentEnabled="true", monorepo="false"):
         """
         since 8.1
         Bind a GitHub ALM instance to a project.
