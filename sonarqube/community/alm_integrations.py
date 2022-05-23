@@ -23,13 +23,13 @@ class SonarQubeAlmIntegrations(RestClient):
         super(SonarQubeAlmIntegrations, self).__init__(**kwargs)
 
     @POST(API_ALM_INTEGRATION_IMPORT_GITLAB_PROJECT)
-    def import_gitlab_project(self, almSettings, gitlabProjectId):
+    def import_gitlab_project(self, almSetting, gitlabProjectId):
         """
         since 8.5
         Import a GitLab project to SonarQube, creating a new project and configuring MR decoration
         Requires the 'Create Projects' permission
 
-        :param almSettings: ALM setting key
+        :param almSetting: ALM setting key
         :param gitlabProjectId: GitLab project ID
         :return:
         """
@@ -46,13 +46,13 @@ class SonarQubeAlmIntegrations(RestClient):
         """
 
     @GET(API_ALM_INTEGRATION_LIST_BITBUCKETSERVER_PROJECTS)
-    def list_bitbucketserver_projects(self, almSettings):
+    def list_bitbucketserver_projects(self, almSetting):
         """
         since 8.2
         List the Bitbucket Server projects
         Requires the 'Create Projects' permission
 
-        :param almSettings: ALM setting key
+        :param almSetting: ALM setting key
         :return:
         """
 
@@ -95,13 +95,13 @@ class SonarQubeAlmIntegrations(RestClient):
         """
 
     @GET(API_ALM_INTEGRATION_SEARCH_GITLAB_REPOS)
-    def search_gitlab_repos(self, almSettings, p=None, projectName=None, ps=None):
+    def search_gitlab_repos(self, almSetting, p=None, projectName=None, ps=None):
         """
         since 8.5
         Search the GitLab projects.
         Requires the 'Create Projects' permission
 
-        :param almSettings: ALM setting key
+        :param almSetting: ALM setting key
         :param p: 1-based page number
         :param projectName: Project name filter
         :param ps: Page size. Must be greater than 0 and less or equal than 500
