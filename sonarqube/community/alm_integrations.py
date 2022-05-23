@@ -109,7 +109,7 @@ class SonarQubeAlmIntegrations(RestClient):
         """
 
     @POST(API_ALM_INTEGRATION_SET_PAT)
-    def set_pat(self, almSetting, pat):
+    def set_pat(self, almSetting, pat, username=None):
         """
         since 8.2
         Set a Personal Access Token for the given ALM setting
@@ -118,5 +118,6 @@ class SonarQubeAlmIntegrations(RestClient):
 
         :param almSetting: ALM setting key
         :param pat: Personal Access Token
+        :param username: Username
         :return:
         """
