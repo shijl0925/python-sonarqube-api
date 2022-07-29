@@ -16,9 +16,9 @@ or::
 
     sonar.permissions.add_permission_to_group(groupName="sonar-users", permission="profileadmin")
 
-or for portfolio::
+or for project::
 
-    sonar.permissions.add_permission_to_group(groupName="sonar-users", permission="scan", projectKey="portfolio_id")
+    sonar.permissions.add_permission_to_group(groupName="sonar-users", permission="scan", projectKey="my_project")
 
 Remove a permission from a group::
 
