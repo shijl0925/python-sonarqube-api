@@ -74,7 +74,7 @@ class SonarQubeQualityProfiles(RestClient):
             if params:
                 data["params"] = params
 
-        self._post(API_QUALITYPROFILES_ACTIVATE_RULE_ENDPOINT, params=data)
+        return self._post(API_QUALITYPROFILES_ACTIVATE_RULE_ENDPOINT, params=data)
 
     @GET(API_QUALITYPROFILES_SEARCH_ENDPOINT)
     def search_quality_profiles(
