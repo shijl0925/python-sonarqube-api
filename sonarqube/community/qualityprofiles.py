@@ -309,4 +309,4 @@ class SonarQubeQualityProfiles(RestClient):
         :return:
         """
         files = {'backup': backup}
-        self._post(API_QUALITYPROFILES_RESTORE_ENDPOINT, files=files)
+        return self._post(API_QUALITYPROFILES_RESTORE_ENDPOINT, files=files)
