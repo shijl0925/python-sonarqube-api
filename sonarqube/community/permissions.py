@@ -112,12 +112,15 @@ class SonarQubePermissions(RestClient):
         """
         SINCE 5.2
         Lists the groups with their permissions.
-        This service defaults to all groups, but can be limited to groups with a specific permission or a specific project affiliation.
+        This service defaults to global permissions, but can be limited to project permissions by providing project id or project key.
+        This service defaults to all groups, but can be limited to groups with a specific permission by providing the desired permission.
 
         :param permission: Permission
           Possible values are for:
+            * Possible values for global permissions: admin, profileadmin, gateadmin, scan, provisioning
             * Possible values for project permissions admin, codeviewer, issueadmin, securityhotspotadmin, scan, user
         :param projectKey: Project key
+        :param projectId: Project id
         :param q: Limit search to group names that contain the supplied string
         :return:
         """
