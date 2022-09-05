@@ -178,7 +178,7 @@ class SonarQubeQualityGates(RestClient):
         :return:
         """
 
-    @POST(API_QUALITYGATES_PROJECT_STATUS_ENDPOINT)
+    @GET(API_QUALITYGATES_PROJECT_STATUS_ENDPOINT)
     def get_project_qualitygates_status(
         self, projectKey=None, analysisId=None, branch=None, pullRequest=None
     ):
