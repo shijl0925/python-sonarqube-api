@@ -116,7 +116,7 @@ def endpoint(url_pattern, method="GET"):
 
     def wrapped_func(f):
         @wraps(f)
-        def inner_func(self, *args, **kwargs):
+        def inner_func(self, payload=True, *args, **kwargs):
             """
 
             :param self:
@@ -132,6 +132,9 @@ def endpoint(url_pattern, method="GET"):
                 response = self._get(url_pattern, params=params)
             elif method == "POST":
                 response = self._post(url_pattern, data=params)
+
+            if not payload:
+                return response
 
             if response:
                 try:
