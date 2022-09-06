@@ -16,5 +16,5 @@ setup sonarcloud client::
     from sonarqube import SonarCloudClient
     sonarcloud_url = "https://sonarcloud.io"
     sonarcloud_token = "*********************"
-    sonar = SonarQubeClient(sonarcloud_url=sonarcloud_url, token=sonarcloud_token)
+    sonar = SonarCloudClient(sonarcloud_url=sonarcloud_url, token=sonarcloud_token)
 
