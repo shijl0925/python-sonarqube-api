@@ -127,6 +127,7 @@ API_QUALITYGATES_RENAME_ENDPOINT = "/api/qualitygates/rename"
 API_QUALITYGATES_SEARCH_ENDPOINT = "/api/qualitygates/search"
 API_QUALITYGATES_SET_AS_DEFAULT_ENDPOINT = "/api/qualitygates/set_as_default"
 API_QUALITYGATES_UPDATE_CONDITION_ENDPOINT = "/api/qualitygates/update_condition"
+API_QUALITYGATES_ADD_GROUP_ENDPOINT = "/api/qualitygates/add_group"
 
 API_COMPONTENTS_SHOW_ENDPOINT = "/api/components/show"
 API_COMPONTENTS_SEARCH_ENDPOINT = "/api/components/search"

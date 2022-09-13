@@ -18,6 +18,7 @@ from sonarqube.utils.config import (
     API_QUALITYGATES_UPDATE_CONDITION_ENDPOINT,
     API_QUALITYGATES_SEARCH_ENDPOINT,
     API_QUALITYGATES_SET_AS_DEFAULT_ENDPOINT,
+    API_QUALITYGATES_ADD_GROUP_ENDPOINT,
 )
 from sonarqube.utils.common import GET, POST, PAGES_GET
 
@@ -33,6 +34,18 @@ class SonarQubeQualityGates(RestClient):
         :param kwargs:
         """
         super(SonarQubeQualityGates, self).__init__(**kwargs)
+
+    @POST(API_QUALITYGATES_ADD_GROUP_ENDPOINT)
+    def add_group_to_gate(self, gateName, groupName, organization=None):
+        """
+        SINCE 9.2
+        Allow a group of users to edit a Quality Gate.
+
+        :param gateName: The name of the quality gate
+        :param groupName: The name of the group that can administer the gate
+        :param organization: Organization key. If no organization is provided, the default organization is used.
+        :return:
+        """
 
     @POST(API_QUALITYGATES_COPY_ENDPOINT)
     def copy_quality_gate(self, id, name, organization=None):
