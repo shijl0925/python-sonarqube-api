@@ -36,14 +36,13 @@ class SonarQubeQualityGates(RestClient):
         super(SonarQubeQualityGates, self).__init__(**kwargs)
 
     @POST(API_QUALITYGATES_ADD_GROUP_ENDPOINT)
-    def add_group_to_gate(self, gateName, groupName, organization=None):
+    def add_group_to_gate(self, gateName, groupName):
         """
         SINCE 9.2
         Allow a group of users to edit a Quality Gate.
 
         :param gateName: The name of the quality gate
         :param groupName: The name of the group that can administer the gate
-        :param organization: Organization key. If no organization is provided, the default organization is used.
         :return:
         """
 
