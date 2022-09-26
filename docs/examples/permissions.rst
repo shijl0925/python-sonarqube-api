@@ -99,7 +99,7 @@ Retrieve users for specified template id.::
 
 Retrieve groups for specified template id.::
 
-    templateGroups = sonar.permissions.get_template_users(templateId="AXQqe0yfjOKlq86mQn4t");
+    templateGroups = sonar.permissions.get_template_groups(templateId="AXQqe0yfjOKlq86mQn4t");
 
 Set a permission template as default.::
 
