@@ -162,6 +162,7 @@ API_QUALITYPROFILES_INHERITANCE_ENDPOINT = "/api/qualityprofiles/inheritance"
 API_QUALITYPROFILES_PROJECTS_ENDPOINT = "/api/qualityprofiles/projects"
 API_QUALITYPROFILES_RENAME_ENDPOINT = "/api/qualityprofiles/rename"
 API_QUALITYPROFILES_RESTORE_ENDPOINT = "/api/qualityprofiles/restore"
+API_QUALITYPROFILES_ADD_GROUP_ENDPOINT = "/api/qualityprofiles/add_group"
 
 API_DUPLICATIONS_SHOW_ENDPOINT = "/api/duplications/show"
 
