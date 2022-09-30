@@ -22,6 +22,7 @@ from sonarqube.utils.config import (
     API_QUALITYPROFILES_PROJECTS_ENDPOINT,
     API_QUALITYPROFILES_RENAME_ENDPOINT,
     API_QUALITYPROFILES_RESTORE_ENDPOINT,
+    API_QUALITYPROFILES_ADD_GROUP_ENDPOINT,
 )
 from sonarqube.utils.common import GET, POST, PAGES_GET
 
@@ -75,6 +76,18 @@ class SonarQubeQualityProfiles(RestClient):
                 data["params"] = params
 
         return self._post(API_QUALITYPROFILES_ACTIVATE_RULE_ENDPOINT, params=data)
+
+    @POST(API_QUALITYPROFILES_ADD_GROUP_ENDPOINT)
+    def add_group_to_quality_profile(self, group, language, qualityProfile):
+        """
+        SINCE 6.6
+        Allow a group of users to edit a Quality Profile.
+
+        :param group: Group name
+        :param language: Quality profile language
+        :param qualityProfile: Quality Profile name
+        :return:
+        """
 
     @GET(API_QUALITYPROFILES_SEARCH_ENDPOINT)
     def search_quality_profiles(
