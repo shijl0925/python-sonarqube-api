@@ -25,6 +25,7 @@ API_AUDIT_LOGS_DOWNLOAD_ENDPOINT = "/api/audit_logs/download"
 
 API_MONITORING_METRICS_ENDPOINT = "/api/monitoring/metrics"
 
+API_USERS_ANONYMIZE_ENDPOINT = "/api/users/anonymize"
 API_USERS_SEARCH_ENDPOINT = "/api/users/search"
 API_USERS_CREATE_ENDPOINT = "/api/users/create"
 API_USERS_UPDATE_ENDPOINT = "/api/users/update"
