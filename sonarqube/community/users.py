@@ -3,6 +3,7 @@
 # @Author: Jialiang Shi
 from sonarqube.utils.rest_client import RestClient
 from sonarqube.utils.config import (
+    API_USERS_ANONYMIZE_ENDPOINT,
     API_USERS_SEARCH_ENDPOINT,
     API_USERS_CREATE_ENDPOINT,
     API_USERS_UPDATE_ENDPOINT,
@@ -35,6 +36,17 @@ class SonarQubeUsers(RestClient):
         for user in result:
             if user["login"] == login:
                 return user
+
+
+    @POST(API_USERS_ANONYMIZE_ENDPOINT)
+    def anonymize_deactivated_user(self, login):
+        """
+        SINCE 9.7
+        Anonymize a deactivated user.
+
+        :param login: User login
+        :return: request response
+        """
 
     @PAGES_GET(API_USERS_SEARCH_ENDPOINT, item="users")
     def search_users(self, q=None):
