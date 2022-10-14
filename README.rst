@@ -59,7 +59,6 @@ Paypal
 
 Wechat Pay
 ----------
-
 .. image:: https://raw.githubusercontent.com/shijl0925/python-sonarqube-api/master/docs/wechat.jpg
 
 Alipay
