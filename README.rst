@@ -44,15 +44,26 @@ Compatibility
 * This package is compatible Python versions 2.7, 3.3+.
 * Tested with SonarQube Community Edition 7.9.x LTS and SonarCloud Server.
 
-Donate/捐赠
-==========
+Donate
+======
 
 * The project is an open source project. In order to maintain the sustainable development and operation of the project, please actively donate for me.
-* python-sonarqube-api项目是开源项目，为维持项目持续发展运行，请积极捐赠.
 
-Donate use `Paypal <https://paypal.me/shijialiang0925>`_.
+Thank you for your support!
+---------------------------
+
+Paypal
+------
+.. image:: https://raw.githubusercontent.com/andreostrovsky/donate-with-paypal/master/blue.svg
+    :target: https://paypal.me/shijialiang0925
+
+Wechat Pay
+----------
 
 .. image:: https://raw.githubusercontent.com/shijl0925/python-sonarqube-api/master/docs/wechat.jpg
+
+Alipay
+------
 .. image:: https://raw.githubusercontent.com/shijl0925/python-sonarqube-api/master/docs/alipay.jpg
 
 Usage
