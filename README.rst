@@ -42,7 +42,7 @@ Compatibility
 =============
 
 * This package is compatible Python versions 2.7, 3.3+.
-* Tested with SonarQube Community Edition 7.9.x LTS and SonarCloud Server.
+* Tested with SonarQube Community Edition 8.9.x LTS and SonarCloud Server.
 
 Donate
 ======
