@@ -218,13 +218,13 @@ class SonarQubeQualityGates(RestClient):
         """
 
     @POST(API_QUALITYGATES_SELECT_ENDPOINT)
-    def select_quality_gate_for_project(self, projectKey, gateId, organization=None):
+    def select_quality_gate_for_project(self, projectKey, gateName, organization=None):
         """
         SINCE 4.3
         Associate a project to a quality gate.
 
         :param projectKey: Project key
-        :param gateId: Quality gate id
+        :param gateName: Quality gate name (since version 8.4). Refer https://sonarqube.inria.fr/sonarqube/web_api/api/qualitygates
         :param organization: Organization key. If no organization is provided, the default organization is used.
         :return:
         """
