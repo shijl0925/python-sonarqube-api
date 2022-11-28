@@ -54,7 +54,7 @@ Get a list of quality gates::
 
 Associate a project to a quality gate.::
 
-    sonar.qualitygates.select_quality_gate_for_project(projectKey="my_project", gateId=2)
+    sonar.qualitygates.select_quality_gate_for_project(projectKey="my_project", gateName="MyJavaGate827")
 
 Remove the association of a project from a quality gate.::
 
