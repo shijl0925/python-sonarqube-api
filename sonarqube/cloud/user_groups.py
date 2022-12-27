@@ -10,7 +10,7 @@ from sonarqube.utils.config import (
     API_USER_GROUPS_ADD_USER_ENDPOINT,
     API_USER_GROUPS_REMOVE_USER_ENDPOINT,
 )
-from sonarqube.utils.common import POST, PAGES_GET
+from sonarqube.utils.common import GET, POST
 
 
 class SonarCloudUserGroups(SonarQubeUserGroups):
@@ -23,8 +23,8 @@ class SonarCloudUserGroups(SonarQubeUserGroups):
             "%s does not support this method" % self.__class__.__name__
         )
 
-    @PAGES_GET(API_USER_GROUPS_SEARCH_ENDPOINT, item="groups")
-    def search_user_groups(self, organization, f=None, q=None):
+    @GET(API_USER_GROUPS_SEARCH_ENDPOINT)
+    def search_user_groups(self, organization, f=None, q=None, p=None, ps=None):
         """
         Search for user groups.
 
@@ -34,6 +34,8 @@ class SonarCloudUserGroups(SonarQubeUserGroups):
             * name
             * description
             * membersCount
+        :param p: page number.
+        :param ps: Page size. Must be greater than 0 and less or equal than 500
         :param q: Limit search to names that contain the supplied string.
         :return:
         """
@@ -82,9 +84,9 @@ class SonarCloudUserGroups(SonarQubeUserGroups):
         :return:
         """
 
-    @PAGES_GET(API_USER_GROUPS_USERS_ENDPOINT, item="users")
+    @GET(API_USER_GROUPS_USERS_ENDPOINT)
     def search_users_belong_to_group(
-        self, name, organization, q=None, selected="selected"
+        self, name, organization, q=None, selected="selected", p=None, ps=None
     ):
         """
         Search for users with membership information with respect to a group.
@@ -98,5 +100,7 @@ class SonarCloudUserGroups(SonarQubeUserGroups):
             * deselected
             * selected
           default value is selected.
+        :param p: page number.
+        :param ps: Page size. Must be greater than 0 and less or equal than 500
         :return:
         """
