@@ -38,7 +38,7 @@ Update a condition attached to a quality gate.::
 
 Search for projects associated (or not) to a quality gate.::
 
-    projects = list(sonar.qualitygates.get_qualitygate_projects(gateId=2))
+    projects = sonar.qualitygates.get_qualitygate_projects(gateId=2)
 
 Set a quality gate as the default quality gate.::
 
