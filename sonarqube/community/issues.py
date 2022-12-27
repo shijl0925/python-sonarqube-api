@@ -17,7 +17,7 @@ from sonarqube.utils.config import (
     API_ISSUES_SET_TAGS_ENDPOINT,
     API_ISSUES_TAGS_ENDPOINT,
 )
-from sonarqube.utils.common import GET, POST, PAGES_GET
+from sonarqube.utils.common import GET, POST
 
 
 class SonarQubeIssues(RestClient):
@@ -40,7 +40,7 @@ class SonarQubeIssues(RestClient):
             if issue["key"] == key:
                 return issue
 
-    @PAGES_GET(API_ISSUES_SEARCH_ENDPOINT, item="issues")
+    @GET(API_ISSUES_SEARCH_ENDPOINT)
     def search_issues(
         self,
         componentKeys=None,
@@ -61,6 +61,7 @@ class SonarQubeIssues(RestClient):
         languages=None,
         onComponentOnly="false",
         owaspTop10=None,
+        p=None,
         ps=None,
         resolutions=None,
         resolved=None,
@@ -139,6 +140,7 @@ class SonarQubeIssues(RestClient):
             files, etc). This parameter is only considered when componentKeys or componentUuids is set. Possible values are for: true,
             false, yes, no. default value is false.
         :param owaspTop10: Comma-separated list of OWASP Top 10 lowercase categories.
+        :param p: page number.
         :param ps: Page size. Must be greater than 0 and less or equal than 500
         :param resolutions: Comma-separated list of resolutions.Possible values are for:
 
