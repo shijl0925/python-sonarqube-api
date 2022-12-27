@@ -20,7 +20,7 @@ from sonarqube.utils.config import (
     API_QUALITYGATES_SET_AS_DEFAULT_ENDPOINT,
     API_QUALITYGATES_ADD_GROUP_ENDPOINT,
 )
-from sonarqube.utils.common import GET, POST, PAGES_GET
+from sonarqube.utils.common import GET, POST
 
 
 class SonarQubeQualityGates(RestClient):
@@ -157,9 +157,9 @@ class SonarQubeQualityGates(RestClient):
         :return:
         """
 
-    @PAGES_GET(API_QUALITYGATES_SEARCH_ENDPOINT, item="results")
+    @GET(API_QUALITYGATES_SEARCH_ENDPOINT)
     def get_qualitygate_projects(
-        self, gateId, selected="selected", query=None, organization=None
+        self, gateId, selected="selected", query=None, organization=None, page=None, pageSize=None
     ):
         """
         SINCE 4.3
@@ -176,6 +176,8 @@ class SonarQubeQualityGates(RestClient):
         :param query: To search for projects containing this string.
           If this parameter is set, "selected" is set to "all".
         :param organization: Organization key. If no organization is provided, the default organization is used.
+        :param page: page number.
+        :param pageSize: Page size.
         :return:
         """
 
