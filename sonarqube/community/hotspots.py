@@ -6,7 +6,7 @@ from sonarqube.utils.config import (
     API_HOTSPOTS_SHOW_ENDPOINT,
     API_HOTSPOTS_SEARCH_ENDPOINT,
 )
-from sonarqube.utils.common import GET, PAGES_GET
+from sonarqube.utils.common import GET
 
 
 class SonarQubeHotspots(RestClient):
@@ -21,13 +21,14 @@ class SonarQubeHotspots(RestClient):
         """
         super(SonarQubeHotspots, self).__init__(**kwargs)
 
-    @PAGES_GET(API_HOTSPOTS_SEARCH_ENDPOINT, item="hotspots")
+    @GET(API_HOTSPOTS_SEARCH_ENDPOINT)
     def search_hotspots(
         self,
         branch=None,
         hotspots=None,
         onlyMine=None,
         projectKey=None,
+        p=None,
         ps=None,
         pullRequest=None,
         resolution=None,
@@ -51,7 +52,8 @@ class SonarQubeHotspots(RestClient):
 
         :param projectKey: Key of the project or application. This parameter is
             required unless hotspots is provided.
-        :param ps: Page size. Must be greater than 0.
+        :param p: page number.
+        :param ps: Page size. Must be greater than 0 and less or equal than 500
         :param pullRequest: Pull request id. Not available in the community
             edition.
         :param resolution: If 'projectKey' is provided and if status is
