@@ -11,7 +11,7 @@ from sonarqube.utils.config import (
     API_PROJECT_ANALYSES_UNSET_BASELINE_ENDPOINT,
     API_PROJECT_ANALYSES_UPDATE_EVENT_ENDPOINT,
 )
-from sonarqube.utils.common import POST, PAGES_GET
+from sonarqube.utils.common import GET, POST
 
 
 class SonarQubeProjectAnalyses(RestClient):
@@ -64,9 +64,9 @@ class SonarQubeProjectAnalyses(RestClient):
         :return:
         """
 
-    @PAGES_GET(API_PROJECT_ANALYSES_SEARCH_ENDPOINT, item="analyses")
+    @GET(API_PROJECT_ANALYSES_SEARCH_ENDPOINT)
     def search_project_analyses_and_events(
-        self, project, branch=None, category=None, from_date=None, to_date=None
+        self, project, branch=None, category=None, from_date=None, to_date=None, p=None, ps=None
     ):
         """
         SINCE 6.3
@@ -85,6 +85,8 @@ class SonarQubeProjectAnalyses(RestClient):
           Either a date (server timezone) or datetime can be provided
         :param to_date: Filter analyses created before the given date (inclusive).
           Either a date (server timezone) or datetime can be provided
+        :param p: page number.
+        :param ps: Page size. Must be greater than 0 and less or equal than 500
         :return:
         """
 
