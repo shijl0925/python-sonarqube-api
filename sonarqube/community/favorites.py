@@ -7,7 +7,7 @@ from sonarqube.utils.config import (
     API_FAVORITES_REMOVE_ENDPOINT,
     API_FAVORITES_SEARCH_ENDPOINT,
 )
-from sonarqube.utils.common import POST, PAGES_GET
+from sonarqube.utils.common import GET, POST
 
 
 class SonarQubeFavorites(RestClient):
@@ -22,11 +22,13 @@ class SonarQubeFavorites(RestClient):
         """
         super(SonarQubeFavorites, self).__init__(**kwargs)
 
-    @PAGES_GET(API_FAVORITES_SEARCH_ENDPOINT, item="favorites")
-    def search_favorites(self):
+    @GET(API_FAVORITES_SEARCH_ENDPOINT)
+    def search_favorites(self, p=None, ps=None):
         """
         SINCE 6.3
         Search for the authenticated user favorites.
+        :param p: page number.
+        :param ps: Page size. Must be greater than 0 and less or equal than 500
 
         :return:
         """
