@@ -18,7 +18,7 @@ from sonarqube.utils.config import (
     API_QUALITYGATES_SEARCH_ENDPOINT,
     API_QUALITYGATES_SET_AS_DEFAULT_ENDPOINT,
 )
-from sonarqube.utils.common import GET, POST, PAGES_GET
+from sonarqube.utils.common import GET, POST
 
 
 class SonarCloudQualityGates(SonarQubeQualityGates):
@@ -132,9 +132,9 @@ class SonarCloudQualityGates(SonarQubeQualityGates):
         :return:
         """
 
-    @PAGES_GET(API_QUALITYGATES_SEARCH_ENDPOINT, item="results")
+    @GET(API_QUALITYGATES_SEARCH_ENDPOINT)
     def get_qualitygate_projects(
-        self, gateId, organization, selected="selected", query=None
+        self, gateId, organization, selected="selected", query=None, page=None, pageSize=None
     ):
         """
         Search for projects associated (or not) to a quality gate.
@@ -151,6 +151,8 @@ class SonarCloudQualityGates(SonarQubeQualityGates):
         :param query: To search for projects containing this string.
           If this parameter is set, "selected" is set to "all".
 
+        :param page: page number.
+        :param pageSize: Page size.
         :return:
         """
 
