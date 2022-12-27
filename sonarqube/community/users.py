@@ -14,7 +14,7 @@ from sonarqube.utils.config import (
     API_USERS_DISMISS_SONARLINT_AD_ENDPOINT,
     API_USERS_UPDATE_IDENTITY_ENDPOINT
 )
-from sonarqube.utils.common import PAGES_GET, POST
+from sonarqube.utils.common import GET, POST
 
 
 class SonarQubeUsers(RestClient):
@@ -48,13 +48,15 @@ class SonarQubeUsers(RestClient):
         :return: request response
         """
 
-    @PAGES_GET(API_USERS_SEARCH_ENDPOINT, item="users")
-    def search_users(self, q=None):
+    @GET(API_USERS_SEARCH_ENDPOINT)
+    def search_users(self, q=None, p=None, ps=None):
         """
         SINCE 3.6
         Get a list of active users.
 
         :param q: Filter on login, name and email
+        :param p: page number.
+        :param ps: Page size. Must be greater than 0 and less or equal than 500
         :return:
         """
 
@@ -124,8 +126,8 @@ class SonarQubeUsers(RestClient):
         :return: request response
         """
 
-    @PAGES_GET(API_USERS_GROUPS_ENDPOINT, item="groups")
-    def search_groups_user_belongs_to(self, login, q=None, selected="selected"):
+    @GET(API_USERS_GROUPS_ENDPOINT)
+    def search_groups_user_belongs_to(self, login, q=None, selected="selected", p=None, ps=None):
         """
         SINCE 5.2
         Lists the groups a user belongs to.
@@ -138,6 +140,8 @@ class SonarQubeUsers(RestClient):
             * deselected
             * selected
           default value is selected.
+        :param p: page number.
+        :param ps: Page size. Must be greater than 0 and less or equal than 500
         :return:
         """
 
