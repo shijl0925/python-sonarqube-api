@@ -24,7 +24,7 @@ from sonarqube.utils.config import (
     API_QUALITYPROFILES_RESTORE_ENDPOINT,
     API_QUALITYPROFILES_ADD_GROUP_ENDPOINT,
 )
-from sonarqube.utils.common import GET, POST, PAGES_GET
+from sonarqube.utils.common import GET, POST
 
 
 class SonarQubeQualityProfiles(RestClient):
@@ -167,9 +167,9 @@ class SonarQubeQualityProfiles(RestClient):
         :return:
         """
 
-    @PAGES_GET(API_QUALITYPROFILES_CHANGELOG_ENDPOINT, item="events")
+    @GET(API_QUALITYPROFILES_CHANGELOG_ENDPOINT)
     def get_history_of_changes_on_quality_profile(
-        self, language, qualityProfile, since=None, to=None
+        self, language, qualityProfile, since=None, to=None, p=None, ps=None
     ):
         """
         SINCE 5.2
@@ -180,6 +180,8 @@ class SonarQubeQualityProfiles(RestClient):
         :param qualityProfile: Quality profile language.
         :param since: Start date for the changelog. Either a date (server timezone) or datetime can be provided.
         :param to: End date for the changelog. Either a date (server timezone) or datetime can be provided.
+        :param p: page number.
+        :param ps: Page size. Must be greater than 0 and less or equal than 500
         :return:
         """
 
@@ -280,9 +282,9 @@ class SonarQubeQualityProfiles(RestClient):
         :return:
         """
 
-    @PAGES_GET(API_QUALITYPROFILES_PROJECTS_ENDPOINT, item="results")
+    @GET(API_QUALITYPROFILES_PROJECTS_ENDPOINT)
     def get_projects_associate_with_quality_profile(
-        self, key, q=None, selected="selected"
+        self, key, q=None, selected="selected", p=None, ps=None
     ):
         """
         SINCE 5.2
@@ -297,6 +299,8 @@ class SonarQubeQualityProfiles(RestClient):
             * deselected
             * selected
           default value is selected.
+        :param p: page number.
+        :param ps: Page size. Must be greater than 0 and less or equal than 500
         :return:
         """
 
