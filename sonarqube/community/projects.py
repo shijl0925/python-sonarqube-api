@@ -13,7 +13,7 @@ from sonarqube.utils.config import (
     API_PROJECTS_EXPORT_FINDINGS_ENDPOINT,
     API_PROJECTS_LICENSE_USAGE_ENDPOINT
 )
-from sonarqube.utils.common import PAGES_GET, GET, POST
+from sonarqube.utils.common import GET, POST
 
 
 class SonarQubeProjects(RestClient):
@@ -36,12 +36,14 @@ class SonarQubeProjects(RestClient):
             if project["key"] == key:
                 return project
 
-    @PAGES_GET(API_PROJECTS_SEARCH_ENDPOINT, item="components")
+    @GET(API_PROJECTS_SEARCH_ENDPOINT)
     def search_projects(
         self,
         analyzedBefore=None,
         onProvisionedOnly="false",
         projects=None,
+        p=None,
+        ps=None,
         q=None,
         qualifiers="TRK",
     ):
@@ -54,6 +56,8 @@ class SonarQubeProjects(RestClient):
         :param onProvisionedOnly: Filter the projects that are provisioned.
           Possible values are for: true or false. default value is false.
         :param projects: Comma-separated list of project keys
+        :param p: page number.
+        :param ps: Page size. Must be greater than 0 and less or equal than 500
         :param q:
           Limit search to:
             * component names that contain the supplied string
