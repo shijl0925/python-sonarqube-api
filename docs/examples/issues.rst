@@ -9,11 +9,11 @@ Examples
 --------
 Search for issues::
 
-    issues1 = list(sonar.issues.search_issues(componentKeys="my_project", branch="develop"))
+    issues1 = sonar.issues.search_issues(componentKeys="my_project", branch="develop")
 
 or::
 
-    issues2 = list(sonar.issues.search_issues(componentKeys="my_project", resolutions="WONTFIX"))
+    issues2 = sonar.issues.search_issues(componentKeys="my_project", resolutions="WONTFIX")
 
 Assign/Unassign an issue::
 
