@@ -16,10 +16,10 @@ Returns a component (file, directory, project, view) and its ancestors. The ance
 
 Search for components::
 
-    components = list(sonar.components.search_components(qualifiers="TRK", language="java"))
+    components = sonar.components.search_components(qualifiers="TRK", language="java")
 
 
 Navigate through components based on the chosen strategy. When limiting search with the q parameter, directories are not returned.::
 
-    components_tree = list(sonar.components.get_components_tree(component="my_project", qualifiers="TRK"))
+    components_tree = sonar.components.get_components_tree(component="my_project", qualifiers="TRK")
 
