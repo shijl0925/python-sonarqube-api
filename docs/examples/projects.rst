@@ -10,7 +10,7 @@ Examples
 
 Search for projects or views to administrate them.::
 
-    projects = list(sonar.projects.search_projects())
+    projects = sonar.projects.search_projects()
 
 Create a project.::
 
