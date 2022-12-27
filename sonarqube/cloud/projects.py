@@ -7,7 +7,7 @@ from sonarqube.utils.config import (
     API_PROJECTS_SEARCH_ENDPOINT,
     API_PROJECTS_CREATE_ENDPOINT,
 )
-from sonarqube.utils.common import PAGES_GET, POST
+from sonarqube.utils.common import GET, POST
 
 
 class SonarCloudProjects(SonarQubeProjects):
@@ -20,13 +20,15 @@ class SonarCloudProjects(SonarQubeProjects):
             "%s does not support this method" % self.__class__.__name__
         )
 
-    @PAGES_GET(API_PROJECTS_SEARCH_ENDPOINT, item="components")
+    @GET(API_PROJECTS_SEARCH_ENDPOINT)
     def search_projects(
         self,
         organization,
         analyzedBefore=None,
         onProvisionedOnly="false",
         projects=None,
+        p=None,
+        ps=None,
         q=None,
     ):
         """
@@ -38,6 +40,8 @@ class SonarCloudProjects(SonarQubeProjects):
         :param onProvisionedOnly: Filter the projects that are provisioned.
           Possible values are for: true or false. default value is false.
         :param projects: Comma-separated list of project keys
+        :param p: page number.
+        :param ps: Page size. Must be greater than 0 and less or equal than 500
         :param q:
           Limit search to:
             * component names that contain the supplied string
