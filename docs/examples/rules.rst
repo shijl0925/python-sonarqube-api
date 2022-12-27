@@ -10,7 +10,7 @@ Examples
 
 Search for a collection of relevant rules matching a specified query.::
 
-    rules = list(sonar.rules.search_rules(tags="correctness", languages="java"))
+    rules = sonar.rules.search_rules(tags="correctness", languages="java")
 
 Create a a custom rule.::
 
