@@ -11,7 +11,7 @@ from sonarqube.utils.config import (
     API_RULES_TAGS_ENDPOINT,
     API_RULES_REPOSITORIES_ENDPOINT,
 )
-from sonarqube.utils.common import GET, POST, PAGES_GET
+from sonarqube.utils.common import GET, POST
 
 
 class SonarQubeRules(RestClient):
@@ -32,7 +32,7 @@ class SonarQubeRules(RestClient):
             if rule["key"] == key:
                 return rule
 
-    @PAGES_GET(API_RULES_SEARCH_ENDPOINT, item="rules")
+    @GET(API_RULES_SEARCH_ENDPOINT)
     def search_rules(
         self,
         activation=None,
@@ -48,6 +48,8 @@ class SonarQubeRules(RestClient):
         inheritance=None,
         is_template=None,
         owaspTop10=None,
+        p=None,
+        ps=None,
         q=None,
         repositories=None,
         rule_key=None,
@@ -147,6 +149,8 @@ class SonarQubeRules(RestClient):
 
         :param is_template: Filter template rules.Possible values are for: true, false, yes, no.
         :param owaspTop10: Comma-separated list of OWASP Top 10 lowercase categories.
+        :param p: page number.
+        :param ps: Page size. Must be greater than 0 and less or equal than 500
         :param q: UTF-8 search query
         :param repositories: Comma-separated list of repositories
         :param rule_key: Key of rule to search for
