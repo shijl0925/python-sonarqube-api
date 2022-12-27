@@ -3,7 +3,7 @@
 # @Author: Jialiang Shi
 from sonarqube.utils.rest_client import RestClient
 from sonarqube.utils.config import API_USERS_SEARCH_ENDPOINT, API_USERS_GROUPS_ENDPOINT
-from sonarqube.utils.common import PAGES_GET
+from sonarqube.utils.common import GET
 
 
 class SonarCloudUsers(RestClient):
@@ -26,18 +26,20 @@ class SonarCloudUsers(RestClient):
             if user["login"] == login:
                 return user
 
-    @PAGES_GET(API_USERS_SEARCH_ENDPOINT, item="users")
-    def search_users(self, q=None):
+    @GET(API_USERS_SEARCH_ENDPOINT)
+    def search_users(self, q=None, p=None, ps=None):
         """
         Get a list of active users.
 
         :param q: Filter on login, name and email
+        :param p: page number.
+        :param ps: Page size. Must be greater than 0 and less or equal than 500
         :return:
         """
 
-    @PAGES_GET(API_USERS_GROUPS_ENDPOINT, item="groups")
+    @GET(API_USERS_GROUPS_ENDPOINT)
     def search_groups_user_belongs_to(
-        self, login, organization, q=None, selected="selected"
+        self, login, organization, q=None, selected="selected", p=None, ps=None
     ):
         """
         Lists the groups a user belongs to.
@@ -51,5 +53,7 @@ class SonarCloudUsers(RestClient):
             * deselected
             * selected
           default value is selected.
+        :param p: page number.
+        :param ps: Page size. Must be greater than 0 and less or equal than 500
         :return:
         """
