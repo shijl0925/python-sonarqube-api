@@ -10,7 +10,7 @@ from sonarqube.utils.config import (
     API_WEBHOOKS_LIST_ENDPOINT,
     API_WEBHOOKS_UPDATE_ENDPOINT,
 )
-from sonarqube.utils.common import GET, POST, PAGES_GET
+from sonarqube.utils.common import GET, POST
 
 
 class SonarQubeWebhooks(RestClient):
@@ -52,8 +52,8 @@ class SonarQubeWebhooks(RestClient):
         :return:
         """
 
-    @PAGES_GET(API_WEBHOOKS_DELIVERIES_ENDPOINT, item="deliveries")
-    def get_webhook_deliveries(self, webhook=None, componentKey=None, ceTaskId=None):
+    @GET(API_WEBHOOKS_DELIVERIES_ENDPOINT)
+    def get_webhook_deliveries(self, webhook=None, componentKey=None, ceTaskId=None, p=None, ps=None):
         """
         SINCE 6.2
         Get the recent deliveries for a specified project or Compute Engine task.
@@ -61,6 +61,8 @@ class SonarQubeWebhooks(RestClient):
         :param webhook: Key of the webhook that triggered those deliveries
         :param componentKey: Key of the project
         :param ceTaskId: Id of the Compute Engine task
+        :param p: page number.
+        :param ps: Page size. Must be greater than 0 and less or equal than 500
         :return:
         """
 
