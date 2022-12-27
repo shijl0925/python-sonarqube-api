@@ -16,7 +16,7 @@ from sonarqube.utils.config import (
     API_QUALITYPROFILES_REMOVE_PROJECT_ENDPOINT,
     API_QUALITYPROFILES_RESTORE_ENDPOINT,
 )
-from sonarqube.utils.common import GET, POST, PAGES_GET
+from sonarqube.utils.common import GET, POST
 
 
 class SonarCloudQualityProfiles(SonarQubeQualityProfiles):
@@ -110,9 +110,9 @@ class SonarCloudQualityProfiles(SonarQubeQualityProfiles):
         :return:
         """
 
-    @PAGES_GET(API_QUALITYPROFILES_CHANGELOG_ENDPOINT, item="events")
+    @GET(API_QUALITYPROFILES_CHANGELOG_ENDPOINT)
     def get_history_of_changes_on_quality_profile(
-        self, language, qualityProfile, organization, since=None, to=None
+        self, language, qualityProfile, organization, since=None, to=None, p=None, ps=None
     ):
         """
         Get the history of changes on a quality profile: rule activation/deactivation, change in parameters/severity.
@@ -123,6 +123,8 @@ class SonarCloudQualityProfiles(SonarQubeQualityProfiles):
         :param organization: Organization key.
         :param since: Start date for the changelog. Either a date (server timezone) or datetime can be provided.
         :param to: End date for the changelog. Either a date (server timezone) or datetime can be provided.
+        :param p: page number.
+        :param ps: Page size. Must be greater than 0 and less or equal than 500
         :return:
         """
 
