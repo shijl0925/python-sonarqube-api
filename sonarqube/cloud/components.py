@@ -3,7 +3,7 @@
 # @Author: Jialiang Shi
 from sonarqube.community.components import SonarQubeComponents
 from sonarqube.utils.config import API_COMPONTENTS_SEARCH_ENDPOINT
-from sonarqube.utils.common import PAGES_GET
+from sonarqube.utils.common import GET
 
 
 class SonarCloudComponents(SonarQubeComponents):
@@ -11,8 +11,8 @@ class SonarCloudComponents(SonarQubeComponents):
     SonarCloud components Operations
     """
 
-    @PAGES_GET(API_COMPONTENTS_SEARCH_ENDPOINT, item="components")
-    def search_components(self, organization, qualifiers, language=None, q=None):
+    @GET(API_COMPONTENTS_SEARCH_ENDPOINT)
+    def search_components(self, organization, qualifiers, language=None, q=None, p=None, ps=None):
         """
         Search for components
 
@@ -31,6 +31,8 @@ class SonarCloudComponents(SonarQubeComponents):
 
           * component names that contain the supplied string
           * component keys that are exactly the same as the supplied string
+        :param p: page number.
+        :param ps: Page size. Must be greater than 0 and less or equal than 500
 
         :return:
         """
