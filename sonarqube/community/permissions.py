@@ -25,7 +25,7 @@ from sonarqube.utils.config import (
     API_PERMISSIONS_GET_TEMPLATE_USERS,
     API_PERMISSIONS_GET_TEMPLATE_GROUPS,
 )
-from sonarqube.utils.common import GET, PAGES_GET, POST
+from sonarqube.utils.common import GET, POST
 
 
 class SonarQubePermissions(RestClient):
@@ -90,8 +90,8 @@ class SonarQubePermissions(RestClient):
         :return:
         """
 
-    @PAGES_GET(API_PERMISSIONS_USERS_ENDPOINT, item="users")
-    def get_users_permissions(self, permission=None, projectKey=None, q=None):
+    @GET(API_PERMISSIONS_USERS_ENDPOINT)
+    def get_users_permissions(self, permission=None, projectKey=None, q=None, p=None, ps=None):
         """
         SINCE 5.2
         Lists the users with their permissions as individual users rather than through group affiliation.
@@ -104,11 +104,13 @@ class SonarQubePermissions(RestClient):
             * Possible values for project permissions admin, codeviewer, issueadmin, securityhotspotadmin, scan, user
         :param projectKey: Project key
         :param q: Limit search to user names that contain the supplied string
+        :param p: page number.
+        :param ps: Page size. Must be greater than 0 and less or equal than 500
         :return:
         """
 
-    @PAGES_GET(API_PERMISSIONS_GROUPS_ENDPOINT, item="groups")
-    def get_groups_permissions(self, permission=None, projectKey=None, q=None):
+    @GET(API_PERMISSIONS_GROUPS_ENDPOINT)
+    def get_groups_permissions(self, permission=None, projectKey=None, q=None, p=None, ps=None):
         """
         SINCE 5.2
         Lists the groups with their permissions.
@@ -122,6 +124,8 @@ class SonarQubePermissions(RestClient):
         :param projectKey: Project key
         :param projectId: Project id
         :param q: Limit search to group names that contain the supplied string
+        :param p: page number.
+        :param ps: Page size. Must be greater than 0 and less or equal than 500
         :return:
         """
 
@@ -296,23 +300,27 @@ class SonarQubePermissions(RestClient):
         :return: defaultTemplates, permissionTemplates, permissions
         """
 
-    @PAGES_GET(API_PERMISSIONS_GET_TEMPLATE_USERS, item="users")
-    def get_template_users(self, templateId, permission=None):
+    @GET(API_PERMISSIONS_GET_TEMPLATE_USERS)
+    def get_template_users(self, templateId, permission=None, p=None, ps=None):
         """
         List of users and their permissions for the specified template.
 
         :param templateId: Id of permission template
         :param permission: Possible values for project permissions admin, codeviewer, issueadmin, securityhotspotadmin, scan, user
+        :param p: page number.
+        :param ps: Page size. Must be greater than 0 and less or equal than 500
         return: users
         """
 
-    @PAGES_GET(API_PERMISSIONS_GET_TEMPLATE_GROUPS, item="groups")
-    def get_template_groups(self, templateId, permission=None):
+    @GET(API_PERMISSIONS_GET_TEMPLATE_GROUPS)
+    def get_template_groups(self, templateId, permission=None, p=None, ps=None):
         """
         List of groups and their permissions for the specified template.
 
         :param templateId: Id of permission template
         :param permission: Possible values for project permissions admin, codeviewer, issueadmin, securityhotspotadmin, scan, user
+        :param p: page number.
+        :param ps: Page size. Must be greater than 0 and less or equal than 500
         return: groups
         """
 
