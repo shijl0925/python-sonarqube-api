@@ -7,7 +7,7 @@ from sonarqube.utils.config import (
     API_COMPONTENTS_SEARCH_ENDPOINT,
     API_COMPONTENTS_TREE_ENDPOINT,
 )
-from sonarqube.utils.common import GET, PAGES_GET
+from sonarqube.utils.common import GET
 
 
 class SonarQubeComponents(RestClient):
@@ -37,8 +37,8 @@ class SonarQubeComponents(RestClient):
         :return:
         """
 
-    @PAGES_GET(API_COMPONTENTS_SEARCH_ENDPOINT, item="components")
-    def search_components(self, qualifiers, language=None, q=None):
+    @GET(API_COMPONTENTS_SEARCH_ENDPOINT)
+    def search_components(self, qualifiers, language=None, q=None, p=None, ps=None):
         """
         SINCE 6.3
         Search for components
@@ -57,17 +57,20 @@ class SonarQubeComponents(RestClient):
 
           * component names that contain the supplied string
           * component keys that are exactly the same as the supplied string
+        :param p: page number.
+        :param ps: Page size. Must be greater than 0 and less or equal than 500
 
         :return:
         """
 
-    @PAGES_GET(API_COMPONTENTS_TREE_ENDPOINT, item="components")
+    @GET(API_COMPONTENTS_TREE_ENDPOINT)
     def get_components_tree(
         self,
         component,
         branch=None,
         pullRequest=None,
         asc="true",
+        p=None,
         ps=None,
         q=None,
         qualifiers=None,
@@ -81,6 +84,7 @@ class SonarQubeComponents(RestClient):
 
         :param component: Base component key. The search is based on this component.
         :param asc: Ascending sort. default value is true.
+        :param p: page number.
         :param ps: Page size. Must be greater than 0 and less or equal than 500
         :param branch: Branch key.
         :param pullRequest: Pull request id.
