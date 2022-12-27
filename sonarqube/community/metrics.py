@@ -6,7 +6,7 @@ from sonarqube.utils.config import (
     API_METRICS_SEARCH_ENDPOINT,
     API_METRICS_TYPES_ENDPOINT,
 )
-from sonarqube.utils.common import GET, PAGES_GET
+from sonarqube.utils.common import GET
 
 
 class SonarQubeMetrics(RestClient):
@@ -21,11 +21,14 @@ class SonarQubeMetrics(RestClient):
         """
         super(SonarQubeMetrics, self).__init__(**kwargs)
 
-    @PAGES_GET(API_METRICS_SEARCH_ENDPOINT, item="metrics")
-    def search_metrics(self):
+    @GET(API_METRICS_SEARCH_ENDPOINT)
+    def search_metrics(self, p=None, ps=None):
         """
         SINCE 5.2
         Search for metrics
+
+        :param p: page number.
+        :param ps: Page size. Must be greater than 0 and less or equal than 500
 
         :return:
         """
