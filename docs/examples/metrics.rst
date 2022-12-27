@@ -10,7 +10,7 @@ Examples
 
 Search for metrics.::
 
-    metrics = list(sonar.metrics.search_metrics())
+    metrics = sonar.metrics.search_metrics()
 
 
 List all available metric types.::
