@@ -7,7 +7,7 @@ from sonarqube.utils.config import (
     API_MEASURES_COMPONENT_TREE_ENDPOINT,
     API_MEASURES_SEARCH_HISTORY_ENDPOINT,
 )
-from sonarqube.utils.common import GET, PAGES_GET
+from sonarqube.utils.common import GET
 
 
 class SonarQubeMeasures(RestClient):
@@ -46,7 +46,7 @@ class SonarQubeMeasures(RestClient):
         :return:
         """
 
-    @PAGES_GET(API_MEASURES_COMPONENT_TREE_ENDPOINT, item="components")
+    @GET(API_MEASURES_COMPONENT_TREE_ENDPOINT)
     def get_component_tree_with_specified_measures(
         self,
         component,
@@ -58,6 +58,7 @@ class SonarQubeMeasures(RestClient):
         metricPeriodSort=None,
         metricSort=None,
         metricSortFilter="all",
+        p=None,
         ps=None,
         q=None,
         s="name",
@@ -86,6 +87,7 @@ class SonarQubeMeasures(RestClient):
             * withMeasuresOnly: filter out components that do not have a measure on the sorted metric
 
             default value is all.
+        :param p: page number.
         :param ps: Page size. Must be greater than 0 and less or equal than 500
         :param q: Limit search to:
 
@@ -115,7 +117,7 @@ class SonarQubeMeasures(RestClient):
         :return:
         """
 
-    @PAGES_GET(API_MEASURES_SEARCH_HISTORY_ENDPOINT, item="measures")
+    @GET(API_MEASURES_SEARCH_HISTORY_ENDPOINT)
     def search_measures_history(
         self,
         component,
@@ -124,6 +126,8 @@ class SonarQubeMeasures(RestClient):
         pullRequest=None,
         from_date=None,
         to_date=None,
+        p=None,
+        ps=None,
     ):
         """
         SINCE 6.3
@@ -137,5 +141,7 @@ class SonarQubeMeasures(RestClient):
           Either a date (server timezone) or datetime can be provided
         :param to_date: Filter measures created before the given date (inclusive).
           Either a date (server timezone) or datetime can be provided
+        :param p: page number.
+        :param ps: Page size. Must be greater than 0 and less or equal than 500
         :return:
         """
