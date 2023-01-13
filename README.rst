@@ -5,6 +5,8 @@
     :target: https://pypi.python.org/pypi/python-sonarqube-api
 .. image:: https://pepy.tech/badge/python-sonarqube-api
     :target: https://pepy.tech/project/python-sonarqube-api
+.. image:: https://static.pepy.tech/badge/python-sonarqube-api/month
+    :target: https://pepy.tech/project/python-sonarqube-api
 .. image:: https://sonarcloud.io/api/project_badges/measure?project=shijl0925_python-sonarqube-api&metric=alert_status
     :target: https://sonarcloud.io/dashboard?id=shijl0925_python-sonarqube-api
 .. image:: https://img.shields.io/github/license/shijl0925/python-sonarqube-api.svg
