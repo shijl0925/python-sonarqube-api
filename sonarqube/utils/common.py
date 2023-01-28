@@ -147,60 +147,6 @@ def endpoint(url_pattern, method="GET"):
     return wrapped_func
 
 
-def page_endpoint(url_pattern, item=None):
-    """
-
-    :param url_pattern:
-    :param item:
-    :return:
-    """
-
-    def wrapped_func(f):
-        @wraps(f)
-        def inner_func(self, *args, **kwargs):
-            """
-
-            :param self:
-            :param args:
-            :param kwargs:
-            :return:
-            """
-            func_params = translate_params(f, *args, **kwargs)
-            params = translate_special_params(func_params, self.special_attributes_map)
-
-            page_num = 1
-            page_size = 1
-            total = 2
-
-            flag = "p" in params.keys()
-
-            while page_num * page_size < total:
-                response = self._get(url_pattern, params=params).json()
-                if "paging" in response:
-                    page_num = response["paging"]["pageIndex"]
-                    page_size = response["paging"]["pageSize"]
-                    total = response["paging"]["total"]
-                else:
-                    page_num = response["p"]
-                    page_size = response["ps"]
-                    total = response["total"]
-
-                params["p"] = page_num + 1
-
-                for i in response[item]:
-                    yield i
-
-                if flag:
-                    break
-
-                if page_num >= self.MAX_SEARCH_NUM:
-                    break
-
-        return inner_func
-
-    return wrapped_func
-
-
 def GET(url_pattern):
     """
 
@@ -217,13 +163,3 @@ def POST(url_pattern):
     :return:
     """
     return endpoint(url_pattern, method="POST")
-
-
-def PAGES_GET(url_pattern, item):
-    """
-
-    :param url_pattern:
-    :param item:
-    :return:
-    """
-    return page_endpoint(url_pattern, item=item)
