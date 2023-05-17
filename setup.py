@@ -16,11 +16,22 @@ here = path.abspath(path.dirname(__file__))
 with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
     long_description = f.read()
 
+
+def get_version() -> str:
+    version = ""
+    with open("sonarqube/__init__.py", "r", encoding="utf-8") as f:
+        for line in f:
+            if line.startswith("__version__"):
+                version = eval(line.split("=")[-1])
+                break
+    return version
+
+
 setup(
     name='python-sonarqube-api',
 
     # https://packaging.python.org/en/latest/single_source_version.html
-    version='1.3.6',
+    version=get_version(),
 
     description='Python wrapper for the SonarQube and SonarCloud API.',
     long_description=long_description,
