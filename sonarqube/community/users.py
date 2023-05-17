@@ -39,7 +39,6 @@ class SonarQubeUsers(RestClient):
             if user["login"] == login:
                 return user
 
-
     @POST(API_USERS_ANONYMIZE_ENDPOINT)
     def anonymize_deactivated_user(self, login):
         """
