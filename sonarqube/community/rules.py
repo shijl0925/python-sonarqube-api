@@ -27,8 +27,10 @@ class SonarQubeRules(RestClient):
         super(SonarQubeRules, self).__init__(**kwargs)
 
     def get(self, key):
-        result = list(self.search_rules(rule_key=key))
-        for rule in result:
+        result = self.search_rules(rule_key=key)
+        rules = result.get("rules", [])
+
+        for rule in rules:
             if rule["key"] == key:
                 return rule
 
