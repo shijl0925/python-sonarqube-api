@@ -35,8 +35,10 @@ class SonarQubeIssues(RestClient):
         super(SonarQubeIssues, self).__init__(**kwargs)
 
     def get(self, key):
-        result = list(self.search_issues(issues=key))
-        for issue in result:
+        result = self.search_issues(issues=key)
+        issues = result.get("issues", [])
+
+        for issue in issues:
             if issue["key"] == key:
                 return issue
 
