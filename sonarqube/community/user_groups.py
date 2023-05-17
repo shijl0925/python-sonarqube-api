@@ -27,8 +27,10 @@ class SonarQubeUserGroups(RestClient):
         super(SonarQubeUserGroups, self).__init__(**kwargs)
 
     def get(self, name):
-        result = list(self.search_user_groups(q=name))
-        for group in result:
+        result = self.search_user_groups(q=name)
+        groups = result.get("groups", [])
+
+        for group in groups:
             if group["name"] == name:
                 return group
 
