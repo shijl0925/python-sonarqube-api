@@ -3,6 +3,7 @@ from sonarqube.utils.rest_client import RestClient
 
 from sonarqube.utils.config import (
     API_ALM_SETTINGS_VALIDATE,
+    API_ALM_SETTINGS_VALIDATE_BINDING,
     API_ALM_SETTINGS_UPDATE_GITLAB,
     API_ALM_SETTINGS_UPDATE_GITHUB,
     API_ALM_SETTINGS_UPDATE_BITBUCKET,
@@ -337,5 +338,17 @@ class SonarQubeAlmSettings(RestClient):
         Requires the 'Administer System' permission
 
         :param key: Unique key of the ALM settings
+        :return:
+        """
+
+    @GET(API_ALM_SETTINGS_VALIDATE_BINDING)
+    def validate_binding(self, project):
+        """
+        since 9.0
+        Validate a project binding setting by checking connectivity and permissions
+        Requires project 'Browse' permission
+
+        :param project: Project key
+        :raises ValidationError:
         :return:
         """

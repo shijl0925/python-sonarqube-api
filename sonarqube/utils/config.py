@@ -267,6 +267,7 @@ API_ALM_INTEGRATION_LIST_AZURE_PROJECTS = "/api/alm_integrations/list_azure_proj
 API_ALM_INTEGRATION_IMPORT_GITLAB_PROJECT = "/api/alm_integrations/import_gitlab_project"
 
 API_ALM_SETTINGS_VALIDATE = "/api/alm_settings/validate"
+API_ALM_SETTINGS_VALIDATE_BINDING = "/api/alm_settings/validate_binding"
 API_ALM_SETTINGS_UPDATE_GITLAB = "/api/alm_settings/update_gitlab"
 API_ALM_SETTINGS_UPDATE_GITHUB = "/api/alm_settings/update_github"
 API_ALM_SETTINGS_UPDATE_BITBUCKET = "/api/alm_settings/update_bitbucket"
