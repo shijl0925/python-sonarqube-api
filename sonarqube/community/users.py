@@ -32,8 +32,10 @@ class SonarQubeUsers(RestClient):
         super(SonarQubeUsers, self).__init__(**kwargs)
 
     def get(self, login):
-        result = list(self.search_users(q=login))
-        for user in result:
+        result = self.search_users(q=login)
+        users = result.get("users", [])
+
+        for user in users:
             if user["login"] == login:
                 return user
 
