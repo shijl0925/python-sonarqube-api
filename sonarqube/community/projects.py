@@ -31,8 +31,10 @@ class SonarQubeProjects(RestClient):
         super(SonarQubeProjects, self).__init__(**kwargs)
 
     def get(self, key):
-        result = list(self.search_projects(projects=key))
-        for project in result:
+        result = self.search_projects(projects=key)
+        projects = result.get("components", [])
+
+        for project in projects:
             if project["key"] == key:
                 return project
 
