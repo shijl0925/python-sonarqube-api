@@ -17,11 +17,7 @@ from sonarqube.utils.config import (
 from sonarqube.utils.common import GET, POST
 
 
-class SonarQubeUsers(RestClient):
-    """
-    SonarQube users Operations
-    """
-
+class SonarQubeBaseUsers(RestClient):
     MAX_SEARCH_NUM = 200
 
     def __init__(self, **kwargs):
@@ -29,7 +25,7 @@ class SonarQubeUsers(RestClient):
 
         :param kwargs:
         """
-        super(SonarQubeUsers, self).__init__(**kwargs)
+        super(SonarQubeBaseUsers, self).__init__(**kwargs)
 
     def get(self, login):
         result = self.search_users(q=login)
@@ -38,16 +34,6 @@ class SonarQubeUsers(RestClient):
         for user in users:
             if user["login"] == login:
                 return user
-
-    @POST(API_USERS_ANONYMIZE_ENDPOINT)
-    def anonymize_deactivated_user(self, login):
-        """
-        SINCE 9.7
-        Anonymize a deactivated user.
-
-        :param login: User login
-        :return: request response
-        """
 
     @GET(API_USERS_SEARCH_ENDPOINT)
     def search_users(self, q=None, p=None, ps=None):
@@ -59,6 +45,22 @@ class SonarQubeUsers(RestClient):
         :param p: page number.
         :param ps: Page size. Must be greater than 0 and less or equal than 500
         :return:
+        """
+
+
+class SonarQubeUsers(SonarQubeBaseUsers):
+    """
+    SonarQube users Operations
+    """
+
+    @POST(API_USERS_ANONYMIZE_ENDPOINT)
+    def anonymize_deactivated_user(self, login):
+        """
+        SINCE 9.7
+        Anonymize a deactivated user.
+
+        :param login: User login
+        :return: request response
         """
 
     def create_user(
