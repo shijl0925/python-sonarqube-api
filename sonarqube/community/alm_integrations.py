@@ -83,7 +83,7 @@ class SonarQubeAlmIntegrations(RestClient):
         """
 
     @GET(API_ALM_INTEGRATION_SEARCH_BITBUCKETCLOUD_REPOS)
-    def search_bitbucketserver_repos(self, almSetting, repositoryName=None):
+    def search_bitbucketserver_repos(self, almSetting, repositoryName=None, p=None, ps=None):
         """
         since 9.0
         Search the Bitbucket Cloud repositories
@@ -91,6 +91,8 @@ class SonarQubeAlmIntegrations(RestClient):
 
         :param almSetting: ALM setting key
         :param repositoryName: Repository name filter
+        :param p: page number.
+        :param ps: Page size. Must be greater than 0 and less or equal than 100
         :return:
         """
 

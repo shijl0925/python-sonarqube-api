@@ -196,6 +196,9 @@ API_FAVORITES_SEARCH_ENDPOINT = "/api/favorites/search"
 
 API_HOTSPOTS_SEARCH_ENDPOINT = "/api/hotspots/search"
 API_HOTSPOTS_SHOW_ENDPOINT = "/api/hotspots/show"
+API_HOTSPOTS_CHANGE_STATUS_ENDPOINT = "/api/hotspots/change_status"
+
+API_ANALYSIS_CACHE = "/api/analysis_cache/get"
 
 API_LANGUAGES_LIST_ENDPOINT = "/api/languages/list"
 

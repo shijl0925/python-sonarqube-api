@@ -31,7 +31,6 @@ from sonarqube.community.languages import SonarQubeLanguages
 from sonarqube.community.plugins import SonarQubePlugins
 from sonarqube.community.project_badges import SonarQubeProjectBadges
 from sonarqube.community.project_tags import SonarQubeProjectTags
-from sonarqube.community.project_pull_requests import SonarQubeProjectPullRequests
 from sonarqube.community.project_analyses import SonarQubeProjectAnalyses
 from sonarqube.community.server import SonarQubeServer
 from sonarqube.community.user_tokens import SonarQubeUserTokens
@@ -40,8 +39,9 @@ from sonarqube.community.webservices import SonarQubeWebservices
 from sonarqube.community.system import SonarQubeSystem
 from sonarqube.community.alm_integrations import SonarQubeAlmIntegrations
 from sonarqube.community.alm_settings import SonarQubeAlmSettings
+from sonarqube.community.analysis_cache import SonarQubeAnalysisCache
 from sonarqube.community.monitoring import SonarQubeMonitoring
-from sonarqube.community.project_dump import SonarQubeProjectdump
+from sonarqube.community.project_dump import SonarQubeProjectDump
 
 
 class SonarQubeClient:
@@ -224,6 +224,7 @@ class SonarQubeClient:
     @property
     def hotspots(self):
         """
+        Security Hotspots
 
         :return:
         """
@@ -300,15 +301,6 @@ class SonarQubeClient:
         :return:
         """
         return SonarQubeProjectTags(api=self)
-
-    @property
-    def project_pull_requests(self):
-        """
-        SonarQube project pull requests Operations
-
-        :return:
-        """
-        return SonarQubeProjectPullRequests(api=self)
 
     @property
     def project_analyses(self):
@@ -390,6 +382,14 @@ class SonarQubeClient:
         return SonarQubeAlmSettings(api=self)
 
     @property
+    def analysis_cache(self):
+        """
+        Analysis cache
+
+        """
+        return SonarQubeAnalysisCache(api=self)
+
+    @property
     def monitoring(self):
         return SonarQubeMonitoring(api=self)
 
@@ -400,7 +400,7 @@ class SonarQubeClient:
 
         :return:
         """
-        return SonarQubeProjectdump(api=self)
+        return SonarQubeProjectDump(api=self)
 
     @staticmethod
     def decode_response(response):
