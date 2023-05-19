@@ -3,6 +3,7 @@
 # @Author: Jialiang Shi
 import json
 import requests
+from requests.auth import HTTPBasicAuth
 
 from sonarqube.utils.common import strip_trailing_slash
 from sonarqube.community.users import SonarQubeUsers
@@ -65,10 +66,15 @@ class SonarQubeClient:
         self.base_url = strip_trailing_slash(sonarqube_url or self.DEFAULT_URL)
 
         _session = requests.Session()
+
         if token:
-            _session.auth = (token, "")
+            _auth = HTTPBasicAuth(token, "")
         elif username and password:
-            _session.auth = (username, password)
+            _auth = HTTPBasicAuth(username, password)
+        else:
+            _auth = None
+        _session.auth = _auth
+
         if verify is not None:
             _session.verify = verify
         if cert is not None:
