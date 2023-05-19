@@ -36,9 +36,6 @@ from sonarqube.cloud.project_badges import SonarCloudProjectBadges
 from sonarqube.community.project_tags import (
     SonarQubeProjectTags as SonarCloudProjectTags,
 )
-from sonarqube.community.project_pull_requests import (
-    SonarQubeProjectPullRequests as SonarCloudProjectPullRequests,
-)
 from sonarqube.community.project_analyses import (
     SonarQubeProjectAnalyses as SonarCloudProjectAnalyses,
 )
@@ -267,15 +264,6 @@ class SonarCloudClient:
         :return:
         """
         return SonarCloudProjectTags(api=self)
-
-    @property
-    def project_pull_requests(self):
-        """
-        SonarCloud project pull requests Operations
-
-        :return:
-        """
-        return SonarCloudProjectPullRequests(api=self)
 
     @property
     def project_analyses(self):

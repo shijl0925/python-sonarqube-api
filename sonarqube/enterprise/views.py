@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding:utf-8 -*-
+# @Author: Jialiang Shi
 from sonarqube.utils.common import POST, GET
 from sonarqube.utils.rest_client import RestClient
 
