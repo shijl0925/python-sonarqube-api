@@ -57,14 +57,6 @@ Paypal
 .. image:: https://raw.githubusercontent.com/andreostrovsky/donate-with-paypal/master/blue.svg
     :target: https://paypal.me/shijialiang0925
 
-Wechat Pay
-----------
-.. image:: https://raw.githubusercontent.com/shijl0925/python-sonarqube-api/master/docs/wechat.jpg
-
-Alipay
-------
-.. image:: https://raw.githubusercontent.com/shijl0925/python-sonarqube-api/master/docs/alipay.jpg
-
 Usage
 =====
 
