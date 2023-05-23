@@ -26,7 +26,7 @@ class SonarQubeWebhooks(RestClient):
         super(SonarQubeWebhooks, self).__init__(**kwargs)
 
     @POST(API_WEBHOOKS_CREATE_ENDPOINT)
-    def create_webhook(self, name, url, project=None, secret=None):
+    def create_webhook(self, name, url, organization=None, project=None, secret=None):
         """
         SINCE 7.1
         Create a Webhook.
@@ -35,6 +35,7 @@ class SonarQubeWebhooks(RestClient):
         :param url: Server endpoint that will receive the webhook payload, for example 'http://my_server/foo'. If HTTP
           Basic authentication is used, HTTPS is recommended to avoid man in the middle attacks.
           Example: 'https://myLogin:myPassword@my_server/foo'
+        :param organization: organization key.
         :param project: The key of the project that will own the webhook
         :param secret: If provided, secret will be used as the key to generate the HMAC hex (lowercase) digest value
           in the 'X-Sonar-Webhook-HMAC-SHA256' header
@@ -77,11 +78,12 @@ class SonarQubeWebhooks(RestClient):
         """
 
     @GET(API_WEBHOOKS_LIST_ENDPOINT)
-    def search_webhooks(self, project=None):
+    def search_webhooks(self, organization=None, project=None):
         """
         SINCE 7.1
         Search for global webhooks or project webhooks. Webhooks are ordered by name.
 
+        :param organization: organization key.
         :param project: Project key
         :return:
         """

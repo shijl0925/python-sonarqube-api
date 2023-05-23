@@ -7,8 +7,7 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
-   sonarqube.cloud
-   sonarqube.community
+   sonarqube.rest
    sonarqube.utils
 
 Module contents

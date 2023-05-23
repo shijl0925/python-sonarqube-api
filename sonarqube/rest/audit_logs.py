@@ -2,7 +2,7 @@
 # -*- coding:utf-8 -*-
 # @Author: Jialiang Shi
 from sonarqube.utils.rest_client import RestClient
-from sonarqube.utils.config import API_AUDIT_LOGS_DOWNLOAD_ENDPOINT
+from sonarqube.utils.config import API_AUDIT_LOGS_DOWNLOAD_ENDPOINT  # pro
 from sonarqube.utils.common import GET
 
 

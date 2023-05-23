@@ -1,15 +1,8 @@
 # Configuration file for the Sphinx documentation builder.
 #
-# This file only contains a selection of the most common options. For a full
-# list see the documentation:
+# For the full list of built-in configuration values, see the documentation:
 # https://www.sphinx-doc.org/en/master/usage/configuration.html
 
-# -- Path setup --------------------------------------------------------------
-
-# If extensions (or modules to document with autodoc) are in another directory,
-# add these directories to sys.path here. If the directory is relative to the
-# documentation root, use os.path.abspath to make it absolute, like shown here.
-#
 import sphinx_rtd_theme
 
 import os
@@ -18,30 +11,27 @@ sys.path.insert(0, os.path.abspath('..'))
 
 
 # -- Project information -----------------------------------------------------
+# https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = 'SonarQube Client with Python'
-copyright = '2020, Jialiang Shi'
+copyright = '2023, Jialiang Shi'
 author = 'Jialiang Shi'
-
-# The full version, including alpha/beta/rc tags
-release = '1.3.5'
-
+release = '2.0.0'
 
 # -- General configuration ---------------------------------------------------
+# https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
-# Add any Sphinx extension module names here, as strings. They can be
-# extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
-# ones.
-extensions = ['sphinx.ext.autodoc',
-              'sphinx.ext.doctest',
-              'sphinx.ext.intersphinx',
-              'sphinx.ext.todo',
-              'sphinx.ext.coverage',
-              'sphinx.ext.mathjax',
-              'sphinx.ext.viewcode',
-              'sphinx.ext.napoleon',
-              'sphinx_rtd_theme',
-              'sphinx.ext.githubpages'
+extensions = [
+    'sphinx.ext.autodoc',
+    'sphinx.ext.doctest',
+    'sphinx.ext.intersphinx',
+    'sphinx.ext.todo',
+    'sphinx.ext.coverage',
+    'sphinx.ext.mathjax',
+    'sphinx.ext.viewcode',
+    'sphinx.ext.napoleon',
+    'sphinx_rtd_theme',
+    'sphinx.ext.githubpages'
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -59,6 +49,7 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 pygments_style = 'sphinx'
 
 # -- Options for HTML output -------------------------------------------------
+# https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.

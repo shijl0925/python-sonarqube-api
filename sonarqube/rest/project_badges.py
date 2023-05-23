@@ -24,7 +24,7 @@ class SonarQubeProjectBadges(RestClient):
         super(SonarQubeProjectBadges, self).__init__(**kwargs)
 
     @GET(API_PROJECT_BADGES_MEASURE_ENDPOINT)
-    def generate_badge_for_project_measures(self, project, metric, branch=None):
+    def generate_badge_for_project_measures(self, project, metric, branch=None, token=None):
         """
         SINCE 7.1
         Generate badge for project's measure as an SVG.
@@ -44,17 +44,19 @@ class SonarQubeProjectBadges(RestClient):
             * security_rating
             * sqale_index
             * vulnerabilities
+        :param token: Security token
         :return:
         """
 
     @GET(API_PROJECT_BADGES_QUALITY_GATE_ENDPOINT)
-    def generate_badge_for_project_quality_gate(self, project, branch=None):
+    def generate_badge_for_project_quality_gate(self, project, branch=None, token=None):
         """
         SINCE 7.1
         Generate badge for project's quality gate as an SVG.
 
         :param project: Project or application key
         :param branch: Long living branch key
+        :param token: Security token
         :return:
         """
 

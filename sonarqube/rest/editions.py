@@ -4,7 +4,7 @@
 from sonarqube.utils.common import POST
 from sonarqube.utils.rest_client import RestClient
 
-from sonarqube.utils.config import API_EDITIONS_SET_LICENSE
+from sonarqube.utils.config import API_EDITIONS_SET_LICENSE  # pro
 
 
 class SonarQubeEditions(RestClient):

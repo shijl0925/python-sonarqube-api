@@ -27,6 +27,7 @@ class SonarQubeCe(RestClient):
     @GET(API_CE_ACTIVITY_ENDPOINT)
     def search_tasks(
         self,
+        component=None,
         componentId=None,
         maxExecutedAt=None,
         minSubmittedAt=None,
@@ -40,6 +41,7 @@ class SonarQubeCe(RestClient):
         SINCE 5.2
         Search for tasks.
 
+        :param component: Key of the component (project) to filter on
         :param componentId: Id of the component (project) to filter on
         :param maxExecutedAt: Maximum date of end of task processing (inclusive)
         :param minSubmittedAt: Minimum date of task submission (inclusive)
