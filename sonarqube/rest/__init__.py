@@ -508,3 +508,11 @@ class SonarQubeClient:
         response = self.session.post(self.get_endpoint_url(endpoint), **kwargs)
         result = self.decode_response(response)
         return result
+
+
+class SonarEnterpriseClient(SonarQubeClient):
+    pass
+
+
+class SonarCloudClient(SonarQubeClient):
+    pass
