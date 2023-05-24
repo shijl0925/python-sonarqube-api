@@ -3,4 +3,8 @@
 # @Author: Jialiang Shi
 __version__ = "2.0.0"
 
-from sonarqube.rest import SonarQubeClient
+from sonarqube.rest import (
+    SonarQubeClient,
+    SonarEnterpriseClient,
+    SonarCloudClient
+)
