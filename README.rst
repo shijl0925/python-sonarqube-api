@@ -21,8 +21,30 @@ Python Client library for interacting with Community, Developer, and Enterprise 
 
 python-sonarqube-api provides a simple interface for clients to interact with SonarQube via the REST API.
 
+Editions
+========
+
+There are two editions of python-sonarqube-api:
+
+ * Community Edition (CE) is available freely under the GNU General Public License 3.0.
+ * Professional Edition (PE) includes [extra features](https://python-sonarqube-api.readthedocs.io/en/latest/#api-reference)
+   that are more useful for developers with more than 100 interface functions. To use PE and get timely support,
+   please [become a subscriber](https://xxx.com/pricing/).
+
++--------------+---------------------+-----------------------+
+| Differences  | Community Edition   | Professional Edition  |
++==============+=====================+=======================+
+| License      | GPL(3.0) License    | MIT License           |
++--------------+---------------------+-----------------------+
+| Functions    | 30                  | more than 130         |
+| (REST APIs)  |                     |                       |
++--------------+---------------------+-----------------------+
+
 Installation
 ============
+
+Community Edition
+-----------------
 
 The easiest way to install the latest version is by using pip to pull it from PyPI::
 
@@ -33,6 +55,13 @@ You may also use Git to clone the repository from Github and install it manually
     git clone https://github.com/shijl0925/python-sonarqube-api.git
     cd python-sonarqube-api
     python setup.py install
+
+
+Professional Edition
+--------------------
+Use command pip to install the Python wheel or source package, Use --force-reinstall to force an installation If necessary::
+
+    pip install python_sonarqube_api-x.y.z-py3-none-any.whl
 
 
 Documentation
@@ -69,12 +98,12 @@ Example::
 
     from sonarqube import SonarQubeClient
 
-    h = SonarQubeClient(sonarqube_url="http://localhost:9000", username='admin', password='admin')
+    sonar = SonarQubeClient(sonarqube_url="http://localhost:9000", username='admin', password='admin')
 
 
 Sonar authentication tokens can also be used in place of username and password::
 
-    h = SonarQubeClient(sonarqube_url="http://localhost:9000", token='*****************')
+    sonar = SonarQubeClient(sonarqube_url="http://localhost:9000", token='*****************')
 
 
 API example
@@ -83,3 +112,7 @@ API example
 The example documentation for SonarQubeClient APIs is available on `API examples
 <https://python-sonarqube-api.readthedocs.io/en/latest/examples.html>`_.
 
+
+Licensing
+-----------
+See the [LICENSE](LICENSE) file for licensing information as it pertains to files in this repository.
