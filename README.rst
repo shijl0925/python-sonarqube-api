@@ -27,7 +27,7 @@ Editions
 There are two editions of python-sonarqube-api:
 
  * Community Edition (CE) is available freely under the GNU General Public License 3.0.
- * Professional Edition (PE) includes [extra features](https://python-sonarqube-api.readthedocs.io/en/latest/#api-reference)
+ * Professional Edition (PE) includes [extra features](https://python-sonarqube-pro-api.readthedocs.io/en/latest/#api-reference)
    that are more useful for developers with more than 100 interface functions. To use PE and get timely support,
    please [become a subscriber](https://xxx.com/pricing/).
 
@@ -68,7 +68,7 @@ Documentation
 =============
 
 The full documentation for API is available on `readthedocs
-<https://python-sonarqube-api.readthedocs.io/en/latest/>`_.
+<https://python-sonarqube-pro-api.readthedocs.io/en/latest/>`_.
 
 
 Compatibility
@@ -110,7 +110,7 @@ API example
 -----------
 
 The example documentation for SonarQubeClient APIs is available on `API examples
-<https://python-sonarqube-api.readthedocs.io/en/latest/examples.html>`_.
+<https://python-sonarqube-pro-api.readthedocs.io/en/latest/examples.html>`_.
 
 
 Licensing
