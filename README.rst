@@ -28,8 +28,8 @@ There are two editions of python-sonarqube-api:
 
  * Community Edition (CE) is available freely under the GNU General Public License 3.0.
  * Professional Edition (PE) includes [extra features](https://python-sonarqube-pro-api.readthedocs.io/en/latest/#api-reference)
-   that are more useful for developers with more than 100 interface functions. To use PE and get timely support,
-   please [become a subscriber](https://xxx.com/pricing/).
+   that are more useful for developers with more than 130 interface functions. To use PE and get timely support,
+   please become a Purchaser(https://shijl0925.gumroad.com/l/nlokc) and become a subscriber(https://shijl0925.gumroad.com/subscribe).
 
 +--------------+---------------------+-----------------------+
 | Differences  | Community Edition   | Professional Edition  |
@@ -61,7 +61,7 @@ Professional Edition
 --------------------
 Use command pip to install the Python wheel or source package, Use --force-reinstall to force an installation If necessary::
 
-    pip install python_sonarqube_api-x.y.z-py3-none-any.whl
+    pip install python_sonarqube_pro_api-x.y.z-py3-none-any.whl
 
 
 Documentation

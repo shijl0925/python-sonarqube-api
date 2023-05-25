@@ -28,7 +28,7 @@ def get_version() -> str:
 
 
 setup(
-    name='python-sonarqube-api',
+    name='python-sonarqube-pro-api',
 
     # https://packaging.python.org/en/latest/single_source_version.html
     version=get_version(),
