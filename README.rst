@@ -88,11 +88,6 @@ Donate
 donations are not mandatory but very welcomed
 If you like my work and want to support development or buy me a coffee `PayPal Donate <https://paypal.me/shijialiang0925>`_
 
-Paypal
-------
-.. image:: https://raw.githubusercontent.com/andreostrovsky/donate-with-paypal/master/blue.svg
-    :target: https://paypal.me/shijialiang0925
-
 Usage
 =====
 
