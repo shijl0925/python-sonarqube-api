@@ -333,13 +333,14 @@ class SonarQubeIssues(RestClient):
         """
 
     @GET(API_ISSUES_AUTHORS_ENDPOINT)
-    def search_scm_accounts(self, project, q=None):
+    def search_scm_accounts(self, project, q=None, ps=None):
         """
         SINCE 5.1
         Search SCM accounts which match a given query
 
         :param project: Project key
         :param q: Limit search to authors that contain the supplied string.
+        :param ps: Page size. Must be greater than 0 and less or equal than 100
         :return:
         """
 
@@ -423,12 +424,13 @@ class SonarQubeIssues(RestClient):
         """
 
     @GET(API_ISSUES_TAGS_ENDPOINT)
-    def get_issues_tags(self, project, q=None):
+    def get_issues_tags(self, project, q=None, ps=None):
         """
         SINCE 5.1
         List tags
 
         :param project:
         :param q: Limit search to tags that contain the supplied string.
+        :param ps: Page size.
         :return:
         """
