@@ -115,4 +115,4 @@ The example documentation for SonarQubeClient APIs is available on `API examples
 
 Licensing
 -----------
-See the [LICENSE](LICENSE) file for licensing information as it pertains to files in this repository.
+See the `LICENSE <https://github.com/shijl0925/python-sonarqube-api/blob/master/LICENSE>`_ file for licensing information as it pertains to files in this repository.
