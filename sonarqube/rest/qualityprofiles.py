@@ -75,7 +75,7 @@ class SonarQubeQualityProfiles(RestClient):
             if params:
                 data["params"] = params
 
-        return self._post(API_QUALITYPROFILES_ACTIVATE_RULE_ENDPOINT, params=data)
+        return self._post(API_QUALITYPROFILES_ACTIVATE_RULE_ENDPOINT, data=data)
 
     @POST(API_QUALITYPROFILES_ADD_GROUP_ENDPOINT)
     def add_group_to_quality_profile(self, group, language, qualityProfile):
