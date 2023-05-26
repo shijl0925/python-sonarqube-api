@@ -4,38 +4,6 @@ sonarqube.rest package
 Submodules
 ----------
 
-sonarqube.rest.alm\_integrations module
----------------------------------------
-
-.. automodule:: sonarqube.rest.alm_integrations
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-sonarqube.rest.alm\_settings module
------------------------------------
-
-.. automodule:: sonarqube.rest.alm_settings
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-sonarqube.rest.analysis\_cache module
--------------------------------------
-
-.. automodule:: sonarqube.rest.analysis_cache
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-sonarqube.rest.applications module
-----------------------------------
-
-.. automodule:: sonarqube.rest.applications
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 sonarqube.rest.audit\_logs module
 ---------------------------------
 
@@ -60,14 +28,6 @@ sonarqube.rest.ce module
    :undoc-members:
    :show-inheritance:
 
-sonarqube.rest.components module
---------------------------------
-
-.. automodule:: sonarqube.rest.components
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 sonarqube.rest.duplications module
 ----------------------------------
 
@@ -88,14 +48,6 @@ sonarqube.rest.favorites module
 -------------------------------
 
 .. automodule:: sonarqube.rest.favorites
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-sonarqube.rest.hotspots module
-------------------------------
-
-.. automodule:: sonarqube.rest.hotspots
    :members:
    :undoc-members:
    :show-inheritance:
@@ -140,38 +92,6 @@ sonarqube.rest.monitoring module
    :undoc-members:
    :show-inheritance:
 
-sonarqube.rest.new\_code\_periods module
-----------------------------------------
-
-.. automodule:: sonarqube.rest.new_code_periods
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-sonarqube.rest.notifications module
------------------------------------
-
-.. automodule:: sonarqube.rest.notifications
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-sonarqube.rest.permissions module
----------------------------------
-
-.. automodule:: sonarqube.rest.permissions
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-sonarqube.rest.plugins module
------------------------------
-
-.. automodule:: sonarqube.rest.plugins
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 sonarqube.rest.project\_analyses module
 ---------------------------------------
 
@@ -200,22 +120,6 @@ sonarqube.rest.project\_dump module
 -----------------------------------
 
 .. automodule:: sonarqube.rest.project_dump
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-sonarqube.rest.project\_links module
-------------------------------------
-
-.. automodule:: sonarqube.rest.project_links
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-sonarqube.rest.project\_pull\_requests module
----------------------------------------------
-
-.. automodule:: sonarqube.rest.project_pull_requests
    :members:
    :undoc-members:
    :show-inheritance:
@@ -276,30 +180,6 @@ sonarqube.rest.settings module
    :undoc-members:
    :show-inheritance:
 
-sonarqube.rest.sources module
------------------------------
-
-.. automodule:: sonarqube.rest.sources
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-sonarqube.rest.support module
------------------------------
-
-.. automodule:: sonarqube.rest.support
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-sonarqube.rest.system module
-----------------------------
-
-.. automodule:: sonarqube.rest.system
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 sonarqube.rest.user\_groups module
 ----------------------------------
 
@@ -328,22 +208,6 @@ sonarqube.rest.views module
 ---------------------------
 
 .. automodule:: sonarqube.rest.views
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-sonarqube.rest.webhooks module
-------------------------------
-
-.. automodule:: sonarqube.rest.webhooks
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-sonarqube.rest.webservices module
----------------------------------
-
-.. automodule:: sonarqube.rest.webservices
    :members:
    :undoc-members:
    :show-inheritance:

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 # @Author: Jialiang Shi
-__version__ = "2.0.0"
+__version__ = "2.0.1"
 
 from sonarqube.rest import (
     SonarQubeClient,
