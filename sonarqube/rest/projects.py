@@ -84,12 +84,12 @@ class SonarQubeProjects(RestClient):
 
         :param project: Key of the project
         :param name: Name of the project. If name is longer than 500, it is abbreviated.
+        :param organization: The key of the organization
         :param visibility: Whether the created project should be visible to everyone, or only specific user/groups.
           If no visibility is specified, the default project visibility of the organization will be used.
           Possible values are for:
             * private
             * public
-        :param organization: The key of the organization
         :return: request response
         """
 
