@@ -32,6 +32,7 @@ class SonarQubeCe(RestClient):
         maxExecutedAt=None,
         minSubmittedAt=None,
         onlyCurrents=None,
+        p=None,
         ps=None,
         q=None,
         status=None,
@@ -47,6 +48,7 @@ class SonarQubeCe(RestClient):
         :param minSubmittedAt: Minimum date of task submission (inclusive)
         :param onlyCurrents: Filter on the last tasks (only the most recent finished task by project).
           default value is false.
+        :param p: page number.
         :param ps: Page size. Must be greater than 0 and less or equal than 1000
         :param q: Limit search to:
 
@@ -76,12 +78,12 @@ class SonarQubeCe(RestClient):
         """
 
     @GET(API_CE_ACTIVITY_STATUS_ENDPOINT)
-    def get_ce_activity_related_metrics(self, component_id=None):
+    def get_ce_activity_related_metrics(self, componentId=None):
         """
         SINCE 5.5
         Returns CE activity related metrics.
 
-        :param component_id: Id of the component (project) to filter on
+        :param componentId: Id of the component (project) to filter on
         :return:
         """
 
