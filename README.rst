@@ -26,19 +26,24 @@ Editions
 
 There are two editions of python-sonarqube-api:
 
- * Community Edition (CE) is available freely under the GNU General Public License 3.0.
+ * Community Edition (CE) is available freely under the GNU Affero General Public License v3.0.
  * Professional Edition (PE) includes [extra features](https://python-sonarqube-pro-api.readthedocs.io/en/latest/#api-reference)
-   that are more useful for developers with more than 130 interface functions. To use PE and get timely support,
+   that are more useful for developers with more than 130 interface functions. To use PE and get timely Email support and continuous updates,
    please become a Purchaser(https://shijl0925.gumroad.com/l/nlokc) and become a subscriber(https://shijl0925.gumroad.com/subscribe).
 
-+--------------+---------------------+-----------------------+
-| Differences  | Community Edition   | Professional Edition  |
-+==============+=====================+=======================+
-| License      | GPL(3.0) License    | MIT License           |
-+--------------+---------------------+-----------------------+
-| Functions    | 30                  | more than 130         |
-| (REST APIs)  |                     |                       |
-+--------------+---------------------+-----------------------+
++---------------------+---------------------+-----------------------+
+| Differences         | Community Edition   | Professional Edition  |
++=====================+=====================+=======================+
+| License             | GNU AGPLv3 License  | MIT License           |
++---------------------+---------------------+-----------------------+
+| Commercial Use      | No                  | Yes                   |
++---------------------+---------------------+-----------------------+
+| Functions           | 30                  | more than 130         |
+| (REST APIs)         |                     |                       |
++---------------------+---------------------+-----------------------+
+| Compatibility       | 7.9.x - 8.9.x       | 7.9.x - 10.x          |
+| (SonarQube Versions)|                     |                       |
++---------------------+---------------------+-----------------------+
 
 Installation
 ============
