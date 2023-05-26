@@ -22,12 +22,14 @@ class SonarQubeProjectTags(RestClient):
         super(SonarQubeProjectTags, self).__init__(**kwargs)
 
     @GET(API_PROJECT_TAGS_SEARCH_ENDPOINT)
-    def search_project_tags(self, q=None):
+    def search_project_tags(self, q=None, ps=None, p=None):
         """
         SINCE 6.4
         Search tags
 
         :param q: Limit search to tags that contain the supplied string.
+        :param p: page number.
+        :param ps: Page size. Must be greater than 0 and less or equal than 100
         :return:
         """
 
