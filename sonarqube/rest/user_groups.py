@@ -7,9 +7,6 @@ from sonarqube.utils.config import (
     API_USER_GROUPS_CREATE_ENDPOINT,
     API_USER_GROUPS_DELETE_ENDPOINT,
     API_USER_GROUPS_UPDATE_ENDPOINT,
-    API_USER_GROUPS_USERS_ENDPOINT,
-    API_USER_GROUPS_ADD_USER_ENDPOINT,
-    API_USER_GROUPS_REMOVE_USER_ENDPOINT,
 )
 from sonarqube.utils.common import GET, POST
 
@@ -90,49 +87,5 @@ class SonarQubeUserGroups(RestClient):
           defined, then name is not changed.
         :param description: New optional description for the group. A group description cannot be larger than
           200 characters. If value is not defined, then description is not changed.
-        :return:
-        """
-
-    @POST(API_USER_GROUPS_ADD_USER_ENDPOINT)
-    def add_user_to_group(self, name, login, organization=None):
-        """
-        SINCE 5.2
-        Add a user to a group.
-
-        :param name: Group name
-        :param organization: organization key.
-        :param login: User login
-        :return:
-        """
-
-    @POST(API_USER_GROUPS_REMOVE_USER_ENDPOINT)
-    def remove_user_from_group(self, name, login, organization=None):
-        """
-        SINCE 5.2
-        Remove a user from a group.
-
-        :param name: Group name
-        :param login: User login
-        :param organization: organization key.
-        :return:
-        """
-
-    @GET(API_USER_GROUPS_USERS_ENDPOINT)
-    def search_users_belong_to_group(self, name, organization=None, q=None, selected="selected", p=None, ps=None):
-        """
-        SINCE 5.2
-        Search for users with membership information with respect to a group.
-
-        :param name: Group name
-        :param organization: organization key.
-        :param q: Limit search to names or logins that contain the supplied string.
-        :param selected: Depending on the value, show only selected items (selected=selected), deselected items
-          (selected=deselected), or all items with their selection status (selected=all).Possible values are for:
-            * all
-            * deselected
-            * selected
-          default value is selected.
-        :param p: page number.
-        :param ps: Page size. Must be greater than 0 and less or equal than 500
         :return:
         """

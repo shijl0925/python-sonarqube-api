@@ -5,11 +5,7 @@ from sonarqube.utils.rest_client import RestClient
 from sonarqube.utils.config import (
     API_RULES_SEARCH_ENDPOINT,
     API_RULES_CREATE_ENDPOINT,
-    API_RULES_UPDATE_ENDPOINT,
-    API_RULES_DELETE_ENDPOINT,
     API_RULES_SHOW_ENDPOINT,
-    API_RULES_TAGS_ENDPOINT,
-    API_RULES_REPOSITORIES_ENDPOINT,
 )
 from sonarqube.utils.common import GET, POST
 
@@ -269,67 +265,6 @@ class SonarQubeRules(RestClient):
         :return: request response
         """
 
-    @POST(API_RULES_UPDATE_ENDPOINT)
-    def update_rule(
-        self,
-        key,
-        organization=None,
-        name=None,
-        markdown_description=None,
-        markdown_note=None,
-        remediation_fn_base_effort=None,
-        remediation_fn_type=None,
-        remediation_fy_gap_multiplier=None,
-        severity=None,
-        status=None,
-        tags=None,
-        params=None
-    ):
-        """
-        SINCE 4.4
-        Update an existing rule.
-
-        :param key: Key of the rule to update
-        :param organization: organization key.
-        :param name: Rule name (mandatory for custom rule)
-        :param markdown_description: Rule description (mandatory for custom rule and manual rule)
-        :param markdown_note: Optional note in markdown format. Use empty value to remove current note.
-          Note is not changed if the parameter is not set.
-        :param params: Parameters as semi-colon list of =, for example 'params=key1=v1;key2=v2'
-          (Only when updating a custom rule)
-        :param remediation_fn_base_effort: Base effort of the remediation function of the rule
-        :param remediation_fn_type: Type of the remediation function of the rule
-        :param remediation_fy_gap_multiplier: Gap multiplier of the remediation function of the rule
-        :param severity: Rule severity (Only when updating a custom rule).Possible values are for:
-
-          * INFO
-          * MINOR
-          * MAJOR
-          * CRITICAL
-          * BLOCKER
-
-        :param status: Rule status (Only when updating a custom rule). Possible values are for:
-
-          * BETA
-          * DEPRECATED
-          * READY
-          * REMOVED
-
-        :param tags: Optional comma-separated list of tags to set. Use blank value to remove current tags.
-          Tags are not changed if the parameter is not set.
-
-        :return: request response
-        """
-
-    @POST(API_RULES_DELETE_ENDPOINT)
-    def delete_rule(self, key):
-        """
-        SINCE 4.4
-        Delete custom rule.
-        :param key:
-        :return:
-        """
-
     @GET(API_RULES_SHOW_ENDPOINT)
     def get_rule(self, key, organization=None, actives="false"):
         """
@@ -340,28 +275,5 @@ class SonarQubeRules(RestClient):
         :param organization: organization key.
         :param actives: Show rule's activations for all profiles ("active rules").
           Possible values are for: true or false. default value is false.
-        :return:
-        """
-
-    @GET(API_RULES_REPOSITORIES_ENDPOINT)
-    def get_rule_repositories(self, language=None, q=None):
-        """
-        SINCE 4.5
-        List available rule repositories
-
-        :param language: A language key; if provided, only repositories for the given language will be returned
-        :param q: A pattern to match repository keys/names against
-        :return:
-        """
-
-    @GET(API_RULES_TAGS_ENDPOINT)
-    def get_rule_tags(self, organization=None, ps=10, q=None):
-        """
-        SINCE 4.4
-        List rule tags
-
-        :param organization: organization key.
-        :param ps: Page size. Must be greater than 0 and less or equal than 100.default value is 10.
-        :param q: Limit search to tags that contain the supplied string.
         :return:
         """
