@@ -55,12 +55,6 @@ The easiest way to install the latest version is by using pip to pull it from Py
 
     pip install  --upgrade python-sonarqube-api
 
-You may also use Git to clone the repository from Github and install it manually::
-
-    git clone https://github.com/shijl0925/python-sonarqube-api.git
-    cd python-sonarqube-api
-    python setup.py install
-
 
 Professional Edition
 --------------------
