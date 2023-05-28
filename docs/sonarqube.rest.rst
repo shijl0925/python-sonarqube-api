@@ -4,14 +4,6 @@ sonarqube.rest package
 Submodules
 ----------
 
-sonarqube.rest.audit\_logs module
----------------------------------
-
-.. automodule:: sonarqube.rest.audit_logs
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 sonarqube.rest.auth module
 --------------------------
 
@@ -80,14 +72,6 @@ sonarqube.rest.metrics module
 -----------------------------
 
 .. automodule:: sonarqube.rest.metrics
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-sonarqube.rest.monitoring module
---------------------------------
-
-.. automodule:: sonarqube.rest.monitoring
    :members:
    :undoc-members:
    :show-inheritance:
@@ -168,14 +152,6 @@ sonarqube.rest.server module
 ----------------------------
 
 .. automodule:: sonarqube.rest.server
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-sonarqube.rest.settings module
-------------------------------
-
-.. automodule:: sonarqube.rest.settings
    :members:
    :undoc-members:
    :show-inheritance:
