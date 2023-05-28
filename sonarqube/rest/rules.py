@@ -5,7 +5,6 @@ from sonarqube.utils.rest_client import RestClient
 from sonarqube.utils.config import (
     API_RULES_SEARCH_ENDPOINT,
     API_RULES_CREATE_ENDPOINT,
-    API_RULES_SHOW_ENDPOINT,
 )
 from sonarqube.utils.common import GET, POST
 
@@ -263,17 +262,4 @@ class SonarQubeRules(RestClient):
         :param params: Parameters as semi-colon list of =, for example 'params=key1=v1;key2=v2' (Only for custom rule)
 
         :return: request response
-        """
-
-    @GET(API_RULES_SHOW_ENDPOINT)
-    def get_rule(self, key, organization=None, actives="false"):
-        """
-        SINCE 4.2
-        Get detailed information about a rule.
-
-        :param key: Rule key
-        :param organization: organization key.
-        :param actives: Show rule's activations for all profiles ("active rules").
-          Possible values are for: true or false. default value is false.
-        :return:
         """

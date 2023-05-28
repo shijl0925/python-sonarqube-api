@@ -5,7 +5,6 @@ from sonarqube.utils.rest_client import RestClient
 from sonarqube.utils.config import (
     API_USER_GROUPS_SEARCH_ENDPOINT,
     API_USER_GROUPS_CREATE_ENDPOINT,
-    API_USER_GROUPS_DELETE_ENDPOINT,
     API_USER_GROUPS_UPDATE_ENDPOINT,
 )
 from sonarqube.utils.common import GET, POST
@@ -63,18 +62,6 @@ class SonarQubeUserGroups(RestClient):
         :param description: Description for the new group. A group description cannot be larger than 200 characters.
         :return: request response
         """
-
-    @POST(API_USER_GROUPS_DELETE_ENDPOINT)
-    def delete_group(self, name, organization=None):
-        """
-        SINCE 5.2
-        Delete a group. The default groups cannot be deleted.
-
-        :param name: group name
-        :param organization: organization key.
-        :return:
-        """
-
     @POST(API_USER_GROUPS_UPDATE_ENDPOINT)
     def update_group(self, currentName, name=None, description=None):
         """

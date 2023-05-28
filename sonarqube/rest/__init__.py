@@ -18,7 +18,6 @@ from sonarqube.rest.rules import SonarQubeRules
 from sonarqube.rest.qualityprofiles import SonarQubeQualityProfiles
 from sonarqube.rest.duplications import SonarQubeDuplications
 from sonarqube.rest.metrics import SonarQubeMetrics
-from sonarqube.rest.settings import SonarQubeSettings
 from sonarqube.rest.auth import SonarQubeAuth
 from sonarqube.rest.favorites import SonarQubeFavorites
 from sonarqube.rest.languages import SonarQubeLanguages
@@ -27,9 +26,7 @@ from sonarqube.rest.project_tags import SonarQubeProjectTags
 from sonarqube.rest.project_analyses import SonarQubeProjectAnalyses
 from sonarqube.rest.server import SonarQubeServer
 from sonarqube.rest.user_tokens import SonarQubeUserTokens
-from sonarqube.rest.monitoring import SonarQubeMonitoring
 from sonarqube.rest.project_dump import SonarQubeProjectDump
-from sonarqube.rest.audit_logs import SonarQubeAuditLogs
 from sonarqube.rest.editions import SonarQubeEditions
 from sonarqube.rest.views import SonarQubeViews
 
@@ -181,15 +178,6 @@ class SonarQubeClient:
         return SonarQubeMetrics(api=self)
 
     @property
-    def settings(self):
-        """
-        SonarQube settings Operations
-
-        :return:
-        """
-        return SonarQubeSettings(api=self)
-
-    @property
     def auth(self):
         """
         SonarQube authentication Operations
@@ -262,10 +250,6 @@ class SonarQubeClient:
         return SonarQubeUserTokens(api=self)
 
     @property
-    def monitoring(self):
-        return SonarQubeMonitoring(api=self)
-
-    @property
     def project_dump(self):
         """
         Project export/import
@@ -273,14 +257,6 @@ class SonarQubeClient:
         :return:
         """
         return SonarQubeProjectDump(api=self)
-
-    @property
-    def audit_logs(self):
-        """
-        Manage Audit logs
-
-        """
-        return SonarQubeAuditLogs(api=self)
 
     @property
     def editions(self):
