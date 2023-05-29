@@ -38,8 +38,8 @@ There are two editions of python-sonarqube-api:
 +---------------------+---------------------+-----------------------+
 | Commercial Use      | No                  | Yes                   |
 +---------------------+---------------------+-----------------------+
-| Functions           | 40                  | more than 280         |
-| (REST APIs)         |                     |                       |
+| Supported APIs      | 40                  | more than 280         |
+| (SonarQube Web APIs)|                     |                       |
 +---------------------+---------------------+-----------------------+
 | Compatibility       | 7.9.x - 8.9.x       | 7.9.x - 10.x          |
 | (SonarQube Versions)|                     |                       |
