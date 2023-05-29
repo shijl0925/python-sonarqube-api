@@ -55,7 +55,6 @@ The easiest way to install the latest version is by using pip to pull it from Py
 
     pip install  --upgrade python-sonarqube-api
 
-
 Professional Edition
 --------------------
 Use command pip to install the Python wheel or source package, Use --force-reinstall to force an installation If necessary::
