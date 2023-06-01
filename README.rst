@@ -45,6 +45,8 @@ There are two editions of python-sonarqube-api:
 | (SonarQube Versions)|                     |                       |
 +---------------------+---------------------+-----------------------+
 
+**Payment only needs to be made once, and library updates will be provided for free.**
+
 Installation
 ============
 
