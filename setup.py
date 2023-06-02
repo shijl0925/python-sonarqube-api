@@ -38,14 +38,14 @@ setup(
     url='https://github.com/shijl0925/python-sonarqube-api',
     author='Jialiang Shi',
     author_email='kevin09254930sjl@gmail.com',
-    license='AGPL',
+    license='AGPLv3',
 
     # See https://pypi.python.org/pypi?%3Aaction=list_classifiers
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Environment :: Plugins',
         'Intended Audience :: Developers',
-        'LICENSE :: OSI APPROVED :: GNU AFFERO GENERAL PUBLIC LICENSE V3',
+        'License :: OSI Approved :: GNU Affero General Public License v3',
         'Operating System :: OS Independent',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3.3',
