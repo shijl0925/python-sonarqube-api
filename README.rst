@@ -55,7 +55,7 @@ Change Log
 Community Edition
 -----------------
 
-See the `CHANGELOG.md <https://github.com/shijl0925/python-sonarqube-api/blob/master/CHANGELOG.md>`_ file for Professional Edition.
+See the `CHANGELOG.md <https://github.com/shijl0925/python-sonarqube-api/blob/master/CHANGELOG.md>`_ file for Community Edition.
 
 Professional Edition
 --------------------
