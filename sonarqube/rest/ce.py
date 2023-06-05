@@ -38,7 +38,7 @@ class SonarQubeCe(RestClient):
         SINCE 5.2
         Search for tasks.
 
-        :param component: Key of the component (project) to filter on
+        :param component: Key of the component (project) to filter on (since 8.0)
         :param componentId: Id of the component (project) to filter on
         :param maxExecutedAt: Maximum date of end of task processing (inclusive)
         :param minSubmittedAt: Minimum date of task submission (inclusive)
