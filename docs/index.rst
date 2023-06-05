@@ -64,6 +64,14 @@ Use :command:`pip` to install the Python wheel or source package, Use --force-re
 Change Log
 ==========
 
+Community Edition
+-----------------
+
+See the `CHANGELOG.md <https://github.com/shijl0925/python-sonarqube-api/blob/master/CHANGELOG.md>`_ file for Community Edition.
+
+Professional Edition
+--------------------
+
 See the `CHANGELOG.md <https://github.com/shijl0925/python-sonarqube-pro-api/blob/main/CHANGELOG.md>`_ file for Professional Edition.
 
 
