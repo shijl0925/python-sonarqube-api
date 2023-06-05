@@ -1,4 +1,3 @@
-
 .. image:: https://img.shields.io/pypi/pyversions/python-sonarqube-api.svg
     :target: https://pypi.python.org/pypi/python-sonarqube-api
 .. image:: https://img.shields.io/pypi/v/python-sonarqube-api.svg
@@ -30,6 +29,8 @@ There are two editions of python-sonarqube-api:
  * Professional Edition (PE) includes `extra features <https://python-sonarqube-pro-api.readthedocs.io/en/latest/#api-reference>`_
    that are more useful for developers with more than 280 interface functions. To use PE and get timely Email support and continuous updates,
    please become a Purchaser(https://shijl0925.gumroad.com/l/nlokc) and become a subscriber(https://shijl0925.gumroad.com/subscribe).
+
+Notice: Professional Edition's extra features have been remarked by using **Only available on the professional edition** in API Document.
 
 +---------------------+---------------------+-----------------------+
 | Differences         | Community Edition   | Professional Edition  |
