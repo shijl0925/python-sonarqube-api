@@ -61,6 +61,12 @@ Use :command:`pip` to install the Python wheel or source package, Use --force-re
    $ pip install python_sonarqube_pro_api-x.y.z-py3-none-any.whl
 
 
+Change Log
+==========
+
+See the `CHANGELOG.md <https://github.com/shijl0925/python-sonarqube-pro-api/blob/main/CHANGELOG.md>`_ file for Professional Edition.
+
+
 Documentation
 =============
 

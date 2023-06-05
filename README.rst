@@ -47,6 +47,13 @@ There are two editions of python-sonarqube-api:
 
 **Payment only needs to be made once, and library updates will be provided for free.**
 
+
+Change Log
+==========
+
+See the `CHANGELOG.md <https://github.com/shijl0925/python-sonarqube-pro-api/blob/main/CHANGELOG.md>`_ file for Professional Edition.
+
+
 Installation
 ============
 
