@@ -32,5 +32,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 
 
-[unreleased]: https://gitlab.com/shijl0925/python-sonarqube-pro-api/-/compare/2.0.3...HEAD
+[unreleased]: https://github.com/shijl0925/python-sonarqube-api/compare/2.0.3...HEAD
 [2.0.3]: https://github.com/shijl0925/python-sonarqube-api/compare/2.0.2...2.0.3
