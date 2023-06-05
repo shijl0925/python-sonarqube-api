@@ -18,7 +18,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - get one issue use 'get_issue' instead.
 - get one project use 'get_project' instead.
 - get one group use 'get_user_group' instead.
-- get one rule use 'get_rule' instead.
 - get one user use 'get_user' instead.
 - get one view use 'get_view' instead.
 - Search for projects associated (or not) to a quality gate, with parameter 'gateName', not 'gateId'.
