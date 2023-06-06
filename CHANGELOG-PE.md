@@ -9,6 +9,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+### Fixed
+
+### Changed
+
+### Removed
+
+## [2.0.1] - 2023-06-06
+
+### Added
+
 - get permission template use 'get_template'
 - Support "Search for projects without 'Administer System' permission" by using 'sonarqube.rest.components.SonarQubeComponents.search_projects'
 - Support "Get the details of the current authenticated user." by using 'sonarqube.rest.users.SonarQubeUsers.current'
@@ -70,5 +80,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
-[unreleased]: https://gitlab.com/shijl0925/python-sonarqube-pro-api/-/compare/2.0.0...HEAD
+[unreleased]: https://gitlab.com/shijl0925/python-sonarqube-pro-api/-/compare/2.0.1...HEAD
+[2.0.1]: https://gitlab.com/shijl0925/python-sonarqube-pro-api/-/compare/2.0.0...2.0.1
 [2.0.0]: https://gitlab.com/shijl0925/python-sonarqube-pro-api/-/compare/1.3.7...2.0.0
