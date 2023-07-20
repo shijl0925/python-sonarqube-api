@@ -36,6 +36,7 @@ API_FAVORITES_SEARCH_ENDPOINT = "/api/favorites/search"
 API_LANGUAGES_LIST_ENDPOINT = "/api/languages/list"
 
 API_PROJECT_BADGES_MEASURE_ENDPOINT = "/api/project_badges/measure"
+API_PROJECT_LINKS_SEARCH_ENDPOINT = "/api/project_links/search"
 
 API_PROJECT_TAGS_SEARCH_ENDPOINT = "/api/project_tags/search"
 API_PROJECT_ANALYSES_DELETE_ENDPOINT = "/api/project_analyses/delete"

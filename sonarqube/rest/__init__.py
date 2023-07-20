@@ -22,6 +22,7 @@ from sonarqube.rest.auth import SonarQubeAuth
 from sonarqube.rest.favorites import SonarQubeFavorites
 from sonarqube.rest.languages import SonarQubeLanguages
 from sonarqube.rest.project_badges import SonarQubeProjectBadges
+from sonarqube.rest.project_links import SonarQubeProjectLinks
 from sonarqube.rest.project_tags import SonarQubeProjectTags
 from sonarqube.rest.project_analyses import SonarQubeProjectAnalyses
 from sonarqube.rest.server import SonarQubeServer
@@ -212,6 +213,15 @@ class SonarQubeClient:
         :return:
         """
         return SonarQubeProjectBadges(api=self)
+
+    @property
+    def project_links(self):
+        """
+        SonarQube project links Operations
+
+        :return:
+        """
+        return SonarQubeProjectLinks(api=self)
 
     @property
     def project_tags(self):
