@@ -11,6 +11,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+### Changed
+
+### Removed
+
+## [2.0.4] - 2023-07-25
+
+### Added
+
+- Add Project Links Endpoint for search
+
+### Fixed
+
 - when get one project/group/rule/user, need parameter 'organization' in sonarcloud.
 
 ### Changed
@@ -44,5 +56,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 
 
-[unreleased]: https://github.com/shijl0925/python-sonarqube-api/compare/2.0.3...HEAD
+[unreleased]: https://github.com/shijl0925/python-sonarqube-api/compare/2.0.4...HEAD
+[2.0.4]: https://github.com/shijl0925/python-sonarqube-api/compare/2.0.3...2.0.4
 [2.0.3]: https://github.com/shijl0925/python-sonarqube-api/compare/2.0.2...2.0.3
