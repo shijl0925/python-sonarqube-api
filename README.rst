@@ -79,6 +79,8 @@ Use command pip to install the Python wheel or source package, Use --force-reins
 
     pip install python_sonarqube_pro_api-x.y.z-py3-none-any.whl
 
+where x, y, and z should be replaced by the current version number.
+
 
 Documentation
 =============
