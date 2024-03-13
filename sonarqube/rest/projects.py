@@ -4,6 +4,7 @@
 from sonarqube.utils.rest_client import RestClient
 from sonarqube.utils.config import (
     API_PROJECTS_SEARCH_ENDPOINT,
+    API_PROJECTS_CREATE_PROJECT_ENDPOINT
 )
 from sonarqube.utils.common import GET, POST
 
@@ -66,4 +67,22 @@ class SonarQubeProjects(RestClient):
           default value is TRK.
 
         :return:
+        """
+    @POST(API_PROJECTS_CREATE_PROJECT_ENDPOINT)
+    def create_project(
+      self,
+      name=None,
+      project=None,
+      visibility=None
+    ):
+        """
+        SINCE 4.0
+        Create a project. Requires 'Create Projects' permission.
+        :param: name: required. Name of the project. If name is longer than 500, it is abbreviated.
+        :param project: required. Key of the project
+        :param visibility: Whether the created project should be visible to everyone, or only specific user/groups.
+          If no visibility is specified, the default project visibility of the organization will be used.
+          Possible values
+            * private
+            * public
         """

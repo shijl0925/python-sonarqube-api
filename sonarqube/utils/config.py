@@ -1,6 +1,7 @@
 API_COMPONENTS_SHOW_ENDPOINT = "/api/components/show"
 
 API_PROJECTS_SEARCH_ENDPOINT = "/api/projects/search"
+API_PROJECTS_CREATE_PROJECT_ENDPOINT = "/api/projects/create"
 
 API_USERS_SEARCH_ENDPOINT = "/api/users/search"
 API_USER_GROUPS_SEARCH_ENDPOINT = "/api/user_groups/search"
