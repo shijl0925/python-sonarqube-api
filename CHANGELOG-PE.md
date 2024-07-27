@@ -15,6 +15,258 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
+## [2.0.2] - 2024-07-27
+
+### Added
+
+### Fixed
+
+- alm_integrations.import_gitlab_project
+  * Parameter almSetting becomes optional if you have only one configuration for GitLab
+  * Add optional parameters newCodeDefinitionType and newCodeDefinitionValue
+
+- alm_integrations.search_bitbucketclound_repos
+  * function name change to search_bitbucketcloud_repos
+  * param p set default value: 1
+  * param ps set default value: 20
+  
+- alm_integrations.search_gitlab_repos
+  * param p set default value: 1
+  * param ps set default value: 25
+  
+- alm_integrations.set_pat
+  * Parameter almSetting becomes optional if you have only one DevOps Platform configuration
+  
+- alm_settings.create_github
+  * Optional parameter 'webhookSecret' was added
+  
+- alm_settings.set_azure_binding alm_settings.set_bitbucket_binding alm_settings.set_bitbucketcloud_binding
+   alm_settings.set_github_binding alm_settings.set_gitlab_binding
+  * parameter monorepo becomes required
+  
+- alm_settings.update_azure alm_settings.update_bitbucket
+  * Parameter 'personalAccessToken' becomes optional
+  
+- alm_settings.update_bitbucket
+  * function name change to update_bitbucketcloud
+  * remove param 'personalAccessToken' and 'url'
+  * add param 'clientId' and 'clientSecret'
+  
+- alm_settings.update_github
+  * Parameter 'privateKey' and 'clientSecret' is no longer required
+  * Optional parameter 'webhookSecret' was added
+  
+- alm_settings.update_gitlab
+  * Parameter 'personalAccessToken' is no longer required
+  
+- ce.search_tasks
+  * Remove deprecated field 'componentId'
+  * param p set default value: 1
+  * param ps set default value: 100
+  * param onlyCurrents set default value: false
+  * param status set default value: 'SUCCESS,FAILED,CANCELED'
+ 
+- components.search_components
+  * Param 'language' has been removed
+  * param p set default value: 1
+  * param ps set default value: 100
+  
+- components.get_components_tree components.search_projects
+  * param p set default value: 1
+  * param ps set default value: 100
+  
+- favorites.search_favorites
+  * param p set default value: 1
+  * param ps set default value: 100
+
+- hotspots.search_hotspots
+  * remove param 'sinceLeakPeriod'
+  * use param 'project' instead of 'projectKey'
+  * Optional parameter 'sansTop25' was added
+  * param inNewCodePeriod set default value: false
+  * param p set default value: 1
+  * param ps set default value: 100
+
+- issues.search_scm_accounts
+  * param ps set default value: 10
+
+- issues.issues_bulk_change
+  * param sendNotifications set default value: false
+  
+- issues.search_issues
+  * Optional parameter 'components' was added, Replaces parameter 'componentKeys'
+  * Parameter 'sinceLeakPeriod' is removed, please use 'inNewCodePeriod' instead
+  * param ps set default value: 100
+  * Optional parameter 'cleanCodeAttributeCategories' was added
+  * Optional parameter 'fixedInPullRequest' was added
+  * Optional parameter 'impactSeverities' was added
+  * Optional parameter 'impactSoftwareQualities' was added
+  * Optional parameter 'issueStatuses' was added
+  * Optional parameter 'prioritizedRule' was added
+
+- issues.get_issues_tags
+  * param ps set default value: 10
+  * param all set default value: false
+  
+- languages.get_supported_programming_languages
+  * Optional parameter 'components' was added, default value is 0, means all languages;
+  
+- measures.get_component_with_specified_measures, measures.search_measures_history, measures.get_component_tree_with_specified_measures
+  * param p set default value: 1
+  * param ps set default value: 100
+
+- metrics.search_metrics
+  * param p set default value: 1
+  * param ps set default value: 100
+  
+- notifications.add_notification_for_user notifications.get_user_notifications notifications.remove_notification_for_user
+  * Parameter 'login' becomes optional
+  
+- permissions.add_group_to_template, permissions.add_project_creator_to_template, permissions.add_user_to_template, 
+    notifications.apply_template_to_projects, notifications.delete_template, notifications.remove_group_from_template
+	notifications.remove_project_creator_from_template notifications.remove_user_from_template notifications.set_default_template
+  * Optional parameter 'templateId' was added
+  * Parameter 'templateName' becomes optional
+
+- permissions.apply_template_to_project
+  * Optional parameter 'templateId' was added
+  * Parameter 'templateName' becomes optional
+  * Parameter 'projectKey' becomes optional
+  * Optional parameter 'projectId' was added
+  
+- permissions.add_permission_to_group, notifications.remove_permission_from_group,
+    permissions.add_permission_to_user, notifications.remove_permission_from_user
+  * Optional parameter 'projectId' was added
+
+- project_analyses.search_project_analyses_and_events
+  * param p set default value: 1
+  * param ps set default value: 100
+  
+- project_links.create_project_link, project_links.search_project_links
+  * Optional parameter 'projectId' was added
+  * Parameter 'projectKey' becomes optional
+  
+- project_tags.search_project_tags
+  * param p set default value: 1
+  * param ps set default value: 10
+  
+- projects.create_project
+  * Optional parameter 'newCodeDefinitionType' was added
+  * Optional parameter 'newCodeDefinitionValue' was added
+  
+- projects.search_projects
+  * param p set default value: 1
+  * param ps set default value: 100
+  
+- qualityprofiles.change_parent_of_quality_profile
+  * Parameter 'parentQualityProfile' becomes optional
+  
+- qualityprofiles.get_history_of_changes_on_quality_profile
+  * param p set default value: 1
+  * param ps set default value: 50
+  
+- qualityprofiles.get_projects_associate_with_quality_profile
+  * param p set default value: 1
+  * param ps set default value: 100
+
+- qualitygates.get_project_qualitygates_status
+  * Optional parameter 'projectId' was added
+
+- qualitygates.get_qualitygate_projects
+  * param page set default value: 1
+  
+- qualitygates.list_groups_allowed_to_gate, qualitygates.list_users_allowed_to_gate
+  * param p set default value: 1
+  * param ps set default value: 25
+  * param selected set default value: 'selected'
+  
+- rules.create_rule
+  * remove parameters 'custom_key' , 'markdown_description' , 'template_key', 'prevent_reactivation'
+  * parameter 'customKey' , ''markdownDescription and 'templateKey' become required
+  * param 'preventReactivation' set default value: false
+  * param 'status' set default value: READY
+  * Optional parameters 'cleanCodeAttribute' and 'impacts' was added
+
+- rules.search_rules
+  * Optional parameter 'cleanCodeAttributeCategories' was added
+  * Optional parameter 'impactSeverities' was added 
+  * Optional parameter 'impactSoftwareQualities' was added
+  * Optional parameter 'prioritizedRule' was added
+  * Optional parameter 'owaspTop10_2021' was added
+  * param p set default value: 1
+  * param ps set default value: 100
+
+- rules.update_rule
+  * Optional parameter 'markdownDescription' was added, Replaces parameter 'markdown_description'
+
+- issues.search_issues
+  * Optional parameter 'pciDss_3_2' was added. Comma-separated list of PCI DSS v3.2 categories.
+  * Optional parameter 'pciDss_4_0' was added. Comma-separated list of PCI DSS v4.0 categories.
+  * Optional parameter 'owaspAsvs_4_0' was added. Comma-separated list of OWASP ASVS v4.0 categories.
+  * Optional parameter 'owaspTop10_2021' was added. Comma-separated list of OWASP Top 10 2021 lowercase categories.
+  * Optional parameter 'stig_ASD_V5R3' was added. Comma-separated list of STIG V5R3 categories.
+  * Optional parameter 'casa' was added. Comma-separated list of CASA categories.
+
+- hotspots.search_hotspots
+  * Optional parameter 'owaspAsvs_4_0' was added. Comma-separated list of OWASP ASVS v4.0 categories or rules.
+  * Optional parameter 'owaspTop10_2021' was added. Comma-separated list of OWASP 2021 Top 10 lowercase categories.
+  * Optional parameter 'pciDss_3_2' was added. Comma-separated list of PCI DSS v3.2 categories.
+  * Optional parameter 'pciDss_4_0' was added. Comma-separated list of PCI DSS v4.0 categories.
+  * Optional parameter 'stig_ASD_V5R3' was added. Comma-separated list of STIG V5R3 lowercase categories.
+  * Optional parameter 'casa' was added. Comma-separated list of CASA categories.
+
+- settings.update_setting_value
+  * Parameter 'value' becomes optional
+  * Optional parameter 'values' was added
+
+- bug fix:
+  * system.get_database_migration_status funtion (api/system/db_migration_status) use GET request method
+  * system.get_health_status funtion (api/system/health) use GET request method
+  
+- system.get_logs
+  * parameter 'name' was added, Replaces parameter 'process'
+  
+- user_groups.search_user_groups
+  * param p set default value: 1
+  * param ps set default value: 100
+  
+- user_groups.search_users_belong_to_group
+  * param p set default value: 1
+  * param ps set default value: 25
+
+- user_tokens.generate_user_token
+  * param type set default value: USER_TOKEN
+
+- users.deactivate_user
+  * param anonymize set default value: false
+
+- users.search_groups_user_belongs_to
+  * param p set default value: 1
+  * param ps set default value: 25
+
+- users.search_users
+  * param p set default value: 1
+  * param ps set default value: 50
+  * param deactivated set default value: false
+  * Optional parameter 'externalIdentity' was added
+
+- views.create
+  * Parameter 'parent' added to create sub-portfolios
+
+- views.set_regexp_mode, views.set_remaining_projects_mode, views.set_tags_mode
+  * Optional parameter 'branch' was added
+
+- webhooks.get_webhook_deliveries
+  * param p set default value: 1
+  * param ps set default value: 10
+
+- bug fix:
+  * webservices.web_service_response_example funtion (api/webservices/response_example) use GET request method
+
+### Changed
+
+### Removed
+
 ## [2.0.1] - 2023-06-06
 
 ### Added
@@ -80,6 +332,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
-[unreleased]: https://gitlab.com/shijl0925/python-sonarqube-pro-api/-/compare/2.0.1...HEAD
-[2.0.1]: https://gitlab.com/shijl0925/python-sonarqube-pro-api/-/compare/2.0.0...2.0.1
-[2.0.0]: https://gitlab.com/shijl0925/python-sonarqube-pro-api/-/compare/1.3.7...2.0.0
+[unreleased]: https://github.com/shijl0925/python-sonarqube-pro-api/compare/2.0.2...HEAD
+[2.0.2]: https://github.com/shijl0925/python-sonarqube-pro-api/compare/2.0.1...2.0.2
+[2.0.1]: https://github.com/shijl0925/python-sonarqube-pro-api/compare/2.0.0...2.0.1
+[2.0.0]: https://github.com/shijl0925/python-sonarqube-pro-api/compare/1.3.7...2.0.0
