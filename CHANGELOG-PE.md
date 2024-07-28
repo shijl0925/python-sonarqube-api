@@ -15,6 +15,65 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
+
+## [2.0.3] - 2024-07-28
+
+### Added
+- Provide functions to read all issues / components / hotspots / users ... page by page:
+  * 'issues.search_all_issues', Search All issues.
+  * 'ce.search_all_tasks', Search All tasks.
+  * 'components.search_all_components', Search All components
+  * 'components.get_all_components_tree', Navigate through all components based on the chosen strategy.
+  * 'components.search_all_projects', Search all projects
+  * 'hotspots.search_all_hotspots', Search all Security Hotpots.
+  * 'measures.search_all_measures_history'
+  * 'measures.get_all_component_tree_with_specified_measures'
+  * 'project_analyses.search_project_all_analyses_and_events'
+  * 'projects.search_all_projects', Search all projects or views to administrate them.
+  * 'qualitygates.list_all_groups_allowed_to_gate'
+  * 'qualitygates.list_all_users_allowed_to_gate'
+  * 'qualityprofiles.get_all_history_of_changes_on_quality_profile'
+  * 'qualityprofiles.get_all_projects_associate_with_quality_profile'
+  * 'rules.search_all_rules', Search all rules matching a specified query.
+  * 'user_groups.search_all_user_groups', Search all user groups.
+  * 'user_groups.search_all_users_belong_to_group', Search all users with membership information with respect to a group.
+  * 'users.search_all_users', Get a list of all users. 
+  * 'users.search_all_groups_user_belongs_to', Lists all groups a user belongs to.
+  * 'webhooks.get_all_webhook_deliveries'
+
+- function 'alm_integrations.import_azure_project' was added,
+   Create a SonarQube project with the information from the provided Azure DevOps project.
+
+- function 'alm_integrations.import_bitbucketcloud_repo' was added,
+   Create a SonarQube project with the information from the provided Bitbucket Cloud repository.
+
+- function 'alm_integrations.import_bitbucketserver_project' was added,
+   Create a SonarQube project with the information from the provided BitbucketServer project.
+
+- function 'alm_integrations.import_github_project' was added,
+   Create a SonarQube project with the information from the provided GitHub repository.
+
+- function 'editions.activate_grace_period' was added,
+   Enable a license 7-days grace period if the Server ID is invalid.
+
+- function 'issues.gitlab_sast_export' was added,
+   Return a list of vulnerabilities according to the Gitlab SAST JSON format.
+
+- function 'project_branches.set_main' was added,
+   Allow to set a new main branch.
+
+- function 'qualityprofiles.activate_rules' was added,
+   Bulk-activate rules on one quality profile.
+
+- function 'qualityprofiles.deactivate_rules' was added,
+   Bulk deactivate rules on Quality profiles.
+
+### Fixed
+
+### Changed
+
+### Removed
+
 ## [2.0.2] - 2024-07-27
 
 ### Added
@@ -332,7 +391,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
-[unreleased]: https://github.com/shijl0925/python-sonarqube-pro-api/compare/2.0.2...HEAD
+[unreleased]: https://github.com/shijl0925/python-sonarqube-pro-api/compare/2.0.3...HEAD
+[2.0.3]: https://github.com/shijl0925/python-sonarqube-pro-api/compare/2.0.2...2.0.3
 [2.0.2]: https://github.com/shijl0925/python-sonarqube-pro-api/compare/2.0.1...2.0.2
 [2.0.1]: https://github.com/shijl0925/python-sonarqube-pro-api/compare/2.0.0...2.0.1
 [2.0.0]: https://github.com/shijl0925/python-sonarqube-pro-api/compare/1.3.7...2.0.0
