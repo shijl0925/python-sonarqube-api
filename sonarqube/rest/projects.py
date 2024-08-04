@@ -6,7 +6,7 @@ from sonarqube.utils.config import (
     API_PROJECTS_SEARCH_ENDPOINT,
     API_PROJECTS_CREATE_PROJECT_ENDPOINT
 )
-from sonarqube.utils.common import GET
+from sonarqube.utils.common import GET, POST
 
 
 class SonarQubeProjects(RestClient):
