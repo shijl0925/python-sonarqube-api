@@ -14,8 +14,6 @@ class SonarQubeIssues(RestClient):
     SonarQube issues Operations
     """
 
-    MAX_SEARCH_NUM = 100
-
     def get_issue(self, key):
         result = self.search_issues(issues=key)
         issues = result.get("issues", [])

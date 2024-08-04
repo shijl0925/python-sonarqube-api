@@ -13,8 +13,6 @@ class SonarQubeUsers(RestClient):
     SonarQube users Operations
     """
 
-    MAX_SEARCH_NUM = 200
-
     def get_user(self, login):
         result = self.search_users(q=login)
         users = result.get("users", [])

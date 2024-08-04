@@ -13,4 +13,3 @@ def test_search_issues(sonar_client):
     )
 
     assert len(res.get("issues"))
-
