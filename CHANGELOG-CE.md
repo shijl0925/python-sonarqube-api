@@ -15,6 +15,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
+## [2.0.5] - 2023-08-04
+
+### Added
+- Add pytest cases
+- Fix some bugs
+- Add some new endpoints, such as create_project, delete_project
+
+
+### Fixed
+
+### Changed
+
+### Removed
+
 ## [2.0.4] - 2023-07-25
 
 ### Added
@@ -56,6 +70,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 
 
-[unreleased]: https://github.com/shijl0925/python-sonarqube-api/compare/2.0.4...HEAD
+[unreleased]: https://github.com/shijl0925/python-sonarqube-api/compare/2.0.5...HEAD
+[2.0.5]: https://github.com/shijl0925/python-sonarqube-api/compare/2.0.4...2.0.5
 [2.0.4]: https://github.com/shijl0925/python-sonarqube-api/compare/2.0.3...2.0.4
 [2.0.3]: https://github.com/shijl0925/python-sonarqube-api/compare/2.0.2...2.0.3
