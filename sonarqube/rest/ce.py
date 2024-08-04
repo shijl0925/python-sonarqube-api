@@ -13,13 +13,6 @@ class SonarQubeCe(RestClient):
     SonarQube ce Operations
     """
 
-    def __init__(self, **kwargs):
-        """
-
-        :param kwargs:
-        """
-        super(SonarQubeCe, self).__init__(**kwargs)
-
     @GET(API_CE_ACTIVITY_ENDPOINT)
     def search_tasks(
         self,

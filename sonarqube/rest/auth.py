@@ -5,20 +5,13 @@ from sonarqube.utils.rest_client import RestClient
 from sonarqube.utils.config import (
     API_AUTH_VALIDATE_ENDPOINT,
 )
-from sonarqube.utils.common import GET, POST
+from sonarqube.utils.common import GET
 
 
 class SonarQubeAuth(RestClient):
     """
     SonarQube authentication Operations
     """
-
-    def __init__(self, **kwargs):
-        """
-
-        :param kwargs:
-        """
-        super(SonarQubeAuth, self).__init__(**kwargs)
 
     @GET(API_AUTH_VALIDATE_ENDPOINT)
     def check_credentials(self):

@@ -14,22 +14,17 @@ class SonarQubeIssues(RestClient):
     SonarQube issues Operations
     """
 
-    MAX_SEARCH_NUM = 100
-
-    def __init__(self, **kwargs):
-        """
-
-        :param kwargs:
-        """
-        super(SonarQubeIssues, self).__init__(**kwargs)
-
     def get_issue(self, key):
         result = self.search_issues(issues=key)
         issues = result.get("issues", [])
 
+        item = None
         for issue in issues:
             if issue["key"] == key:
-                return issue
+                item = issue
+                break
+
+        return item
 
     @GET(API_ISSUES_SEARCH_ENDPOINT)
     def search_issues(

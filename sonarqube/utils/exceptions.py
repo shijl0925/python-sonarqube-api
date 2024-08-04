@@ -4,16 +4,12 @@ class ClientError(Exception):
 
     """
 
-    pass
-
 
 class ServerError(Exception):
     """
     server error
 
     """
-
-    pass
 
 
 class AuthError(ClientError):
@@ -22,8 +18,6 @@ class AuthError(ClientError):
 
     """
 
-    pass
-
 
 class ValidationError(ClientError):
     """
@@ -31,12 +25,9 @@ class ValidationError(ClientError):
 
     """
 
-    pass
-
 
 class NotFoundError(ClientError):
     """
     not found error
 
     """
-    pass

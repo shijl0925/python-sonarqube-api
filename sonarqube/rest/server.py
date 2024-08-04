@@ -11,13 +11,6 @@ class SonarQubeServer(RestClient):
     SonarQube server Operations
     """
 
-    def __init__(self, **kwargs):
-        """
-
-        :param kwargs:
-        """
-        super(SonarQubeServer, self).__init__(**kwargs)
-
     @GET(API_SERVER_VERSION_ENDPOINT)
     def get_server_version(self):
         """

@@ -11,13 +11,6 @@ class SonarQubeDuplications(RestClient):
     SonarQube duplications Operations
     """
 
-    def __init__(self, **kwargs):
-        """
-
-        :param kwargs:
-        """
-        super(SonarQubeDuplications, self).__init__(**kwargs)
-
     @GET(API_DUPLICATIONS_SHOW_ENDPOINT)
     def get_duplications(self, key, branch=None, pullRequest=None):
         """

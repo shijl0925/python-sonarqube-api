@@ -11,13 +11,6 @@ class SonarQubeLanguages(RestClient):
     SonarQube languages Operations
     """
 
-    def __init__(self, **kwargs):
-        """
-
-        :param kwargs:
-        """
-        super(SonarQubeLanguages, self).__init__(**kwargs)
-
     @GET(API_LANGUAGES_LIST_ENDPOINT)
     def get_supported_programming_languages(self, q=None):
         """

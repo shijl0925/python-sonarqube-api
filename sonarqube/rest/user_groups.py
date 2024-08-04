@@ -15,20 +15,16 @@ class SonarQubeUserGroups(RestClient):
     SonarQube user_groups Operations
     """
 
-    def __init__(self, **kwargs):
-        """
-
-        :param kwargs:
-        """
-        super(SonarQubeUserGroups, self).__init__(**kwargs)
-
     def get_user_group(self, name, organization=None):
         result = self.search_user_groups(organization=organization, q=name)
         groups = result.get("groups", [])
-
+        item = None
         for group in groups:
             if group["name"] == name:
-                return group
+                item = group
+                break
+
+        return item
 
     @GET(API_USER_GROUPS_SEARCH_ENDPOINT)
     def search_user_groups(self, organization=None, f=None, managed=None, q=None, p=None, ps=None):

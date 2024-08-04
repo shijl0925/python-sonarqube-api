@@ -14,13 +14,6 @@ class SonarQubeMetrics(RestClient):
     SonarQube metrics Operations
     """
 
-    def __init__(self, **kwargs):
-        """
-
-        :param kwargs:
-        """
-        super(SonarQubeMetrics, self).__init__(**kwargs)
-
     @GET(API_METRICS_SEARCH_ENDPOINT)
     def search_metrics(self, p=None, ps=None):
         """

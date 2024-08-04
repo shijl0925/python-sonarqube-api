@@ -5,20 +5,13 @@ from sonarqube.utils.rest_client import RestClient
 from sonarqube.utils.config import (
     API_PROJECT_BADGES_MEASURE_ENDPOINT,
 )
-from sonarqube.utils.common import GET, POST
+from sonarqube.utils.common import GET
 
 
 class SonarQubeProjectBadges(RestClient):
     """
     SonarQube project badges Operations
     """
-
-    def __init__(self, **kwargs):
-        """
-
-        :param kwargs:
-        """
-        super(SonarQubeProjectBadges, self).__init__(**kwargs)
 
     @GET(API_PROJECT_BADGES_MEASURE_ENDPOINT)
     def generate_badge_for_project_measures(self, project, metric, branch=None, token=None):

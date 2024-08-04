@@ -13,15 +13,6 @@ class SonarQubeMeasures(RestClient):
     SonarQube measures Operations
     """
 
-    special_attributes_map = {"from_date": "from", "to_date": "to"}
-
-    def __init__(self, **kwargs):
-        """
-
-        :param kwargs:
-        """
-        super(SonarQubeMeasures, self).__init__(**kwargs)
-
     @GET(API_MEASURES_COMPONENT_ENDPOINT)
     def get_component_with_specified_measures(
         self,

@@ -5,7 +5,7 @@ from sonarqube.utils.rest_client import RestClient
 from sonarqube.utils.config import (
     API_USERS_SEARCH_ENDPOINT,
 )
-from sonarqube.utils.common import GET, POST
+from sonarqube.utils.common import GET
 
 
 class SonarQubeUsers(RestClient):
@@ -13,22 +13,16 @@ class SonarQubeUsers(RestClient):
     SonarQube users Operations
     """
 
-    MAX_SEARCH_NUM = 200
-
-    def __init__(self, **kwargs):
-        """
-
-        :param kwargs:
-        """
-        super(SonarQubeUsers, self).__init__(**kwargs)
-
     def get_user(self, login):
         result = self.search_users(q=login)
         users = result.get("users", [])
-
+        item = None
         for user in users:
             if user["login"] == login:
-                return user
+                item = user
+                break
+
+        return item
 
     @GET(API_USERS_SEARCH_ENDPOINT)
     def search_users(self, q=None, p=None, ps=None):

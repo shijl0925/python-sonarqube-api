@@ -81,7 +81,6 @@ Use command pip to install the Python wheel or source package, Use --force-reins
 
 where x, y, and z should be replaced by the current version number.
 
-
 Documentation
 =============
 

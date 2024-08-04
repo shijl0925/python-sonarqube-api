@@ -15,13 +15,6 @@ class SonarQubeUserTokens(RestClient):
     SonarQube user tokens Operations
     """
 
-    def __init__(self, **kwargs):
-        """
-
-        :param kwargs:
-        """
-        super(SonarQubeUserTokens, self).__init__(**kwargs)
-
     @POST(API_USER_TOKENS_GENERATE_ENDPOINT)
     def generate_user_token(self, name, login=None):
         """

@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 # @Author: Jialiang Shi
-import json as js
 from sonarqube.utils.exceptions import (
     ClientError,
     AuthError,
@@ -11,7 +10,7 @@ from sonarqube.utils.exceptions import (
 )
 
 
-class RestClient(object):
+class RestClient:
     """
     rest request
 
@@ -19,8 +18,6 @@ class RestClient(object):
 
     default_headers = {"Content-Type": "application/json", "Accept": "application/json"}
     default_timeout = 60
-    special_attributes_map = {}
-    MAX_SEARCH_NUM = 10000
 
     def __init__(self, api):
         self.api = api
@@ -71,19 +68,14 @@ class RestClient(object):
         # raise error. res.raise_for_status()
         elif res.status_code == 400:
             # Validation error
-            msg = error_message + "Possibly validation error [%s]: %s" % (
-                res.status_code,
-                ", ".join(e["msg"] for e in res.json()["errors"]),
-            )
+            errors = ", ".join(e["msg"] for e in res.json()["errors"])
+            msg = error_message + f"Possibly validation error [{res.status_code}]: {errors}"
 
             raise ValidationError(msg)
 
         elif res.status_code in (401, 403):
             # Auth error
-            msg = error_message + "Possibly authentication failed [%s]: %s" % (
-                res.status_code,
-                res.reason,
-            )
+            msg = error_message + f"Possibly authentication failed [{res.status_code}]: {res.reason}"
             if res.text:
                 msg += "\n" + res.text
 
@@ -91,28 +83,21 @@ class RestClient(object):
 
         elif res.status_code == 404:
             # Not Found error
-            msg = error_message + "Possibly Not Found error [%s]: %s" % (
-                res.status_code,
-                ", ".join(e["msg"] for e in res.json()["errors"]),
-            )
+            errors = ", ".join(e["msg"] for e in res.json()["errors"])
+            msg = error_message + f"Possibly Not Found error [{res.status_code}]: {errors}"
 
             raise NotFoundError(msg)
 
         elif res.status_code < 500:
             # Other 4xx, generic client error
-            msg = error_message + "Possibly client error [%s]: %s" % (
-                res.status_code,
-                ", ".join(e["msg"] for e in res.json()["errors"]),
-            )
+            errors = ", ".join(e["msg"] for e in res.json()["errors"])
+            msg = error_message + f"Possibly client error [{res.status_code}]: {errors}"
 
             raise ClientError(msg)
 
         else:
             # 5xx is server error
-            msg = error_message + "Possibly server error [%s]: %s" % (
-                res.status_code,
-                res.reason,
-            )
+            msg = error_message + f"Possibly server error [{res.status_code}]: {res.reason}"
 
             raise ServerError(msg)
 

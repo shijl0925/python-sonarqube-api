@@ -4,7 +4,7 @@
 from sonarqube.utils.rest_client import RestClient
 from sonarqube.utils.config import (
     API_PROJECT_DUMP_EXPORT_ENDPOINT,
-    API_PROJECT_DUMP_IMPORT_ENDPOINT  # pro
+    API_PROJECT_DUMP_IMPORT_ENDPOINT
 )
 from sonarqube.utils.common import POST
 
@@ -13,13 +13,6 @@ class SonarQubeProjectDump(RestClient):
     """
     SonarQube Project export/import Operations
     """
-
-    def __init__(self, **kwargs):
-        """
-
-        :param kwargs:
-        """
-        super(SonarQubeProjectDump, self).__init__(**kwargs)
 
     @POST(API_PROJECT_DUMP_EXPORT_ENDPOINT)
     def export_project_dump(self, key):

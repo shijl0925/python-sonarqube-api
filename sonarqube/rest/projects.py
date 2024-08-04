@@ -6,8 +6,9 @@ from sonarqube.utils.config import (
     API_PROJECTS_BULK_DELETE_ENDPOINT,
     API_PROJECTS_DELETE_ENDPOINT,
     API_PROJECTS_SEARCH_ENDPOINT,
+    API_PROJECTS_CREATE_PROJECT_ENDPOINT
 )
-from sonarqube.utils.common import GET, POST
+from sonarqube.utils.common import GET
 
 
 class SonarQubeProjects(RestClient):
@@ -15,22 +16,17 @@ class SonarQubeProjects(RestClient):
     SonarQube projects Operations
     """
 
-    special_attributes_map = {"previous_project_key": "from", "new_project_key": "to"}
-
-    def __init__(self, **kwargs):
-        """
-
-        :param kwargs:
-        """
-        super(SonarQubeProjects, self).__init__(**kwargs)
-
     def get_project(self, key, organization=None):
         result = self.search_projects(organization=organization, projects=key)
         projects = result.get("components", [])
 
+        item = None
         for project in projects:
             if project["key"] == key:
-                return project
+                item = project
+                break
+
+        return item
 
     @GET(API_PROJECTS_SEARCH_ENDPOINT)
     def search_projects(
@@ -69,6 +65,26 @@ class SonarQubeProjects(RestClient):
 
         :return:
         """
+
+    @POST(API_PROJECTS_CREATE_PROJECT_ENDPOINT)
+    def create_project(
+      self,
+      name=None,
+      project=None,
+      visibility=None
+    ):
+        """
+        SINCE 4.0
+        Create a project. Requires 'Create Projects' permission.
+        :param: name: required. Name of the project. If name is longer than 500, it is abbreviated.
+        :param project: required. Key of the project
+        :param visibility: Whether the created project should be visible to everyone, or only specific user/groups.
+          If no visibility is specified, the default project visibility of the organization will be used.
+          Possible values
+            * private
+            * public
+        """
+
     @POST(API_PROJECTS_DELETE_ENDPOINT)
     def delete_project(self, key):
         """

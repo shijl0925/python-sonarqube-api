@@ -14,13 +14,6 @@ class SonarQubeRules(RestClient):
     SonarQube rules Operations
     """
 
-    def __init__(self, **kwargs):
-        """
-
-        :param kwargs:
-        """
-        super(SonarQubeRules, self).__init__(**kwargs)
-
     @GET(API_RULES_SEARCH_ENDPOINT)
     def search_rules(
         self,
