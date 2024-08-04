@@ -14,15 +14,6 @@ class SonarQubeProjectAnalyses(RestClient):
     SonarQube project analyses Operations
     """
 
-    special_attributes_map = {"from_date": "from", "to_date": "to"}
-
-    def __init__(self, **kwargs):
-        """
-
-        :param kwargs:
-        """
-        super(SonarQubeProjectAnalyses, self).__init__(**kwargs)
-
     @POST(API_PROJECT_ANALYSES_DELETE_ENDPOINT)
     def delete_project_analysis(self, analysis):
         """
@@ -33,7 +24,7 @@ class SonarQubeProjectAnalyses(RestClient):
         :return:
         """
 
-    @GET(API_PROJECT_ANALYSES_SEARCH_ENDPOINT)
+    @GET(API_PROJECT_ANALYSES_SEARCH_ENDPOINT, filters={"from_date": "from", "to_date": "to"})
     def search_project_analyses_and_events(
         self, project, branch=None, category=None, from_date=None, to_date=None, p=None, ps=None
     ):

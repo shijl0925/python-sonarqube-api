@@ -15,13 +15,6 @@ class SonarQubeQualityGates(RestClient):
     SonarQube quality gates Operations
     """
 
-    def __init__(self, **kwargs):
-        """
-
-        :param kwargs:
-        """
-        super(SonarQubeQualityGates, self).__init__(**kwargs)
-
     @GET(API_QUALITYGATES_SEARCH_ENDPOINT)
     def get_qualitygate_projects(
         self, gateName, selected="selected", query=None, organization=None, page=None, pageSize=None

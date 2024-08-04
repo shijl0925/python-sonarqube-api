@@ -5,9 +5,9 @@ from sonarqube.utils.common import POST, GET
 from sonarqube.utils.rest_client import RestClient
 
 from sonarqube.utils.config import (
-    API_VIEWS_UPDATE,  # pro
-    API_VIEWS_SHOW,  # pro
-    API_VIEWS_LIST,  # pro
+    API_VIEWS_UPDATE_ENDPOINT,
+    API_VIEWS_SHOW_ENDPOINT,
+    API_VIEWS_LIST_ENDPOINT,
 )
 
 
@@ -16,21 +16,18 @@ class SonarQubeViews(RestClient):
     Manage Portfolios
     """
 
-    special_attributes_map = {"definition": "def"}
-
-    def __init__(self, **kwargs):
-        """
-
-        :param kwargs:
-        """
-        super(SonarQubeViews, self).__init__(**kwargs)
-
     def get_view(self, key):
         result = self.list()
+
+        item = None
         for view in result["views"]:
             if view["key"] == key:
-                return view
-    @GET(API_VIEWS_LIST)
+                item = view
+                break
+
+        return item
+
+    @GET(API_VIEWS_LIST_ENDPOINT)
     def list(self):
         """
         since 1.0
@@ -39,7 +36,7 @@ class SonarQubeViews(RestClient):
 
         :return:
         """
-    @GET(API_VIEWS_SHOW)
+    @GET(API_VIEWS_SHOW_ENDPOINT)
     def show(self, key):
         """
         since 1.0
@@ -50,7 +47,7 @@ class SonarQubeViews(RestClient):
         :return:
         """
 
-    @POST(API_VIEWS_UPDATE)
+    @POST(API_VIEWS_UPDATE_ENDPOINT)
     def update(self, key, name, description=None):
         """
         since 1.0
@@ -62,4 +59,3 @@ class SonarQubeViews(RestClient):
         :param description: New description for the application
         :return:
         """
-

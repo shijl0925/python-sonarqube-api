@@ -291,4 +291,3 @@ class SonarEnterpriseClient(SonarQubeClient):
 
 class SonarCloudClient(SonarQubeClient):
     pass
-

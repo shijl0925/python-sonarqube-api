@@ -15,13 +15,6 @@ class SonarQubeQualityProfiles(RestClient):
     SonarQube quality profiles Operations
     """
 
-    def __init__(self, **kwargs):
-        """
-
-        :param kwargs:
-        """
-        super(SonarQubeQualityProfiles, self).__init__(**kwargs)
-
     def activate_rule_for_quality_profile(
         self, key, rule, reset=False, severity=None, **params
     ):
@@ -53,7 +46,7 @@ class SonarQubeQualityProfiles(RestClient):
             # Add params if we have any
             # Note: sort by key to allow checking easily
             params = ";".join(
-                "{}={}".format(k, v) for k, v in sorted(params.items()) if v
+                f"{k}={v}" for k, v in sorted(params.items()) if v
             )
             if params:
                 data["params"] = params

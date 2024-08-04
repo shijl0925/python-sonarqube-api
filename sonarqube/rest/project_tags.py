@@ -5,20 +5,13 @@ from sonarqube.utils.rest_client import RestClient
 from sonarqube.utils.config import (
     API_PROJECT_TAGS_SEARCH_ENDPOINT,
 )
-from sonarqube.utils.common import GET, POST
+from sonarqube.utils.common import GET
 
 
 class SonarQubeProjectTags(RestClient):
     """
     SonarQube project tags Operations
     """
-
-    def __init__(self, **kwargs):
-        """
-
-        :param kwargs:
-        """
-        super(SonarQubeProjectTags, self).__init__(**kwargs)
 
     @GET(API_PROJECT_TAGS_SEARCH_ENDPOINT)
     def search_project_tags(self, q=None, ps=None, p=None):

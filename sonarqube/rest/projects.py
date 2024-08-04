@@ -5,7 +5,7 @@ from sonarqube.utils.rest_client import RestClient
 from sonarqube.utils.config import (
     API_PROJECTS_SEARCH_ENDPOINT,
 )
-from sonarqube.utils.common import GET, POST
+from sonarqube.utils.common import GET
 
 
 class SonarQubeProjects(RestClient):
@@ -13,22 +13,17 @@ class SonarQubeProjects(RestClient):
     SonarQube projects Operations
     """
 
-    special_attributes_map = {"previous_project_key": "from", "new_project_key": "to"}
-
-    def __init__(self, **kwargs):
-        """
-
-        :param kwargs:
-        """
-        super(SonarQubeProjects, self).__init__(**kwargs)
-
     def get_project(self, key, organization=None):
         result = self.search_projects(organization=organization, projects=key)
         projects = result.get("components", [])
 
+        item = None
         for project in projects:
             if project["key"] == key:
-                return project
+                item = project
+                break
+
+        return item
 
     @GET(API_PROJECTS_SEARCH_ENDPOINT)
     def search_projects(

@@ -17,44 +17,7 @@ def strip_trailing_slash(url):
     return url
 
 
-def get_args(func):
-    """
-    Returns a sequence of list (args) for func
-    :param func:
-    :return:
-    """
-    try:
-        argspec = inspect.getfullargspec(func)
-    except AttributeError:
-        argspec = inspect.getargspec(func)
-
-    if not argspec.defaults:
-        args = argspec.args[1:]
-    else:
-        args = argspec.args[1 : -len(argspec.defaults)]
-
-    return args
-
-
-def get_default_kwargs(func):
-    """
-    Returns a sequence of tuples (kwarg_name, default_value) for func
-
-    :param func:
-    :return:
-    """
-    try:
-        argspec = inspect.getfullargspec(func)
-    except AttributeError:
-        argspec = inspect.getargspec(func)
-
-    if not argspec.defaults:
-        return []
-
-    return zip(argspec.args[-len(argspec.defaults) :], argspec.defaults)
-
-
-def translate_params(f, *args, **kwargs):
+def arg_spec_factory(f, *args, **kwargs):
     """
 
     :param f:
@@ -62,61 +25,61 @@ def translate_params(f, *args, **kwargs):
     :param kwargs:
     :return:
     """
-    all_params = dict(get_default_kwargs(f))
+    if not callable(f):
+        raise ValueError("Expected a callable object")
 
-    if len(get_args(f)) < len(args):
-        additional_values = args[len(get_args(f)) :]
-        try:
-            argspec = inspect.getfullargspec(f)
-        except AttributeError:
-            argspec = inspect.getargspec(f)
+    # 获取函数参数的详细信息
+    arg_spec = inspect.getfullargspec(f)
 
-        func_parameters = argspec.args[1:]
-        additional_args = func_parameters[
-            len(get_args(f)) : len(get_args(f)) + len(additional_values)
-        ]
-        all_params.update(dict(zip(additional_args, additional_values)))
-
-    all_params.update(dict(zip(get_args(f), args)))
-    all_params.update(kwargs)
-
-    for key in list(all_params.keys()):
-        if not all_params[key]:
-            del all_params[key]
-
-    return all_params
-
-
-def translate_special_params(func_params, attributes_map):
-    """
-
-    :param func_params:
-    :param attributes_map:
-    :return:
-    """
+    # 初始化参数字典
     params = {}
 
-    for key, value in func_params.items():
-        if key in attributes_map:
-            params[attributes_map[key]] = value
-        else:
-            params[key] = value
+    # 处理关键字参数和默认参数
+    if arg_spec.defaults:
+        num_defaults = len(arg_spec.defaults)
+        for name, default in zip(arg_spec.args[-num_defaults:], arg_spec.defaults):
+            params[name] = default
 
-    return params
+    # 处理位置参数
+    positional_args = arg_spec.args[1: -len(arg_spec.defaults)] if args else arg_spec.args[1:]
+    length = len(positional_args)
+    if length < len(args):
+        additional_values = args[length:]
+        additional_args = arg_spec.args[
+            length + 1: length + len(additional_values) + 1
+        ]
+        params.update(dict(zip(additional_args, additional_values)))
+
+    params.update(dict(zip(positional_args, args)))
+
+    # 更新关键字参数
+    params.update(kwargs)
+
+    # 确保所有参数都是有效的，即在函数定义中存在
+    valid_params = arg_spec.args
+    if arg_spec.varargs:
+        valid_params += [arg_spec.varargs]
+    if arg_spec.varkw:
+        valid_params += [arg_spec.varkw]
+
+    # 删除多余参数
+    filtered_params = {key: value for key, value in params.items() if value is not None and key in valid_params}
+
+    return filtered_params
 
 
-def endpoint(url_pattern, method="GET"):
+def endpoint(url_pattern, method="GET", filters=None):
     """
 
     :param url_pattern:
     :param method:
-    :param item:
+    :param filters:
     :return:
     """
 
     def wrapped_func(f):
         @wraps(f)
-        def inner_func(self, *args, **kwargs):
+        def inner_func(self, *args, **kwargs):  # pylint: disable=inconsistent-return-statements
             """
 
             :param self:
@@ -124,42 +87,49 @@ def endpoint(url_pattern, method="GET"):
             :param kwargs:
             :return:
             """
-            func_params = translate_params(f, *args, **kwargs)
-            params = translate_special_params(func_params, self.special_attributes_map)
+            params = arg_spec_factory(f, *args, **kwargs)
+            if filters is not None:
+                for key in filters:
+                    if key in params:
+                        params[filters[key]] = params.pop(key)
 
             response = None
             if method == "GET":
-                response = self._get(url_pattern, params=params)
+                response = self._get(url_pattern, params=params)  # pylint: disable=protected-access
             elif method == "POST":
-                response = self._post(url_pattern, data=params)
+                response = self._post(url_pattern, data=params)  # pylint: disable=protected-access
 
-            if response:
-                try:
-                    if response.headers["Content-Type"] == "application/json":
-                        return response.json()
-                    else:
-                        return response.text
-                except Exception as e:
-                    return response.content
+            if not response:
+                return
+
+            try:
+                if response.headers["Content-Type"] == "application/json":
+                    return response.json()
+                else:
+                    return response.text
+            except Exception:  # pylint: disable=broad-exception-caught
+                return response.content
 
         return inner_func
 
     return wrapped_func
 
 
-def GET(url_pattern):
+def GET(url_pattern, filters=None):
     """
 
     :param url_pattern:
+    :param filters:
     :return:
     """
-    return endpoint(url_pattern, method="GET")
+    return endpoint(url_pattern, method="GET", filters=filters)
 
 
-def POST(url_pattern):
+def POST(url_pattern, filters=None):
     """
 
     :param url_pattern:
+    :param filters:
     :return:
     """
-    return endpoint(url_pattern, method="POST")
+    return endpoint(url_pattern, method="POST", filters=filters)
