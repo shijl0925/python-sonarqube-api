@@ -1,3 +1,5 @@
+.. image:: https://repobeats.axiom.co/api/embed/8d05e287148f8df303aff9a1a792ccb009226e1d.svg
+
 .. image:: https://img.shields.io/pypi/pyversions/python-sonarqube-api.svg
     :target: https://pypi.python.org/pypi/python-sonarqube-api
 .. image:: https://img.shields.io/pypi/v/python-sonarqube-api.svg
