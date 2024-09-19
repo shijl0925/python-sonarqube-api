@@ -59,3 +59,13 @@ class SonarQubeQualityGates(RestClient):
         :param organization: Organization key. If no organization is provided, the default organization is used.
         :return:
         """
+
+    @GET(API_QUALITYGATES_GET_BY_PROJECT)
+    def get_by_project(self, project):
+        """
+        SINCE 6.1  # https://next.sonarqube.com/sonarqube/web_api/api/qualitygates/get_by_project
+        Get qualitygates associated to a specific project
+
+        :param project: Project key
+        :return:
+        """      
