@@ -3,9 +3,10 @@
 # @Author: Jialiang Shi
 from sonarqube.utils.rest_client import RestClient
 from sonarqube.utils.config import (
+    API_QUALITYGATES_GET_BY_PROJECT,
     API_QUALITYGATES_LIST_ENDPOINT,
-    API_QUALITYGATES_SELECT_ENDPOINT,
     API_QUALITYGATES_SEARCH_ENDPOINT,
+    API_QUALITYGATES_SELECT_ENDPOINT,
 )
 from sonarqube.utils.common import GET, POST
 
