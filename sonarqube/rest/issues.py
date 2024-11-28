@@ -38,6 +38,7 @@ class SonarQubeIssues(RestClient):
         assigned=None,
         assignees=None,
         author=None,
+        codeVariants=None,
         createdAfter=None,
         createdAt=None,
         createdBefore=None,
@@ -89,6 +90,7 @@ class SonarQubeIssues(RestClient):
         :param author: SCM accounts. To set several values, the parameter must be called once for each value.
         :param componentKeys: Comma-separated list of component keys. Retrieve issues associated to a specific list of
             components (and all its descendants). A component can be a portfolio, project, module, directory or file.
+        :param codeVariants: Comma-separated list of code variants.
         :param createdAfter: To retrieve issues created after the given date (inclusive).
             Either a date (server timezone) or datetime can be provided.
             If this parameter is set, createdSince must not be set
