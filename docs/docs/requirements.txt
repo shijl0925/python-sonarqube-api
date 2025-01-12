@@ -1,0 +1,4 @@
+# Defining the exact version will make sure things don't break
+sphinx==7.4.7
+sphinx-rtd-theme==2.0.0
+readthedocs-sphinx-search==0.3.2
