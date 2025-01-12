@@ -22,66 +22,12 @@ Python Client library for interacting with Community, Developer, and Enterprise 
 
 python-sonarqube-api provides a simple interface for clients to interact with SonarQube via the REST API.
 
-Editions
-========
-
-There are two editions of python-sonarqube-api:
-
- * Community Edition (CE) is available freely under the GNU Affero General Public License v3.0.
- * Professional Edition (PE) includes `extra features <https://python-sonarqube-pro-api.readthedocs.io/en/latest/#api-reference>`_
-   that are more useful for developers with more than 280 interface functions. To use PE and get timely Email support and continuous updates,
-   please become a Purchaser(https://shijl0925.gumroad.com/l/nlokc) and become a subscriber(https://shijl0925.gumroad.com/subscribe).
-
-Notice: Professional Edition's extra features have been remarked by using **Only available on the professional edition** in API Document.
-
-+---------------------+---------------------+-----------------------+
-| Differences         | Community Edition   | Professional Edition  |
-+=====================+=====================+=======================+
-| License             | GNU AGPLv3 License  | MIT License           |
-+---------------------+---------------------+-----------------------+
-| Commercial Use      | No                  | Yes                   |
-+---------------------+---------------------+-----------------------+
-| Supported APIs      | 40                  | more than 280         |
-| (SonarQube Web APIs)|                     |                       |
-+---------------------+---------------------+-----------------------+
-| Compatibility       | 7.9.x - 8.9.x       | 7.9.x - 10.x          |
-| (SonarQube Versions)|                     |                       |
-+---------------------+---------------------+-----------------------+
-
-**Payment only needs to be made once, and library updates will be provided for free.**
-
-
-Change Log
-==========
-
-Community Edition
------------------
-
-See the `CHANGELOG-CE.md <https://github.com/shijl0925/python-sonarqube-api/blob/master/CHANGELOG-CE.md>`_ file for Community Edition.
-
-Professional Edition
---------------------
-
-See the `CHANGELOG-PE.md <https://github.com/shijl0925/python-sonarqube-api/blob/master/CHANGELOG-PE.md>`_ file for Professional Edition.
-
-
 Installation
 ============
-
-Community Edition
------------------
 
 The easiest way to install the latest version is by using pip to pull it from PyPI::
 
     pip install  --upgrade python-sonarqube-api
-
-Professional Edition
---------------------
-Use command pip to install the Python wheel or source package, Use --force-reinstall to force an installation If necessary::
-
-    pip install python_sonarqube_pro_api-x.y.z-py3-none-any.whl
-
-where x, y, and z should be replaced by the current version number.
 
 Documentation
 =============
