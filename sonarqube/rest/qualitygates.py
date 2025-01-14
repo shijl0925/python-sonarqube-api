@@ -3,9 +3,10 @@
 # @Author: Jialiang Shi
 from sonarqube.utils.rest_client import RestClient
 from sonarqube.utils.config import (
+    API_QUALITYGATES_GET_BY_PROJECT,
     API_QUALITYGATES_LIST_ENDPOINT,
-    API_QUALITYGATES_SELECT_ENDPOINT,
     API_QUALITYGATES_SEARCH_ENDPOINT,
+    API_QUALITYGATES_SELECT_ENDPOINT,
 )
 from sonarqube.utils.common import GET, POST
 
@@ -59,3 +60,13 @@ class SonarQubeQualityGates(RestClient):
         :param organization: Organization key. If no organization is provided, the default organization is used.
         :return:
         """
+
+    @GET(API_QUALITYGATES_GET_BY_PROJECT)
+    def get_by_project(self, project):
+        """
+        SINCE 6.1  # https://next.sonarqube.com/sonarqube/web_api/api/qualitygates/get_by_project
+        Get qualitygates associated to a specific project
+
+        :param project: Project key
+        :return:
+        """      
